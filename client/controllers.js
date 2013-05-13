@@ -23,7 +23,7 @@
                     $scope.$root.user = data.user;
                 })
                 .error(function(data, status){
-                    $location.path("/login");
+                    $location.path("/");
                 });
         } // end if
     });
@@ -31,13 +31,6 @@
     //------------------------------------------------------------------------------------------------------------------
 
     Controllers.controller('DashboardCtrl', function($scope)
-    {
-
-    });
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    Controllers.controller('LoginCtrl', function($scope)
     {
 
     });

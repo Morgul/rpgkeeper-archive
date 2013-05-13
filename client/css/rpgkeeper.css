@@ -1,5 +1,10 @@
 /* Header */
 
+.header .brand
+{
+    font-weight: 500;
+}
+
 .sign-in .icon-persona
 {
     color: #f90;

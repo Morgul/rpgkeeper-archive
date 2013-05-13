@@ -10,7 +10,6 @@ angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers'])
         $locationProvider.html5Mode(true);
         $routeProvider
             .when('/dashboard', {templateUrl: '/partials/dashboard.html',   controller: 'DashboardCtrl'})
-            .when('/login', {templateUrl: '/partials/login.html',   controller: 'LoginCtrl'})
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }]);
