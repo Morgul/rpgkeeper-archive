@@ -6,6 +6,12 @@
 
 var app = require('omega-wf').app;
 
+// Models
+require('./models.js');
+
+// Authentication
+require('./lib/authentication.js');
+
 // Include urls
 require('./urls');
 

@@ -1,0 +1,16 @@
+/* Header */
+
+.sign-in .icon-persona
+{
+    color: #f90;
+}
+
+.current-user
+{
+    margin-right: 10px;
+}
+
+.header-buttons
+{
+    padding-top: 2px;
+}

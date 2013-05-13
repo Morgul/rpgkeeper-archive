@@ -4,7 +4,8 @@
     "description": "A website for managing your digital character sheets.",
     "main": "server.js",
     "dependencies": {
-        "omega-wf": "latest"
+        "omega-wf": "latest",
+        "passport-persona": "git+https://github.com/Morgul/passport-persona.git"
     },
     "devDependencies": {},
     "scripts": {

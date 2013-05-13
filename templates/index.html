@@ -1,49 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="test_chat">
-<head>
-    <meta charset="utf-8">
-    <title>RPGKeeper</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<html lang="en" data-ng-app="rpgkeeper">
+    <head>
+        <meta charset="utf-8">
+        <title>RPGKeeper</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <!-- Turn off IE Compatibility mode, for Persona support -->
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <!-- Turn off IE Compatibility mode, for Persona support -->
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
-    <!-- These scripts must be at the start of the page -->
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular-resource.min.js"></script>
+        <!-- These scripts must be at the start of the page -->
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular-resource.min.js"></script>
 
-    <!-- Application Scripts -->
-    <script src="/client/app.js"></script>
-    <script src="/client/controllers.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+        <!-- Application Scripts -->
+        <script src="/client/app.js"></script>
+        <script src="/client/controllers.js"></script>
+        <script src="/client/js/persona.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
 
-    <!-- Vendor Styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+        <!-- Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Telex|Titillium+Web:400,700,600,400italic,600italic,700italic,900,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
 
-    <!-- Application Styles -->
-    <link href="/client/css/chat.css" rel="stylesheet">
-    <!--link href="/css/persona-buttons.css" rel="stylesheet"-->
-    <link href="/client/css/override.css" rel="stylesheet">
+        <!-- Vendor Styles -->
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+        <link href="/vendor/openwebicons/css/openwebicons-bootstrap.min.css" rel="stylesheet">
 
-    <!-- Fav Icon -->
-    <link rel="shortcut icon" href="/client/images/fav_icon.png" />
-</head>
-<body>
-<!-- Main Header -->
-<header ng-include="'/partials/header.html'"></header>
+        <!-- Application Styles -->
+        <link href="/client/css/rpgkeeper.css" rel="stylesheet">
+        <link href="/client/css/overrides.css" rel="stylesheet">
 
-<!-- Main View -->
-<div id="main-view" class="container-fluid" data-ng-view></div>
+        <!-- Fav Icon -->
+        <link rel="shortcut icon" href="/client/images/favicon.png" />
+    </head>
+    <body>
+        <!-- Main Header -->
+        <header ng-include="'/partials/header.html'"></header>
 
-<!-- ======================================================================================================= -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
-<!--script src="https://login.persona.org/include.js"></script-->
-<!-- ======================================================================================================= -->
-</body>
+        <!-- Main View -->
+        <div id="main-view" class="container-fluid" data-ng-view></div>
+
+        <!-- ======================================================================================================= -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://login.persona.org/include.js"></script>
+        <!-- ======================================================================================================= -->
+    </body>
 </html>

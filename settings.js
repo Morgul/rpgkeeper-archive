@@ -16,8 +16,18 @@ DEBUG = true;
 listenAddress = "0.0.0.0";
 listenPort = 8080;
 
+// Database creation
+databases = {
+    default: {
+        engine: 'sqlite',
+        database: './keeper.db'
+    }
+};
+
 // Used for secure sessions. This should be unique per omega-wf application.
 secret = "9799a2dde63b2850ca2aadee07bc4ad01db80e02415b52f8fe3a143500dc9d99f8d1bfff8b8b67de8ae3344ea97687cd";
+
+audience = DEBUG ? "http://localhost:" + listenPort : "http://rpgkeeper.skewedaspect.com"
 
 // Middleware
 middleware = [
@@ -34,7 +44,8 @@ middleware = [
 
 // Configure swig
 swig.init({
-    root: './templates'
+    root: './templates',
+    cache: DEBUG
 });
 
 //----------------------------------------------------------------------------------------------------------------------
