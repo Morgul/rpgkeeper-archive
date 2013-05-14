@@ -17,6 +17,9 @@ require('./urls');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Set the name of the omega app.
+app.setName('RPGKeeper')
+
 // Start the omega-wf app.
 app.listen();
 
