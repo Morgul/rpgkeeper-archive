@@ -169,11 +169,17 @@ var TrappingEffect = db.define('TrappingEffect', {
     description: db.Text({allowNull: false})
 });
 
-var Power = db.define('Power', {
+var PowerTemplate = db.define('PowerTemplate', {
     rank: db.Choice({choices: [], allowNull: false}),
     power_points: db.Integer({allowNull: false}),
     range: db.String(),
     duration: db.String({allowNull: false}),
+    possible_trappings: db.String(),
+    description: db.Text({allowNull: false})
+});
+
+var Power = db.define('Power', {
+    name: db.String({allowNull: false}),
     description: db.Text({allowNull: false})
 });
 
@@ -265,7 +271,7 @@ SWCharacter.hasOne(Race, { as: 'race' });
 SWCharacter.hasMany(Edge, { as: 'edges' });
 SWCharacter.hasMany(ChosenHindrance, { as: 'hindrances' });
 SWCharacter.hasMany(ArcaneBackground, { as: 'arcane_backgrounds' });    //TODO: Is it possible to have more than one? For now, err on the side of caution.
-SWCharacter.hasMany(Power, { as: 'powers'});                            //TODO: Might make sense to turn this into a power template, and have power instances, which have specific trappings.
+SWCharacter.hasMany(Power, { as: 'powers'});
 SWCharacter.hasMany(HandWeapon, { as: 'hand_weapons'});
 SWCharacter.hasMany(RangedWeapon, { as: 'ranged_weapons' });
 SWCharacter.hasMany(SpecialWeapon, { as: 'special_weapons' });
@@ -283,8 +289,10 @@ ArcaneBackground.hasMany(EdgeDetail, { as: 'details'});
 
 Trapping.hasMany(TrappingEffect, { as: 'effects' });
 
-Power.hasMany(PowerDetail, { as: 'details' });
-Power.hasMany(Trapping, { as: 'trappings' });
+PowerTemplate.hasMany(PowerDetail, { as: 'details' });
+
+Power.hasOne(PowerTemplate, { as: 'template' });
+Power.hasOne(Trapping, { as: 'trapping' });
 
 Vehicle.hasOne(VehicleTemplate, { as: 'template' });
 Vehicle.hasMany(VehicleWeapon, { as: 'weapons' });
