@@ -53,7 +53,7 @@ app.router.add(
     // Views
 
     {
-        url: '*',
+        url: /^\/(?!admin\/|omega\/)/,
         get: views.index
     }
 );

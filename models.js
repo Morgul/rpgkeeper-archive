@@ -9,22 +9,29 @@ var db = require('omega-wf').db;
 //----------------------------------------------------------------------------------------------------------------------
 
 var User = db.define('User', {
-    name: db.STRING,
-    email: { type: db.STRING, validate: {isEmail: true} }
+    name: db.String(),
+    email: db.String({ validate: {isEmail: true} })
+},
+{
+    displayField: 'email'
 });
 
 var System = db.define('System', {
-    name: db.STRING,
-    description: db.TEXT
+    name: db.String({allowNull: false}),
+    description: db.Text()
 });
 
 var Character = db.define('Character', {
-    name: db.STRING,
-    portrait: db.STRING,
-    thumbnail: db.STRING
+    name: db.String({allowNull: false}),
+    portrait: db.Image(),
+    thumbnail: db.Image(),
+    description: db.Text(),
+    backstory: db.Text()
 });
 
+//----------------------------------------------------------------------------------------------------------------------
 // Associations
+//----------------------------------------------------------------------------------------------------------------------
 
 User.hasMany(Character);
 Character.belongsTo(User);
