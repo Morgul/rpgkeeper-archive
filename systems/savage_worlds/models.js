@@ -122,29 +122,64 @@ var SWCharacter = db.define('SWCharacter', {
 });
 
 var Race = db.define('Race', {
-    name: db.String(),
-    description: db.Text()
+    name: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
 });
 
 var RacialAbility = db.define('RacialAbility', {
-    name: db.String(),
-    description: db.Text()
+    name: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
 });
 
 var Edge = db.define('Edge', {
-    name: db.String(),
+    name: db.String({allowNull: false}),
     requirements: db.String(),
-    description: db.Text()
+    description: db.Text({allowNull: false})
+});
+
+var EdgeDetail = db.define('EdgeDetail', {
+    name: db.String({allowNull: false})
 });
 
 var Hindrance = db.define('Hindrance', {
-    name: db.String(),
-    type: db.Choice({choices: ['Major', 'Minor', 'Major/Minor']}),
-    description: db.Text()
+    name: db.String({allowNull: false}),
+    type: db.Choice({choices: ['Major', 'Minor', 'Major/Minor'], allowNull: false}),
+    description: db.Text({allowNull: false})
 });
 
 var ChosenHindrance = db.define('ChosenHindrance', {
     takenAs: db.Choice({choices: ['Major', 'Minor']})
+});
+
+var ArcaneBackground = db.define('ArcaneBackground', {
+    name: db.String({allowNull: false}),
+    skill: db.String({allowNull: false}),
+    power_points: db.Integer({allowNull: false}),
+    starting_powers: db.Integer({allowNull: false}),
+    description: db.Text()
+});
+
+var Trapping = db.define('Trapping', {
+    name: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
+});
+
+var TrappingEffect = db.define('TrappingEffect', {
+    name: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
+});
+
+var Power = db.define('Power', {
+    rank: db.Choice({choices: [], allowNull: false}),
+    power_points: db.Integer({allowNull: false}),
+    range: db.String(),
+    duration: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
+});
+
+var PowerDetail = db.define('PowerDetail', {
+    name: db.String({allowNull: false}),
+    description: db.Text({allowNull: false})
 });
 
 var HandWeapon = db.define('HandWeapon', {
@@ -229,6 +264,8 @@ SWCharacter.belongsTo(Character);
 SWCharacter.hasOne(Race, { as: 'race' });
 SWCharacter.hasMany(Edge, { as: 'edges' });
 SWCharacter.hasMany(ChosenHindrance, { as: 'hindrances' });
+SWCharacter.hasMany(ArcaneBackground, { as: 'arcane_backgrounds' });    //TODO: Is it possible to have more than one? For now, err on the side of caution.
+SWCharacter.hasMany(Power, { as: 'powers'});                            //TODO: Might make sense to turn this into a power template, and have power instances, which have specific trappings.
 SWCharacter.hasMany(HandWeapon, { as: 'hand_weapons'});
 SWCharacter.hasMany(RangedWeapon, { as: 'ranged_weapons' });
 SWCharacter.hasMany(SpecialWeapon, { as: 'special_weapons' });
@@ -238,7 +275,16 @@ SWCharacter.hasMany(Vehicle, { as: 'vehicles' });
 
 Race.hasMany(RacialAbility, { as: 'abilities' });
 
+Edge.hasMany(EdgeDetail, { as: 'details'});
+
 ChosenHindrance.hasOne(Hindrance, { as: 'hindrance' });
+
+ArcaneBackground.hasMany(EdgeDetail, { as: 'details'});
+
+Trapping.hasMany(TrappingEffect, { as: 'effects' });
+
+Power.hasMany(PowerDetail, { as: 'details' });
+Power.hasMany(Trapping, { as: 'trappings' });
 
 Vehicle.hasOne(VehicleTemplate, { as: 'template' });
 Vehicle.hasMany(VehicleWeapon, { as: 'weapons' });
