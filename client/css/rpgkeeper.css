@@ -5,6 +5,11 @@
     font-weight: 500;
 }
 
+.header
+{
+    margin-bottom: 10px;
+}
+
 .sign-in .icon-persona
 {
     color: #f90;
@@ -18,4 +23,24 @@
 .header-buttons
 {
     padding-top: 2px;
+}
+
+/* General */
+
+table td.expand
+{
+    width: 99%
+}
+
+table td.shrink
+{
+    white-space:nowrap
+}
+
+/* Dashboard */
+
+.favorite,
+.favorite:hover
+{
+    color: #f90;
 }

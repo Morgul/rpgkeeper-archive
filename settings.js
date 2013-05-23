@@ -41,6 +41,7 @@ middleware = [
     connect.cookieParser(secret),
     connect.session({
         secret: secret,
+        store: app.sessionStore,
         key: 'sid'
     })
 ];

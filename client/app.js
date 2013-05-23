@@ -12,6 +12,10 @@ angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers'])
             .when('/dashboard', {templateUrl: '/partials/dashboard.html',   controller: 'DashboardCtrl'})
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
-    }]);
+    }])
+    .run(function($rootScope)
+    {
+        $rootScope.socket = io.connect();
+    });
 
 //----------------------------------------------------------------------------------------------------------------------

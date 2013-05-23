@@ -14,6 +14,9 @@ require('./models.js');
 // Authentication
 require('./lib/authentication.js');
 
+// Socket handler
+require('./lib/sockets.js');
+
 // Include urls
 require('./urls');
 
@@ -23,6 +26,8 @@ require('./urls');
 require('./systems/savage_worlds/system');
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+app.logger.level = 'DEBUG';
 
 // Set the name of the omega app.
 app.setName('RPGKeeper');

@@ -1,1 +1,21 @@
-<h1>Dashboard</h1>
+<div class="span8">
+    <div class="navbar navbar-small">
+        <div class="navbar-inner">
+            <span class="brand"><i class="icon-tasks"></i> Characters</span>
+            <button class="btn btn-mini btn-primary all-right"><i class="icon-plus"></i> Add</button>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <tr ng-repeat="character in characters">
+            <td class="shrink">
+                <button class="btn btn-mini" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i></button>
+            </td>
+            <td class="expand"><a href="/character/{{ character.id }}">{{ character.name }}</a></td>
+            <td class="shrink">{{ character.system.name }}</td>
+            <td class="shrink">
+                <button class="btn btn-mini btn-danger"><i class="icon-trash"></i> Delete</button>
+            </td>
+        </tr>
+    </table>
+    <button class="btn btn-mini btn-primary pull-right"><i class="icon-plus"></i> Add New Character</button>
+</div>

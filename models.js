@@ -26,7 +26,8 @@ var Character = db.define('Character', {
     portrait: db.Image(),
     thumbnail: db.Image(),
     description: db.Text(),
-    backstory: db.Text()
+    backstory: db.Text(),
+    favorite: db.Boolean({defaultValue: false})
 });
 
 //----------------------------------------------------------------------------------------------------------------------
