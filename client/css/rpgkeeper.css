@@ -37,6 +37,28 @@ table td.shrink
     white-space:nowrap
 }
 
+.header .navbar-inner
+{
+    position: relative;
+}
+
+.header .brand,
+.header .header-buttons
+{
+    position: relative;
+    z-index: 5;
+}
+
+.header .title
+{
+    font-size: 25px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 2;
+}
+
 /* Dashboard */
 
 .favorite,

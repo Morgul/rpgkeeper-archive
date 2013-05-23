@@ -27,6 +27,19 @@
                 });
         } // end if
 
+        //--------------------------------------------------------------------------------------------------------------
+        // Event handling
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.$on('title', function(event, title)
+        {
+            $scope.title = title;
+        });
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Socket.io handling
+        //--------------------------------------------------------------------------------------------------------------
+
         // Get a list of favorite characters
         $scope.socket.on('characters', function(characters)
         {
@@ -44,7 +57,8 @@
 
     Controllers.controller('DashboardCtrl', function($scope)
     {
-        $scope.$root.title = "Dashboard";
+        // Change our title
+        $scope.$root.$broadcast('title', "Dashboard");
 
         if(!$scope.characters)
         {
@@ -69,8 +83,34 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('CharacterCtrl', function($scope)
+    Controllers.controller('CharacterCtrl', function($scope, $routeParams)
     {
+        var charID = $routeParams.id;
+        $scope.socket.emit('get_character', charID, function(error, character)
+        {
+            if(error)
+            {
+                if(error.type == 'notfound')
+                {
+                    // We didn't find a character by that name.
+                    $scope.char_template = '/client/partials/notfound.html';
+                }
+                else
+                {
+                    //TODO: Display to user!
+                    console.error('encountered error', error);
+                }
+            }
+            else
+            {
+                $scope.$apply(function()
+                {
+                    $scope.character = character;
+                    $scope.$root.$broadcast('title', character.name);
+                    $scope.char_template = '/system/' + character.system.templateUrl + '/char.html';
+                });
+            } // end if
+        });
 
     });
 

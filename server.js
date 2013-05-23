@@ -27,8 +27,6 @@ require('./systems/savage_worlds/system');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-app.logger.level = 'DEBUG';
-
 // Set the name of the omega app.
 app.setName('RPGKeeper');
 

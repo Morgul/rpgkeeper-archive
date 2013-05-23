@@ -18,6 +18,7 @@ var User = db.define('User', {
 
 var System = db.define('System', {
     name: db.String({allowNull: false}),
+    templateUrl: db.String({allowNull: false}),
     description: db.Text()
 });
 

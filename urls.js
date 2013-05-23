@@ -7,6 +7,7 @@
 var path = require('path');
 var app = require('omega-wf').app;
 var auth = require('omega-wf').auth;
+var db = require('omega-wf').db;
 var views = require('./lib/views');
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -49,11 +50,8 @@ app.router.add(
             response.redirect('/');
         } // end post
     },
-
-    // Views
-
     {
-        url: /^\/(?!admin\/|omega\/)/,
+        url: /^\/(?!admin\/|omega\/|system\/)/,
         get: views.index
     }
 );
