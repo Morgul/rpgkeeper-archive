@@ -24,7 +24,7 @@ System.find({where: {name: "Savage Worlds"}}).success(function(system)
         console.log('Would create system.');
         System.create({
             name: "Savage Worlds",
-            templateUrl: "savage_worlds/partials",
+            shortname: "savage_worlds/partials",
             description: "In barbaric worlds of fantasy and far-flung galaxies, great heroes battle for gold, glory, justice, or mere survival. Some wear mithril armor and wield massive swords glowing with magical energy. Others are commandos in the latest ballistic vests spraying lead from their submachine guns. Some aren’t even human.\n\n"
             + "But they are all heroes, and their epic tales inspire those who read them. This game system attempts to simulate these incredible tales—at least in our imaginations—giving form, structure, and challenge to the heroes and the savage worlds they walk in with rules that are simple on the surface and comprehensive in their depth.\n\n"
             + "The game focuses on the action rather than statistics and bookkeeping, allowing the Game Master to concentrate on the player characters, their foes, and the fantastic settings they battle in.\n\n"
@@ -45,8 +45,8 @@ System.find({where: {name: "Savage Worlds"}}).success(function(system)
 function setupRoutes(system)
 {
     app.router.add({
-        url: '/system/' + system.templateUrl + '/*',
-        path: path.join(__dirname, '..', system.templateUrl)
+        url: '/system/' + system.shortname + '/partials/*',
+        path: path.join(__dirname, '..', system.shortname, 'partials')
     });
 } // end setupRoutes
 //----------------------------------------------------------------------------------------------------------------------

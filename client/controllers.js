@@ -92,8 +92,11 @@
             {
                 if(error.type == 'notfound')
                 {
-                    // We didn't find a character by that name.
-                    $scope.char_template = '/client/partials/notfound.html';
+                    $scope.$apply(function()
+                    {
+                        // We didn't find a character by that name.
+                        $scope.char_template = '/client/partials/notfound.html';
+                    });
                 }
                 else
                 {
@@ -107,11 +110,10 @@
                 {
                     $scope.character = character;
                     $scope.$root.$broadcast('title', character.name);
-                    $scope.char_template = '/system/' + character.system.templateUrl + '/char.html';
+                    $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
                 });
             } // end if
         });
-
     });
 
     //------------------------------------------------------------------------------------------------------------------
