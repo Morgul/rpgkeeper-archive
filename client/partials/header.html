@@ -3,6 +3,7 @@
         <a class="brand" href="#">RPGKeeper</a>
         <div class="navbar-text text-center title">{{ title }}</div>
         <div class="pull-right header-buttons">
+            <a class="btn btn-small btn-inverse" href="/" ng-show="user"><i class="icon-home"></i></a>
             <div class="btn-group" ng-show="user">
                 <a class="btn btn-small btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-folder-open-alt"></i> Characters
@@ -20,6 +21,3 @@
         <span class="navbar-text pull-right current-user">{{ user.email }}</span>
     </div>
 </div>
-
-<script>
-</script>
