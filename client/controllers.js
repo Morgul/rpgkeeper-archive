@@ -27,6 +27,12 @@
                 });
         } // end if
 
+        // Get our characters
+        if(!$scope.characters)
+        {
+            $scope.socket.emit('list_characters');
+        } // end if
+
         //--------------------------------------------------------------------------------------------------------------
         // Event handling
         //--------------------------------------------------------------------------------------------------------------
@@ -60,11 +66,6 @@
         // Change our title
         $scope.$root.$broadcast('title', "Dashboard");
 
-        if(!$scope.characters)
-        {
-            $scope.socket.emit('list_characters');
-        } // end if
-
         $scope.toggleFavorite = function(character)
         {
             character.favorite = !character.favorite;
@@ -86,6 +87,7 @@
     Controllers.controller('CharacterCtrl', function($scope, $routeParams)
     {
         var charID = $routeParams.id;
+
         $scope.socket.emit('get_character', charID, function(error, character)
         {
             if(error)
@@ -108,9 +110,19 @@
             {
                 $scope.$apply(function()
                 {
-                    $scope.character = character;
                     $scope.$root.$broadcast('title', character.name);
-                    $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
+                    $scope.character = character;
+
+                    $scope.systemSocket = io.connect('/' + character.system.shortname);
+
+                    $scope.systemSocket.emit('get_character', charID, function(error, sysChar)
+                    {
+                        $scope.$apply(function()
+                        {
+                            $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
+                            $scope.sysChar = sysChar;
+                        });
+                    })
                 });
             } // end if
         });

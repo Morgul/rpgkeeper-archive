@@ -66,3 +66,28 @@ table td.shrink
 {
     color: #f90;
 }
+ /* Editable */
+
+.editable
+{
+    cursor: pointer;
+    display: inline-block;
+}
+
+.editable:hover
+{
+    color: #aaa;
+}
+
+/* Attributes */
+
+.attribute h2
+{
+    display: inline-block;
+}
+
+.attribute .score
+{
+    margin-left: 10px;
+    font-size: 30px;
+}

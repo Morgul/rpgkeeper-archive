@@ -1,2 +1,40 @@
-<h1>{{ character.name }}</h1>
-<p>This is a char template for savage worlds.</p>
+<link href="/system/savage_worlds/css/savage_worlds.css" rel="stylesheet">
+<script src="/system/savage_worlds/js/controllers.js"></script>
+
+<div class="sw-character" ng-controller="SWCharacterCtrl">
+    <div class="row-fluid">
+        <div class="span6">
+            <header class="char-header">
+                <h1><editable model="character.name" type="text"></editable></h1>
+                <span class="rank">{{ sysChar.rank }}: <editable model="sysChar.xp" type="number"></editable></span>
+            </header>
+            <p class="quote">"<editable model="sysChar.quote" type="textarea"></editable>"</p>
+        </div>
+        <div class="span6">
+            <p>Stats go here</p>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2 attribute">
+            <h2>Agility:</h2>
+            <editable class="score" model="sysChar.agility_die"></editable>
+        </div>
+        <div class="span2 attribute">
+            <h2>Smarts:</h2>
+            <editable class="score" model="sysChar.smarts_die"></editable>
+        </div>
+        <div class="span2 attribute">
+            <h2>Spirit:</h2>
+            <editable class="score" model="sysChar.spirit_die"></editable>
+        </div>
+        <div class="span2 attribute">
+            <h2>Strength:</h2>
+            <editable class="score" model="sysChar.strength_die"></editable>
+        </div>
+        <div class="span2 attribute">
+            <h2>Vigor:</h2>
+            <editable class="score" model="sysChar.vigor_die"></editable>
+        </div>
+    </div>
+</div>
+

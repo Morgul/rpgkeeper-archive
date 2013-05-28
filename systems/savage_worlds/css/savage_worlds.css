@@ -1,0 +1,26 @@
+.quote
+{
+    color: #555;
+    font-style: italic;
+}
+
+.char-header h1
+{
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.char-header
+{
+    border-bottom: 1px solid #999;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+}
+
+.rank
+{
+    font-size: 20px;
+    font-weight: 500;
+    float: right;
+    margin-top: 25px;
+}

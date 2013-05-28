@@ -1,0 +1,11 @@
+<div ng-click="click($event)" class="editable" title="Click to edit">
+    <form class="form-inline" ng-show="editing" ng-switch="type">
+        <input class="input" type="number" ng-model="model.value" ng-switch-when="number">
+        <textarea class="input" ng-model="model.value" ng-switch-when="textarea"></textarea>
+        <input class="input" type="text" ng-model="model.value" ng-switch-default>
+
+        <button class="btn btn-primary" ng-click="save($event)"><i class="icon-check"></i></button>
+        <button class="btn" ng-click="close($event)"><i class="icon-remove"></i></button>
+    </form>
+    <span class="display" ng-hide="editing">{{ model.value }}</span>
+</div>

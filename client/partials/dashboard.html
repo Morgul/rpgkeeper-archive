@@ -1,4 +1,4 @@
-<div class="span8">
+<div class="span8" ng-show="user">
     <div class="navbar navbar-small">
         <div class="navbar-inner">
             <span class="brand"><i class="icon-tasks"></i> Characters</span>
@@ -18,4 +18,7 @@
         </tr>
     </table>
     <button class="btn btn-mini btn-primary pull-right"><i class="icon-plus"></i> Add New Character</button>
+</div>
+<div ng-hide="user">
+    <h2 class="text-center">Please sign in.</h2>
 </div>

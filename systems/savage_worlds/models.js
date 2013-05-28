@@ -266,40 +266,39 @@ var Vehicle = db.define('Vehicle', {
 // Associations
 //----------------------------------------------------------------------------------------------------------------------
 
-SWCharacter.belongsTo(Character);
+SWCharacter.belongsTo(Character, { onDelete: 'cascade' });
 
-SWCharacter.hasOne(Race, { as: 'race' });
-SWCharacter.hasMany(Edge, { as: 'edges' });
-SWCharacter.hasMany(ChosenHindrance, { as: 'hindrances' });
-SWCharacter.hasMany(ArcaneBackground, { as: 'arcane_backgrounds' });
-SWCharacter.hasMany(Power, { as: 'powers'});
-SWCharacter.hasMany(HandWeapon, { as: 'hand_weapons'});
-SWCharacter.hasMany(RangedWeapon, { as: 'ranged_weapons' });
-SWCharacter.hasMany(SpecialWeapon, { as: 'special_weapons' });
-SWCharacter.hasMany(MundaneItem, { as: 'mundane_item' });
-SWCharacter.hasMany(Armor, { as: 'armor' });
-SWCharacter.hasMany(Vehicle, { as: 'vehicles' });
+SWCharacter.hasOne(Race);
+SWCharacter.hasMany(Edge);
+SWCharacter.hasMany(ChosenHindrance, { as: 'Hindrances', onDelete: 'cascade' });
+SWCharacter.hasMany(ArcaneBackground);
+SWCharacter.hasMany(Power);
+SWCharacter.hasMany(HandWeapon);
+SWCharacter.hasMany(RangedWeapon);
+SWCharacter.hasMany(SpecialWeapon);
+SWCharacter.hasMany(MundaneItem);
+SWCharacter.hasMany(Armor);
+SWCharacter.hasMany(Vehicle, { onDelete: 'cascade' });
 
-Race.hasMany(RacialAbility, { as: 'abilities' });
+Race.hasMany(RacialAbility, { as: 'Abilities' });
 
-Edge.hasMany(EdgeDetail, { as: 'details'});
+Edge.hasMany(EdgeDetail, { as: 'Details'});
 
-ChosenHindrance.hasOne(Hindrance, { as: 'hindrance' });
+ChosenHindrance.hasOne(Hindrance);
 
-ArcaneBackground.hasMany(EdgeDetail, { as: 'details'});
+ArcaneBackground.hasMany(EdgeDetail, { as: 'Details'});
 
-Trapping.hasMany(TrappingEffect, { as: 'effects' });
+Trapping.hasMany(TrappingEffect, { as: 'Effects' });
 
-PowerTemplate.hasMany(PowerDetail, { as: 'details' });
+PowerTemplate.hasMany(PowerDetail, { as: 'Details' });
 
-Power.hasOne(PowerTemplate, { as: 'template' });
-Power.hasOne(Trapping, { as: 'trapping' });
+Power.hasOne(PowerTemplate, { as: 'Template' });
+Power.hasOne(Trapping);
 
-Vehicle.hasOne(VehicleTemplate, { as: 'template' });
-Vehicle.hasMany(VehicleWeapon, { as: 'weapons' });
-Vehicle.belongsTo(SWCharacter, { as: 'owner' });
+Vehicle.hasOne(VehicleTemplate, { as: 'Template' });
+Vehicle.hasMany(VehicleWeapon, { as: 'WeaponS' });
+Vehicle.belongsTo(SWCharacter, { as: 'Owner' });
 
-VehicleTemplate.hasOne(Vehicle, { as: 'template' });
-VehicleTemplate.hasMany(VehicleWeapon, { as: 'weapons' });
+VehicleTemplate.hasMany(VehicleWeapon, { as: 'Weapons' });
 
 //----------------------------------------------------------------------------------------------------------------------
