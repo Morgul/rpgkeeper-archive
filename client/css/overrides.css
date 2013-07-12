@@ -42,14 +42,13 @@
 .navbar.navbar-small .all-right
 {
     float: right;
-    margin-right: -15px;
 }
 
 .navbar.navbar-small .all-left,
 .navbar.navbar-small .all-left
 {
     float: left;
-    margin-left: -15px;
+    margin-left: -10px;
 }
 
 .navbar.navbar-small
