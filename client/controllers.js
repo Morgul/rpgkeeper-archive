@@ -12,7 +12,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location)
+    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $dialog)
     {
         // Check that we have a username
         if(!$scope.user)
@@ -48,6 +48,11 @@
             $scope.title = title;
         });
 
+        $scope.$on('add_character', function(event)
+        {
+            $scope.addChar();
+        });
+
         //--------------------------------------------------------------------------------------------------------------
         // Socket.io handling
         //--------------------------------------------------------------------------------------------------------------
@@ -79,8 +84,16 @@
 
         $scope.addChar = function()
         {
-            console.log("Header addChar!");
-            $scope.$root.$broadcast('add_character');
+            var opts = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl: 'partials/newchar.html',
+                controller: 'AddCharDialogCtrl'
+            };
+
+            var dlg = $dialog.dialog(opts);
+            dlg.open();
         }; // end addChar
     });
 
@@ -92,30 +105,12 @@
         $scope.$root.$broadcast('title', "Dashboard");
 
         //--------------------------------------------------------------------------------------------------------------
-        // Event handling
-        //--------------------------------------------------------------------------------------------------------------
-
-        $scope.$on('add_character', function(event)
-        {
-            $scope.addChar();
-        });
-
-        //--------------------------------------------------------------------------------------------------------------
         // Public API
         //--------------------------------------------------------------------------------------------------------------
 
         $scope.addChar = function()
         {
-            var opts = {
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                templateUrl: 'partials/newchar.html',
-                controller: 'AddCharDialogCtrl'
-            };
-
-            var dlg = $dialog.dialog(opts);
-            dlg.open();
+            $scope.$root.$broadcast('add_character');
         }; // end addChar
 
         $scope.delete = function(character)
