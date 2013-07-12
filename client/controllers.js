@@ -57,14 +57,57 @@
                 });
             });
         });
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.addChar = function()
+        {
+            console.log("Header addChar!");
+            $scope.$root.$broadcast('add_character');
+        }; // end addChar
     });
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DashboardCtrl', function($scope)
+    Controllers.controller('DashboardCtrl', function($scope, $dialog)
     {
         // Change our title
         $scope.$root.$broadcast('title', "Dashboard");
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Event handling
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.$on('add_character', function(event)
+        {
+            $scope.addChar();
+        });
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.addChar = function()
+        {
+            //TODO: Bring up a dialog, and a form for putting in the basic information for the generic character.
+            var opts = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl: 'partials/newchar.html',
+                controller: 'AddCharDialogCtrl'
+            };
+
+            var dlg = $dialog.dialog(opts);
+            dlg.open();
+        }; // end addChar
+
+        $scope.delete = function(character)
+        {
+            //TODO: Bring up a dialog asking to confirm. Then, delete the character.
+        }; // end delete
 
         $scope.toggleFavorite = function(character)
         {
@@ -77,8 +120,7 @@
                     console.error('encountered error', error);
                     character.favorite = !character.favorite;
                 } // end if
-            });
-
+            }); // end $scope.emit
         }; // end toggleFavorite
     });
 
@@ -130,6 +172,25 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
+
+    Controllers.controller('AddCharDialogCtrl', function($scope, dialog)
+    {
+        //--------------------------------------------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.close = function()
+        {
+            dialog.close();
+        }; // end close
+
+        $scope.save = function()
+        {
+            dialog.close();
+        }; // end save
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
 })();
 
 //----------------------------------------------------------------------------------------------------------------------

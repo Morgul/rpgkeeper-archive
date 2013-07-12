@@ -1,23 +1,44 @@
-<div class="span8" ng-show="user">
-    <div class="navbar navbar-small">
-        <div class="navbar-inner">
-            <span class="brand"><i class="icon-tasks"></i> Characters</span>
-            <button class="btn btn-mini btn-primary all-right"><i class="icon-plus"></i> Add</button>
+<div class="row-fluid">
+    <div class="span4" ng-show="user">
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-tasks"></i> Characters</span>
+                <button class="btn btn-mini btn-primary all-right" ng-click="addChar()"><i class="icon-plus"></i> Add</button>
+            </div>
         </div>
+        <table class="table table-bordered table-striped">
+            <tr ng-repeat="character in characters">
+                <td class="shrink">
+                    <button class="btn btn-mini" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i></button>
+                </td>
+                <td class="expand"><a href="/character/{{ character.id }}">{{ character.name }}</a></td>
+                <td class="shrink">{{ character.system.name }}</td>
+                <td class="shrink">
+                    <button class="btn btn-mini btn-danger" ng-click="delete(character)"><i class="icon-trash"></i> Delete</button>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-mini btn-primary pull-right" ng-click="addChar()"><i class="icon-plus"></i> Add New Character</button>
     </div>
-    <table class="table table-bordered table-striped">
-        <tr ng-repeat="character in characters">
-            <td class="shrink">
-                <button class="btn btn-mini" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i></button>
-            </td>
-            <td class="expand"><a href="/character/{{ character.id }}">{{ character.name }}</a></td>
-            <td class="shrink">{{ character.system.name }}</td>
-            <td class="shrink">
-                <button class="btn btn-mini btn-danger"><i class="icon-trash"></i> Delete</button>
-            </td>
-        </tr>
-    </table>
-    <button class="btn btn-mini btn-primary pull-right"><i class="icon-plus"></i> Add New Character</button>
+    <div class="span4" ng-show="user">
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-tasks"></i> Maps</span>
+            </div>
+        </div>
+        <h4 class="text-center">Sorry, this feature is not yet implemented.</h4>
+        <p class="text-center">
+            (When it is, it will require an rpg_battlemap login.)
+        </p>
+    </div>
+    <div class="span4" ng-show="user">
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-tasks"></i> Associations</span>
+            </div>
+        </div>
+        <h4 class="text-center">Sorry, this feature is not yet implemented.</h4>
+    </div>
 </div>
 <div ng-hide="user">
     <h2 class="text-center">Please sign in.</h2>

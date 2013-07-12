@@ -1,0 +1,50 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>Add New Character</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="name">Name</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="name" placeholder="Foobar McFight'erson">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="system">System</label>
+            <div class="controls">
+                <select class="input-block-level" id="system">
+                    <option>Savage Worlds</option>
+                    <option>DnD 4e</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="portrait">Portrait</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="portrait" placeholder="Not Implemented" disabled>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="thumbnail">Thumbnail</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="thumbnail" placeholder="Not Implemented" disabled>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="description">Description</label>
+            <div class="controls">
+                <textarea class="input-block-level" id="description" rows="5" placeholder="This can be anything you want..."></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="backstory">Backstory</label>
+            <div class="controls">
+                <textarea class="input-block-level" id="backstory" rows="10" placeholder="Tell us about what your character's past! (His epic battle with child-eating bats, for instance.)"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-click="save()" class="btn btn-primary" >Add Character</button>
+    <button ng-click="close()" class="btn" >Cancel</button>
+</div>
