@@ -33,6 +33,12 @@
             $scope.socket.emit('list_characters');
         } // end if
 
+        // Get all systems
+        if(!$scope.systems)
+        {
+            $scope.socket.emit('list_systems');
+        } // end if
+
         //--------------------------------------------------------------------------------------------------------------
         // Event handling
         //--------------------------------------------------------------------------------------------------------------
@@ -58,6 +64,15 @@
             });
         });
 
+        // Handle the list of systems
+        $scope.socket.on('systems', function(systems)
+        {
+            $rootScope.$apply(function()
+            {
+                $rootScope.systems = systems;
+            });
+        });
+
         //--------------------------------------------------------------------------------------------------------------
         // Public API
         //--------------------------------------------------------------------------------------------------------------
@@ -71,9 +86,9 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DashboardCtrl', function($scope, $dialog)
+    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $dialog)
     {
-        // Change our title
+        // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
 
         //--------------------------------------------------------------------------------------------------------------
@@ -158,7 +173,9 @@
             {
                 $scope.$apply(function()
                 {
+                    // Change our page title
                     $scope.$root.$broadcast('title', character.name);
+
                     $scope.character = character;
 
                     $scope.systemSocket = io.connect('/' + character.system.shortname);
@@ -178,7 +195,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('AddCharDialogCtrl', function($scope, dialog)
+    Controllers.controller('AddCharDialogCtrl', function($scope, $location, dialog)
     {
         //--------------------------------------------------------------------------------------------------------------
         // Public API
@@ -191,6 +208,12 @@
 
         $scope.save = function()
         {
+            console.log("All Systems:", $scope.systems);
+
+            console.log("form:", $scope.newchar);
+
+            //TODO: Point this to the page of the newly created character.
+            $location.path("/character/2");
             dialog.close();
         }; // end save
     });

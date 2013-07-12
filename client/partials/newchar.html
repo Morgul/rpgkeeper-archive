@@ -6,40 +6,37 @@
         <div class="control-group">
             <label class="control-label" for="name">Name</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="name" placeholder="Foobar McFight'erson">
+                <input class="input-block-level" type="text" id="name" placeholder="Foobar McFight'erson" ng-model="newchar.name" required>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="system">System</label>
             <div class="controls">
-                <select class="input-block-level" id="system">
-                    <option>Savage Worlds</option>
-                    <option>DnD 4e</option>
-                </select>
+                <select class="input-block-level" id="system" ng-model="newchar.system" required ng-options="system.id as system.name for system in systems"></select>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="portrait">Portrait</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="portrait" placeholder="Not Implemented" disabled>
+                <input class="input-block-level" type="text" id="portrait" placeholder="Not Implemented" disabled ng-model="newchar.portrait">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="thumbnail">Thumbnail</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="thumbnail" placeholder="Not Implemented" disabled>
+                <input class="input-block-level" type="text" id="thumbnail" placeholder="Not Implemented" disabled ng-model="newchar.thumbnail">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="description">Description</label>
             <div class="controls">
-                <textarea class="input-block-level" id="description" rows="5" placeholder="This can be anything you want..."></textarea>
+                <textarea class="input-block-level" id="description" rows="5" placeholder="This can be anything you want..." ng-model="newchar.description"></textarea>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="backstory">Backstory</label>
             <div class="controls">
-                <textarea class="input-block-level" id="backstory" rows="10" placeholder="Tell us about what your character's past! (His epic battle with child-eating bats, for instance.)"></textarea>
+                <textarea class="input-block-level" id="backstory" rows="10" placeholder="Tell us about what your character's past! (His epic battle with child-eating bats, for instance.)" ng-model="newchar.backstory"></textarea>
             </div>
         </div>
     </form>
