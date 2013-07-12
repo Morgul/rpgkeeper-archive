@@ -5,10 +5,10 @@
     <div class="row-fluid">
         <div class="span6">
             <header class="char-header">
-                <h1><editable model="character.name" type="text"></editable></h1>
-                <span class="rank">{{ sysChar.rank }}: <editable model="sysChar.xp" type="number"></editable></span>
+                <h1 editable="character.name" type="text" confirm="true" toolbar>Character Name</h1>
+                <span class="rank">{{ sysChar.rank }}: <span editable="sysChar.xp" type="number" confirm="true" toolbar>XP</span></span>
             </header>
-            <p class="quote">"<editable model="sysChar.quote" type="textarea"></editable>"</p>
+            <p class="quote">"<span editable="sysChar.quote" type="text" confirm="true" toolbar></span>"</p>
         </div>
         <div class="span6">
             <p>Stats go here</p>
@@ -17,23 +17,23 @@
     <div class="row-fluid">
         <div class="span2 attribute">
             <h2>Agility:</h2>
-            <editable class="score" model="sysChar.agility_die"></editable>
+            <span class="score" editable="sysChar.agility_die"></span>
         </div>
         <div class="span2 attribute">
             <h2>Smarts:</h2>
-            <editable class="score" model="sysChar.smarts_die"></editable>
+            <span class="score" editable="sysChar.smarts_die"></span>
         </div>
         <div class="span2 attribute">
             <h2>Spirit:</h2>
-            <editable class="score" model="sysChar.spirit_die"></editable>
+            <span class="score" editable="sysChar.spirit_die"></span>
         </div>
         <div class="span2 attribute">
             <h2>Strength:</h2>
-            <editable class="score" model="sysChar.strength_die"></editable>
+            <span class="score" editable="sysChar.strength_die"></span>
         </div>
         <div class="span2 attribute">
             <h2>Vigor:</h2>
-            <editable class="score" model="sysChar.vigor_die"></editable>
+            <span class="score" editable="sysChar.vigor_die"></span>
         </div>
     </div>
 </div>

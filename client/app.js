@@ -4,7 +4,7 @@
 // @module app.js
 //----------------------------------------------------------------------------------------------------------------------
 
-angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers', 'rpgkeeper.directives'])
+angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers', 'rpgkeeper.directives', 'editables'])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider)
     {
         $locationProvider.html5Mode(true);

@@ -6,8 +6,8 @@
 
 .char-header h1
 {
-    display: inline-block;
     margin-bottom: 0;
+    display: inline-block;
 }
 
 .char-header
@@ -24,3 +24,4 @@
     float: right;
     margin-top: 25px;
 }
+

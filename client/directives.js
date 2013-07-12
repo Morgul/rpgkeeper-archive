@@ -8,43 +8,7 @@ var Directives = angular.module('rpgkeeper.directives', []);
 
 //----------------------------------------------------------------------------------------------------------------------
 
-Directives.directive('xeditable', function($timeout)
-{
-    return {
-        restrict: 'A',
-        require: "ngModel",
-        link: function(scope, element, attrs, ngModel)
-        {
-            function loadXeditable()
-            {
-                angular.element(element).editable({
-                    mode: 'inline',
-                    display: function(value, srcData)
-                    {
-                        scope.$apply(function()
-                        {
-                            ngModel.$setViewValue(value);
-                        });
-                    },
-                    url: function(params)
-                    {
-                        //console.log("calling...");
-                        //scope.$apply();
-                    }
-                });
-            } // end loadXeditable
-
-            $timeout(function()
-            {
-                loadXeditable();
-            }, 10);
-        }
-    };
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-Directives.directive('editable', function()
+Directives.directive('oldEditable', function()
 {
     return {
         restrict: 'E',
@@ -101,3 +65,4 @@ Directives.directive('editable', function()
 });
 
 //----------------------------------------------------------------------------------------------------------------------
+
