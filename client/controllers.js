@@ -91,7 +91,6 @@
 
         $scope.addChar = function()
         {
-            //TODO: Bring up a dialog, and a form for putting in the basic information for the generic character.
             var opts = {
                 backdrop: true,
                 keyboard: true,
@@ -116,8 +115,7 @@
             {
                 if(error)
                 {
-                    //TODO: Display to user!
-                    console.error('encountered error', error);
+                    $scope.alerts.push({type: 'error', msg: 'Error encountered setting favorite: ' + error.toString()});
                     character.favorite = !character.favorite;
                 } // end if
             }); // end $scope.emit

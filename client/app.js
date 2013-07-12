@@ -16,6 +16,13 @@ angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers', 'rpgkeeper.d
     .run(function($rootScope)
     {
         $rootScope.socket = io.connect();
+        $rootScope.alerts = [
+        ];
+
+        $rootScope.closeAlert = function(index)
+        {
+            $rootScope.alerts.splice(index, 1);
+        };
     });
 
 //----------------------------------------------------------------------------------------------------------------------

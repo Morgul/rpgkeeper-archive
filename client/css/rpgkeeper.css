@@ -59,6 +59,24 @@ table td.shrink
     z-index: 2;
 }
 
+/* Alerts */
+.alert-area
+{
+    position: absolute;
+    top: 20px;
+    left: calc(50% - 250px);
+    left: -webkit-calc(50% - 250px);
+    width: 100%;
+    max-width: 500px;
+    min-width: 100px;
+    z-index: 50;
+}
+
+.alert-area .alert
+{
+    opacity: 0.98;
+}
+
 /* Dashboard */
 
 .favorite,

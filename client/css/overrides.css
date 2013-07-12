@@ -1,6 +1,7 @@
 .navbar .brand
 {
     color: #555;
+    position: relative;
 }
 
 .navbar.navbar-small .navbar-inner
