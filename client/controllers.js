@@ -105,7 +105,16 @@
 
         $scope.delete = function(character)
         {
-            //TODO: Bring up a dialog asking to confirm. Then, delete the character.
+            var opts = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl: 'partials/deletechar.html',
+                controller: 'DelCharDialogCtrl'
+            };
+
+            var dlg = $dialog.dialog(opts);
+            dlg.open();
         }; // end delete
 
         $scope.toggleFavorite = function(character)
@@ -142,8 +151,7 @@
                 }
                 else
                 {
-                    //TODO: Display to user!
-                    console.error('encountered error', error);
+                    $scope.alerts.push({type: 'error', msg: 'Error encountered getting character: ' + error.toString()});
                 }
             }
             else
@@ -170,7 +178,6 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-
     Controllers.controller('AddCharDialogCtrl', function($scope, dialog)
     {
         //--------------------------------------------------------------------------------------------------------------
@@ -183,6 +190,25 @@
         }; // end close
 
         $scope.save = function()
+        {
+            dialog.close();
+        }; // end save
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    Controllers.controller('DelCharDialogCtrl', function($scope, dialog)
+    {
+        //--------------------------------------------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.close = function()
+        {
+            dialog.close();
+        }; // end close
+
+        $scope.delete = function()
         {
             dialog.close();
         }; // end save
