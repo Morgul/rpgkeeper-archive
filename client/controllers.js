@@ -124,7 +124,24 @@
             };
 
             var dlg = $dialog.dialog(opts);
-            dlg.open();
+            dlg.open().then(function(result)
+            {
+                if(result)
+                {
+                    $scope.socket.emit('delete_character', character, function(error)
+                    {
+                        if(error)
+                        {
+                            $scope.alerts.push(error);
+                        }
+                        else
+                        {
+                            // Update the list of characters.
+                            $scope.socket.emit("list_characters");
+                        } // end if
+                    });
+                } // end if
+            });
         }; // end delete
 
         $scope.toggleFavorite = function(character)
@@ -134,7 +151,7 @@
             {
                 if(error)
                 {
-                    $scope.alerts.push({type: 'error', msg: 'Error encountered setting favorite: ' + error.toString()});
+                    $scope.alerts.push(error);
                     character.favorite = !character.favorite;
                 } // end if
             }); // end $scope.emit
@@ -161,7 +178,7 @@
                 }
                 else
                 {
-                    $scope.alerts.push({type: 'error', msg: 'Error encountered getting character: ' + error.toString()});
+                    $scope.alerts.push(error);
                 }
             }
             else
@@ -203,13 +220,25 @@
 
         $scope.save = function()
         {
-            console.log("All Systems:", $scope.systems);
+            $scope.socket.emit('new_character', $scope.newchar, function(error, character)
+            {
+                dialog.close();
 
-            console.log("form:", $scope.newchar);
+                if(error)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.alerts.push(error);
+                    });
+                }
+                else
+                {
+                    // Update the list of characters.
+                    $scope.socket.emit("list_characters");
+                    $location.path("/character/" + character.id);
+                } // end if
+            });
 
-            //TODO: Point this to the page of the newly created character.
-            $location.path("/character/2");
-            dialog.close();
         }; // end save
     });
 
@@ -223,12 +252,12 @@
 
         $scope.close = function()
         {
-            dialog.close();
+            dialog.close(false);
         }; // end close
 
         $scope.delete = function()
         {
-            dialog.close();
+            dialog.close(true);
         }; // end save
     });
 

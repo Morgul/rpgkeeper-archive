@@ -21,6 +21,6 @@
         <span class="navbar-text pull-right current-user">{{ user.email }}</span>
     </div>
     <div class="alert-area">
-        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
+        <alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.message }}</alert>
     </div>
 </div>
