@@ -29,7 +29,7 @@ var Vehicle = db.model('Vehicle');
 //----------------------------------------------------------------------------------------------------------------------
 
 // Create the system entry in the database
-System.find({where: {name: "Savage Worlds"}}).success(function(system)
+System.find({where: {shortname: "savage_worlds"}}).success(function(system)
 {
     if(!system)
     {

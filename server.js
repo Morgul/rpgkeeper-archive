@@ -24,6 +24,7 @@ require('./urls');
 
 // Included systems
 require('./systems/savage_worlds/system');
+require('./systems/dnd4e/system');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
