@@ -197,6 +197,8 @@
                         $scope.$apply(function()
                         {
                             $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
+
+                            console.log(sysChar);
                             $scope.sysChar = sysChar;
                         });
                     })

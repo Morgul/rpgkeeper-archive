@@ -4,6 +4,9 @@
 // @module system.js
 //----------------------------------------------------------------------------------------------------------------------
 
+// Include our models
+var models = require('./models');
+
 var path = require('path');
 var app = require('omega-wf').app;
 var db = require('omega-wf').db;
@@ -62,7 +65,25 @@ app.channel('/dnd4e').on('connection', function (socket)
     socket.on('get_character', function(id, callback)
     {
         // Look up the character here.
-        console.log("We'd totally look up your character here, bro.")
+        models.Character.findOne({baseCharID: id}, function(err, character)
+        {
+            if(err)
+            {
+                callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+            } // end if
+
+            if(!character)
+            {
+                character = new models.Character({ baseCharID: id });
+                character.buildSkills();
+                character.save();
+            } // end if
+
+            // Populate our references
+            character.populate('race', 'class', 'paragonPath', 'epicDestiny', 'additionalPowers', 'additionalFeats', 'additionalLanguages');
+
+            callback(null, character);
+        });
     });
 });
 
