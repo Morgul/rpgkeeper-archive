@@ -198,7 +198,7 @@
                         {
                             $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
 
-                            console.log(sysChar);
+                            console.log("System Char:", sysChar);
                             $scope.sysChar = sysChar;
                         });
                     })

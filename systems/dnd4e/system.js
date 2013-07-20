@@ -11,6 +11,8 @@ var path = require('path');
 var app = require('omega-wf').app;
 var db = require('omega-wf').db;
 
+var _ = require('lodash');
+
 var System = db.model('System');
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -65,24 +67,62 @@ app.channel('/dnd4e').on('connection', function (socket)
     socket.on('get_character', function(id, callback)
     {
         // Look up the character here.
-        models.Character.findOne({baseCharID: id}, function(err, character)
+        models.Character.findOne({baseCharID: id})
+            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
+            .exec(function(err, character)
+            {
+                if(err)
+                {
+                    callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+                } // end if
+
+                if(!character)
+                {
+                    character = new models.Character({ baseCharID: id });
+                    character.buildSkills();
+                    character.save();
+                } // end if
+
+                //console.log("Character:", character);
+
+                callback(null, character);
+            }
+        );
+    });
+
+    socket.on('update_character', function(character, callback)
+    {
+        //-----------------------------------------------------------------
+        // Massage the incoming character into something we can use.
+        //-----------------------------------------------------------------
+
+        // Can't have an _id field
+        delete character._id;
+
+        // De-populate our references
+        if(character.race) { character.race = character.race._id; }
+        if(character.class) { character.class = character.class._id; }
+        if(character.paragonPath) { character.paragonPath = character.paragonPath._id; }
+        if(character.epicDestiny) { character.epicDestiny = character.epicDestiny._id; }
+
+        // De-populate our arrays of references
+        character.additionalPowers = _.map(character.additionalPowers, "_id");
+        character.additionalFeats = _.map(character.additionalFeats, "_id");
+        character.additionalLanguages = _.map(character.additionalLanguages, "_id");
+
+        models.Character.findOneAndUpdate({baseCharID: character.baseCharID}, character)
+            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
+            .exec(function(error, char)
         {
-            if(err)
+            if(error)
             {
-                callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
-            } // end if
-
-            if(!character)
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while updating system specific character: ' + error.toString()});
+            }
+            else
             {
-                character = new models.Character({ baseCharID: id });
-                character.buildSkills();
-                character.save();
+                callback(null, char);
             } // end if
-
-            // Populate our references
-            character.populate('race', 'class', 'paragonPath', 'epicDestiny', 'additionalPowers', 'additionalFeats', 'additionalLanguages');
-
-            callback(null, character);
         });
     });
 });

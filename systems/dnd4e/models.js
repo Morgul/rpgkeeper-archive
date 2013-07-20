@@ -11,7 +11,7 @@ var db = mongoose.connection;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.exports = {};
+module.exports = { db: db };
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ db.once('open', function callback () {
     var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
     var powerSource = ["Arcane", "Divine", "Martial", "Psionic", "Shadow", "Primal", "Ki"];
     var PowerSchema = mongoose.Schema({
-        name: { type: String, required: true, unique: true },
+        name: { type: String, required: true },
         flavor: String,
         kind: { type: String, enum: ["Attack", "ClassFeature", "Feat", "Skill", "Race", "Utility"] },
         level: { type: Number, default: 0, min: 0 },
@@ -54,7 +54,7 @@ db.once('open', function callback () {
         // Actions
         actionType: { type: String, enum: actionType },
         trigger: String,
-        attackType: { type: String, enum: ["Melee", "Ranged", "Melee or Ranged", "Close", "Area"] },
+        //attackType: { type: String, enum: ["Melee", "Ranged", "Melee or Ranged", "Close", "Area"] },
         rangeText: String,
 
         prerequisites: String,
@@ -72,7 +72,10 @@ db.once('open', function callback () {
         }],
 
         sustainType: { type: String, enum: actionType },
-        sustainText: String
+        sustainText: String,
+
+        // Refer to the class, since that could make our lives a bit easier when trying to look these things up.
+        class: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassSchema' }
     });
 
     //--------------------------------------------------------------------
@@ -114,8 +117,8 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var FeatSchema = mongoose.Schema({
-        name: { type: String, required: true, unique: true },
-        type: { type: String, enum: ["Normal", "Multiclass", "Divinity"]},
+        name: { type: String, required: true },
+        type: { type: String, enum: ["Normal", "Class", "Racial", "Multiclass", "Divinity"]},
         prerequisites: String,
         benefit: String,
         special: String,
@@ -142,21 +145,22 @@ db.once('open', function callback () {
             description: String,
             powers: [PowerSchema]
         }],
-
-        // Should be the key of one of the items in subFeatures
-        chosenSubFeature: String
+        powers: [PowerSchema]
     });
+
+    // Export model
+    module.exports['ClassFeature'] = mongoose.model('ClassFeature', ClassFeatureSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
     var ClassPathSchema = mongoose.Schema({
         name: { type: String, required: true },
         description: String,
-        subFeatures: [ClassFeatureSchema],
-
-        // Should be the key of one of the items in subFeatures
-        chosenSubFeature: String
+        subFeatures: [ClassFeatureSchema]
     });
+
+    // Export model
+    module.exports['ClassPath'] = mongoose.model('ClassPath', ClassPathSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -181,10 +185,7 @@ db.once('open', function callback () {
         // Trained skills
         trainedSkills: [String],
         trainedSkillChoices: [String],
-        trainedSkillsAmount: { type: Number, default: 0, min: 0 },
-
-        // This is the skills that the character chose to train.
-        chosenTrainedSkills: [String]
+        trainedSkillsAmount: { type: Number, default: 0, min: 0 }
     });
 
     // Export model
@@ -198,9 +199,10 @@ db.once('open', function callback () {
         weightRange: String,
         size: { type: String, enum: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"] },
         speed: { type: Number, min: 0 },
-        vision: { type: String, enum: ["Normal", "Low-Light", "Darkvision", "Blindsight", "Tremorsense"] },
+        vision: { type: String, enum: ["Normal", "Low-light", "Darkvision", "Blindsight", "Tremorsense"] },
         languages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Languages' }],
         feats: [FeatSchema],
+        powers: [PowerSchema],
 
         skillBonuses: [{
             skill: String,
@@ -273,6 +275,7 @@ db.once('open', function callback () {
         baseCharID: { type: Number, required: true },
 
         alignment: { type: String, enum: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" },
+        gender: { type: String, enum: ["Male", "Female", "Other"] },
         deity: String,
         affiliation: String,
         level: { type: Number, default: 0, min: 0 },
@@ -287,10 +290,14 @@ db.once('open', function callback () {
         speedArmorPenalty: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
         speedMisc: { type: Number, default: 0, min: 0 },
 
-        race: { type: mongoose.Schema.Types.ObjectId, ref: 'Races' },
-        class: { type: mongoose.Schema.Types.ObjectId, ref: 'Classes' },
-        paragonPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ParagonPaths' },
-        epicDestiny: { type: mongoose.Schema.Types.ObjectId, ref: 'EpicDestinies' },
+        race: { type: mongoose.Schema.Types.ObjectId, ref: 'Race'},
+        class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class' },
+
+        classPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassPath' },
+        chosenFeatures: [{ type: mongoose.Schema.Types.ObjectId }],   //TODO: Not sure if this is the best way to store the chosen features...
+
+        paragonPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ParagonPath' },
+        epicDestiny: { type: mongoose.Schema.Types.ObjectId, ref: 'EpicDestiny'},
 
         //--------------------------------------------------------------------------------------------------------------
         // Ability Scores
@@ -340,9 +347,9 @@ db.once('open', function callback () {
         // Powers, Feats, etc
         //--------------------------------------------------------------------------------------------------------------
 
-        additionalPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Powers' }],
-        additionalFeats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feats' }],
-        additionalLanguages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Languages' }],
+        additionalPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
+        additionalFeats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feat' }],
+        additionalLanguages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
 
         //--------------------------------------------------------------------------------------------------------------
 

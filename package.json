@@ -6,7 +6,8 @@
     "dependencies": {
         "omega-wf": "latest",
         "passport-persona": "git+https://github.com/Morgul/passport-persona.git",
-        "mongoose": "latest"
+        "mongoose": "latest",
+        "lodash": "latest"
     },
     "devDependencies": {},
     "scripts": {

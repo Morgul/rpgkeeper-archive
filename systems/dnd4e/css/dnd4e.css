@@ -1,0 +1,263 @@
+#main-view
+{
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.left-sidebar,
+.right-sidebar
+{
+    width: 350px;
+    margin: 0 5px;
+}
+
+.left-sidebar
+{
+    float: left;
+}
+
+.right-sidebar
+{
+    float: right;
+}
+
+.center-content
+{
+    margin: 0 360px;
+    min-width: 250px;
+}
+
+.left-sidebar,
+.right-sidebar
+.center-content
+{
+    display: inline-block;
+}
+
+.center-content .navbar-inner
+{
+    min-height: 32px !important;
+}
+
+.center-content .navbar-inner:after
+{
+    clear: none !important;
+}
+
+img.portrait
+{
+    box-sizing: border-box;
+    width: calc(100% - 10px);
+    width: -webkit-calc(100% - 10px);
+    max-width: 340px;
+    border: 1px solid #555;
+    margin: 0 5px;
+    margin-bottom: 5px;
+}
+
+.char-details
+{
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+.char-detail.name
+{
+    min-width: 250px;
+}
+
+.char-detail + .char-detail
+{
+    margin-left: 10px;
+}
+
+.char-detail
+{
+    display: inline-block;
+    vertical-align: baseline;
+}
+.char-detail .title
+{
+    text-align: center;
+    border-bottom: 1px solid #555;
+}
+
+.char-detail .subtitle
+{
+    text-align: center;
+    color: #999;
+}
+
+.char-detail h2
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.char-detail h4
+{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.right-sidebar .tabbable
+{
+    height: calc(100% - 165px);
+}
+
+.nav-tabs
+{
+    margin-bottom: 0;
+}
+
+.tab-content
+{
+    border-left: 1px solid #ddd;
+    padding-left: 5px;
+    padding-top: 10px;
+}
+
+.hitpoints
+{
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    min-width: 340px;
+}
+
+.hitpoints .max-hp,
+.hitpoints .surge-val
+{
+    margin-right: 5px;
+}
+
+.hitpoints .tmp-hp,
+.hitpoints .bloodied-val
+{
+    margin-left: 5px;
+}
+
+.hitpoints .left
+{
+    box-sizing: border-box;
+    margin-right: 0;
+    padding-right: 4px;
+    width: 55%;
+    float: left;
+}
+
+.hitpoints .right
+{
+    box-sizing: border-box;
+    margin-left: 0;
+    padding-left: 4px;
+    width: 45%;
+    float: right;
+}
+
+.hitpoints .hp-counter
+{
+    box-sizing: border-box;
+    padding: 12px 5px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    font-size: 2.75em;
+    background-color: white;
+    text-align: center;
+    height: 48px;
+    clear: both;
+}
+
+.hitpoints .hp-counter.dead
+{
+    color: #777;
+}
+
+.hitpoints .hp-row
+{
+    margin-top: 5px;
+    clear: both;
+}
+
+.hitpoints .btn-full
+{
+    width: 100%;
+}
+
+.hitpoints .btn-full + .btn-full
+{
+    margin-top: 5px;
+}
+
+.hitpoints .hp-row + .hp-row
+{
+    margin-top: -5px;
+    margin-bottom: -8px;
+}
+
+.hitpoints .dmg-input
+{
+    width: calc(100% - 83px);
+    width: -webkit-calc(100% - 83px);
+    text-align: center;
+}
+
+.hitpoints .dmg-btn,
+.hitpoints .heal-grp,
+.hitpoints .surge-grp
+{
+    display: inline-block;
+    float: right;
+    height: 30px !important;
+}
+
+.hitpoints .heal-grp .btn
+{
+    height: 30px !important;
+}
+
+.hitpoints .heal-input
+{
+    width: calc(100% - 109px);
+    width: -webkit-calc(100% - 109px);
+    text-align: center;
+}
+
+.hitpoints .surge-grp
+{
+    margin-top: 5px;
+    width: 100%;
+}
+
+.hitpoints .surge-grp .surge-btn
+{
+    width: calc(100% - 62px);
+    width: -webkit-calc(100% - 62px);
+}
+
+.bottom,
+.hitpoints .bottom
+{
+    clear: both;
+    height: 0;
+}
+
+/* Feats */
+
+.feat
+{
+    margin-bottom: 5px;
+}
+
+.feat header
+{
+    font-size: 1.25em;
+    font-weight: bold;
+    margin: 0;
+    padding: 2px 5px;
+    background-color: #eaeaea;
+}
+
+.feat .feat-contents
+{
+    padding: 0 8px;
+}

@@ -1,1 +1,91 @@
-<h2>DND LIVES HERE.</h2>
+<link href="/system/dnd4e/css/dnd4e.css" rel="stylesheet">
+<script src="/system/dnd4e/js/controllers.js"></script>
+
+<div ng-controller="DnDCharCtrl">
+    <div class="left-sidebar">
+        <img class="portrait" src="http://placehold.it/340x460"/>
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-stethoscope"></i> Conditions</span>
+                <button class="btn btn-mini btn-primary all-right" ng-click="addChar()"><i class="icon-plus"></i> Add</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-sidebar">
+        <div ng-include="'/system/dnd4e/partials/hitpoints.html'" ng-controller="HitpointsCtrl"></div>
+        <tabset>
+            <div class="pull-right">
+                <button class="btn btn-small" title="Expand All"><i class="icon-expand"></i></button>
+                <button class="btn btn-small" title="Collapse All"><i class="icon-collapse"></i></button>
+            </div>
+            <tab heading="Powers">
+                <h4 class="text-center">Not Implemented Yet</h4>
+            </tab>
+            <tab heading="Feats">
+                <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.feats"></ng-include>
+            </tab>
+            <tab heading="Equipment">
+                <h4 class="text-center">Not Implemented Yet</h4>
+            </tab>
+        </tabset>
+    </div>
+
+    <div class="center-content">
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-edit"></i> Character Details</span>
+                <button class="btn btn-mini btn-primary all-right" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
+            </div>
+        </div>
+        <div class="char-details">
+            <div class="char-detail name">
+                <h2 class="title" editable="character.name" type="text" confirm="true" toolbar>Character Name</h2>
+                <p class="subtitle">Character Name</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.level" type="text" confirm="true" toolbar>Level</h4>
+                <p class="subtitle">Level</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.class.name" type="text" confirm="true" toolbar>Class</h4>
+                <p class="subtitle">Class</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.race.name" type="text" confirm="true" toolbar>Race</h4>
+                <p class="subtitle">Race</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.paragonPath.name" type="text" confirm="true" toolbar>Paragon Path</h4>
+                <p class="subtitle">Paragon Path</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.epicDestiny.name" type="text" confirm="true" toolbar>Epic Destiny</h4>
+                <p class="subtitle">Epic Destiny</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.alignment" type="text" confirm="true" toolbar>Alignment</h4>
+                <p class="subtitle">Alignment</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.deity" type="text" confirm="true" toolbar>Deity</h4>
+                <p class="subtitle">Deity</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.gender" type="text" confirm="true" toolbar>Gender</h4>
+                <p class="subtitle">Gender</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title" editable="sysChar.size" type="text" confirm="true" toolbar>Size</h4>
+                <p class="subtitle">Size</p>
+            </div>
+        </div>
+        <div class="navbar navbar-small">
+            <div class="navbar-inner">
+                <span class="brand"><i class="icon-tasks"></i> Character Stats</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">&nbsp;</div>
+</div>
