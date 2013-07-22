@@ -322,6 +322,12 @@ img.portrait
     display: inline-block;
 }
 
+.stat-group.attributes
+{
+    margin-top: 5px;
+    float: left;
+}
+
 .stat-group.attributes .muted
 {
     color: #777;
@@ -337,7 +343,14 @@ img.portrait
     width: 2em;
 }
 
-.stat-group.attributes .stat .value
+.stat-group.attributes .stat + .stat,
+.stat-group.skills .stat + .stat
+{
+    margin: 5px 0 0 0;
+}
+
+.stat-group.attributes .stat .value,
+.stat-group.skills .stat .value
 {
     display: inline-block;
     min-width: 22px;
@@ -351,8 +364,26 @@ img.portrait
     padding-bottom: 0;
 }
 
-.stat-group.attributes .stat + .stat
+.stat-group.skills
 {
-    margin: 5px 0 0 0;
+    width: calc(100% - 200px);
+    width: -webkit-calc(100% - 200px);
+}
+
+.stat-group.skills .columns
+{
+    columns: 12.5em 4;
+    -webkit-columns: 12.5em 4;
+    -moz-columns: 12.5em 4;
+}
+
+.stat-group.skills .stat
+{
+    width: 12.5em;
+}
+
+.stat-group.skills .stat header
+{
+    width: 6.5em;
 }
 

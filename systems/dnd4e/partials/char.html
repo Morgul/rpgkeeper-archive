@@ -183,14 +183,19 @@
                         <button class="btn btn-mini">Roll</button>
                     </div>
                 </div>
+
                 <div class="stat-group skills">
                     <header class="group-title">Skills</header>
-                    <div class="stat" ng-repeat="skill in sysChar.skills">
-                        <header>{{ skill.name }}</header>
-                        <span class="value">{{ sysChar[skill.name] }}</span>
-                        <button class="btn btn-mini">Roll</button>
+                    <div class="columns">
+                        <div class="stat" ng-repeat="skill in sysChar.skills">
+                            <header>{{ skill.name|capitalize }}</header>
+                            <span class="value">{{ sysChar[skill.name] }}</span>
+                            <button class="btn btn-mini">Roll</button>
+                        </div>
                     </div>
                 </div>
+
+                <div class="bottom">&nbsp;</div>
             </div>
         </div>
     </div>

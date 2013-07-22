@@ -23,6 +23,17 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
         {
             $rootScope.alerts.splice(index, 1);
         };
+    }).filter('capitalize', function()
+    {
+        return function capitalize(input)
+        {
+            if (input != null)
+            {
+                return input.substring(0,1).toUpperCase() + input.substring(1);
+            } // end if
+
+            return '';
+        }; // end capitalize
     });
 
 //----------------------------------------------------------------------------------------------------------------------
