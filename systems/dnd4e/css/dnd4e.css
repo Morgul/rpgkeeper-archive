@@ -261,3 +261,98 @@ img.portrait
 {
     padding: 0 8px;
 }
+
+.section
+{
+    margin: 5px;
+}
+
+ /* Stats */
+
+.stat-group
+{
+    display: inline-block;
+    padding: 5px;
+    background-color: #ccc;
+}
+
+.stat-group .group-title
+{
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.stat
+{
+    display: inline-block;
+    background-color: #888;
+    padding: 7px 9px;
+}
+
+.stat + .stat,
+.stat-group + .stat-group
+{
+    margin-left: 5px;
+}
+
+.stat-group + .stat-group
+{
+    margin-top: 5px;
+}
+
+.stat .value
+{
+    border: 1px solid #666;
+    background-color: white;
+    padding: 0 7px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.stat header
+{
+    display: inline-block;
+    color: white;
+}
+
+.stat .btn
+{
+    display: inline-block;
+}
+
+.stat-group.attributes .muted
+{
+    color: #777;
+}
+
+.stat-group.attributes .stat
+{
+    display: block;
+}
+
+.stat-group.attributes .stat header
+{
+    width: 2em;
+}
+
+.stat-group.attributes .stat .value
+{
+    display: inline-block;
+    min-width: 22px;
+}
+
+.stat-group.attributes .stat .btn.btn-mini,
+.stat-group.skills .stat .btn.btn-mini
+{
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.stat-group.attributes .stat + .stat
+{
+    margin: 5px 0 0 0;
+}
+

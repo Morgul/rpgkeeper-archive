@@ -30,6 +30,16 @@ function DnDCharCtrl($scope)
         } // end if
     }, true);
 
+    $scope.addSign = function(value)
+    {
+        if(value >= 0)
+        {
+            value = "+" + value;
+        } // end if
+
+        return value;
+    };
+
 } // end DnDCharCtrl
 
 //----------------------------------------------------------------------------------------------------------------------

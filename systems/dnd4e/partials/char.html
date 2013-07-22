@@ -81,8 +81,116 @@
             </div>
         </div>
         <div class="navbar navbar-small">
-            <div class="navbar-inner">
-                <span class="brand"><i class="icon-tasks"></i> Character Stats</span>
+            <!--div class="navbar-inner">
+                <span class="brand"><i class="icon-tasks"></i> Important Stats</span>
+            </div-->
+            <div class="section">
+                <div class="stat-group">
+                    <header class="group-title">Movement</header>
+                    <div class="stat">
+                        <header>Initiative</header>
+                        <span class="value">{{ sysChar.initiative }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>Speed</header>
+                        <span class="value">{{ sysChar.speed }}</span>
+                    </div>
+                </div>
+                <div class="stat-group">
+                    <header class="group-title">Senses</header>
+                    <div class="stat">
+                        <header>Passive Insight</header>
+                        <span class="value">{{ sysChar.passiveInsight }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>Passive Perception</header>
+                        <span class="value">{{ sysChar.passivePerception }}</span>
+                    </div>
+                </div>
+                <div class="stat-group">
+                    <header class="group-title">Defenses</header>
+                    <div class="stat">
+                        <header>AC</header>
+                        <span class="value">{{ sysChar.ac }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>Fortitude</header>
+                        <span class="value">{{ sysChar.fort }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>Reflex</header>
+                        <span class="value">{{ sysChar.ref }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>Will</header>
+                        <span class="value">{{ sysChar.will }}</span>
+                    </div>
+                </div>
+                <div class="stat-group">
+                    <header class="group-title">Misc</header>
+                    <div class="stat">
+                        <header>Gold</header>
+                        <span class="value">{{ sysChar.gold }}</span>
+                    </div>
+                    <div class="stat">
+                        <header>XP</header>
+                        <span class="value">{{ sysChar.experience }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="stat-group attributes">
+                    <header class="group-title">Attributes</header>
+                    <div class="stat">
+                        <header>STR</header>
+                        <span class="value">{{ sysChar.strength }}</span>
+                        <span class="value muted">{{ addSign(sysChar.strengthMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+
+                    <div class="stat">
+                        <header>CON</header>
+                        <span class="value">{{ sysChar.constitution }}</span>
+                        <span class="value muted">{{ addSign(sysChar.constitutionMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+
+                    <div class="stat">
+                        <header>DEX</header>
+                        <span class="value">{{ sysChar.dexterity }}</span>
+                        <span class="value muted">{{ addSign(sysChar.dexterityMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+
+                    <div class="stat">
+                        <header>INT</header>
+                        <span class="value">{{ sysChar.intelligence }}</span>
+                        <span class="value muted">{{ addSign(sysChar.intelligenceMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+
+                    <div class="stat">
+                        <header>WIS</header>
+                        <span class="value">{{ sysChar.wisdom }}</span>
+                        <span class="value muted">{{ addSign(sysChar.wisdomMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+
+                    <div class="stat">
+                        <header>CHA</header>
+                        <span class="value">{{ sysChar.charisma }}</span>
+                        <span class="value muted">{{ addSign(sysChar.charismaMod) }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+                </div>
+                <div class="stat-group skills">
+                    <header class="group-title">Skills</header>
+                    <div class="stat" ng-repeat="skill in sysChar.skills">
+                        <header>{{ skill.name }}</header>
+                        <span class="value">{{ sysChar[skill.name] }}</span>
+                        <button class="btn btn-mini">Roll</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

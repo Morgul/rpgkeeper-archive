@@ -4,6 +4,8 @@
 // @module models.js
 //----------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/dnd4e');
 
@@ -404,55 +406,10 @@ db.once('open', function callback () {
     }); // end will
 
     //--------------------------------------------------------------------
-    var calcSkill = function(skill, mod)
-    {
-        var skillDef;
-        (this.skills || []).forEach(function(_skill)
-        {
-            if(_skill.name == skill)
-            {
-                skillDef = _skill;
-            } // end if
-        });
-
-        // Don't blow up if we didn't find the skill
-        skillDef = skillDef || {};
-
-        return (skillDef.trained ? 5 : 0 + this[skillDef + 'Mod'] + this.halfLevel + (skillDef.misc || 0) - (skillDef.armorPenalty || 0)) || 0;
-    }; // end calcSkill
-
-    // Build virtuals for all our skills
-    (function buildSkills()
-    {
-        [
-            'acrobatics',
-            'arcana',
-            'athletics',
-            'bluff',
-            'diplomacy',
-            'dungeoneering',
-            'endurance',
-            'heal',
-            'history',
-            'insight',
-            'intimidate',
-            'nature',
-            'perception',
-            'religion',
-            'stealth',
-            'streetwise',
-            'thievery'
-        ].forEach(function(val)
-        {
-            CharacterSchema.virtual(val).get(function()
-            {
-                return calcSkill(val);
-            });
-        });
-    }());
 
     CharacterSchema.methods.buildSkills = function()
     {
+        this.skills = [];
         [
             ['acrobatics', 'dexterity'],
             ['arcana', 'intelligence'],
@@ -473,20 +430,37 @@ db.once('open', function callback () {
             ['thievery', 'dexterity']
         ].forEach(function(val)
         {
-            this.skills.push({name: val[0], ability: val[1]});
+            this.addSKill(val[0], val[1]);
         }.bind(this));
+
+        this.save();
     }; // end buildSkills
+
+    CharacterSchema.methods.addSKill = function(skillName, skillAttr)
+    {
+        var skill = { name: skillName, ability: skillAttr };
+        var self = this;
+
+        CharacterSchema.virtual(skillName).get(function()
+        {
+            return ((skill.trained ? 5 : 0) + self[skill.ability + 'Mod'] + self.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
+        });
+
+        this.skills.push(skill);
+    }; // end addSkill
 
     //--------------------------------------------------------------------
 
     CharacterSchema.virtual('passiveInsight').get(function()
     {
-        return 10 + this.insight;
+        var skill = _.find(this.skills, {name: 'insight'});
+        return 10 + ((skill.trained ? 5 : 0) + this[skill.ability + 'Mod'] + this.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
     }); // end passiveInsight
 
     CharacterSchema.virtual('passivePerception').get(function()
     {
-        return 10 + this.perception;
+        var skill = _.find(this.skills, {name: 'perception'});
+        return 10 + ((skill.trained ? 5 : 0) + this[skill.ability + 'Mod'] + this.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
     }); // end passivePerception
 
     //--------------------------------------------------------------------
@@ -538,39 +512,37 @@ db.once('open', function callback () {
 
     //--------------------------------------------------------------------
 
-    function calcMod(ability)
-    {
-        return (Math.floor((this[ability] - 10) / 2)) || 0;
-    } // end calcMod
+    // XXX: Fucking mongoose! You can't access the properties of the instance with `this['foo']`! You must use
+    // `this.foo`. That means I can't refactor any of this code out into a helper library.
 
     CharacterSchema.virtual('strengthMod').get(function()
     {
-        return calcMod('strength');
+        return (Math.floor((this.strength - 10) / 2)) || 0;
     }); // end strengthMod
 
     CharacterSchema.virtual('constitutionMod').get(function()
     {
-        return calcMod('constitution');
+        return (Math.floor((this.constitution - 10) / 2)) || 0;
     }); // end constitutionMod
 
     CharacterSchema.virtual('dexterityMod').get(function()
     {
-        return calcMod('dexterity');
+        return (Math.floor((this.dexterity - 10) / 2)) || 0;
     }); // end dexterityMod
 
     CharacterSchema.virtual('intelligenceMod').get(function()
     {
-        return calcMod('intelligence');
+        return (Math.floor((this.intelligence - 10) / 2)) || 0;
     }); // end intelligenceMod
 
     CharacterSchema.virtual('wisdomMod').get(function()
     {
-        return calcMod('wisdom');
+        return (Math.floor((this.wisdom - 10) / 2)) || 0;
     }); // end wisdomMod
 
     CharacterSchema.virtual('charismaMod').get(function()
     {
-        return calcMod('charisma');
+        return (Math.floor((this.charisma - 10) / 2)) || 0;
     }); // end charismaMod
 
     // Export virtuals

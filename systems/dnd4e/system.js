@@ -79,12 +79,10 @@ app.channel('/dnd4e').on('connection', function (socket)
                 if(!character)
                 {
                     character = new models.Character({ baseCharID: id });
-                    character.buildSkills();
                     character.save();
                 } // end if
 
-                //console.log("Character:", character);
-
+                character.buildSkills();
                 callback(null, character);
             }
         );
