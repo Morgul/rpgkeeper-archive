@@ -24,6 +24,19 @@ db.once('open', function callback () {
         contents: String
     });
 
+    // Export model
+    module.exports['Note'] = mongoose.model('Note', NotesSchema);
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    var ConditionsSchema = mongoose.Schema({
+        effect: String,
+        duration: String
+    });
+
+    // Export model
+    module.exports['Condition'] = mongoose.model('Condition', ConditionsSchema);
+
     //------------------------------------------------------------------------------------------------------------------
 
     var LanguageSchema = mongoose.Schema({
@@ -355,6 +368,7 @@ db.once('open', function callback () {
 
         //--------------------------------------------------------------------------------------------------------------
 
+        conditions: [ConditionsSchema],
         notes: [NotesSchema]
     });
 

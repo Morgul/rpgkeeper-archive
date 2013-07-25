@@ -262,6 +262,21 @@ img.portrait
     padding: 0 8px;
 }
 
+.condition
+{
+    margin-bottom: 0;
+}
+
+.condition h4
+{
+    margin: 0;
+}
+
+.condition + .condition
+{
+    margin-top: 5px;
+}
+
 .section
 {
     margin: 5px;

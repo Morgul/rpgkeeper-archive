@@ -7,7 +7,14 @@
         <div class="navbar navbar-small">
             <div class="navbar-inner">
                 <span class="brand"><i class="icon-stethoscope"></i> Conditions</span>
-                <button class="btn btn-mini btn-primary all-right" ng-click="addChar()"><i class="icon-plus"></i> Add</button>
+                <button class="btn btn-mini btn-primary all-right" ng-click="addCond()"><i class="icon-plus"></i> Add</button>
+            </div>
+        </div>
+        <div class="section conditions">
+            <div class="well well-small condition" ng-repeat="condition in sysChar.conditions">
+                <button type="button" class="close" ng-click="removeCond(condition)">&times;</button>
+                <h4>{{ condition.effect }}</h4>
+                <span class="muted">{{ condition.duration }}</span>
             </div>
         </div>
     </div>

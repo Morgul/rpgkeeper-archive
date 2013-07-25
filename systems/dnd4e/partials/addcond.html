@@ -1,0 +1,23 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>Add Condition</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="effect">Condition:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="effect" placeholder="+1 to all Defenses" ng-model="newCond.effect" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="duration">Duration:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="duration" placeholder="til the end of your next turn." ng-model="newCond.duration" required>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button ng-click="add()" class="btn btn-primary" ><i class="icon-plus"></i> Add</button>
+    <button ng-click="cancel()" class="btn" >Cancel</button>
+</div>

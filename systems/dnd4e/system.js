@@ -97,6 +97,12 @@ app.channel('/dnd4e').on('connection', function (socket)
         // Can't have an _id field
         delete character._id;
 
+        // Remove arrays of objects that are managed externally to a general update. This prevents us from accidentally
+        // overwriting new changes. (Took me 3 days to figure out what was going on.)
+        delete character.conditions;
+        delete character.skills;
+        delete character.notes;
+
         // De-populate our references
         if(character.race) { character.race = character.race._id; }
         if(character.class) { character.class = character.class._id; }
@@ -120,6 +126,53 @@ app.channel('/dnd4e').on('connection', function (socket)
             else
             {
                 callback(null, char);
+            } // end if
+        });
+    });
+
+    socket.on('add_condition', function(condition, callback)
+    {
+        var id = condition.charID;
+        delete condition['charID'];
+
+        models.Character.update({_id: id }, { $push: { 'conditions': condition } }, { upsert: true }, function(error)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                callback(null);
+            } // end if
+        });
+    });
+
+    socket.on('remove_condition', function(args, callback)
+    {
+        models.Character.findOne({ _id: args.charID }, function(error, char)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                char.conditions.id(args.condID).remove();
+                char.save(function(error)
+                {
+                    if(error)
+                    {
+                        console.log("Error!", error);
+                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
+                    }
+                    else
+                    {
+                        callback(null);
+                    } // end if
+                });
             } // end if
         });
     });

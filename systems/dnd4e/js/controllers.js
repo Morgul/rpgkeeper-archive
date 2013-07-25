@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function DnDCharCtrl($scope)
+function DnDCharCtrl($scope, $dialog)
 {
     // We just do a deep watch on the object, which is easier than trying to bind to every part of it. It's possible this
     // could be a major performance issue, or that we need to modify this to send delta updates... however, for now, this
@@ -13,20 +13,7 @@ function DnDCharCtrl($scope)
     {
         if(oldChar != newChar)
         {
-            $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, char)
-            {
-                $scope.$apply(function()
-                {
-                    if(error)
-                    {
-                        $scope.alerts.push(error);
-                    }
-                    else
-                    {
-                        $scope.sysChar = char;
-                    } // end if
-                });
-            });
+            updateChar($scope);
         } // end if
     }, true);
 
@@ -40,7 +27,91 @@ function DnDCharCtrl($scope)
         return value;
     };
 
+    $scope.addCond = function()
+    {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/system/dnd4e/partials/addcond.html',
+            controller: 'AddCondDialogCtrl'
+        };
+
+        var dlg = $dialog.dialog(opts);
+        dlg.open().then(function(result)
+        {
+            if(result)
+            {
+                result.charID = $scope.sysChar.id;
+                $scope.systemSocket.emit("add_condition", result, function(error)
+                {
+                    if(error)
+                    {
+                        $scope.alerts.push(error);
+                    }
+                    else
+                    {
+                        updateChar($scope);
+                    } // end if
+                });
+            } // end if
+        });
+    };
+
+    $scope.removeCond = function(cond)
+    {
+        $scope.systemSocket.emit("remove_condition", { condID: cond.id, charID: $scope.sysChar.id }, function(error)
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                updateChar($scope);
+            } // end if
+        });
+    };
 } // end DnDCharCtrl
+
+//----------------------------------------------------------------------------------------------------------------------
+
+function updateChar($scope)
+{
+    $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, char)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.sysChar = char;
+            } // end if
+        });
+    });
+} // end updateChar
+
+//----------------------------------------------------------------------------------------------------------------------
+
+function AddCondDialogCtrl($scope, dialog)
+{
+    //--------------------------------------------------------------------------------------------------------------
+    // Public API
+    //--------------------------------------------------------------------------------------------------------------
+
+    $scope.cancel = function()
+    {
+        dialog.close(false);
+    }; // end close
+
+    $scope.add = function()
+    {
+        dialog.close($scope.newCond);
+    }; // end save
+} // end AddCondDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
