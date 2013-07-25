@@ -4,8 +4,14 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function DnDCharCtrl($scope, $dialog)
+function DnDCharCtrl($scope, $dialog, $timeout)
 {
+    // These are the choices for the varios pieces of the main character sheet.
+    $scope.choices = {};
+    $scope.choices.alignment = ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"];
+    $scope.choices.size = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"];
+    $scope.choices.gender = ["Male", "Female", "Other"];
+
     // We just do a deep watch on the object, which is easier than trying to bind to every part of it. It's possible this
     // could be a major performance issue, or that we need to modify this to send delta updates... however, for now, this
     // is by far the easiest way to do it. And socket.io should handle it just fine.
@@ -13,9 +19,13 @@ function DnDCharCtrl($scope, $dialog)
     {
         if(oldChar != newChar)
         {
-            updateChar($scope);
+            updateChar($scope, $timeout);
         } // end if
     }, true);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Public API
+    //------------------------------------------------------------------------------------------------------------------
 
     $scope.addSign = function(value)
     {
@@ -51,7 +61,7 @@ function DnDCharCtrl($scope, $dialog)
                     }
                     else
                     {
-                        updateChar($scope);
+                        updateChar($scope, $timeout);
                     } // end if
                 });
             } // end if
@@ -68,7 +78,7 @@ function DnDCharCtrl($scope, $dialog)
             }
             else
             {
-                updateChar($scope);
+                updateChar($scope, $timeout);
             } // end if
         });
     };
@@ -76,22 +86,35 @@ function DnDCharCtrl($scope, $dialog)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function updateChar($scope)
+function updateChar($scope, $timeout)
 {
-    $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, char)
+    // If we've already scheduled an update, exit.
+    if($scope.updateTimerRunning)
     {
-        $scope.$apply(function()
+        return;
+    } // end if
+
+    // We delay 1 second, as a form of rate limiting the updates.
+    $scope.updateTimerRunning = true;
+    $timeout(function()
+    {
+        $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, char)
         {
-            if(error)
+            $scope.$apply(function()
             {
-                $scope.alerts.push(error);
-            }
-            else
-            {
-                $scope.sysChar = char;
-            } // end if
+                if(error)
+                {
+                    $scope.alerts.push(error);
+                }
+                else
+                {
+                    $scope.sysChar = char;
+                } // end if
+            });
         });
-    });
+
+        $scope.updateTimerRunning = false;
+    }, 1000);
 } // end updateChar
 
 //----------------------------------------------------------------------------------------------------------------------

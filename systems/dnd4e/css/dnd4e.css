@@ -1,3 +1,13 @@
+/** Overrides **/
+
+select
+{
+    width: auto !important;
+    margin-bottom: 0;
+}
+
+/** Main CSS **/
+
 #main-view
 {
     padding-left: 5px !important;
@@ -73,19 +83,22 @@ img.portrait
 
 .char-detail
 {
+    position: relative;
     display: inline-block;
     vertical-align: baseline;
 }
 .char-detail .title
 {
     text-align: center;
-    border-bottom: 1px solid #555;
 }
 
 .char-detail .subtitle
 {
+    position: relative;
     text-align: center;
+    border-top: 1px solid #555;
     color: #999;
+    z-index: 5;
 }
 
 .char-detail h2
@@ -98,6 +111,29 @@ img.portrait
 {
     margin-top: 10px;
     margin-bottom: 0;
+}
+
+.char-detail h4.fake-editable
+{
+    margin-bottom: 3px;
+}
+
+.char-detail select
+{
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 20px;
+    font-size: 17.5px;
+    color: black;
+    margin-bottom: -2px;
+}
+
+.char-detail select:hover
+{
+    border: 1px dashed #DDD;
 }
 
 .right-sidebar .tabbable
