@@ -64,6 +64,74 @@ app.channel('/dnd4e').on('connection', function (socket)
 {
     var user = socket.handshake.user;
 
+    socket.on('list_classes', function(callback)
+    {
+        // Look up the classes here.
+        models.Class.find(function(error, classes)
+            {
+                if(error)
+                {
+                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
+                }
+                else
+                {
+                    callback(null, classes);
+                } // end if
+            }
+        );
+    });
+
+    socket.on('list_races', function(callback)
+    {
+        // Look up the classes here.
+        models.Race.find(function(error, races)
+            {
+                if(error)
+                {
+                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
+                }
+                else
+                {
+                    callback(null, races);
+                } // end if
+            }
+        );
+    });
+
+    socket.on('list_paths', function(callback)
+    {
+        // Look up the classes here.
+        models.ParagonPath.find(function(error, paths)
+            {
+                if(error)
+                {
+                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
+                }
+                else
+                {
+                    callback(null, paths);
+                } // end if
+            }
+        );
+    });
+
+    socket.on('list_destinies', function(callback)
+    {
+        // Look up the classes here.
+        models.EpicDestiny.find(function(error, destinies)
+            {
+                if(error)
+                {
+                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
+                }
+                else
+                {
+                    callback(null, destinies);
+                } // end if
+            }
+        );
+    });
+
     socket.on('get_character', function(id, callback)
     {
         // Look up the character here.

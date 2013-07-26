@@ -129,6 +129,7 @@ img.portrait
     font-size: 17.5px;
     color: black;
     margin-bottom: -2px;
+    text-align: center;
 }
 
 .char-detail select:hover
@@ -138,6 +139,7 @@ img.portrait
 
 .right-sidebar .tabbable
 {
+    height: -webkit-webkit--calc(100% - 165px);
     height: calc(100% - 165px);
 }
 

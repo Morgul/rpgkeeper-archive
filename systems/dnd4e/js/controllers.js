@@ -6,11 +6,104 @@
 
 function DnDCharCtrl($scope, $dialog, $timeout)
 {
-    // These are the choices for the varios pieces of the main character sheet.
+    $scope.classID = ($scope.sysChar.class || {})._id;
+    $scope.raceID = ($scope.sysChar.race || {})._id;
+    $scope.pathID = ($scope.sysChar.paragonPath || {})._id;
+    $scope.destinyID = ($scope.sysChar.epicDestiny || {})._id;
+
+    // These are the choices for the various pieces of the main character sheet.
     $scope.choices = {};
     $scope.choices.alignment = ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"];
     $scope.choices.size = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"];
     $scope.choices.gender = ["Male", "Female", "Other"];
+
+    // Get all Classes
+    $scope.systemSocket.emit("list_classes", function(error, classes)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.class = classes;
+            } // end if
+        });
+    });
+
+    // Get all Races
+    $scope.systemSocket.emit("list_races", function(error, races)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.race = races;
+            } // end if
+        });
+    });
+
+    // Get all Paragon Path
+    $scope.systemSocket.emit("list_paths", function(error, paths)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.paragonPaths = paths;
+            } // end if
+        });
+    });
+
+    // Get all Epic Destiny
+    $scope.systemSocket.emit("list_destinies", function(error, destinies)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.epicDestiny = destinies;
+            } // end if
+        });
+    });
+
+    $scope.$watch('classID', function(oldID, newID)
+    {
+        var _class = _.filter($scope.choices.class, {_id: $scope.classID})[0];
+        $scope.sysChar.class = _class;
+    });
+
+    $scope.$watch('raceID', function(oldID, newID)
+    {
+        var race = _.filter($scope.choices.race, {_id: $scope.raceID})[0];
+        $scope.sysChar.race = race;
+    });
+
+    $scope.$watch('pathID', function(oldID, newID)
+    {
+        var path = _.filter($scope.choices.paragonPath, {_id: $scope.pathID})[0];
+        $scope.sysChar.paragonPath = path;
+    });
+
+    $scope.$watch('destinyID', function(oldID, newID)
+    {
+        var destiny = _.filter($scope.choices.epicDestiny, {_id: $scope.destinyID})[0];
+        $scope.sysChar.epicDestiny = destiny;
+    });
 
     // We just do a deep watch on the object, which is easier than trying to bind to every part of it. It's possible this
     // could be a major performance issue, or that we need to modify this to send delta updates... however, for now, this
@@ -72,14 +165,17 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     {
         $scope.systemSocket.emit("remove_condition", { condID: cond.id, charID: $scope.sysChar.id }, function(error)
         {
-            if(error)
+            $scope.$apply(function()
             {
-                $scope.alerts.push(error);
-            }
-            else
-            {
-                updateChar($scope, $timeout);
-            } // end if
+                if(error)
+                {
+                    $scope.alerts.push(error);
+                }
+                else
+                {
+                    updateChar($scope, $timeout);
+                } // end if
+            });
         });
     };
 } // end DnDCharCtrl
@@ -109,6 +205,10 @@ function updateChar($scope, $timeout)
                 else
                 {
                     $scope.sysChar = char;
+                    $scope.classID = (char.class || {})._id;
+                    $scope.raceID = (char.race || {})._id;
+                    $scope.pathID = (char.paragonPath || {})._id;
+                    $scope.destinyID = (char.epicDestiny || {})._id;
                 } // end if
             });
         });

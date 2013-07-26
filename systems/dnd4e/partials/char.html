@@ -54,20 +54,48 @@
                 <h4 class="title" editable="sysChar.level" type="text">Level</h4>
                 <p class="subtitle">Level</p>
             </div>
-            <div class="char-detail">
+            <!--div class="char-detail">
                 <h4 class="title" editable="sysChar.class.name" type="text" confirm="true" toolbar>Class</h4>
                 <p class="subtitle">Class</p>
-            </div>
+            </div-->
             <div class="char-detail">
+                <h4 class="title">
+                    <select ng-model="classID" ng-options="class._id as class.name for class in choices.class">
+                    </select>
+                </h4>
+                <p class="subtitle">Class</p>
+            </div>
+            <!--div class="char-detail">
                 <h4 class="title" editable="sysChar.race.name" type="text" confirm="true" toolbar>Race</h4>
                 <p class="subtitle">Race</p>
-            </div>
+            </div-->
             <div class="char-detail">
+                <h4 class="title">
+                    <select ng-model="raceID" ng-options="race._id as race.name for race in choices.race">
+                    </select>
+                </h4>
+                <p class="subtitle">Race</p>
+            </div>
+            <!--div class="char-detail">
                 <h4 class="title" editable="sysChar.paragonPath.name" type="text" confirm="true" toolbar>Paragon Path</h4>
                 <p class="subtitle">Paragon Path</p>
-            </div>
+            </div-->
             <div class="char-detail">
+                <h4 class="title">
+                    <select ng-model="pathID" ng-options="path._id as path.name for path in choices.paragonPath">
+                    </select>
+                </h4>
+                <p class="subtitle">Paragon Path</p>
+            </div>
+            <!--div class="char-detail">
                 <h4 class="title" editable="sysChar.epicDestiny.name" type="text" confirm="true" toolbar>Epic Destiny</h4>
+                <p class="subtitle">Epic Destiny</p>
+            </div-->
+            <div class="char-detail">
+                <h4 class="title">
+                    <select ng-model="destinyID" ng-options="destiny._id as destiny.name for destiny in choices.epicDestiny">
+                    </select>
+                </h4>
                 <p class="subtitle">Epic Destiny</p>
             </div>
             <!--div class="char-detail">
