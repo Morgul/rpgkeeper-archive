@@ -60,6 +60,25 @@ function setupRoutes(system)
 
 //----------------------------------------------------------------------------------------------------------------------
 
+// The entire point of this is to work around some issues with mongoose, and how it does some of it's things. Call this
+// before you intend to send a character to the client.
+function buildCharacter(character)
+{
+    // We need to JSON-ify the db object.
+    character = JSON.parse(JSON.stringify(character));
+
+    // Calculate skill totals
+    character.skills.forEach(function(skill)
+    {
+        skill.total = ((skill.trained ? 5 : 0) + character[skill.ability + 'Mod']
+            + character.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
+    });
+
+    return character;
+} // end buildCharacter
+
+//----------------------------------------------------------------------------------------------------------------------
+
 app.channel('/dnd4e').on('connection', function (socket)
 {
     var user = socket.handshake.user;
@@ -147,11 +166,11 @@ app.channel('/dnd4e').on('connection', function (socket)
                 if(!character)
                 {
                     character = new models.Character({ baseCharID: id });
+                    character.buildSkills();
                     character.save();
                 } // end if
 
-                character.buildSkills();
-                callback(null, character);
+                callback(null, buildCharacter(character));
             }
         );
     });
@@ -193,7 +212,7 @@ app.channel('/dnd4e').on('connection', function (socket)
             }
             else
             {
-                callback(null, char);
+                callback(null, buildCharacter(char));
             } // end if
         });
     });

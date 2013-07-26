@@ -188,42 +188,42 @@
                 <header class="group-title">Attributes</header>
                 <div class="stat">
                     <header>STR</header>
-                    <span class="value">{{ sysChar.strength }}</span>
+                    <input type="number" class="value" ng-model="sysChar.strength">
                     <span class="value muted">{{ addSign(sysChar.strengthMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
 
                 <div class="stat">
                     <header>CON</header>
-                    <span class="value">{{ sysChar.constitution }}</span>
+                    <input type="number" class="value" ng-model="sysChar.constitution">
                     <span class="value muted">{{ addSign(sysChar.constitutionMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
 
                 <div class="stat">
                     <header>DEX</header>
-                    <span class="value">{{ sysChar.dexterity }}</span>
+                    <input type="number" class="value" ng-model="sysChar.dexterity">
                     <span class="value muted">{{ addSign(sysChar.dexterityMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
 
                 <div class="stat">
                     <header>INT</header>
-                    <span class="value">{{ sysChar.intelligence }}</span>
+                    <input type="number" class="value" ng-model="sysChar.intelligence">
                     <span class="value muted">{{ addSign(sysChar.intelligenceMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
 
                 <div class="stat">
                     <header>WIS</header>
-                    <span class="value">{{ sysChar.wisdom }}</span>
+                    <input type="number" class="value" ng-model="sysChar.wisdom">
                     <span class="value muted">{{ addSign(sysChar.wisdomMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
 
                 <div class="stat">
                     <header>CHA</header>
-                    <span class="value">{{ sysChar.charisma }}</span>
+                    <input type="number" class="value" ng-model="sysChar.charisma">
                     <span class="value muted">{{ addSign(sysChar.charismaMod) }}</span>
                     <button class="btn btn-mini">Roll</button>
                 </div>
@@ -234,7 +234,7 @@
                 <div class="columns">
                     <div class="stat" ng-repeat="skill in sysChar.skills">
                         <header>{{ skill.name|capitalize }}</header>
-                        <span class="value">{{ sysChar[skill.name] }}</span>
+                        <span class="value">{{ skill.total }}</span>
                         <button class="btn btn-mini">Roll</button>
                     </div>
                 </div>

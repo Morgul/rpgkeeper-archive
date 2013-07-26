@@ -421,6 +421,7 @@ db.once('open', function callback () {
 
     //--------------------------------------------------------------------
 
+    // Build a bunch of default skills.
     CharacterSchema.methods.buildSkills = function()
     {
         this.skills = [];
@@ -453,12 +454,6 @@ db.once('open', function callback () {
     CharacterSchema.methods.addSKill = function(skillName, skillAttr)
     {
         var skill = { name: skillName, ability: skillAttr };
-        var self = this;
-
-        CharacterSchema.virtual(skillName).get(function()
-        {
-            return ((skill.trained ? 5 : 0) + self[skill.ability + 'Mod'] + self.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
-        });
 
         this.skills.push(skill);
     }; // end addSkill

@@ -408,6 +408,14 @@ img.portrait
     display: inline-block;
     min-width: 22px;
 }
+.stat-group.attributes .stat input.value
+{
+    width: 32px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    margin-bottom: 3px;
+    padding: 0 0 0 7px;
+}
 
 .stat-group.attributes .stat .btn.btn-mini,
 .stat-group.skills .stat .btn.btn-mini
