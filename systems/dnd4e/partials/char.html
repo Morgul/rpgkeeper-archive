@@ -42,7 +42,10 @@
         <div class="navbar navbar-small">
             <div class="navbar-inner">
                 <span class="brand"><i class="icon-edit"></i> Character Details</span>
-                <button class="btn btn-mini btn-primary all-right" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
+                <div class="all-right">
+                    <button class="btn btn-mini" ng-click="editBaseChar()"><i class="icon-edit"></i> Edit Base</button>
+                    <button class="btn btn-mini btn-primary" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
+                </div>
             </div>
         </div>
         <div class="char-details">
@@ -54,10 +57,6 @@
                 <h4 class="title" editable="sysChar.level" type="text">Level</h4>
                 <p class="subtitle">Level</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.class.name" type="text" confirm="true" toolbar>Class</h4>
-                <p class="subtitle">Class</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="classID" ng-options="class._id as class.name for class in choices.class">
@@ -65,10 +64,6 @@
                 </h4>
                 <p class="subtitle">Class</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.race.name" type="text" confirm="true" toolbar>Race</h4>
-                <p class="subtitle">Race</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="raceID" ng-options="race._id as race.name for race in choices.race">
@@ -76,10 +71,6 @@
                 </h4>
                 <p class="subtitle">Race</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.paragonPath.name" type="text" confirm="true" toolbar>Paragon Path</h4>
-                <p class="subtitle">Paragon Path</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="pathID" ng-options="path._id as path.name for path in choices.paragonPath">
@@ -87,10 +78,6 @@
                 </h4>
                 <p class="subtitle">Paragon Path</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.epicDestiny.name" type="text" confirm="true" toolbar>Epic Destiny</h4>
-                <p class="subtitle">Epic Destiny</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="destinyID" ng-options="destiny._id as destiny.name for destiny in choices.epicDestiny">
@@ -98,10 +85,6 @@
                 </h4>
                 <p class="subtitle">Epic Destiny</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.alignment" type="text" confirm="true" toolbar>Alignment</h4>
-                <p class="subtitle">Alignment</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="sysChar.alignment" ng-options="alignment for alignment in choices.alignment">
@@ -113,10 +96,6 @@
                 <h4 class="title" editable="sysChar.deity" type="text">Deity</h4>
                 <p class="subtitle">Deity</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title" editable="sysChar.gender" type="text" confirm="true" toolbar>Gender</h4>
-                <p class="subtitle">Gender</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="sysChar.gender" ng-options="gender for gender in choices.gender">
@@ -239,9 +218,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Hack to get around the float issue. -->
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
         </div>
         <div class="navbar navbar-small">
             <div class="navbar-inner">

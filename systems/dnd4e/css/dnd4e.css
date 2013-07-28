@@ -427,8 +427,11 @@ img.portrait
 
 .stat-group.skills
 {
+    /*
     width: calc(100% - 200px);
     width: -webkit-calc(100% - 200px);
+    */
+    width: 600px;
 }
 
 .stat-group.skills .columns
