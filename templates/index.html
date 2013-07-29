@@ -12,8 +12,8 @@
 
         <!-- These scripts must be at the start of the page -->
         <script src="http://code.jquery.com/jquery-2.0.2.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular-resource.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-resource.min.js"></script>
         <script src="/vendor/ui-bootstrap/ui-bootstrap-tpls-0.4.0.min.js"></script>
 
         <!-- Application Scripts -->
@@ -40,6 +40,10 @@
 
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="/client/images/favicon.png" />
+
+        <!--Fix for stupid AngularJS 1.1.5 router behavior -->
+        <!-- See: https://github.com/angular/angular.js/issues/2799 -->
+        <base href="/">
     </head>
     <body>
         <!-- Main Header -->
