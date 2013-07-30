@@ -34,6 +34,13 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
 
             return '';
         }; // end capitalize
+    }).filter('markdown', function()
+    {
+        return function markdown(text)
+        {
+            var converter = new Showdown.converter();
+            return converter.makeHtml(text);
+        }; // end markdown
     });
 
 //----------------------------------------------------------------------------------------------------------------------
