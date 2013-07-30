@@ -198,7 +198,7 @@ db.once('open', function callback () {
         healingSurges: { type: Number, default: 0, min: 0 },
 
         // Trained skills
-        trainedSkills: [String],
+        trainedSkills: [mongoose.Schema.Types.Mixed],
         trainedSkillChoices: [String],
         trainedSkillsAmount: { type: Number, default: 0, min: 0 }
     });

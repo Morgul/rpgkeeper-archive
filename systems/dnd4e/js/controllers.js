@@ -280,7 +280,7 @@ function NewCharDialogCtrl($scope, dialog)
             }
             else
             {
-                $scope.choices.race = races;
+                $scope.choices.race = _.sortBy(races, 'name');
             } // end if
         });
     });
@@ -296,7 +296,7 @@ function NewCharDialogCtrl($scope, dialog)
             }
             else
             {
-                $scope.choices.class = classes;
+                $scope.choices.class = _.sortBy(classes, 'name');
             } // end if
         });
     });

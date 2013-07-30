@@ -9,15 +9,47 @@ select
 /** New Char Dialog **/
 
 .race-details h4,
-.class-details h4
+.class-details h4,
+.skills-details h4
 {
     margin-top: 0;
+}
+
+.skills-details header h4
+{
+    margin-bottom: 0;
+}
+
+.skill-choices
+{
+    columns: 200px 3;
+    -webkit-columns: 200px 3; /* Safari and Chrome */
+    -moz-columns: 200px 3; /* Firefox */
 }
 
 .race-details .feat p,
 .class-details .feat p
 {
     padding-left: 15px;
+}
+
+.skills-details header .subtitle,
+.class-details .description
+{
+    font-style: italic;
+    font-size: .85em;
+}
+
+.class-details table
+{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
+.class-details table td
+{
+    vertical-align: top;
 }
 
 /** Main CSS **/

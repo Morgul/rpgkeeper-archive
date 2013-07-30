@@ -40,7 +40,6 @@
                         </div>
                         </p>
                     </div>
-                    <!--pre>{{ race|json }}</pre-->
                 </div>
             </div>
         </tab>
@@ -54,6 +53,64 @@
                 <div class="span10">
                     <div class="class-details well well-small" ng-show="newChar.class">
                         <h4>{{ newChar.class.name }} Class Traits</h4>
+                        <p class="description">{{ newChar.class.description }}</p>
+                        <table>
+                            <tr>
+                                <td style="min-width: 170px">
+                                    <b>Role:</b> {{ newChar.class.role }}
+                                </td>
+                                <td>
+                                    <b>Power Source:</b> {{ newChar.class.powerSource }}
+                                </td>
+                                <td>
+                                    <b>Key Abilities:</b> {{ newChar.class.keyAbilities }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Armor Proficiencies:</b> {{ newChar.class.armorProficiencies }}
+                                </td>
+                                <td>
+                                    <b>Weapon Proficiencies:</b> {{ newChar.class.weaponProficiencies }}
+                                </td>
+                                <td>
+                                    <b>Bonus to Defense:</b> {{ newChar.class.defenseBonus }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Hitpoints at 1st Level:</b> {{ newChar.class.initialHitpoints }}<br/>
+                                </td>
+                                <td>
+                                    <b>Hitpoints per Level:</b> {{ newChar.class.hitpointsPerLevel }}<br/>
+                                </td>
+                                <td>
+                                    <b>Healing Surges per Day:</b> {{ newChar.class.healingSurges }}
+                                </td>
+                                <!--td colspan="2">
+                                    <b>Trained Skills:</b>
+                                    <span ng-repeat="skill in newChar.class.trainedSkills" ng-switch="isArray(skill)">
+                                        <span ng-switch-when="true">{{ skill[0] | capitalize }} or {{ skill[1] | capitalize }}<span ng-if="!$last">, </span></span>
+                                        <span ng-switch-default>{{ skill | capitalize }}<span ng-if="!$last">, </span></span>
+                                    </span>
+                                    <div>
+                                        <i>From the class skills list below, choose {{ newChar.class.trainedSkillsAmount }} more trained skills at 1st level:</i>
+                                        <div style="margin-left: 15px">
+                                            <span ng-repeat="skill in newChar.class.trainedSkillChoices">{{ skill | capitalize }}<span ng-if="!$last">, </span></span>
+                                        </div>
+                                    </div>
+                                </td-->
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="skills-details" ng-if="newChar.class.trainedSkillsAmount > 0">
+                        <header>
+                            <h4>Skills</h4>
+                            <p class="subtitle">From the class skills list below, choose <b>{{ newChar.class.trainedSkillsAmount }}</b> more trained skills at 1st level:</p>
+                            <p class="skill-choices">
+                                <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" name="checkbox" value="{{ skill }}" /> {{ skill | capitalize }}</label>
+                            </p>
+                        </header>
                     </div>
                 </div>
             </div>
