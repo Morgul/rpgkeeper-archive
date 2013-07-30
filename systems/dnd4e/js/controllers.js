@@ -6,6 +6,27 @@
 
 function DnDCharCtrl($scope, $dialog, $timeout)
 {
+    if($scope.isNew)
+    {
+        console.log('New Character!!!');
+
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            dialogClass: "modal wide",
+            templateUrl: '/system/dnd4e/partials/newchar.html',
+            controller: 'NewCharDialogCtrl'
+        };
+
+        var dlg = $dialog.dialog(opts);
+        dlg.open().then(function(result)
+        {
+            // To save, or not to save.
+            console.log('result of new char dialog was:', result);
+        });
+    } // end if
+
     $scope.classID = ($scope.sysChar.class || {})._id;
     $scope.raceID = ($scope.sysChar.race || {})._id;
     $scope.pathID = ($scope.sysChar.paragonPath || {})._id;
@@ -219,12 +240,131 @@ function updateChar($scope, $timeout)
 
 //----------------------------------------------------------------------------------------------------------------------
 
+function NewCharDialogCtrl($scope, dialog)
+{
+    $scope.choices = {};
+    $scope.newChar = {};
+    $scope.activeTab = 1;
+    $scope.tabs = [
+        {
+            active: true,
+            validate: function()
+            {
+                return $scope.newChar.race;
+            }
+        },
+        {
+            active: false,
+            validate: function()
+            {
+                return false;
+            }
+        },
+        {
+            active: false,
+            validate: function()
+            {
+                return false;
+            }
+        }
+    ];
+
+    // Get all Races
+    $scope.systemSocket.emit("list_races", function(error, races)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.race = races;
+            } // end if
+        });
+    });
+
+    // Get all Classes
+    $scope.systemSocket.emit("list_classes", function(error, classes)
+    {
+        $scope.$apply(function()
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                $scope.choices.class = classes;
+            } // end if
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Functions
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.setActiveTab = function(tab)
+    {
+        if( $scope.activeTab != tab)
+        {
+            // Set the currently active tab to false
+            $scope.tabs[$scope.activeTab - 1].active = false;
+            $scope.activeTab = tab;
+
+            // Set the current tab object to active
+            $scope.tabs[tab - 1].active = true;
+        } // end if
+    }; // end setActiveTab
+
+    $scope.isActiveTab = function(tab)
+    {
+        return tab == $scope.activeTab;
+    };
+
+    $scope.prev = function()
+    {
+        if($scope.enablePrev())
+        {
+            $scope.setActiveTab($scope.activeTab - 1);
+        } // end if
+    }; // end prev
+
+    $scope.enablePrev = function()
+    {
+        return $scope.activeTab > 1;
+    }; // end enablePrev
+
+    $scope.next = function()
+    {
+        if($scope.enableNext())
+        {
+            $scope.setActiveTab($scope.activeTab + 1);
+        } // end if
+    }; // end next
+
+    $scope.enableNext = function()
+    {
+        var valid = $scope.tabs[$scope.activeTab - 1].validate();
+        return valid && $scope.activeTab < $scope.tabs.length;
+    }; // end enableNext
+
+    $scope.cancel = function()
+    {
+        dialog.close(false);
+    }; // end close
+
+    $scope.save = function()
+    {
+        dialog.close(true);
+    }; // end save
+} // end AddCondDialogCtrl
+
+//----------------------------------------------------------------------------------------------------------------------
+
 function AddCondDialogCtrl($scope, dialog)
 {
-    //--------------------------------------------------------------------------------------------------------------
-    // Public API
-    //--------------------------------------------------------------------------------------------------------------
-
     $scope.cancel = function()
     {
         dialog.close(false);

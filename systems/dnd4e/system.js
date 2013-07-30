@@ -153,6 +153,9 @@ app.channel('/dnd4e').on('connection', function (socket)
 
     socket.on('get_character', function(id, callback)
     {
+        //TODO: This is only for testing! should be false!
+        var newChar = true;//false;
+
         // Look up the character here.
         models.Character.findOne({baseCharID: id})
             .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
@@ -168,9 +171,11 @@ app.channel('/dnd4e').on('connection', function (socket)
                     character = new models.Character({ baseCharID: id });
                     character.buildSkills();
                     character.save();
+                    newChar = true;
                 } // end if
 
-                callback(null, buildCharacter(character));
+
+                callback(null, buildCharacter(character), newChar);
             }
         );
     });

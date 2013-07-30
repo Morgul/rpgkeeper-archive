@@ -1,0 +1,90 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>New Character</h3>
+    <p class="subtitle">
+        Please fill in the initial information for your character. You <b>will not</b> be able to edit this information
+        later.
+    </p>
+</div>
+<div class="modal-body new-char">
+    <tabset>
+        <tab heading="Race" select="setActiveTab(1)" active="tabs[0].active">
+            <div class="row-fluid">
+                <div class="span2">
+                    <select class="tall" ng-model="newChar.race" ng-options="race as race.name for race in choices.race" size="2">
+                        <option value="">-----</option>
+                    </select>
+                </div>
+                <div class="span10">
+                    <div class="race-details well well-small" ng-show="newChar.race">
+                        <h4>{{ newChar.race.name }} Racial Traits</h4>
+                        <p>
+                            <b>Average Height:</b> {{ newChar.race.heightRange }}<br/>
+                            <b>Average Weight:</b> {{ newChar.race.weightRange }}
+                        </p>
+                        <p>
+                            <b>Ability Scores:</b> <i>This information not available.</i><br/>
+                            <b>Size:</b> {{ newChar.race.size }}<br/>
+                            <b>Speed:</b> {{ newChar.race.speed }}<br/>
+                            <b>Vision:</b> {{ newChar.race.vision }}
+                        </p>
+                        <p>
+                            <b>Languages:</b> <i>This information not available.</i><br/>
+                            <b ng-if="newChar.race.skillBonuses.length">Skill Bonuses:</b>
+                        <span ng-repeat="bonus in newChar.race.skillBonuses">
+                            +{{ bonus.bonus }} {{ bonus.skill }}<span ng-if="!$last">,</span>
+                        </span>
+                        </p>
+                        <p>
+                        <div class="feat" ng-repeat="feat in newChar.race.feats">
+                            <b>{{ feat.name }}:</b> <span ng-bind-html-unsafe="feat.benefit | markdown"></span>
+                        </div>
+                        </p>
+                    </div>
+                    <!--pre>{{ race|json }}</pre-->
+                </div>
+            </div>
+        </tab>
+        <tab heading="Class" select="setActiveTab(2)" active="tabs[1].active">
+            <div class="row-fluid">
+                <div class="span2">
+                    <select class="tall" ng-model="newChar.class" ng-options="class as class.name for class in choices.class" size="2">
+                        <option value="">-----</option>
+                    </select>
+                </div>
+                <div class="span10">
+                    <div class="class-details well well-small" ng-show="newChar.class">
+                        <h4>{{ newChar.class.name }} Class Traits</h4>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading="Attributes / Skills" select="setActiveTab(3)" active="tabs[2].active">
+            <div class="row-fluid">
+                <h4>Not Implemented Yet</h4>
+            </div>
+        </tab>
+    </tabset>
+
+    <!--form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="effect">Stuff:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="effect" placeholder="Stuff!" ng-model="newCond.effect" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="duration">Things:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="duration" placeholder="Things!" ng-model="newCond.duration" required>
+            </div>
+        </div>
+    </form-->
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <button ng-click="prev()" class="btn" ng-class="{disabled: !enablePrev()}"><i class="icon-arrow-left"></i> Previous</button>
+        <button ng-click="next()" class="btn" ng-class="{disabled: !enableNext()}"><i class="icon-arrow-right"></i> Next</button>
+    </div>
+    <button ng-click="close()" class="btn btn-primary disabled" ><i class="icon-save"></i> Save</button>
+    <button ng-click="close()" class="btn" ><i class="icon-remove"></i> Cancel</button>
+</div>

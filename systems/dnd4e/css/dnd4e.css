@@ -6,6 +6,20 @@ select
     margin-bottom: 0;
 }
 
+/** New Char Dialog **/
+
+.race-details h4,
+.class-details h4
+{
+    margin-top: 0;
+}
+
+.race-details .feat p,
+.class-details .feat p
+{
+    padding-left: 15px;
+}
+
 /** Main CSS **/
 
 #main-view

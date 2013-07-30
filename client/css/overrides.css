@@ -61,3 +61,26 @@ table.table
 {
     margin-bottom: 7px;
 }
+
+body .modal.wide
+{
+    width: 900px;
+    margin-left: -450px;
+}
+
+.modal-body {
+    max-height: 1000px;
+}
+
+.modal-header .subtitle
+{
+    font-size: .95em;
+    color: #777;
+    margin-bottom: 0;
+}
+
+select.tall
+{
+    height: 400px;
+    width: 100% !important;
+}
