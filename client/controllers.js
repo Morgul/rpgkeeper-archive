@@ -160,7 +160,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('CharacterCtrl', function($scope, $routeParams)
+    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $routeParams)
     {
         var charID = $routeParams.id;
 
@@ -190,16 +190,15 @@
 
                     $scope.character = character;
 
-                    $scope.systemSocket = io.connect('/' + character.system.shortname);
+                    $scope.$root.systemSocket = io.connect('/' + character.system.shortname);
 
-                    $scope.systemSocket.emit('get_character', charID, function(error, sysChar)
+                    $scope.systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
                     {
                         $scope.$apply(function()
                         {
                             $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
-
-                            console.log("System Char:", sysChar);
                             $scope.sysChar = sysChar;
+                            $scope.isNew = isNew;
                         });
                     })
                 });
