@@ -22,8 +22,41 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         var dlg = $dialog.dialog(opts);
         dlg.open().then(function(result)
         {
-            // To save, or not to save.
-            console.log('result of new char dialog was:', result);
+            if(result)
+            {
+                // To save, or not to save.
+                console.log('result of new char dialog was:', result);
+
+                // Set Race
+                $scope.sysChar.race = result.race;
+
+                // Set Class
+                $scope.sysChar.class = result.class;
+
+                //TODO: Handle trained skills
+                //TODO: Handle chosen Class Features
+
+                // Set Attributes
+                $scope.sysChar.strength = result.attributes.strength;
+                $scope.sysChar.constitution = result.attributes.constitution;
+                $scope.sysChar.dexterity = result.attributes.dexterity;
+                $scope.sysChar.intelligence = result.attributes.intelligence;
+                $scope.sysChar.wisdom = result.attributes.wisdom;
+                $scope.sysChar.charisma = result.attributes.charisma;
+
+                // Add any additional skills we're missing
+                $scope.systemSocket.emit('addSkills', result.skills, function(error)
+                {
+                    if(error)
+                    {
+                        $scope.alerts.push(error);
+                    }
+                    else
+                    {
+                        updateChar($scope, $timeout);
+                    } // end if
+                })
+            } // end if
         });
     } // end if
 
