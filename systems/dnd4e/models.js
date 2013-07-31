@@ -155,6 +155,9 @@ db.once('open', function callback () {
     var ClassFeatureSchema = mongoose.Schema({
         name: { type: String, required: true },
         description: String,
+
+        //TODO: This needs to become 'choices', and instead of the stupid faux-schema I've got here, it needs to just be `[ClassFeatureSchema]`.
+        // Then we make subFeatures also `[ClassFeatureSchema]`, which will support classes like Monk.
         subFeatures: [{
             title: String,
             description: String,
