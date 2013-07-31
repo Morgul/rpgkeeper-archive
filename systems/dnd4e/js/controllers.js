@@ -257,7 +257,21 @@ function NewCharDialogCtrl($scope, dialog)
             active: false,
             validate: function()
             {
-                return false;
+                if($scope.newChar.class)
+                {
+                    // Validate we have the right number of skills chosen
+                    var skills = $scope.skillCount() == $scope.newChar.class.trainedSkillsAmount;
+
+                    // Validate we've selected the right number of class feature choices
+                    var numChoices = $scope.getChoices($scope.newChar.class).length;
+                    var choices = _.keys($scope.newChar.class.chosenFeatures).length == numChoices;
+
+                    return skills && choices;
+                }
+                else
+                {
+                    return false;
+                } // end if
             }
         },
         {
@@ -353,13 +367,17 @@ function NewCharDialogCtrl($scope, dialog)
     $scope.skillCount = function()
     {
         var numSkills = 0;
-        _.forEach($scope.newChar.class.skills, function(value, key)
+
+        if($scope.newChar.class)
         {
-            if(value)
+            _.forEach($scope.newChar.class.skills, function(value, key)
             {
-                numSkills++;
-            } // end if
-        });
+                if(value)
+                {
+                    numSkills++;
+                } // end if
+            });
+        } // end if
 
         return numSkills;
     }; // end skillCount
