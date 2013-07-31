@@ -8,23 +8,17 @@ var app = require('omega-wf').app;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Models
 require('./models.js');
-
-// Authentication
 require('./lib/authentication.js');
-
-// Socket handler
 require('./lib/sockets.js');
-
-// Include urls
 require('./urls');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Included systems
-require('./systems/savage_worlds/system');
-require('./systems/dnd4e/system');
+// Build a list of systems
+app.systems = [];
+app.systems.push(require('./systems/savage_worlds/system'));
+app.systems.push(require('./systems/dnd4e/system'));
 
 // ---------------------------------------------------------------------------------------------------------------------
 
