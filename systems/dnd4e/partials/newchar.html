@@ -50,10 +50,10 @@
                         <option value="">-----</option>
                     </select>
                 </div>
-                <div class="span10">
-                    <div class="class-details well well-small" ng-show="newChar.class">
+                <div class="span10 details">
+                    <div class="class-details well well-small section" ng-show="newChar.class">
                         <h4>{{ newChar.class.name }} Class Traits</h4>
-                        <p class="description">{{ newChar.class.description }}</p>
+                        <!--p class="description">{{ newChar.class.description }}</p-->
                         <table>
                             <tr>
                                 <td style="min-width: 170px">
@@ -103,19 +103,41 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="skills-details" ng-if="newChar.class.trainedSkillsAmount > 0">
+                    <div class="section" ng-if="newChar.class.trainedSkillsAmount > 0">
                         <header>
                             <h4>Skills</h4>
-                            <p class="subtitle">From the class skills list below, choose <b>{{ newChar.class.trainedSkillsAmount }}</b> more trained skills at 1st level:</p>
-                            <p class="skill-choices">
-                                <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" name="checkbox" value="{{ skill }}" /> {{ skill | capitalize }}</label>
+                            <p class="subtitle" ng-if="newChar.class.trainedSkills.length > 0">
+                                <b>Trained Skills:</b>
+                                <span ng-repeat="skill in newChar.class.trainedSkills" ng-switch="isArray(skill)">
+                                    <span ng-switch-when="true">{{ skill[0] | capitalize }} or {{ skill[1] | capitalize }}<span ng-if="!$last">, </span></span>
+                                    <span ng-switch-default>{{ skill | capitalize }}<span ng-if="!$last">, </span></span>
+                                </span>
                             </p>
+                            <p class="subtitle">From the class skills list below, choose <b>{{ newChar.class.trainedSkillsAmount }}</b> <span ng-if="newChar.class.trainedSkills.length > 0">more</span> trained skills at 1st level:</p>
+                            <p class="skill-choices">
+                                <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" ng-model="newChar.class.skills[skill]" ng-disabled="!newChar.class.skills[skill] && skillCount() >= newChar.class.trainedSkillsAmount" ng-init="newChar.class.skills = {}"/> {{ skill | capitalize }}</label>
+                            </p>
+                        </header>
+                    </div>
+                    <div class="section class-feature-details" ng-if="getSubFeatures(newChar.class).length > 0">
+                        <header>
+                            <h4>Class Features</h4>
+                            <p class="subtitle">For the following class features, please choose one option from each feature:</p>
+                            <div ng-repeat="feature in getSubFeatures(newChar.class)">
+                                <h4>{{ feature.name }}</h4>
+                                <div class="feat" ng-repeat="sub in feature.subFeatures" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.title }" ng-click="selectFeature(sub.title, feature)">
+                                    <header>{{ sub.title }}</header>
+                                    <div class="feat-contents">
+                                        <p>{{ sub.description }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </header>
                     </div>
                 </div>
             </div>
         </tab>
-        <tab heading="Attributes / Skills" select="setActiveTab(3)" active="tabs[2].active">
+        <tab heading="Attributes" select="setActiveTab(3)" active="tabs[2].active">
             <div class="row-fluid">
                 <h4>Not Implemented Yet</h4>
             </div>

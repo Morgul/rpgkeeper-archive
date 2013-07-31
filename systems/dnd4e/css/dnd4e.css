@@ -1,5 +1,11 @@
 /** Overrides **/
 
+h1, h2, h3, h4, h5, h6
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 select
 {
     width: auto !important;
@@ -10,14 +16,9 @@ select
 
 .race-details h4,
 .class-details h4,
-.skills-details h4
+.ssection h4
 {
-    margin-top: 0;
-}
-
-.skills-details header h4
-{
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 .skill-choices
@@ -33,7 +34,17 @@ select
     padding-left: 15px;
 }
 
-.skills-details header .subtitle,
+.section p
+{
+    margin-bottom: 0;
+}
+
+.section header .subtitle
+{
+    color: #777;
+    font-size: .85em;
+}
+
 .class-details .description
 {
     font-style: italic;
@@ -50,6 +61,34 @@ select
 .class-details table td
 {
     vertical-align: top;
+}
+
+.details .section + .section
+{
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.class-feature-details .feat
+{
+    display: inline-block;
+    width: calc(50% - 10px);
+    width: -webkit-calc(50% - 12px);
+    font-size: .85em;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.class-feature-details .feat:hover
+{
+    border-color: #ffbf6a;
+}
+
+.class-feature-details .feat.active
+{
+    border-color: #f90;
 }
 
 /** Main CSS **/

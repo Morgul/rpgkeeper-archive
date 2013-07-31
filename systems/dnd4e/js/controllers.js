@@ -350,6 +350,49 @@ function NewCharDialogCtrl($scope, dialog)
         return valid && $scope.activeTab < $scope.tabs.length;
     }; // end enableNext
 
+    $scope.skillCount = function()
+    {
+        var numSkills = 0;
+        _.forEach($scope.newChar.class.skills, function(value, key)
+        {
+            if(value)
+            {
+                numSkills++;
+            } // end if
+        });
+
+        return numSkills;
+    }; // end skillCount
+
+    $scope.getSubFeatures = function(dndClass)
+    {
+        var subFeatures = [];
+
+        if(dndClass)
+        {
+            dndClass.classFeatures.forEach(function(feature)
+            {
+                if(feature.subFeatures.length > 0)
+                {
+                    subFeatures.push(feature);
+                } // end if
+            });
+        } // end if
+
+        return subFeatures;
+    };
+
+    $scope.selectFeature = function(subFeature, feature)
+    {
+        console.log('Selecting feature:', subFeature);
+        if(!$scope.newChar.class.chosenFeatures)
+        {
+           $scope.newChar.class.chosenFeatures = {};
+        } // end if
+
+        $scope.newChar.class.chosenFeatures[feature.name] = subFeature;
+    }; // end selectFeature
+
     $scope.cancel = function()
     {
         dialog.close(false);
