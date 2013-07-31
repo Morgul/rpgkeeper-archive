@@ -156,29 +156,18 @@ db.once('open', function callback () {
         name: { type: String, required: true },
         description: String,
 
-        //TODO: This needs to become 'choices', and instead of the stupid faux-schema I've got here, it needs to just be `[ClassFeatureSchema]`.
-        // Then we make subFeatures also `[ClassFeatureSchema]`, which will support classes like Monk.
-        subFeatures: [{
-            title: String,
-            description: String,
-            powers: [PowerSchema]
-        }],
+        // Any choices the player needs to make about this class feature
+        choices: [ClassFeatureSchema],
+
+        // You always get sub-features
+        subFeatures: [ClassFeatureSchema],
+
+        // The powers the player gains from this feature
         powers: [PowerSchema]
     });
 
     // Export model
     module.exports['ClassFeature'] = mongoose.model('ClassFeature', ClassFeatureSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var ClassPathSchema = mongoose.Schema({
-        name: { type: String, required: true },
-        description: String,
-        subFeatures: [ClassFeatureSchema]
-    });
-
-    // Export model
-    module.exports['ClassPath'] = mongoose.model('ClassPath', ClassPathSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -195,7 +184,6 @@ db.once('open', function callback () {
         initialHitpoints: { type: Number, default: 0, min: 0 },
         hitpointsPerLevel: { type: Number, default: 0, min: 0 },
 
-        classPaths: [ClassPathSchema],
         classFeatures: [ClassFeatureSchema],
 
         healingSurges: { type: Number, default: 0, min: 0 },
