@@ -115,9 +115,9 @@
                             </p>
                             <p class="subtitle">From the class skills list below, choose <b>{{ newChar.class.trainedSkillsAmount }}</b> <span ng-if="newChar.class.trainedSkills.length > 0">more</span> trained skills at 1st level:</p>
                         </header>
-                            <p class="skill-choices">
-                                <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" ng-model="newChar.class.skills[skill]" ng-disabled="!newChar.class.skills[skill] && skillCount() >= newChar.class.trainedSkillsAmount" ng-init="newChar.class.skills = {}"/> {{ skill | capitalize }}</label>
-                            </p>
+                        <p class="skill-choices">
+                            <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" ng-model="newChar.class.skills[skill]" ng-disabled="!newChar.class.skills[skill] && skillCount() >= newChar.class.trainedSkillsAmount" ng-init="newChar.class.skills = {}"/> {{ skill | capitalize }}</label>
+                        </p>
                     </div>
                     <div class="section class-feature-details" ng-if="getChoices(newChar.class).length > 0">
                         <header>
@@ -138,33 +138,222 @@
                 </div>
             </div>
         </tab>
-        <tab heading="Attributes" select="setActiveTab(3)" active="tabs[2].active">
-            <div class="row-fluid">
-                <h4>Not Implemented Yet</h4>
+        <tab heading="Attributes / Skills" select="setActiveTab(3)" active="tabs[2].active">
+            <div class="row-fluid details">
+                <div class="section">
+                    <header>
+                        <h4>Attributes</h4>
+                        <p class="subtitle">Please choose your starting level attributes. <i>Note: These will be used for calculations such as total hitpoints; if you skip this section, your hitpoints will be wrong.</i></p>
+                    </header>
+                    <form class="form-horizontal attribute-form">
+                    <div class="control-group">
+                        <label class="control-label">Strength:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.strength">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Constitution:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.constitution">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Dexterity:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.dexterity">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Intelligence:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.intelligence">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Wisdom:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.wisdom">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Charisma:</label>
+                        <div class="controls">
+                            <input class="input-small" type="number" ng-model="newChar.attributes.charisma">
+                        </div>
+                    </div>
+                    </form>
+                    <div class="point-guide">
+                        <h5>Pregenerated Ability Scores</h5>
+                        <table class="table table-bordered table-striped table-hover">
+                            <tr>
+                                <td>14</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>12</td>
+                                <td>12</td>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>12</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>14</td>
+                                <td>13</td>
+                                <td>12</td>
+                                <td>12</td>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td>15</td>
+                                <td>13</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>15</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>11</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>14</td>
+                                <td>14</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>16</td>
+                                <td>12</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td>16</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>11</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>15</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>10</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td>14</td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>10</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>13</td>
+                                <td>13</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>14</td>
+                                <td>11</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td>12</td>
+                                <td>12</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td>10</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="section">
+                    <header>
+                        <h4>Additional Skills</h4>
+                        <p class="subtitle">Some campaigns add additional skills to the setting. Please add any additional skills here.
+                    </header>
+
+                    <form name=skillform class="form-inline pull-right add-skill-form">
+                        <input type="text" placeholder="Skill Name" ng-model="newSkill.name" required>
+                        <select ng-model="newSkill.attribute" required>
+                            <option value="">Select Attribute</option>
+                            <option value="strength">Strength</option>
+                            <option value="constitution">Constitution</option>
+                            <option value="dexterity">Dexterity</option>
+                            <option value="intelligence">Intelligence</option>
+                            <option value="wisdom">Wisdom</option>
+                            <option value="charisma">Charisma</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" ng-click="addSkill(newSkill)" ng-disabled="skillform.$invalid">Add Skill</button>
+                    </form>
+                    <table class="table table-bordered table-striped skill-table">
+                        <tr ng-repeat="skill in newChar.skills track by $index">
+                            <td class="expand">
+                                {{ skill.name }}
+                            </td>
+                            <td class="expand">
+                                {{ skill.attribute | capitalize }}
+                            </td>
+                            <td class="shrink">
+                                <button class="btn btn-danger" ng-click="removeSkill(skill)"><i class="icon-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr ng-if="newChar.skills.length <= 0">
+                            <td><h4 style="margin-bottom: 0;">No Skills</h4></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </tab>
     </tabset>
-
-    <!--form class="form-horizontal">
-        <div class="control-group">
-            <label class="control-label" for="effect">Stuff:</label>
-            <div class="controls">
-                <input class="input-block-level" type="text" id="effect" placeholder="Stuff!" ng-model="newCond.effect" required>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="duration">Things:</label>
-            <div class="controls">
-                <input class="input-block-level" type="text" id="duration" placeholder="Things!" ng-model="newCond.duration" required>
-            </div>
-        </div>
-    </form-->
 </div>
 <div class="modal-footer">
     <div class="pull-left">
-        <button ng-click="prev()" class="btn" ng-class="{disabled: !enablePrev()}"><i class="icon-arrow-left"></i> Previous</button>
-        <button ng-click="next()" class="btn" ng-class="{disabled: !enableNext()}"><i class="icon-arrow-right"></i> Next</button>
+        <button ng-click="prev()" class="btn" ng-disabled="!enablePrev()"><i class="icon-arrow-left"></i> Previous</button>
+        <button ng-click="next()" class="btn" ng-disabled="!enableNext()"><i class="icon-arrow-right"></i> Next</button>
     </div>
-    <button ng-click="close()" class="btn btn-primary disabled" ><i class="icon-save"></i> Save</button>
-    <button ng-click="close()" class="btn" ><i class="icon-remove"></i> Cancel</button>
+    <button ng-click="save()" class="btn btn-primary" ng-disabled="!tabs[2].active"><i class="icon-save"></i> Save</button>
+    <button ng-click="cancel()" class="btn" ><i class="icon-remove"></i> Cancel</button>
 </div>

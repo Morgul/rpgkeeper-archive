@@ -16,7 +16,7 @@ select
 
 .race-details h4,
 .class-details h4,
-.ssection h4
+.section h4
 {
     margin-bottom: 10px;
 }
@@ -119,6 +119,74 @@ select
 .class-feature-details .feat.active
 {
     border-color: #f90;
+}
+
+.point-guide
+{
+    margin-left: 175px;
+}
+
+.point-guide table
+{
+    margin-top: 5px;
+}
+
+.point-guide table td
+{
+    text-align: center;
+    padding: 2px;
+    font-size: .85em;
+    line-height: 1em;
+}
+
+.attribute-form
+{
+    float: left;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.attribute-form .control-label
+{
+    width: 100px;
+}
+
+.attribute-form .control-group
+{
+    margin-bottom: 5px;
+}
+
+.attribute-form .controls
+{
+    margin-left: 105px;
+}
+
+.attribute-form input[type="number"]
+{
+    width: 40px;
+}
+
+.add-skill-form
+{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+table.skill-table td
+{
+    text-align: center;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+table.skill-table td.expand
+{
+    width: 49%;
+}
+
+table.skill-table td.shrink
+{
+    white-space: nowrap;
 }
 
 /** Main CSS **/

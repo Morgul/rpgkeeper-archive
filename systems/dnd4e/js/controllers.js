@@ -240,11 +240,21 @@ function updateChar($scope, $timeout)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function NewCharDialogCtrl($scope, dialog)
+function NewCharDialogCtrl($scope, $location, dialog)
 {
     $scope.choices = {};
-    $scope.newChar = {};
     $scope.activeTab = 1;
+    $scope.newChar = {
+        skills: [],
+        attributes: {
+            strength: 10,
+            constitution: 10,
+            dexterity: 10,
+            intelligence: 10,
+            wisdom: 10,
+            charisma: 10
+        }
+    };
     $scope.tabs = [
         {
             active: true,
@@ -410,14 +420,26 @@ function NewCharDialogCtrl($scope, dialog)
         $scope.newChar.class.chosenFeatures[feature.name] = subFeature;
     }; // end selectFeature
 
+    $scope.addSkill = function(skill)
+    {
+        // Stupid binding system bing too damned smart.
+        $scope.newChar.skills.push({name: skill.name, attribute: skill.attribute});
+    };
+
+    $scope.removeSkill = function(skill)
+    {
+        $scope.newChar.skills = _.without($scope.newChar.skills, skill);
+    };
+
     $scope.cancel = function()
     {
         dialog.close(false);
+        $location.path('/dashboard');
     }; // end close
 
     $scope.save = function()
     {
-        dialog.close(true);
+        dialog.close($scope.newChar);
     }; // end save
 } // end AddCondDialogCtrl
 
