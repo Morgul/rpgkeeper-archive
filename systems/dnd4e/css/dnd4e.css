@@ -72,6 +72,7 @@ select
 
 .class-feature-details .feature
 {
+    font-size: .95em;
     padding: 0 5px;
 }
 
@@ -97,6 +98,17 @@ select
     margin: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+    line-height: 1.25em;
+}
+
+.class-feature-details .feat header
+{
+    padding: 4px;
+}
+
+.class-feature-details .feat-contents p
+{
+    margin: 4px 0;
 }
 
 .class-feature-details .feat:hover

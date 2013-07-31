@@ -114,26 +114,26 @@
                                 </span>
                             </p>
                             <p class="subtitle">From the class skills list below, choose <b>{{ newChar.class.trainedSkillsAmount }}</b> <span ng-if="newChar.class.trainedSkills.length > 0">more</span> trained skills at 1st level:</p>
+                        </header>
                             <p class="skill-choices">
                                 <label class="checkbox" ng-repeat="skill in newChar.class.trainedSkillChoices"><input type="checkbox" ng-model="newChar.class.skills[skill]" ng-disabled="!newChar.class.skills[skill] && skillCount() >= newChar.class.trainedSkillsAmount" ng-init="newChar.class.skills = {}"/> {{ skill | capitalize }}</label>
                             </p>
-                        </header>
                     </div>
                     <div class="section class-feature-details" ng-if="getChoices(newChar.class).length > 0">
                         <header>
                             <h4>Class Features</h4>
                             <p class="subtitle">For the following class features, please choose one option from each feature:</p>
-                            <div ng-repeat="feature in getChoices(newChar.class)" class="feature">
-                                <h4>{{ feature.name }}</h4>
-                                <div class="subtitle" ng-bind-html-unsafe="feature.description | markdown"></div>
-                                <div class="feat" ng-repeat="sub in feature.choices" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.name }" ng-click="selectFeature(sub.name, feature)">
-                                    <header>{{ sub.name }}</header>
-                                    <div class="feat-contents">
-                                        <p ng-bind-html-unsafe="sub.description | markdown"></p>
-                                    </div>
+                        </header>
+                        <div ng-repeat="feature in getChoices(newChar.class)" class="feature">
+                            <h4>{{ feature.name }}</h4>
+                            <div class="subtitle" ng-bind-html-unsafe="feature.description | markdown"></div>
+                            <div class="feat" ng-repeat="sub in feature.choices" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.name }" ng-click="selectFeature(sub.name, feature)">
+                                <header>{{ sub.name }}</header>
+                                <div class="feat-contents">
+                                    <p ng-bind-html-unsafe="sub.description | markdown"></p>
                                 </div>
                             </div>
-                        </header>
+                        </div>
                     </div>
                 </div>
             </div>
