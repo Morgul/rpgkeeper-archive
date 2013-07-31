@@ -70,9 +70,27 @@ select
     border-top: 1px solid #eee;
 }
 
+.class-feature-details .feature
+{
+    padding: 0 5px;
+}
+
+.class-feature-details .feature .subtitle
+{
+    color: #555;
+    line-height: 1.25em;
+    padding: 0 5px 5px;
+}
+
+.class-feature-details .feature h4
+{
+    font-size: 1.15em;
+}
+
 .class-feature-details .feat
 {
     display: inline-block;
+    vertical-align: top;
     width: calc(50% - 10px);
     width: -webkit-calc(50% - 12px);
     font-size: .85em;

@@ -119,16 +119,17 @@
                             </p>
                         </header>
                     </div>
-                    <div class="section class-feature-details" ng-if="getSubFeatures(newChar.class).length > 0">
+                    <div class="section class-feature-details" ng-if="getChoices(newChar.class).length > 0">
                         <header>
                             <h4>Class Features</h4>
                             <p class="subtitle">For the following class features, please choose one option from each feature:</p>
-                            <div ng-repeat="feature in getSubFeatures(newChar.class)">
+                            <div ng-repeat="feature in getChoices(newChar.class)" class="feature">
                                 <h4>{{ feature.name }}</h4>
-                                <div class="feat" ng-repeat="sub in feature.subFeatures" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.title }" ng-click="selectFeature(sub.title, feature)">
-                                    <header>{{ sub.title }}</header>
+                                <div class="subtitle" ng-bind-html-unsafe="feature.description | markdown"></div>
+                                <div class="feat" ng-repeat="sub in feature.choices" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.name }" ng-click="selectFeature(sub.name, feature)">
+                                    <header>{{ sub.name }}</header>
                                     <div class="feat-contents">
-                                        <p>{{ sub.description }}</p>
+                                        <p ng-bind-html-unsafe="sub.description | markdown"></p>
                                     </div>
                                 </div>
                             </div>

@@ -364,27 +364,26 @@ function NewCharDialogCtrl($scope, dialog)
         return numSkills;
     }; // end skillCount
 
-    $scope.getSubFeatures = function(dndClass)
+    $scope.getChoices = function(dndClass)
     {
-        var subFeatures = [];
+        var choices = [];
 
         if(dndClass)
         {
             dndClass.classFeatures.forEach(function(feature)
             {
-                if(feature.subFeatures.length > 0)
+                if((feature.choices || []).length > 0)
                 {
-                    subFeatures.push(feature);
+                    choices.push(feature);
                 } // end if
             });
         } // end if
 
-        return subFeatures;
-    };
+        return choices;
+    }; // end getChoices
 
     $scope.selectFeature = function(subFeature, feature)
     {
-        console.log('Selecting feature:', subFeature);
         if(!$scope.newChar.class.chosenFeatures)
         {
            $scope.newChar.class.chosenFeatures = {};
