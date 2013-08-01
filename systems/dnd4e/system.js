@@ -275,7 +275,13 @@ app.channel('/dnd4e').on('connection', function (socket)
 module.exports = {
     delete: function(charID)
     {
-        console.log('Delete char:', charID);
+        models.Character.remove({ baseCharID: charID }, function(error)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+            } // end if
+        });
     } // end delete
 };
 
