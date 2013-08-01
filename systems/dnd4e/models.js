@@ -206,7 +206,7 @@ db.once('open', function callback () {
         size: { type: String, enum: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"] },
         speed: { type: Number, min: 0 },
         vision: { type: String, enum: ["Normal", "Low-light", "Darkvision", "Blindsight", "Tremorsense"] },
-        languages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Languages' }],
+        languages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
         feats: [FeatSchema],
         powers: [PowerSchema],
 

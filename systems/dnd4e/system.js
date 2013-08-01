@@ -103,7 +103,9 @@ app.channel('/dnd4e').on('connection', function (socket)
     socket.on('list_races', function(callback)
     {
         // Look up the classes here.
-        models.Race.find(function(error, races)
+        models.Race.find()
+            .populate('languages')
+            .exec(function(error, races)
             {
                 if(error)
                 {

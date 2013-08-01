@@ -28,7 +28,7 @@
                             <b>Vision:</b> {{ newChar.race.vision }}
                         </p>
                         <p>
-                            <b>Languages:</b> <i>This information not available.</i><br/>
+                            <b>Languages:</b> <span ng-repeat="lang in newChar.race.languages">{{ lang.name }}<span ng-if="!$last">, </span></span><br/>
                             <b ng-if="newChar.race.skillBonuses.length">Skill Bonuses:</b>
                         <span ng-repeat="bonus in newChar.race.skillBonuses">
                             +{{ bonus.bonus }} {{ bonus.skill }}<span ng-if="!$last">,</span>
