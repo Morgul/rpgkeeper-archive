@@ -27,6 +27,9 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 // To save, or not to save.
                 console.log('result of new char dialog was:', result);
 
+                // Be nice, and set level
+                $scope.sysChar.level = 1;
+
                 // Set Race
                 $scope.sysChar.race = result.race;
 

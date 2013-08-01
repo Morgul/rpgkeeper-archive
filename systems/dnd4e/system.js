@@ -155,8 +155,7 @@ app.channel('/dnd4e').on('connection', function (socket)
 
     socket.on('get_character', function(id, callback)
     {
-        //TODO: This is only for testing! should be false!
-        var newChar = true;//false;
+        var newChar = false;
 
         // Look up the character here.
         models.Character.findOne({baseCharID: id})
