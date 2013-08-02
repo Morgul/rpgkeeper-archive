@@ -213,7 +213,19 @@ db.once('open', function callback () {
             bonus: { type: Number, default: 2, min: 0 }
         }],
 
-        // If true, then the race gets +2 to an ability score of it's choice
+        // Some races have "+2 to ability X"
+        abilityBonuses: [{
+            ability: { type: String, enum: ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"] },
+            bonus: { type: Number, default: 2 }
+        }],
+
+        // Some races have "+2 to either ability X or ability Y"
+        abilityBonusChoices: [{
+            abilities: [{ type: String, enum: ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"] }],
+            bonus: { type: Number, default: 2 }
+        }],
+
+        // If true, then the race gets +2 to an ability score of the player's choice
         abilityBonusChoice: Boolean,
 
         // If true, then the race gets +1 to Fort, Ref, and Will Defenses
