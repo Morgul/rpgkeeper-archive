@@ -22,7 +22,17 @@
                             <b>Average Weight:</b> {{ newChar.race.weightRange }}
                         </p>
                         <p>
-                            <b>Ability Scores:</b> <i>This information not available.</i><br/>
+                            <b>Ability Scores:</b> <span ng-if="newChar.race.abilityBonusChoice">Add +2 to any ability of your choice</span>
+                            <span ng-if="newChar.race.abilityBonusChoice && newChar.race.abilityBonuses.length > 0">, </span>
+                            <span ng-repeat="bonus in newChar.race.abilityBonuses">
+                                +{{ bonus.bonus }} {{ bonus.ability | capitalize }}<span ng-if="!$last">,</span>
+                            </span>
+                            <span ng-if="newChar.race.abilityBonuses.length > 0 && newChar.race.abilityBonusChoices.length > 0">, </span>
+                            <span ng-repeat="bonus in newChar.race.abilityBonusChoices">
+                                +{{ bonus.bonus }} to either {{ bonus.abilities[0] | capitalize }} or {{ bonus.abilities[1] | capitalize }}<span ng-if="!$last">,</span>
+                            </span>
+                            <br/>
+
                             <b>Size:</b> {{ newChar.race.size }}<br/>
                             <b>Speed:</b> {{ newChar.race.speed }}<br/>
                             <b>Vision:</b> {{ newChar.race.vision }}
