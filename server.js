@@ -8,7 +8,6 @@ var app = require('omega-wf').app;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-require('./models.js');
 require('./lib/authentication.js');
 require('./lib/sockets.js');
 require('./urls');
@@ -17,7 +16,7 @@ require('./urls');
 
 // Build a list of systems
 app.systems = [];
-app.systems.push(require('./systems/savage_worlds/system'));
+//app.systems.push(require('./systems/savage_worlds/system'));
 app.systems.push(require('./systems/dnd4e/system'));
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -7,9 +7,7 @@
 var _ = require('lodash');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/dnd4e');
-
-var db = mongoose.connection;
+var db = mongoose.createConnection('mongodb://localhost/dnd4e');
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +23,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Note'] = mongoose.model('Note', NotesSchema);
+    module.exports['Note'] = db.model('Note', NotesSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -35,7 +33,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Condition'] = mongoose.model('Condition', ConditionsSchema);
+    module.exports['Condition'] = db.model('Condition', ConditionsSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +43,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Language'] = mongoose.model('Language', LanguageSchema);
+    module.exports['Language'] = db.model('Language', LanguageSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -127,7 +125,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Power'] = mongoose.model('Power', PowerSchema);
+    module.exports['Power'] = db.model('Power', PowerSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -148,7 +146,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Feat'] = mongoose.model('Feat', FeatSchema);
+    module.exports['Feat'] = db.model('Feat', FeatSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -167,7 +165,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['ClassFeature'] = mongoose.model('ClassFeature', ClassFeatureSchema);
+    module.exports['ClassFeature'] = db.model('ClassFeature', ClassFeatureSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -195,7 +193,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Class'] = mongoose.model('Class', ClassSchema);
+    module.exports['Class'] = db.model('Class', ClassSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -223,7 +221,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['Race'] = mongoose.model('Race', RaceSchema);
+    module.exports['Race'] = db.model('Race', RaceSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -244,7 +242,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['ParagonPath'] = mongoose.model('ParagonPath', ParagonPathSchema);
+    module.exports['ParagonPath'] = db.model('ParagonPath', ParagonPathSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -263,7 +261,7 @@ db.once('open', function callback () {
     });
 
     // Export model
-    module.exports['EpicDestiny'] = mongoose.model('EpicDestiny', EpicDestinySchema);
+    module.exports['EpicDestiny'] = db.model('EpicDestiny', EpicDestinySchema);
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -278,7 +276,7 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var CharacterSchema = mongoose.Schema({
-        baseCharID: { type: Number, required: true },
+        baseCharID: { type: String, required: true },
 
         alignment: { type: String, enum: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" },
         gender: { type: String, enum: ["Male", "Female", "Other"] },
@@ -549,7 +547,7 @@ db.once('open', function callback () {
     CharacterSchema.set('toJSON', { virtuals: true });
 
     // Export model
-    module.exports['Character'] = mongoose.model('Character', CharacterSchema);
+    module.exports['Character'] = db.model('Character', CharacterSchema);
 
     //------------------------------------------------------------------------------------------------------------------
 });

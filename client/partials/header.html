@@ -10,7 +10,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="character in characters | filter: {favorite: true}"><a tabindex="-1" href="/character/{{ character.id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
+                    <li ng-repeat="character in characters | filter: {favorite: true}"><a tabindex="-1" href="/character/{{ character._id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
                     <li class="divider"></li>
                     <li><a tabindex="-1" ng-click="addChar()"><i class="icon-plus"></i> Add Character</a></li>
                 </ul>

@@ -64,6 +64,7 @@
             {
                 $rootScope.characters = _.sortBy(characters, function(character)
                 {
+                    console.log('system', character);
                     return character.system.name;
                 });
             });
@@ -236,7 +237,7 @@
                 {
                     // Update the list of characters.
                     $scope.socket.emit("list_characters");
-                    $location.path("/character/" + character.id);
+                    $location.path("/character/" + character._id);
                 } // end if
             });
 

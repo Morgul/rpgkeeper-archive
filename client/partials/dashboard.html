@@ -11,7 +11,7 @@
                 <td class="shrink">
                     <button class="btn btn-mini" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i></button>
                 </td>
-                <td class="expand"><a href="/character/{{ character.id }}">{{ character.name }}</a></td>
+                <td class="expand"><a href="/character/{{ character._id }}">{{ character.name }}</a></td>
                 <td class="shrink">{{ character.system.name }}</td>
                 <td class="shrink">
                     <button class="btn btn-mini btn-danger" ng-click="delete(character)"><i class="icon-trash"></i> Delete</button>

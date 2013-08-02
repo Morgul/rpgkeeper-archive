@@ -6,6 +6,7 @@
 
 // Include our models
 var models = require('./models');
+var baseModels = require('../../lib/models');
 
 var path = require('path');
 var app = require('omega-wf').app;
@@ -13,32 +14,39 @@ var db = require('omega-wf').db;
 
 var _ = require('lodash');
 
-var System = db.model('System');
-
 //----------------------------------------------------------------------------------------------------------------------
 
 // Create the system entry in the database
-System.find({where: {shortname: "dnd4e"}}).success(function(system)
+baseModels.db.once('open', function()
 {
-    if(!system)
+    baseModels.System.findOne({ shortname: "dnd4e"}, function(error, system)
     {
-        // Create new system
-        System.create({
-            name: "Dungeons and Dragons 4th Edition",
-            shortname: "dnd4e",
-            description: "The DUNGEONS & DRAGONS game is a roleplaying game. In fact, D&D invented the roleplaying game and started an industry.\n\n" +
-                "A roleplaying game is a storytelling game that has elements of the games of make-believe that many of us played as children. However, a roleplaying game such as D&D provides form and structure, with robust gameplay and endless possibilities.\n\n" +
-                "D&D is a fantasy-adventure game. You create a character, team up with other characters (your friends), explore a world, and battle monsters. While the D&D game uses dice and miniatures, the action takes place in your imagination. There, you have the freedom to create anything you can imagine, with an unlimited special effects budget and the technology to make anything happen.\n\n" +
-                "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
-        }).success(function(system)
+        if(!system)
+        {
+            // Create new system
+            var system = new baseModels.System({
+                name: "Dungeons and Dragons 4th Edition",
+                shortname: "dnd4e",
+                description: "The DUNGEONS & DRAGONS game is a roleplaying game. In fact, D&D invented the roleplaying game and started an industry.\n\n" +
+                    "A roleplaying game is a storytelling game that has elements of the games of make-believe that many of us played as children. However, a roleplaying game such as D&D provides form and structure, with robust gameplay and endless possibilities.\n\n" +
+                    "D&D is a fantasy-adventure game. You create a character, team up with other characters (your friends), explore a world, and battle monsters. While the D&D game uses dice and miniatures, the action takes place in your imagination. There, you have the freedom to create anything you can imagine, with an unlimited special effects budget and the technology to make anything happen.\n\n" +
+                    "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
+            });
+
+            system.save(function(error)
+            {
+                if(error)
+                {
+                    console.error('Error saving:', error.toString());
+                }
+                setupRoutes(system);
+            });
+        }
+        else
         {
             setupRoutes(system);
-        });
-    }
-    else
-    {
-        setupRoutes(system);
-    } // end if
+        } // end if
+    });
 });
 
 // Setup the routing

@@ -38,7 +38,7 @@ app.router.add(
                 failureRedirect: '/'
             })(req, resp, function(error)
             {
-                console.log("Error!", error);
+                console.log("Auth Error!", error);
             });
         }
     },
