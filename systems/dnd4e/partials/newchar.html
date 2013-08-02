@@ -155,6 +155,19 @@
                         <h4>Attributes</h4>
                         <p class="subtitle">Please choose your starting level attributes. <i>Note: These will be used for calculations such as total hitpoints; if you skip this section, your hitpoints will be wrong.</i></p>
                     </header>
+                    <div class="alert" ng-if="newChar.race" style="margin-bottom: 0">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Remember:</strong> Your race's ability bonuses are:
+                            <span ng-if="newChar.race.abilityBonusChoice">Add +2 to any ability of your choice</span>
+                            <span ng-if="newChar.race.abilityBonusChoice && newChar.race.abilityBonuses.length > 0">, </span>
+                            <span ng-repeat="bonus in newChar.race.abilityBonuses">
+                                +{{ bonus.bonus }} {{ bonus.ability | capitalize }}<span ng-if="!$last">,</span>
+                            </span>
+                            <span ng-if="newChar.race.abilityBonuses.length > 0 && newChar.race.abilityBonusChoices.length > 0">, </span>
+                            <span ng-repeat="bonus in newChar.race.abilityBonusChoices">
+                                +{{ bonus.bonus }} to either {{ bonus.abilities[0] | capitalize }} or {{ bonus.abilities[1] | capitalize }}<span ng-if="!$last">,</span>
+                            </span>
+                    </div>
                     <form class="form-horizontal attribute-form">
                     <div class="control-group">
                         <label class="control-label">Strength:</label>
