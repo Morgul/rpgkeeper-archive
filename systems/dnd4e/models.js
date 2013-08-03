@@ -17,6 +17,19 @@ module.exports = { db: db };
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
+    //------------------------------------------------------------------------------------------------------------------
+
+    var ReferenceSchema = mongoose.Schema({
+        book: String,
+        page: Number,
+        url: String
+    });
+
+    // Export model
+    module.exports['Reference'] = db.model('Reference', ReferenceSchema);
+
+    //------------------------------------------------------------------------------------------------------------------
+
     var NotesSchema = mongoose.Schema({
         title: String,
         contents: String
@@ -74,9 +87,11 @@ db.once('open', function callback () {
         requirements: String,
 
         // Attack
-        target: String,
-        targetPlural: Boolean,     // If true, will display as "Targets"
-        attack: String,
+        targets: [{
+            target: String,
+            targetPlural: Boolean,     // If true, will display as "Targets"
+            attack: String
+        }],
 
         // Additional sections
         sections: [{
@@ -86,6 +101,8 @@ db.once('open', function callback () {
 
         sustainType: { type: String, enum: actionType },
         sustainText: String,
+
+        reference: ReferenceSchema,
 
         // Refer to the class, since that could make our lives a bit easier when trying to look these things up.
         class: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassSchema' }
@@ -135,7 +152,8 @@ db.once('open', function callback () {
         prerequisites: String,
         benefit: String,
         special: String,
-        powerList: [PowerSchema]
+        powerList: [PowerSchema],
+        reference: ReferenceSchema
     });
 
     //--------------------------------------------------------------------
@@ -189,7 +207,8 @@ db.once('open', function callback () {
         // Trained skills
         trainedSkills: [mongoose.Schema.Types.Mixed],
         trainedSkillChoices: [String],
-        trainedSkillsAmount: { type: Number, default: 0, min: 0 }
+        trainedSkillsAmount: { type: Number, default: 0, min: 0 },
+        reference: ReferenceSchema
     });
 
     // Export model
@@ -229,7 +248,8 @@ db.once('open', function callback () {
         abilityBonusChoice: Boolean,
 
         // If true, then the race gets +1 to Fort, Ref, and Will Defenses
-        defenseBonus: Boolean
+        defenseBonus: Boolean,
+        reference: ReferenceSchema
     });
 
     // Export model
@@ -250,7 +270,8 @@ db.once('open', function callback () {
             powers: [PowerSchema]
         }],
 
-        powers: [PowerSchema]
+        powers: [PowerSchema],
+        reference: ReferenceSchema
     });
 
     // Export model
@@ -269,7 +290,8 @@ db.once('open', function callback () {
             powers: [PowerSchema]
         }],
 
-        powers: [PowerSchema]
+        powers: [PowerSchema],
+        reference: ReferenceSchema
     });
 
     // Export model
