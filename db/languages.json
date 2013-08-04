@@ -1,0 +1,11 @@
+{ "name" : "Common", "script" : "Common", "_id" : { "$oid" : "51e43895ea924e4a46000012" }, "__v" : 0 }
+{ "name" : "Deep Speech", "script" : "Rellanic", "_id" : { "$oid" : "51e43895ea924e4a46000013" }, "__v" : 0 }
+{ "name" : "Draconic", "script" : "Iokharic", "_id" : { "$oid" : "51e43895ea924e4a46000014" }, "__v" : 0 }
+{ "name" : "Dwarven", "script" : "Davek", "_id" : { "$oid" : "51e43895ea924e4a46000015" }, "__v" : 0 }
+{ "name" : "Elven", "script" : "Rellanic", "_id" : { "$oid" : "51e43895ea924e4a46000016" }, "__v" : 0 }
+{ "name" : "Giant", "script" : "Davek", "_id" : { "$oid" : "51e43895ea924e4a46000017" }, "__v" : 0 }
+{ "name" : "Goblin", "script" : "Common", "_id" : { "$oid" : "51e43895ea924e4a46000018" }, "__v" : 0 }
+{ "name" : "Primordial", "script" : "Barazhad", "_id" : { "$oid" : "51e43895ea924e4a46000019" }, "__v" : 0 }
+{ "name" : "Supernal", "script" : "Supernal", "_id" : { "$oid" : "51e43895ea924e4a4600001a" }, "__v" : 0 }
+{ "name" : "Abyssal", "script" : "Barazhad", "_id" : { "$oid" : "51e43895ea924e4a4600001b" }, "__v" : 0 }
+{ "name" : "Telepathy", "_id" : { "$oid" : "51e43895ea924e4a4600001c" }, "__v" : 0 }
