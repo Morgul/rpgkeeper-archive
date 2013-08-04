@@ -19,17 +19,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
-    var ReferenceSchema = mongoose.Schema({
-        book: String,
-        page: Number,
-        url: String
-    });
-
-    // Export model
-    module.exports['Reference'] = db.model('Reference', ReferenceSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
     var NotesSchema = mongoose.Schema({
         title: String,
         contents: String
@@ -102,7 +91,11 @@ db.once('open', function callback () {
         sustainType: { type: String, enum: actionType },
         sustainText: String,
 
-        reference: ReferenceSchema,
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        },
 
         // Refer to the class, since that could make our lives a bit easier when trying to look these things up.
         class: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassSchema' }
@@ -153,7 +146,11 @@ db.once('open', function callback () {
         benefit: String,
         special: String,
         powerList: [PowerSchema],
-        reference: ReferenceSchema
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        }
     });
 
     //--------------------------------------------------------------------
@@ -208,7 +205,11 @@ db.once('open', function callback () {
         trainedSkills: [mongoose.Schema.Types.Mixed],
         trainedSkillChoices: [String],
         trainedSkillsAmount: { type: Number, default: 0, min: 0 },
-        reference: ReferenceSchema
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        }
     });
 
     // Export model
@@ -249,7 +250,11 @@ db.once('open', function callback () {
 
         // If true, then the race gets +1 to Fort, Ref, and Will Defenses
         defenseBonus: Boolean,
-        reference: ReferenceSchema
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        }
     });
 
     // Export model
@@ -271,7 +276,11 @@ db.once('open', function callback () {
         }],
 
         powers: [PowerSchema],
-        reference: ReferenceSchema
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        }
     });
 
     // Export model
@@ -291,7 +300,11 @@ db.once('open', function callback () {
         }],
 
         powers: [PowerSchema],
-        reference: ReferenceSchema
+        reference: {
+            book: String,
+            page: Number,
+            url: String
+        }
     });
 
     // Export model
