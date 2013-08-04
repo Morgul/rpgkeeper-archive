@@ -21,8 +21,8 @@ and I want to implement features, not tests.
 
 ## Running
 
-Install node, checkout the code, do `npm install` and then `npm start`. Oh, you might want to sync the database with
-`npm run-script sync`.
+Install node, checkout the code, do `npm install` and then `npm start`. Oh, you will want to have MongoDB running, and
+will most likely want to import the json files in `/db/`.
 
 ## Contributions
 
