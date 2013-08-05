@@ -1,0 +1,41 @@
+<div class="power" ng-show="power">
+    <header class="{{ power.type }}" data-toggle="collapse" data-target="#power-content-{{ power._id }}">
+        {{ power.name }}
+        <span class="level">
+            <span ng-if="power.paragonPath">{{ sysChar.paragonPath.name }}</span>
+            <span class="type-level" ng-switch="power.kind">
+                <span ng-switch-when="Attack">{{ power.class.name }} Attack {{ power.level }}</span>
+                <span ng-switch-when="Utility">{{ power.class.name }} Utility {{ power.level }}</span>
+                <span ng-switch-when="ClassFeature">{{ power.class.name }} Class Feature</span>
+                <span ng-switch-when="Race">{{ sysChar.race.name }} Racial</span>
+                <!-- TODO: Figure out how to handle Feat and Skill powers -->
+                <span ng-switch-default>{{ power.kind }}<span ng-if="power.level">{{ power.level }}</span></span>
+            </span>
+        </span>
+    </header>
+    <div class="power-content collapse" id="power-content-{{ power._id }}">
+        <div class="flavor gradient">{{ power.flavor }}</div>
+
+        <div class="type-keywords">
+            <span>{{ power.type }}</span>
+            <span ng-if="power.keywords">&diams; {{ power.keywords }}</span>
+        </div>
+
+        <div class="action-type-range">
+            <span class="action-type">{{ power.actionType }}</span>
+            <span class="range">{{ power.rangeText }}</span>
+        </div>
+
+        <div class="target" ng-repeat="target in power.targets">
+            <div class="section" ng-if="target.target"><b>Target</b>: {{ target.target }}</div>
+            <div class="section" ng-if="target.attack"><b>Attack</b>: {{ target.attack }}</div>
+            <div class="section" ng-if="target.hit"><b>Hit</b>: {{ target.hit }}</div>
+            <div class="section" ng-if="target.miss"><b>Miss</b>: {{ target.miss }}</div>
+        </div>
+        <div class="sections">
+            <div class="section" ng-repeat="section in power.sections">
+                <b>{{ section.title }}</b>: {{ section.content }}
+            </div>
+        </div>
+    </div>
+</div>

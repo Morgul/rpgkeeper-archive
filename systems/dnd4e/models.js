@@ -78,8 +78,10 @@ db.once('open', function callback () {
         // Attack
         targets: [{
             target: String,
-            targetPlural: Boolean,     // If true, will display as "Targets"
-            attack: String
+            //targetPlural: Boolean,     // If true, will display as "Targets"
+            attack: String,
+            hit: String,
+            miss: String
         }],
 
         // Additional sections
@@ -541,8 +543,32 @@ db.once('open', function callback () {
 
     CharacterSchema.virtual('powers').get(function()
     {
-        return this.additionalPowers.concat((this.race || {powers: []}).powers, (this.class || {powers: []}).powers,
-            (this.paragonPath || {powers: []}).powers);
+        var powers = this.additionalPowers.concat(
+            ((this.race || {powers: []}).powers || []),
+            ((this.class || {powers: []}).powers || []),
+            ((this.paragonPath || {powers: []}).powers || [])
+        );
+
+        // Sort by level and then by kind
+        powers = _.sortBy(_.sortBy(powers, 'level'), function(power)
+        {
+            if(power.type == 'At-Will')
+            {
+                return 1;
+            } // end if
+
+            if(power.type == 'Encounter')
+            {
+                return 2;
+            } // end if
+
+            if(power.type == 'Daily')
+            {
+                return 3;
+            } // end if
+        });
+
+        return powers;
     }); // end powers
 
     CharacterSchema.virtual('feats').get(function()

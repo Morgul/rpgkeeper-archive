@@ -8,8 +8,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
 {
     if($scope.isNew)
     {
-        console.log('New Character!!!');
-
         var opts = {
             backdrop: true,
             keyboard: true,
@@ -24,9 +22,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         {
             if(result)
             {
-                // To save, or not to save.
-                console.log('result of new char dialog was:', result);
-
                 // Be nice, and set level
                 $scope.sysChar.level = 1;
 
@@ -141,25 +136,37 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     $scope.$watch('classID', function(oldID, newID)
     {
         var _class = _.filter($scope.choices.class, {_id: $scope.classID})[0];
-        $scope.sysChar.class = _class;
+        if(_class)
+        {
+            $scope.sysChar.class = _class;
+        } // end if
     });
 
     $scope.$watch('raceID', function(oldID, newID)
     {
         var race = _.filter($scope.choices.race, {_id: $scope.raceID})[0];
-        $scope.sysChar.race = race;
+        if(race)
+        {
+            $scope.sysChar.race = race;
+        } // end if
     });
 
     $scope.$watch('pathID', function(oldID, newID)
     {
         var path = _.filter($scope.choices.paragonPath, {_id: $scope.pathID})[0];
-        $scope.sysChar.paragonPath = path;
+        if(path)
+        {
+            $scope.sysChar.paragonPath = path;
+        } // end if
     });
 
     $scope.$watch('destinyID', function(oldID, newID)
     {
         var destiny = _.filter($scope.choices.epicDestiny, {_id: $scope.destinyID})[0];
-        $scope.sysChar.epicDestiny = destiny;
+        if(destiny)
+        {
+            $scope.sysChar.epicDestiny = destiny;
+        } // end if
     });
 
     // We just do a deep watch on the object, which is easier than trying to bind to every part of it. It's possible this

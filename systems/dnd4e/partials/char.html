@@ -27,7 +27,7 @@
                 <button class="btn btn-small" title="Collapse All"><i class="icon-collapse"></i></button>
             </div>
             <tab heading="Powers">
-                <h4 class="text-center">Not Implemented Yet</h4>
+                <ng-include src="'/system/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers"></ng-include>
             </tab>
             <tab heading="Feats">
                 <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.feats"></ng-include>
@@ -43,7 +43,6 @@
             <div class="navbar-inner">
                 <span class="brand"><i class="icon-edit"></i> Character Details</span>
                 <div class="all-right">
-                    <button class="btn btn-mini" ng-click="editBaseChar()"><i class="icon-edit"></i> Edit Base</button>
                     <button class="btn btn-mini btn-primary" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
                 </div>
             </div>

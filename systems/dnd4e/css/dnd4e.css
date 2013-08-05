@@ -644,3 +644,103 @@ img.portrait
     width: 6.5em;
 }
 
+
+/** Powers **/
+
+.power
+{
+    margin-top: 5px;
+}
+
+.power header
+{
+    padding: 2px 5px;
+    font-size: 1.15em;
+    font-weight: 600;
+    color: white;
+}
+
+.power header .type-level
+{
+    float: right;
+    font-size: .75em;
+    font-weight: normal;
+}
+
+.power header.At-Will
+{
+    background-color: #61976a;
+}
+
+.power header.Encounter
+{
+    background-color: #951234;
+}
+
+.power header.Daily
+{
+    background-color: #4c4d4f;
+}
+
+.flavor
+{
+    font-style: italic;
+    padding: 4px 5px;
+    margin-bottom: 2px;
+}
+
+.power .gradient
+{
+    padding-top: 2px !important;
+    background: -moz-linear-gradient(left, rgba(221,220,205,1) 35%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(35%,rgba(221,220,205,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* IE10+ */
+    background: linear-gradient(to right, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddccd', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+.power-content
+{
+    font-size: .85em;
+    line-height: 1.25em;
+}
+
+.type-keywords,
+.action-type-range
+{
+    padding: 2px 5px;
+    font-weight: bold;
+}
+
+.type-keywords
+{
+    padding-bottom: 0;
+}
+
+.action-type,
+.range
+{
+    display: inline-block;
+    margin: 0;
+    width: 49%;
+    box-sizing: border-box;
+}
+
+.range
+{
+    font-weight: normal;
+}
+
+.sections .section,
+.target .section
+{
+    margin: 0;
+    padding: 2px 5px;
+}
+.sections .section + .section,
+.target .section + .section
+{
+    padding-top: 0;
+}
