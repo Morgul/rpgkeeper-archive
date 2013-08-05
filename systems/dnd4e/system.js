@@ -231,6 +231,28 @@ app.channel('/dnd4e').on('connection', function (socket)
         });
     });
 
+    socket.on('update_skills', function(charID, skills, callback)
+    {
+        models.Character.findOne({_id: charID})
+            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
+            .exec(function(error, char)
+            {
+                if(error)
+                {
+                    console.log("Error!", error);
+                    callback({ type: 'error', message: 'Encountered an error while updating system specific character\'s skills: ' + error.toString()});
+                }
+                else
+                {
+                    char.skills = skills;
+                    char.save(function(err, char)
+                    {
+                        callback(null, buildCharacter(char));
+                    });
+                } // end if
+            });
+    });
+
     socket.on('add_condition', function(condition, callback)
     {
         var id = condition.charID;
