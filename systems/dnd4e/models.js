@@ -148,7 +148,7 @@ db.once('open', function callback () {
         prerequisites: String,
         benefit: String,
         special: String,
-        powerList: [PowerSchema],
+        powers: [PowerSchema],
         reference: {
             book: String,
             page: Number,
@@ -157,11 +157,6 @@ db.once('open', function callback () {
     });
 
     //--------------------------------------------------------------------
-
-    FeatSchema.virtual('power').get(function()
-    {
-        return this.powerList[0];
-    });
 
     // Export model
     module.exports['Feat'] = db.model('Feat', FeatSchema);

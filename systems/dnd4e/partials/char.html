@@ -211,7 +211,7 @@
                 <header class="group-title">Skills</header>
                 <div class="columns">
                     <div class="stat" ng-repeat="skill in sysChar.skills">
-                        <header>{{ skill.name|capitalize }}</header>
+                        <header>{{ skill.name|capitalize }} <i ng-if="skill.trained" class="icon-star icon-tiny" title="Trained"></i></header>
                         <span class="value">{{ skill.total }}</span>
                         <button class="btn btn-mini">Roll</button>
                     </div>

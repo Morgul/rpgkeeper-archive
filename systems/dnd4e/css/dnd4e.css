@@ -644,6 +644,16 @@ img.portrait
     width: 6.5em;
 }
 
+.stat .icon-tiny
+{
+    position: relative;
+    top: -1px;
+}
+
+.stat-group.skills .stat header [class*='icon-']
+{
+    color: #ffcb59;
+}
 
 /** Powers **/
 
