@@ -24,6 +24,11 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
             $rootScope.alerts.splice(index, 1);
         };
 
+        $rootScope.range = function(n)
+        {
+            return new Array(n);
+        }; // end range
+
         $rootScope.isArray = angular.isArray;
     }).filter('capitalize', function()
     {
