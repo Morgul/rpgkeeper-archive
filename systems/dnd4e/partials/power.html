@@ -1,6 +1,8 @@
 <div class="power" ng-show="power">
     <header class="{{ power.type }}" data-toggle="collapse" data-target="#power-content-{{ power._id }}">
+        <i title="Indicates if the power has been used, or not" ng-if="power.type != 'At-Will'" class="pointer used-power" ng-class="{true:'icon-check', false:'icon-check-empty'}[sysChar.usedPowers.indexOf(power._id) >= 0]" ng-click="toggleUsed(power, $event)"></i>
         {{ power.name }}
+        <!--button ng-if="power.type != 'At-Will'" class="btn btn-mini"><i class="icon-check-empty"></i></button-->
         <span class="level">
             <span ng-if="power.paragonPath">{{ sysChar.paragonPath.name }}</span>
             <span class="type-level" ng-switch="power.kind">

@@ -744,3 +744,9 @@ img.portrait
 {
     padding-top: 0;
 }
+
+.used-power
+{
+    display: inline-block;
+    width: 1em;
+}

@@ -97,3 +97,8 @@ table td.shrink
     margin-left: 10px;
     font-size: 30px;
 }
+
+.pointer
+{
+    cursor: pointer;
+}

@@ -184,6 +184,20 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     // Public API
     //------------------------------------------------------------------------------------------------------------------
 
+    $scope.toggleUsed = function(power, event)
+    {
+        if(_.contains($scope.sysChar.usedPowers, power._id))
+        {
+            $scope.sysChar.usedPowers = _.without($scope.sysChar.usedPowers, power._id);
+        }
+        else
+        {
+           $scope.sysChar.usedPowers.push(power._id);
+        } // end if
+
+        event.stopPropagation();
+    };
+
     $scope.addSign = function(value)
     {
         if(value >= 0)
