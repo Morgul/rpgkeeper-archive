@@ -45,6 +45,7 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
     {
         return function markdown(text)
         {
+            //var converter = new Showdown.converter({ extensions: 'table' });
             var converter = new Showdown.converter();
             return converter.makeHtml(text);
         }; // end markdown
