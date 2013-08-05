@@ -47,7 +47,17 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 // Add new skills
                 $scope.sysChar.skills = $scope.sysChar.skills.concat(result.skills);
 
-                //TODO: Handle chosen Class Features
+                // Handle chosen Class Features
+                _.forEach(result.class.chosenFeatures, function(value)
+                {
+                    if(!$scope.sysChar.chosenFeatures)
+                    {
+                        $scope.sysChar.chosenFeatures = [];
+                    } // end if
+
+                    $scope.sysChar.chosenFeatures.push(value);
+                });
+
 
                 // Set Attributes
                 $scope.sysChar.strength = result.attributes.strength;

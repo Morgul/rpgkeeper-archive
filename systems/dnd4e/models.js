@@ -342,8 +342,10 @@ db.once('open', function callback () {
         race: { type: mongoose.Schema.Types.ObjectId, ref: 'Race'},
         class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class' },
 
-        classPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassPath' },
-        chosenFeatures: [{ type: mongoose.Schema.Types.ObjectId }],   //TODO: Not sure if this is the best way to store the chosen features...
+        chosenFeatures: [{
+            name: String,
+            description: String
+        }],
 
         paragonPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ParagonPath' },
         epicDestiny: { type: mongoose.Schema.Types.ObjectId, ref: 'EpicDestiny'},
@@ -567,11 +569,6 @@ db.once('open', function callback () {
 
         return powers;
     }); // end powers
-
-    CharacterSchema.virtual('feats').get(function()
-    {
-        return this.additionalFeats.concat((this.race || {feats: []}).feats, (this.class || {feats: []}).feats);
-    }); // end feats
 
     CharacterSchema.virtual('languages').get(function()
     {
