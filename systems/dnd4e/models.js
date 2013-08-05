@@ -40,7 +40,7 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var LanguageSchema = mongoose.Schema({
-        name: { type: String, required: true },
+        name: String,
         script: String
     });
 
@@ -52,7 +52,7 @@ db.once('open', function callback () {
     var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
     var powerSource = ["Arcane", "Divine", "Martial", "Psionic", "Shadow", "Primal", "Ki"];
     var PowerSchema = mongoose.Schema({
-        name: { type: String, required: true },
+        name: String,
         flavor: String,
         kind: { type: String, enum: ["Attack", "ClassFeature", "Feat", "Skill", "Race", "Utility"] },
         level: { type: Number, default: 0, min: 0 },
@@ -143,7 +143,7 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var FeatSchema = mongoose.Schema({
-        name: { type: String, required: true },
+        name: String,
         type: { type: String, enum: ["Normal", "Class", "Racial", "Multiclass", "Divinity"]},
         prerequisites: String,
         benefit: String,
@@ -261,7 +261,7 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var ParagonPathSchema = mongoose.Schema({
-        name: { type: String, required: true },
+        name: String,
         flavor: String,
         prerequisites: String,
         description: String,
@@ -287,7 +287,7 @@ db.once('open', function callback () {
     //------------------------------------------------------------------------------------------------------------------
 
     var EpicDestinySchema = mongoose.Schema({
-        name: { type: String, required: true },
+        name: String,
         prerequisites: String,
         immortality: String,
 
@@ -548,8 +548,25 @@ db.once('open', function callback () {
             ((this.paragonPath || {powers: []}).powers || [])
         );
 
-        // Sort by level and then by kind
         powers = _.sortBy(_.sortBy(powers, 'level'), function(power)
+        {
+            switch(power.kind)
+            {
+                case 'Race':
+                    return 1;
+                case 'Attack':
+                    return 2;
+                case 'Utility':
+                    return 3;
+                case 'ClassFeature':
+                    return 4;
+                default:
+                    return 5;
+            }
+        });
+
+        // Sort by level and then by kind
+        powers = _.sortBy(powers, function(power)
         {
             if(power.type == 'At-Will')
             {
