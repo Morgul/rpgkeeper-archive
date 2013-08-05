@@ -58,6 +58,7 @@ db.once('open', function callback () {
         level: { type: Number, default: 0, min: 0 },
         type: { type: String, enum: ["At-Will", "Encounter", "Daily"] },
         source: { type: String, enum: powerSource },
+        uses: { type: Number, default: 1, min: 1 },
 
         // Any combination of Acid, Cold, Fire, Force, Lightning, Necrotic, Poison, Psychic, Radiant, or Thunder.
         damageTypes: String,
@@ -400,6 +401,7 @@ db.once('open', function callback () {
         // Powers, Feats, etc
         //--------------------------------------------------------------------------------------------------------------
 
+        usedPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
         additionalPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
         additionalFeats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feat' }],
         additionalLanguages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
