@@ -31,7 +31,22 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 // Set Class
                 $scope.sysChar.class = result.class;
 
-                //TODO: Handle trained skills
+                // Handle trained skills
+                $scope.sysChar.skills.forEach(function(skill)
+                {
+                    // Set to our initial value
+                    skill.trained = result.class.skills[skill.name];
+
+                    // But, if it's a class trained skill, we override.
+                    if(_.contains(result.class.trainedSkills, skill.name))
+                    {
+                        skill.trained = true;
+                    } // end if
+                });
+
+                // Add new skills
+                $scope.sysChar.skills = $scope.sysChar.skills.concat(result.skills);
+
                 //TODO: Handle chosen Class Features
 
                 // Set Attributes
@@ -45,8 +60,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 // Set initial con
                 $scope.sysChar.initialCon = result.attributes.constitution;
 
-                // Add any additional skills we're missing
-                $scope.systemSocket.emit('addSkills', result.skills, function(error)
+                $scope.systemSocket.emit('update_skills', $scope.sysChar._id, $scope.sysChar.skills, function(error)
                 {
                     if(error)
                     {
@@ -56,7 +70,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                     {
                         updateChar($scope, $timeout);
                     } // end if
-                })
+                });
             } // end if
         });
     } // end if
