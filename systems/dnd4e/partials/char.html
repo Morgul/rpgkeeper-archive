@@ -27,10 +27,22 @@
                 <button class="btn btn-small" title="Collapse All"><i class="icon-collapse"></i></button>
             </div>
             <tab heading="Powers">
-                <ng-include src="'/system/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers"></ng-include>
+                <div class="powers">
+                    <ng-include src="'/system/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers"></ng-include>
+                </div>
             </tab>
             <tab heading="Feats">
-                <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.feats"></ng-include>
+                <div class="feats">
+                    <h5 ng-if="sysChar.race.feats">Racial Feats</h5>
+                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.race.feats"></ng-include>
+                    <br/>
+                    <h5 ng-if="sysChar.class.classFeatures || sysChar.chosenFeatures">Class Features</h5>
+                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.class.classFeatures"></ng-include>
+                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.chosenFeatures"></ng-include>
+                    <br/>
+                    <h5 ng-if="sysChar.additionalFeats">Chosen Feats</h5>
+                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.additionalFeats"></ng-include>
+                </div>
             </tab>
             <tab heading="Equipment">
                 <h4 class="text-center">Not Implemented Yet</h4>

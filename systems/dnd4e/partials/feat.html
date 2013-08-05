@@ -1,6 +1,7 @@
-<div class="feat" ng-show="feat">
+<div class="feat" ng-if="!feat.choices || feat.choices.length == 0">
     <header data-toggle="collapse" data-target="#feat-{{ feat._id }}">{{ feat.name }}</header>
-    <div id="feat-{{ feat._id }}" class="feat-contents collapse">
-        <p>{{ feat.benefit }}</p>
+    <div id="feat-{{ feat._id }}" class="feat-content collapse">
+        <div ng-if="feat.benefit" ng-bind-html-unsafe="feat.benefit | markdown"></div>
+        <div ng-if="feat.description" ng-bind-html-unsafe="feat.description | markdown"></div>
     </div>
 </div>

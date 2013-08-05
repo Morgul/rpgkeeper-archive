@@ -462,27 +462,6 @@ img.portrait
     height: 0;
 }
 
-/* Feats */
-
-.feat
-{
-    margin-bottom: 5px;
-}
-
-.feat header
-{
-    font-size: 1.25em;
-    font-weight: bold;
-    margin: 0;
-    padding: 2px 5px;
-    background-color: #eaeaea;
-}
-
-.feat .feat-contents
-{
-    padding: 0 8px;
-}
-
 .condition
 {
     margin-bottom: 0;
@@ -655,13 +634,38 @@ img.portrait
     color: #ffcb59;
 }
 
-/** Powers **/
+/** Feats **/
 
+/*
+.feat
+{
+    margin-bottom: 5px;
+}
+
+.feat header
+{
+    font-size: 1.25em;
+    font-weight: bold;
+    margin: 0;
+    padding: 2px 5px;
+    background-color: #eaeaea;
+}
+
+.feat .feat-contents
+{
+    padding: 0 8px;
+}
+
+*/
+/** Powers & Feats **/
+
+.feat,
 .power
 {
     margin-top: 5px;
 }
 
+.feat header,
 .power header
 {
     padding: 2px 5px;
@@ -675,6 +679,12 @@ img.portrait
     float: right;
     font-size: .75em;
     font-weight: normal;
+}
+
+.feat header
+{
+    background-color: #eaeaea;
+    color: black;
 }
 
 .power header.At-Will
@@ -711,10 +721,17 @@ img.portrait
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddccd', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
 }
 
+.feat-content,
 .power-content
 {
     font-size: .85em;
     line-height: 1.25em;
+}
+
+.feats h5
+{
+    font-size: 1.15em;
+    text-align: center;
 }
 
 .type-keywords,
