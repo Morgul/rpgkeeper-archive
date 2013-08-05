@@ -139,7 +139,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             }
             else
             {
-                $scope.choices.paragonPaths = paths;
+                $scope.choices.paragonPath = paths;
             } // end if
         });
     });
