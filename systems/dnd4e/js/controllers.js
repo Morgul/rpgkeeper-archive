@@ -181,6 +181,49 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     }, true);
 
     //------------------------------------------------------------------------------------------------------------------
+    // Events
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.$on('short-rest', function()
+    {
+        var powers = $scope.sysChar.usedPowers;
+        $scope.sysChar.powers.forEach(function(power)
+        {
+            if(power.type == 'Encounter')
+            {
+                powers = _.without(powers, power._id);
+            } // end if
+        });
+        $scope.sysChar.usedPowers = powers;
+    });
+
+    $scope.$on('ext-rest', function()
+    {
+        $scope.sysChar.usedPowers = [];
+    });
+
+    $scope.$on('second-wind', function()
+    {
+        var cond = {
+            effect: "+2 to all defenses",
+            duration: "til the end of your next turn",
+            charID: $scope.sysChar.id
+        };
+
+        $scope.systemSocket.emit("add_condition", cond, function(error)
+        {
+            if(error)
+            {
+                $scope.alerts.push(error);
+            }
+            else
+            {
+                updateChar($scope, $timeout);
+            } // end if
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
     // Public API
     //------------------------------------------------------------------------------------------------------------------
 
@@ -565,9 +608,9 @@ function HitpointsCtrl($scope)
 
     $scope.secondWind = function()
     {
-        //TODO: Add a condition of "+2 to all defenses till the end of your next turn"
         $scope.sysChar.secondWindAvailable = false;
         $scope.surge();
+        $scope.$root.$broadcast('second-wind');
     }; // end $scope.secondWind
 
     $scope.addSurge = function()
@@ -590,6 +633,7 @@ function HitpointsCtrl($scope)
     $scope.shortRest = function()
     {
         $scope.sysChar.secondWindAvailable = true;
+        $scope.$root.$broadcast('short-rest');
     }; // end $scope.shortRest
 
     $scope.extRest = function()
@@ -598,6 +642,7 @@ function HitpointsCtrl($scope)
         $scope.sysChar.currentSurges = Math.max($scope.sysChar.currentSurges, $scope.sysChar.surgesPerDay);
         $scope.sysChar.currentHP = $scope.sysChar.maxHP;
         $scope.sysChar.tempHP = 0;
+        $scope.$root.$broadcast('ext-rest');
     }; // end $scope.extRest
 } // end HitpointsCtrl
 
