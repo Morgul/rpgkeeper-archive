@@ -64,7 +64,6 @@
             {
                 $rootScope.characters = _.sortBy(characters, function(character)
                 {
-                    console.log('system', character);
                     return character.system.name;
                 });
             });
