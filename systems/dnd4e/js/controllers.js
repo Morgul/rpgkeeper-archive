@@ -42,6 +42,9 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 $scope.sysChar.wisdom = result.attributes.wisdom;
                 $scope.sysChar.charisma = result.attributes.charisma;
 
+                // Set initial con
+                $scope.sysChar.initialCon = result.attributes.constitution;
+
                 // Add any additional skills we're missing
                 $scope.systemSocket.emit('addSkills', result.skills, function(error)
                 {
