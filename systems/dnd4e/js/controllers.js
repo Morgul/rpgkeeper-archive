@@ -50,6 +50,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 // Handle chosen Class Features
                 _.forEach(result.class.chosenFeatures, function(value)
                 {
+                    console.log("Chosen Features:", result.class.chosenFeatures);
                     if(!$scope.sysChar.chosenFeatures)
                     {
                         $scope.sysChar.chosenFeatures = [];
@@ -57,7 +58,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
 
                     $scope.sysChar.chosenFeatures.push(value);
                 });
-
 
                 // Set Attributes
                 $scope.sysChar.strength = result.attributes.strength;
