@@ -77,6 +77,14 @@
                 <p class="subtitle">Level</p>
             </div>
             <div class="char-detail">
+                <h4 class="title fake-editable">{{ sysChar.class.name }}</h4>
+                <p class="subtitle">Class</p>
+            </div>
+            <div class="char-detail">
+                <h4 class="title fake-editable">{{ sysChar.race.name }}</h4>
+                <p class="subtitle">Race</p>
+            </div>
+            <!--div class="char-detail">
                 <h4 class="title">
                     <select ng-model="classID" ng-options="class._id as class.name for class in choices.class">
                     </select>
@@ -89,7 +97,7 @@
                     </select>
                 </h4>
                 <p class="subtitle">Race</p>
-            </div>
+            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="pathID" ng-options="path._id as path.name for path in choices.paragonPath">

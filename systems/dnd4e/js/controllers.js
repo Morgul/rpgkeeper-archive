@@ -89,8 +89,8 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     $scope.powers = {};
     $scope.feats = {};
     $scope.equipment = {};
-    $scope.classID = ($scope.sysChar.class || {})._id;
-    $scope.raceID = ($scope.sysChar.race || {})._id;
+    //$scope.classID = ($scope.sysChar.class || {})._id;
+    //$scope.raceID = ($scope.sysChar.race || {})._id;
     $scope.pathID = ($scope.sysChar.paragonPath || {})._id;
     $scope.destinyID = ($scope.sysChar.epicDestiny || {})._id;
 
@@ -101,6 +101,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     $scope.choices.gender = ["Male", "Female", "Other"];
 
     // Get all Classes
+    /*
     $scope.systemSocket.emit("list_classes", function(error, classes)
     {
         $scope.$apply(function()
@@ -131,6 +132,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             } // end if
         });
     });
+    */
 
     // Get all Paragon Path
     $scope.systemSocket.emit("list_paths", function(error, paths)
@@ -164,6 +166,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         });
     });
 
+    /*
     $scope.$watch('classID', function(oldID, newID)
     {
         var _class = _.filter($scope.choices.class, {_id: $scope.classID})[0];
@@ -181,6 +184,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             $scope.sysChar.race = race;
         } // end if
     });
+    */
 
     $scope.$watch('pathID', function(oldID, newID)
     {
