@@ -1,6 +1,6 @@
 <div class="feat" ng-if="!feat.choices || feat.choices.length == 0">
-    <header data-toggle="collapse" data-target="#feat-{{ feat._id }}">{{ feat.name }}</header>
-    <div id="feat-{{ feat._id }}" class="feat-content collapse">
+    <header  ng-click="feats[feat.name] = !feats[feat.name]">{{ feat.name }}</header>
+    <div class="feat-content" collapse="feats[feat.name]">
         <div ng-if="feat.benefit" ng-bind-html-unsafe="feat.benefit | markdown"></div>
         <div ng-if="feat.description" ng-bind-html-unsafe="feat.description | markdown"></div>
     </div>

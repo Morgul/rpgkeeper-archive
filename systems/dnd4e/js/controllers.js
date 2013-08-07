@@ -85,6 +85,10 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         });
     } // end if
 
+    $scope.activeTab = 'powers';
+    $scope.powers = {};
+    $scope.feats = {};
+    $scope.equipment = {};
     $scope.classID = ($scope.sysChar.class || {})._id;
     $scope.raceID = ($scope.sysChar.race || {})._id;
     $scope.pathID = ($scope.sysChar.paragonPath || {})._id;
@@ -276,6 +280,27 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         } // end if
 
         return value;
+    };
+
+    $scope.setTab = function(tab)
+    {
+        $scope.activeTab = tab;
+    };
+
+    $scope.expandAll = function()
+    {
+        _.forEach($scope[$scope.activeTab], function(power, key)
+        {
+            $scope[$scope.activeTab][key] = false;
+        });
+    };
+
+    $scope.collapseAll = function()
+    {
+        _.forEach($scope[$scope.activeTab], function(power, key)
+        {
+            $scope[$scope.activeTab][key] = true;
+        });
     };
 
     $scope.addCond = function()
