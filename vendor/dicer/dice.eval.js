@@ -69,7 +69,7 @@ dice.eval = (function(){
 		eval: function(parsed, scope){
 			scope = scope || {};
 			parsed = simplifyParsed(parsed);
-			var acc = {sum: 0, mode: "+", rolls: [], 'scope':scope}
+			var acc = {sum: 0, mode: "+", rolls: [], 'scope':scope};
 			var reduced = parsed.reduce(reduceThemBones, acc);
 			return {sum: reduced.sum, rolls: reduced.rolls};
 		}

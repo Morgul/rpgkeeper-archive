@@ -89,8 +89,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     $scope.powers = {};
     $scope.feats = {};
     $scope.equipment = {};
-    //$scope.classID = ($scope.sysChar.class || {})._id;
-    //$scope.raceID = ($scope.sysChar.race || {})._id;
     $scope.pathID = ($scope.sysChar.paragonPath || {})._id;
     $scope.destinyID = ($scope.sysChar.epicDestiny || {})._id;
 
@@ -99,40 +97,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     $scope.choices.alignment = ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"];
     $scope.choices.size = ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"];
     $scope.choices.gender = ["Male", "Female", "Other"];
-
-    // Get all Classes
-    /*
-    $scope.systemSocket.emit("list_classes", function(error, classes)
-    {
-        $scope.$apply(function()
-        {
-            if(error)
-            {
-                $scope.alerts.push(error);
-            }
-            else
-            {
-                $scope.choices.class = classes;
-            } // end if
-        });
-    });
-
-    // Get all Races
-    $scope.systemSocket.emit("list_races", function(error, races)
-    {
-        $scope.$apply(function()
-        {
-            if(error)
-            {
-                $scope.alerts.push(error);
-            }
-            else
-            {
-                $scope.choices.race = races;
-            } // end if
-        });
-    });
-    */
 
     // Get all Paragon Path
     $scope.systemSocket.emit("list_paths", function(error, paths)
@@ -166,27 +130,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         });
     });
 
-    /*
-    $scope.$watch('classID', function(oldID, newID)
-    {
-        var _class = _.filter($scope.choices.class, {_id: $scope.classID})[0];
-        if(_class)
-        {
-            $scope.sysChar.class = _class;
-        } // end if
-    });
-
-    $scope.$watch('raceID', function(oldID, newID)
-    {
-        var race = _.filter($scope.choices.race, {_id: $scope.raceID})[0];
-        if(race)
-        {
-            $scope.sysChar.race = race;
-        } // end if
-    });
-    */
-
-    $scope.$watch('pathID', function(oldID, newID)
+    $scope.$watch('pathID', function()
     {
         var path = _.filter($scope.choices.paragonPath, {_id: $scope.pathID})[0];
         if(path)
@@ -195,7 +139,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         } // end if
     });
 
-    $scope.$watch('destinyID', function(oldID, newID)
+    $scope.$watch('destinyID', function()
     {
         var destiny = _.filter($scope.choices.epicDestiny, {_id: $scope.destinyID})[0];
         if(destiny)
@@ -304,6 +248,37 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         _.forEach($scope[$scope.activeTab], function(power, key)
         {
             $scope[$scope.activeTab][key] = true;
+        });
+    };
+
+    $scope.addAttack = function()
+    {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/system/dnd4e/partials/addattack.html',
+            controller: 'AddAttackDialogCtrl'
+        };
+
+        var dlg = $dialog.dialog(opts);
+        dlg.open().then(function(result)
+        {
+            if(result)
+            {
+                result.charID = $scope.sysChar.id;
+                $scope.systemSocket.emit("add_attack", result, function(error)
+                {
+                    if(error)
+                    {
+                        $scope.alerts.push(error);
+                    }
+                    else
+                    {
+                        updateChar($scope, $timeout);
+                    } // end if
+                });
+            } // end if
         });
     };
 

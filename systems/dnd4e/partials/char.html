@@ -1,5 +1,6 @@
 <link href="/system/dnd4e/css/dnd4e.css" rel="stylesheet">
 <script src="/system/dnd4e/js/controllers.js"></script>
+<script src="/system/dnd4e/js/attacks.js"></script>
 
 <div ng-controller="DnDCharCtrl">
     <div class="left-sidebar">
@@ -63,13 +64,14 @@
                             <li>
                                 <form>
                                     <label for="copper">Copper</label>
-                                    <input id="copper" type="number" class="value" ng-model="sysChar.gold">
+                                    <input id="copper" type="number" class="value" ng-model="sysChar.currency.copper" ng-click="$event.stopPropagation()">
                                     <label for="silver">Silver</label>
-                                    <input id="silver" type="number" class="value" ng-model="sysChar.gold">
+                                    <input id="silver" type="number" class="value" ng-model="sysChar.currency.silver" ng-click="$event.stopPropagation()">
                                     <label for="gold">Gold</label>
-                                    <input id="gold" type="number" class="value" ng-model="sysChar.gold">
+                                    <input id="gold" type="number" class="value" ng-model="sysChar.currency.gold" ng-click="$event.stopPropagation()">
                                     <label for="plat">Platinum</label>
-                                    <input id="plat" type="number" class="value" ng-model="sysChar.gold">
+                                    <input id="plat" type="number" class="value" ng-model="sysChar.currency.platinum" ng-click="$event.stopPropagation()">
+                                    <h4>Total: <span style="font-weight: normal">{{ sysChar.currency.platinum * 10 + sysChar.currency.gold + sysChar.currency.silver / 10 + sysChar.currency.copper / 100 }} gp</span></h4>
                                 </form>
                             </li>
                         </ul>
@@ -262,8 +264,61 @@
         <div class="navbar navbar-small">
             <div class="navbar-inner">
                 <span class="brand"><i class="icon-shield"></i> Attacks</span>
-                <button class="btn btn-mini btn-primary all-right" ng-click="addCond()"><i class="icon-plus"></i> Add Attack</button>
+                <button class="btn btn-mini btn-primary all-right" ng-click="addAttack()"><i class="icon-plus"></i> Add Attack</button>
             </div>
+        </div>
+        <div class="row-fluid attacks">
+            <div class="span6 well well-small attack">
+                <button type="button" class="close" ng-click="removeAttack(attack)">&times;</button>
+                <button type="button" class="close edit" ng-click="editAttack(attack)"><i class="icon-pencil"></i></button>
+                <h4>Sly Flourish:</h4>
+                <div class="mini-section">
+                    <div>
+                        <b>Attack:</b>
+                        <span>+21</span>
+                    </div>
+                    <div class="input-append">
+                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
+                        <button class="btn" type="button">Roll</button>
+                    </div>
+                </div>
+                <div class="mini-section">
+                    <div>
+                        <b>Damage:</b>
+                        <span>1d4+17</span>
+                    </div>
+                    <div class="input-append">
+                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
+                        <button class="btn" type="button">Roll</button>
+                    </div>
+                </div>
+            </div>
+            <div class="span6 well well-small attack">
+                <button type="button" class="close" ng-click="removeAttack(attack)">&times;</button>
+                <button type="button" class="close edit" ng-click="editAttack(attack)"><i class="icon-pencil"></i></button>
+                <h4>Piercing Strike:</h4>
+                <div class="mini-section">
+                    <div>
+                        <b>Attack:</b>
+                        <span>+21</span>
+                    </div>
+                    <div class="input-append">
+                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
+                        <button class="btn" type="button">Roll</button>
+                    </div>
+                </div>
+                <div class="mini-section">
+                    <div>
+                        <b>Damage:</b>
+                        <span>1d4+10</span>
+                    </div>
+                    <div class="input-append">
+                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
+                        <button class="btn" type="button">Roll</button>
+                    </div>
+                </div>
+            </div>
+            <!--span popover-placement="top" popover="1d20 + DexMod (6) + Prof (2) + Enh (4) + 1/2 Level (8)" popover-trigger="mouseenter"-->
         </div>
     </div>
 

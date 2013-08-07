@@ -192,6 +192,7 @@ table.skill-table td.shrink
 .dropdown-menu form
 {
     padding: 0 10px;
+    margin-bottom: 0;
 }
 
 /** Main CSS **/
@@ -754,4 +755,27 @@ img.portrait
 {
     display: inline-block;
     width: 1em;
+}
+
+/** Attacks **/
+.attacks h4
+{
+    text-align: center;
+}
+
+.attack
+{
+    text-align: center;
+}
+
+.attack .mini-section
+{
+    display: inline-block;
+}
+
+.attack .edit
+{
+    font-size: .85em;
+    margin-right: 5px;
+    margin-top: 2px;
 }
