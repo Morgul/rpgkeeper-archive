@@ -32,28 +32,28 @@
         <div class="control-group">
             <label class="control-label" for="enh">Item Enh:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="enh" placeholder="0" min="0" ng-model="newAttack.context.atk.enh" required>
+                <input class="input-block-level" type="number" id="enh" placeholder="0" min="0" ng-model="newAttack.context.atk.enh">
                 <span class="help-block">Available as <code>[enh]</code>.</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="prof">Proficiency:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="prof" placeholder="2" min="0" ng-model="newAttack.context.atk.prof" required>
+                <input class="input-block-level" type="number" id="prof" placeholder="2" min="0" ng-model="newAttack.context.atk.prof">
                 <span class="help-block">Available as <code>[prof]</code>.</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="feat">Feat:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="feat" placeholder="0" min="0" ng-model="newAttack.context.atk.feat" required>
+                <input class="input-block-level" type="number" id="feat" placeholder="0" min="0" ng-model="newAttack.context.atk.feat">
                 <span class="help-block">Available as <code>[feat]</code>.</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="misc">Misc:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="misc" placeholder="0" ng-model="newAttack.context.atk.misc" required>
+                <input class="input-block-level" type="number" id="misc" placeholder="0" ng-model="newAttack.context.atk.misc">
                 <span class="help-block">Available as <code>[misc]</code>.</span>
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="control-group">
             <label class="control-label" for="atk_roll">Roll Text:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="atk_roll" placeholder="1d20 + [halfLevel] + [{{ newAttack.context.atk.mod }}] + [prof] + [enh] + [feat] + [misc]" ng-model="newAttack.roll">
+                <input class="input-block-level" type="text" id="atk_roll" placeholder="1d20 + [halfLevel] + [{{ newAttack.context.atk.mod }}] + [prof] + [enh] + [feat] + [misc]" ng-model="newAttack.atk.roll">
                 <span class="help-block">You can enter a custom roll formula, or accept the default. See <a href="">Roll Syntax</a> for additional help.</span>
             </div>
         </div>
@@ -96,21 +96,21 @@
         <div class="control-group">
             <label class="control-label" for="dmg_enh">Item Enh:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="dmg_enh" placeholder="0" min="0" ng-model="newAttack.context.dmg.enh" required>
+                <input class="input-block-level" type="number" id="dmg_enh" placeholder="0" min="0" ng-model="newAttack.context.dmg.enh">
                 <span class="help-block">Available as <code>[enh]</code>.</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="dmg_feat">Feat:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="dmg_feat" placeholder="0" min="0" ng-model="newAttack.context.dmg.feat" required>
+                <input class="input-block-level" type="number" id="dmg_feat" placeholder="0" min="0" ng-model="newAttack.context.dmg.feat">
                 <span class="help-block">Available as <code>[feat]</code>.</span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="dmg_misc">Misc:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="dmg_misc" placeholder="0" ng-model="newAttack.context.dmg.misc" required>
+                <input class="input-block-level" type="number" id="dmg_misc" placeholder="0" ng-model="newAttack.context.dmg.misc">
                 <span class="help-block">Available as <code>[misc]</code>.</span>
             </div>
         </div>
@@ -125,11 +125,23 @@
         <div class="control-group">
             <label class="control-label" for="dmg_roll">Roll Text:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="dmg_roll" placeholder="1d6 + [{{ newAttack.context.dmg.mod }}] + [enh] + [feat] + [misc]" ng-model="newAttack.roll">
+                <input class="input-block-level" type="text" id="dmg_roll" placeholder="1d6 + [{{ newAttack.context.dmg.mod }}] + [enh] + [feat] + [misc]" ng-model="newAttack.dmg.roll">
                 <span class="help-block">Please enter the damage die type, like above. See <a href="">Roll Syntax</a> for additional help.</span>
             </div>
         </div>
     </form>
+    <div style="clear: both">
+        <hr>
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="name">Attack Name:</label>
+                <div class="controls">
+                    <input class="input-block-level" type="text" id="name" placeholder="Attack Name" ng-model="newAttack.name" required>
+                    <span class="help-block">The name of the attack.</span>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <div class="modal-footer">
     <button ng-click="add()" class="btn btn-primary" ><i class="icon-plus"></i> Add</button>

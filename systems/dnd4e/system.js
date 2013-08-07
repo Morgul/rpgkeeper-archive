@@ -303,11 +303,51 @@ app.channel('/dnd4e').on('connection', function (socket)
     socket.on('add_attack', function(attack, callback)
     {
         var id = attack.charID;
-        delete attack['charID'];
 
-        console.log('New Attack:', attack);
+        models.Character.findOne({ _id: id }, function(error, char)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                var atkContext = {
+                    mod: attack.context.atk.mod,
+                    enh: attack.context.atk.enh || 0,
+                    prof: attack.context.atk.prof || 0,
+                    feat: attack.context.atk.feat || 0,
+                    misc: attack.context.atk.misc || 0
+                };
 
-        callback({ type: 'error', message: 'Attacks not yet implemented.'});
+                var dmgContext = {
+                    mod: attack.context.dmg.mod,
+                    enh: attack.context.dmg.enh || 0,
+                    feat: attack.context.dmg.feat || 0,
+                    misc: attack.context.dmg.misc || 0
+                };
+
+                char.attacks.push({
+                    name: attack.name,
+                    toHit: [{ name: "[Attack] " + attack.name, context: atkContext, roll: attack.context.atk.roll }],
+                    damage: [{ name: "[Damage] " + attack.name, context: dmgContext, roll: attack.context.dmg.roll }]
+                });
+
+                char.save(function(error)
+                {
+                    if(error)
+                    {
+                        console.log("Error!", error);
+                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
+                    }
+                    else
+                    {
+                        callback(null);
+                    } // end if
+                });
+            } // end if
+        });
     });
 });
 
