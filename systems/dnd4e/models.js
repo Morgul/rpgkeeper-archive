@@ -330,7 +330,12 @@ db.once('open', function callback () {
         level: { type: Number, default: 0, min: 0 },
         actionPoints: { type: Number, default: 0, min: 0 },
         experience: { type: Number, default: 0, min: 0 },
-        gold: { type: Number, default: 0, min: 0 },
+        currency: {
+            copper: { type: Number, default: 0, min: 0 },
+            silver: { type: Number, default: 0, min: 0 },
+            gold: { type: Number, default: 0, min: 0 },
+            platinum: { type: Number, default: 0, min: 0 }
+        },
 
         skills: [SkillSchema],
 
