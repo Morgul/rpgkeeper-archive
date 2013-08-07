@@ -29,6 +29,24 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
             return new Array(n);
         }; // end range
 
+        $rootScope.rollDice = function(roll, title, scope)
+        {
+            console.log(roll, title, scope);
+
+            var result = window.dice.roll(roll, scope);
+            if(title)
+            {
+                title = title + ": ";
+            }
+            else
+            {
+                title = "";
+            } // end if
+
+            var message = title + "[ " + result.rolls.join(" + ") + " ] = " + result.sum;
+            $rootScope.alerts.push({ message: message })
+        }; // end rollDice
+
         $rootScope.isArray = angular.isArray;
     }).filter('capitalize', function()
     {

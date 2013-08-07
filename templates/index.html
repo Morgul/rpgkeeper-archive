@@ -62,6 +62,20 @@
 
         <!-- Editables -->
         <script src="/vendor/editables/editables.js"></script>
+
+        <!-- Dicer -->
+        <script>
+		    window.dice = {
+                roll: function(roll, scope)
+                {
+                    var parsed = dice.parse.parse(roll);
+                    var evaled = dice.eval.eval(parsed, scope);
+                    return evaled;
+                }
+            };
+	    </script>
+        <script src="/vendor/dicer/dice.parse.js"></script>
+        <script src="/vendor/dicer/dice.eval.js"></script>
         <!-- ======================================================================================================= -->
     </body>
 </html>

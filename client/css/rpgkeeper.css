@@ -75,6 +75,7 @@ table td.shrink
 .alert-area .alert
 {
     opacity: 0.98;
+    margin-bottom: 5px;
 }
 
 /* Dashboard */
