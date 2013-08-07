@@ -189,6 +189,11 @@ table.skill-table td.shrink
     white-space: nowrap;
 }
 
+.dropdown-menu form
+{
+    padding: 0 10px;
+}
+
 /** Main CSS **/
 
 #main-view
@@ -599,10 +604,6 @@ img.portrait
 
 .stat-group.skills
 {
-    /*
-    width: calc(100% - 200px);
-    width: -webkit-calc(100% - 200px);
-    */
     width: 600px;
 }
 
@@ -634,29 +635,6 @@ img.portrait
     color: #ffcb59;
 }
 
-/** Feats **/
-
-/*
-.feat
-{
-    margin-bottom: 5px;
-}
-
-.feat header
-{
-    font-size: 1.25em;
-    font-weight: bold;
-    margin: 0;
-    padding: 2px 5px;
-    background-color: #eaeaea;
-}
-
-.feat .feat-contents
-{
-    padding: 0 8px;
-}
-
-*/
 /** Powers & Feats **/
 
 .feat,

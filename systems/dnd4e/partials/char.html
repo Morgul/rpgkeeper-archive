@@ -60,9 +60,33 @@
                             <i class="icon-dollar"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a><h4>Gold goes here.</h4></a></li>
+                            <li>
+                                <form>
+                                    <label for="copper">Copper</label>
+                                    <input id="copper" type="number" class="value" ng-model="sysChar.gold">
+                                    <label for="silver">Silver</label>
+                                    <input id="silver" type="number" class="value" ng-model="sysChar.gold">
+                                    <label for="gold">Gold</label>
+                                    <input id="gold" type="number" class="value" ng-model="sysChar.gold">
+                                    <label for="plat">Platinum</label>
+                                    <input id="plat" type="number" class="value" ng-model="sysChar.gold">
+                                </form>
+                            </li>
                         </ul>
                     </div>
+                    <!--div class="btn-group">
+                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                            XP
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <form>
+                                    <label for="exp">Experience</label>
+                                    <input id="exp" type="number" class="value" ng-model="sysChar.gold">
+                                </form>
+                            </li>
+                        </ul>
+                    </div-->
                     <button class="btn btn-mini btn-primary" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
                 </div>
             </div>
@@ -84,20 +108,6 @@
                 <h4 class="title fake-editable">{{ sysChar.race.name }}</h4>
                 <p class="subtitle">Race</p>
             </div>
-            <!--div class="char-detail">
-                <h4 class="title">
-                    <select ng-model="classID" ng-options="class._id as class.name for class in choices.class">
-                    </select>
-                </h4>
-                <p class="subtitle">Class</p>
-            </div>
-            <div class="char-detail">
-                <h4 class="title">
-                    <select ng-model="raceID" ng-options="race._id as race.name for race in choices.race">
-                    </select>
-                </h4>
-                <p class="subtitle">Race</p>
-            </div-->
             <div class="char-detail">
                 <h4 class="title">
                     <select ng-model="pathID" ng-options="path._id as path.name for path in choices.paragonPath">
@@ -179,10 +189,10 @@
             </div>
             <div class="stat-group">
                 <header class="group-title">Misc</header>
-                <div class="stat">
+                <!--div class="stat">
                     <header>Gold</header>
                     <input type="number" class="value xlarge" ng-model="sysChar.gold">
-                </div>
+                </div-->
                 <div class="stat">
                     <header>XP</header>
                     <input type="number" class="value large" ng-model="sysChar.experience">
