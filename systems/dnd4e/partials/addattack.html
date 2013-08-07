@@ -2,17 +2,131 @@
     <h3>Add Attack</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal">
+    <form class="form-horizontal attack-form-section">
+        <h4>To Hit</h4>
+        <div class="well well-small help">
+            <p>
+                Traditionally, attack rolls are calculated as:
+            </p>
+            <p>
+                <span class="mono">1d20 + 1/2 Level + Enhancement + Proficiency + Feat</span>
+            </p>
+            <p>
+                (with any additional miscellaneous modifiers as required.)
+            </p>
+        </div>
         <div class="control-group">
-            <label class="control-label" for="effect">Condition:</label>
+            <label class="control-label" for="mod">Ability Mod:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="effect" placeholder="+1 to all Defenses" ng-model="newCond.effect" required>
+                <select class="input-block-level" id="mod" ng-model="newAttack.context.atk.mod" required ng-init="newAttack.context.atk.mod = 'strengthMod'">
+                    <option value="strengthMod">Strength</option>
+                    <option value="constitutionMod">Constitution</option>
+                    <option value="deterityMod">Dexterity</option>
+                    <option value="intelligenceMod">Intelligence</option>
+                    <option value="wisdomMod">Wisdom</option>
+                    <option value="charismaMod">Charisma</option>
+                </select>
+                <span class="help-block">Available as <code>[{{ newAttack.context.atk.mod }}]</code>.</span>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="duration">Duration:</label>
+            <label class="control-label" for="enh">Item Enh:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="duration" placeholder="til the end of your next turn." ng-model="newCond.duration" required>
+                <input class="input-block-level" type="number" id="enh" placeholder="0" min="0" ng-model="newAttack.context.atk.enh" required>
+                <span class="help-block">Available as <code>[enh]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="prof">Proficiency:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="prof" placeholder="2" min="0" ng-model="newAttack.context.atk.prof" required>
+                <span class="help-block">Available as <code>[prof]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="feat">Feat:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="feat" placeholder="0" min="0" ng-model="newAttack.context.atk.feat" required>
+                <span class="help-block">Available as <code>[feat]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="misc">Misc:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="misc" placeholder="0" ng-model="newAttack.context.atk.misc" required>
+                <span class="help-block">Available as <code>[misc]</code>.</span>
+            </div>
+        </div>
+        <hr>
+        <div class="control-group">
+            <label class="control-label" for="atk_roll">Roll Text:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="atk_roll" placeholder="1d20 + [halfLevel] + [{{ newAttack.context.atk.mod }}] + [prof] + [enh] + [feat] + [misc]" ng-model="newAttack.roll">
+                <span class="help-block">You can enter a custom roll formula, or accept the default. See <a href="">Roll Syntax</a> for additional help.</span>
+            </div>
+        </div>
+    </form>
+    <form class="form-horizontal attack-form-section">
+        <h4>Damage</h4>
+        <div class="well well-small help">
+            <p>
+                Traditionally, damage rolls are calculated as:
+            </p>
+            <p>
+                <span class="mono">Weapon die + Enhancement + Feat</span>
+            </p>
+            <p>
+                (with any additional miscellaneous modifiers as required.)
+            </p>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="dmg_mod">Ability Mod:</label>
+            <div class="controls">
+                <select class="input-block-level" id="dmg_mod" ng-model="newAttack.context.dmg.mod" required ng-init="newAttack.context.dmg.mod = 'strengthMod'">
+                    <option value="strengthMod">Strength</option>
+                    <option value="constitutionMod">Constitution</option>
+                    <option value="deterityMod">Dexterity</option>
+                    <option value="intelligenceMod">Intelligence</option>
+                    <option value="wisdomMod">Wisdom</option>
+                    <option value="charismaMod">Charisma</option>
+                </select>
+                <span class="help-block">Available as <code>[{{ newAttack.context.dmg.mod }}]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="dmg_enh">Item Enh:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="dmg_enh" placeholder="0" min="0" ng-model="newAttack.context.dmg.enh" required>
+                <span class="help-block">Available as <code>[enh]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="dmg_feat">Feat:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="dmg_feat" placeholder="0" min="0" ng-model="newAttack.context.dmg.feat" required>
+                <span class="help-block">Available as <code>[feat]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="dmg_misc">Misc:</label>
+            <div class="controls">
+                <input class="input-block-level" type="number" id="dmg_misc" placeholder="0" ng-model="newAttack.context.dmg.misc" required>
+                <span class="help-block">Available as <code>[misc]</code>.</span>
+            </div>
+        </div>
+        <div class="control-group spacer">
+            <label class="control-label">&nbsp;</label>
+            <div class="controls">
+                <input type="text" class="input-block-level" disabled>
+                <span class="help-block">&nbsp;</span>
+            </div>
+        </div>
+        <hr>
+        <div class="control-group">
+            <label class="control-label" for="dmg_roll">Roll Text:</label>
+            <div class="controls">
+                <input class="input-block-level" type="text" id="dmg_roll" placeholder="1d6 + [{{ newAttack.context.dmg.mod }}] + [enh] + [feat] + [misc]" ng-model="newAttack.roll">
+                <span class="help-block">Please enter the damage die type, like above. See <a href="">Roll Syntax</a> for additional help.</span>
             </div>
         </div>
     </form>

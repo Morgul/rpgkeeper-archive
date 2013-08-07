@@ -84,3 +84,39 @@ select.tall
     height: 400px;
     width: 100% !important;
 }
+
+.control-group
+{
+    margin-bottom: 5px !important;
+}
+
+.help-block
+{
+    color: #aaa;
+    margin-left: 5px;
+    margin-top: 1px !important;
+    font-size: .85em;
+}
+
+.help-block code
+{
+    font-size: .85em;
+}
+
+.control-group.spacer label
+{
+    cursor: inherit;
+}
+
+.control-group.spacer input
+{
+    cursor: inherit;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none;
+}
+
+.mono
+{
+    font-family: monospace;
+}

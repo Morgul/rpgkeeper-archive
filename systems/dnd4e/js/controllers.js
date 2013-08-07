@@ -257,6 +257,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
+            dialogClass: "modal wide",
             templateUrl: '/system/dnd4e/partials/addattack.html',
             controller: 'AddAttackDialogCtrl'
         };
@@ -269,14 +270,17 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 result.charID = $scope.sysChar.id;
                 $scope.systemSocket.emit("add_attack", result, function(error)
                 {
-                    if(error)
+                    $scope.apply(function()
                     {
-                        $scope.alerts.push(error);
-                    }
-                    else
-                    {
-                        updateChar($scope, $timeout);
-                    } // end if
+                        if(error)
+                        {
+                            $scope.alerts.push(error);
+                        }
+                        else
+                        {
+                            updateChar($scope, $timeout);
+                        } // end if
+                    });
                 });
             } // end if
         });
@@ -300,14 +304,17 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 result.charID = $scope.sysChar.id;
                 $scope.systemSocket.emit("add_condition", result, function(error)
                 {
-                    if(error)
+                    $scope.apply(function()
                     {
-                        $scope.alerts.push(error);
-                    }
-                    else
-                    {
-                        updateChar($scope, $timeout);
-                    } // end if
+                        if(error)
+                        {
+                            $scope.alerts.push(error);
+                        }
+                        else
+                        {
+                            updateChar($scope, $timeout);
+                        } // end if
+                    });
                 });
             } // end if
         });

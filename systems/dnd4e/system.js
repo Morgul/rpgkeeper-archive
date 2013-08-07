@@ -299,6 +299,16 @@ app.channel('/dnd4e').on('connection', function (socket)
             } // end if
         });
     });
+
+    socket.on('add_attack', function(attack, callback)
+    {
+        var id = attack.charID;
+        delete attack['charID'];
+
+        console.log('New Attack:', attack);
+
+        callback({ type: 'error', message: 'Attacks not yet implemented.'});
+    });
 });
 
 //----------------------------------------------------------------------------------------------------------------------

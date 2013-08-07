@@ -779,3 +779,46 @@ img.portrait
     margin-right: 5px;
     margin-top: 2px;
 }
+
+form.attack-form-section
+{
+    width: 410px;
+    display: inline-block;
+    float: left;
+    padding-right: 10px;
+    border-right: 1px solid #aaa;
+}
+
+form.attack-form-section h4
+{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+form.attack-form-section .help
+{
+    font-size: .85em;
+}
+
+form.attack-form-section .help .mono
+{
+    display: block;
+    text-align: center;
+}
+
+form.attack-form-section .control-label
+{
+    width: 100px;
+}
+
+form.attack-form-section .controls
+{
+    margin-left: 110px;
+}
+
+form.attack-form-section + form.attack-form-section
+{
+    margin-left: 10px;
+    border-right: none;
+}
+

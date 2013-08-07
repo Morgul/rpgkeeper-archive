@@ -29,6 +29,17 @@ db.once('open', function callback () {
 
     //------------------------------------------------------------------------------------------------------------------
 
+    var RollsSchema = mongoose.Schema({
+        name: String,
+        context: {},
+        roll: String
+    });
+
+    // Export model
+    module.exports['Roll'] = db.model('Roll', RollsSchema);
+
+    //------------------------------------------------------------------------------------------------------------------
+
     var ConditionsSchema = mongoose.Schema({
         effect: String,
         duration: String
@@ -410,6 +421,12 @@ db.once('open', function callback () {
 
         //--------------------------------------------------------------------------------------------------------------
 
+        rolls: [RollsSchema],
+        attacks: [{
+            name: String,
+            toHit: [RollsSchema],
+            damage: [RollsSchema]
+        }],
         conditions: [ConditionsSchema],
         notes: [NotesSchema]
     });
