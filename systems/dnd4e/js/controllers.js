@@ -85,6 +85,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         });
     } // end if
 
+    $scope.atks = {};
     $scope.activeTab = 'powers';
     $scope.powers = {};
     $scope.feats = {};
@@ -258,7 +259,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             keyboard: true,
             backdropClick: true,
             dialogClass: "modal wide",
-            templateUrl: '/system/dnd4e/partials/addattack.html',
+            templateUrl: '/system/dnd4e/partials/attack_dlg.html',
             controller: 'AddAttackDialogCtrl'
         };
 
@@ -270,7 +271,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 result.charID = $scope.sysChar.id;
                 $scope.systemSocket.emit("add_attack", result, function(error)
                 {
-                    $scope.apply(function()
+                    $scope.$apply(function()
                     {
                         if(error)
                         {
@@ -284,6 +285,95 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 });
             } // end if
         });
+    };
+
+    $scope.editAttack = function(attack)
+    {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            resolve: { attack: function(){ return attack; } },
+            dialogClass: "modal wide",
+            templateUrl: '/system/dnd4e/partials/attack_dlg.html',
+            controller: 'EditAttackDialogCtrl'
+        };
+
+        var dlg = $dialog.dialog(opts);
+        dlg.open().then(function(result)
+        {
+            if(result)
+            {
+                result.charID = $scope.sysChar._id;
+                $scope.systemSocket.emit("update_attack", result, function(error)
+                {
+                    $scope.$apply(function()
+                    {
+                        if(error)
+                        {
+                            $scope.alerts.push(error);
+                        }
+                        else
+                        {
+                            updateChar($scope, $timeout);
+                        } // end if
+                    });
+                });
+            } // end if
+        });
+    };
+
+    $scope.removeAttack = function(attack)
+    {
+        $scope.systemSocket.emit("remove_attack", { attackID: attack._id, charID: $scope.sysChar._id }, function(error)
+        {
+            $scope.$apply(function()
+            {
+                if(error)
+                {
+                    $scope.alerts.push(error);
+                }
+                else
+                {
+                    updateChar($scope, $timeout);
+                } // end if
+            });
+        });
+    };
+
+    $scope.buildRollText = function(roll, misc)
+    {
+        if(misc)
+        {
+            // Handle the bad parsing of negative numbers
+            if(misc.slice(0,1) == '-')
+            {
+                misc = "0" + misc;
+            } // end if
+
+            roll += " + " + misc;
+        } // end if
+
+        return roll;
+    };
+
+    $scope.buildRollContext = function(context)
+    {
+        var ctx = JSON.parse(JSON.stringify($scope.sysChar));
+        _.forEach(context, function(value, key)
+        {
+            ctx[key] = value;
+        });
+
+        return ctx;
+    };
+
+    $scope.calcRollDisplay = function(roll, context)
+    {
+        var testRoll = window.dice.roll(roll, context);
+        var bonus = testRoll.rolls.slice(1).reduce(function(prev, cur){ return prev + parseInt(cur); }, 0);
+
+        return bonus;
     };
 
     $scope.addCond = function()
@@ -301,10 +391,10 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         {
             if(result)
             {
-                result.charID = $scope.sysChar.id;
+                result.charID = $scope.sysChar._id;
                 $scope.systemSocket.emit("add_condition", result, function(error)
                 {
-                    $scope.apply(function()
+                    $scope.$apply(function()
                     {
                         if(error)
                         {
@@ -322,7 +412,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
 
     $scope.removeCond = function(cond)
     {
-        $scope.systemSocket.emit("remove_condition", { condID: cond.id, charID: $scope.sysChar.id }, function(error)
+        $scope.systemSocket.emit("remove_condition", { condID: cond._id, charID: $scope.sysChar._id }, function(error)
         {
             $scope.$apply(function()
             {

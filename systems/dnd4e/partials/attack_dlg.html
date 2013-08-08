@@ -1,10 +1,10 @@
 <div class="modal-header" xmlns="http://www.w3.org/1999/html">
-    <h3>Add Attack</h3>
+    <h3>{{ mode | capitalize }} Attack</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal attack-form-section">
         <h4>To Hit</h4>
-        <div class="well well-small help">
+        <div class="well well-small help" ng-if="mode == 'add'">
             <p>
                 Traditionally, attack rolls are calculated as:
             </p>
@@ -15,13 +15,13 @@
                 (with any additional miscellaneous modifiers as required.)
             </p>
         </div>
-        <div class="control-group">
+        <div class="control-group" ng-if="mode == 'add'">
             <label class="control-label" for="mod">Ability Mod:</label>
             <div class="controls">
                 <select class="input-block-level" id="mod" ng-model="newAttack.context.atk.mod" required ng-init="newAttack.context.atk.mod = 'strengthMod'">
                     <option value="strengthMod">Strength</option>
                     <option value="constitutionMod">Constitution</option>
-                    <option value="deterityMod">Dexterity</option>
+                    <option value="dexterityMod">Dexterity</option>
                     <option value="intelligenceMod">Intelligence</option>
                     <option value="wisdomMod">Wisdom</option>
                     <option value="charismaMod">Charisma</option>
@@ -61,14 +61,14 @@
         <div class="control-group">
             <label class="control-label" for="atk_roll">Roll Text:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="atk_roll" placeholder="1d20 + [halfLevel] + [{{ newAttack.context.atk.mod }}] + [prof] + [enh] + [feat] + [misc]" ng-model="newAttack.atk.roll">
+                <input class="input-block-level" type="text" id="atk_roll" placeholder="1d20 + [halfLevel] + [{{ newAttack.context.atk.mod }}] + [prof] + [enh] + [feat] + [misc]" ng-model="newAttack.context.atk.roll">
                 <span class="help-block">You can enter a custom roll formula, or accept the default. See <a href="">Roll Syntax</a> for additional help.</span>
             </div>
         </div>
     </form>
     <form class="form-horizontal attack-form-section">
         <h4>Damage</h4>
-        <div class="well well-small help">
+        <div class="well well-small help" ng-if="mode == 'add'">
             <p>
                 Traditionally, damage rolls are calculated as:
             </p>
@@ -79,13 +79,13 @@
                 (with any additional miscellaneous modifiers as required.)
             </p>
         </div>
-        <div class="control-group">
+        <div class="control-group" ng-if="mode == 'add'">
             <label class="control-label" for="dmg_mod">Ability Mod:</label>
             <div class="controls">
                 <select class="input-block-level" id="dmg_mod" ng-model="newAttack.context.dmg.mod" required ng-init="newAttack.context.dmg.mod = 'strengthMod'">
                     <option value="strengthMod">Strength</option>
                     <option value="constitutionMod">Constitution</option>
-                    <option value="deterityMod">Dexterity</option>
+                    <option value="dexterityMod">Dexterity</option>
                     <option value="intelligenceMod">Intelligence</option>
                     <option value="wisdomMod">Wisdom</option>
                     <option value="charismaMod">Charisma</option>
@@ -125,7 +125,7 @@
         <div class="control-group">
             <label class="control-label" for="dmg_roll">Roll Text:</label>
             <div class="controls">
-                <input class="input-block-level" type="text" id="dmg_roll" placeholder="1d6 + [{{ newAttack.context.dmg.mod }}] + [enh] + [feat] + [misc]" ng-model="newAttack.dmg.roll">
+                <input class="input-block-level" type="text" id="dmg_roll" placeholder="1d6 + [{{ newAttack.context.dmg.mod }}] + [enh] + [feat] + [misc]" ng-model="newAttack.context.dmg.roll">
                 <span class="help-block">Please enter the damage die type, like above. See <a href="">Roll Syntax</a> for additional help.</span>
             </div>
         </div>
@@ -144,6 +144,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button ng-click="add()" class="btn btn-primary" ><i class="icon-plus"></i> Add</button>
+    <button ng-click="add()" class="btn btn-primary" ng-if="mode == 'add'"><i class="icon-plus"></i> Add</button>
+    <button ng-click="update()" class="btn btn-primary" ng-if="mode == 'edit'"><i class="icon-save"></i> Update</button>
     <button ng-click="cancel()" class="btn" >Cancel</button>
 </div>

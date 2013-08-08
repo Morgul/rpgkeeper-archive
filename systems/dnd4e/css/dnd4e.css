@@ -222,7 +222,9 @@ table.skill-table td.shrink
 
 .center-content
 {
-    margin: 0 360px;
+    margin: 0;
+    margin-right: 365px;
+    margin-left: 360px;
     min-width: 250px;
 }
 

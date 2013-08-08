@@ -203,6 +203,8 @@ app.channel('/dnd4e').on('connection', function (socket)
         delete character.conditions;
         delete character.skills;
         delete character.notes;
+        delete character.rolls;
+        delete character.attacks;
 
         // De-populate our references
         if(character.race) { character.race = character.race._id; }
@@ -348,6 +350,18 @@ app.channel('/dnd4e').on('connection', function (socket)
                 });
             } // end if
         });
+    });
+
+    socket.on('update_attack', function(attack, callback)
+    {
+        console.log('update attack!');
+        callback();
+    });
+
+    socket.on('remove_attack', function(atkID, callback)
+    {
+        console.log('remove attack!');
+        callback();
     });
 });
 

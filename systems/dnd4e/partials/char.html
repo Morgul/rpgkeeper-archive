@@ -268,57 +268,31 @@
             </div>
         </div>
         <div class="row-fluid attacks">
-            <div class="span6 well well-small attack">
+            <div class="span6 well well-small attack" ng-repeat="attack in sysChar.attacks">
                 <button type="button" class="close" ng-click="removeAttack(attack)">&times;</button>
                 <button type="button" class="close edit" ng-click="editAttack(attack)"><i class="icon-pencil"></i></button>
-                <h4>Sly Flourish:</h4>
+                <h4>{{ attack.name }}</h4>
                 <div class="mini-section">
-                    <div popover-placement="top" popover="1d20 + [dexterityMod] + [prof] + [enh] + [halfLevel]" popover-trigger="mouseenter">
+                    <div popover-placement="top" popover="{{ attack.toHit[0].roll }}" popover-trigger="mouseenter">
                         <b>Attack:</b>
-                        <span>+21</span>
+                        <span>+{{ calcRollDisplay(attack.toHit[0].roll, buildRollContext(attack.toHit[0].context)) }}</span>
                     </div>
                     <div class="input-append">
-                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
-                        <button class="btn" type="button">Roll</button>
+                        <input class="span6" type="text" placeholder="Misc. Bonus" title="Conditional Bonus to the roll" ng-model="atks[attack._id].atk_misc" ng-init="atks[attack._id] = {}">
+                        <button class="btn" type="button" ng-click="rollDice(buildRollText(attack.toHit[0].roll, atks[attack._id].atk_misc), attack.toHit[0].name, buildRollContext(attack.toHit[0].context))">Roll</button>
                     </div>
                 </div>
                 <div class="mini-section">
-                    <div>
+                    <div popover-placement="top" popover="{{ attack.damage[0].roll }}" popover-trigger="mouseenter">
                         <b>Damage:</b>
                         <span>1d4+17</span>
                     </div>
                     <div class="input-append">
-                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
-                        <button class="btn" type="button">Roll</button>
+                        <input class="span6" type="text" placeholder="Misc. Bonus" title="Conditional Bonus to the roll" ng-model="atks[attack._id].dmg_misc" ng-init="atks[attack._id] = {}">
+                        <button class="btn" type="button" ng-click="rollDice(buildRollText(attack.damage[0].roll, atks[attack._id].dmg_misc), attack.damage[0].name, buildRollContext(attack.damage[0].context))">Roll</button>
                     </div>
                 </div>
             </div>
-            <div class="span6 well well-small attack">
-                <button type="button" class="close" ng-click="removeAttack(attack)">&times;</button>
-                <button type="button" class="close edit" ng-click="editAttack(attack)"><i class="icon-pencil"></i></button>
-                <h4>Piercing Strike:</h4>
-                <div class="mini-section">
-                    <div>
-                        <b>Attack:</b>
-                        <span>+21</span>
-                    </div>
-                    <div class="input-append">
-                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
-                        <button class="btn" type="button">Roll</button>
-                    </div>
-                </div>
-                <div class="mini-section">
-                    <div>
-                        <b>Damage:</b>
-                        <span>1d4+10</span>
-                    </div>
-                    <div class="input-append">
-                        <input class="span4" type="text" placeholder="Misc." title="Conditional Bonus to the roll">
-                        <button class="btn" type="button">Roll</button>
-                    </div>
-                </div>
-            </div>
-            <!--span popover-placement="top" popover="1d20 + DexMod (6) + Prof (2) + Enh (4) + 1/2 Level (8)" popover-trigger="mouseenter"-->
         </div>
     </div>
 
