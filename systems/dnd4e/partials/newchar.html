@@ -129,7 +129,7 @@
                         <div ng-repeat="feature in getChoices(newChar.class)" class="feature">
                             <h4>{{ feature.name }}</h4>
                             <div class="subtitle" ng-bind-html-unsafe="feature.description | markdown"></div>
-                            <div class="feat" ng-repeat="sub in feature.choices" ng-class="{active: newChar.class.chosenFeatures[feature.name] == sub.name }" ng-click="selectFeature(sub, feature)">
+                            <div class="feat" ng-repeat="sub in feature.choices" ng-class="{active: newChar.class.chosenFeatures[feature.name].name == sub.name }" ng-click="selectFeature(sub, feature)">
                                 <header>{{ sub.name }}</header>
                                 <div class="feat-contents">
                                     <p ng-bind-html-unsafe="sub.description | markdown"></p>
@@ -332,7 +332,7 @@
 
                     <form name=skillform class="form-inline pull-right add-skill-form">
                         <input type="text" placeholder="Skill Name" ng-model="newSkill.name" required>
-                        <select ng-model="newSkill.attribute" required>
+                        <select ng-model="newSkill.ability" required>
                             <option value="">Select Attribute</option>
                             <option value="strength">Strength</option>
                             <option value="constitution">Constitution</option>
@@ -353,9 +353,8 @@
                             </td>
                             <td class="shrink">
                                 <label class="checkbox">
-                                    <input type="checkbox" ng-model="newChar.class.skills[skill.name]"
-                                           ng-disabled="(!newChar.class.skills[skill.name] && skillCount() >= newChar.class.trainedSkillsAmount) || newChar.class.trainedSkills.indexOf(skill.name) != -1"
-                                           ng-init="newChar.class.skills = newChar.class.skills || {}"/>
+                                    <input type="checkbox" ng-model="skill.trained"
+                                           ng-disabled="(!skill.trained && skillCount() >= newChar.class.trainedSkillsAmount)"/>
                                     Trained
                                 </label>
                             </td>

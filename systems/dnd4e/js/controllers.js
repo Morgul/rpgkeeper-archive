@@ -45,6 +45,14 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                 });
 
                 // Add new skills
+                _.forEach(result.skills, function(newSkill, key)
+                {
+                    newSkill.name = newSkill.name.toLowerCase();
+                    result.skills[key] = newSkill;
+                });
+
+                console.log('new skill:', result.skills);
+
                 $scope.sysChar.skills = $scope.sysChar.skills.concat(result.skills);
 
                 // Handle chosen Class Features
@@ -617,6 +625,14 @@ function NewCharDialogCtrl($scope, $location, dialog)
             });
         } // end if
 
+        _.forEach($scope.newChar.skills, function(value, key)
+        {
+            if(value.trained)
+            {
+                numSkills++;
+            } // end if
+        });
+
         return numSkills;
     }; // end skillCount
 
@@ -640,10 +656,7 @@ function NewCharDialogCtrl($scope, $location, dialog)
 
     $scope.selectFeature = function(subFeature, feature)
     {
-        if(!$scope.newChar.class.chosenFeatures)
-        {
-           $scope.newChar.class.chosenFeatures = {};
-        } // end if
+        $scope.newChar.class.chosenFeatures = $scope.newChar.class.chosenFeatures || {};
 
         $scope.newChar.class.chosenFeatures[feature.name] = subFeature;
     }; // end selectFeature
@@ -651,7 +664,7 @@ function NewCharDialogCtrl($scope, $location, dialog)
     $scope.addSkill = function(skill)
     {
         // Stupid binding system bing too damned smart.
-        $scope.newChar.skills.push({name: skill.name, attribute: skill.attribute});
+        $scope.newChar.skills.push({name: skill.name, ability: skill.ability});
     };
 
     $scope.removeSkill = function(skill)
