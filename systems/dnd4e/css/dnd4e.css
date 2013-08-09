@@ -491,6 +491,17 @@ img.portrait
     margin: 5px;
 }
 
+.section b + .section-content,
+.section b + .section-content p:first-child
+{
+    display: inline;
+}
+
+.section-content p + p
+{
+    margin-top: 5px;
+}
+
  /* Stats */
 
 .stat-group

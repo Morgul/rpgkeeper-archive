@@ -30,12 +30,12 @@
         <div class="target" ng-repeat="target in power.targets">
             <div class="section" ng-if="target.target"><b>Target</b>: {{ target.target }}</div>
             <div class="section" ng-if="target.attack"><b>Attack</b>: {{ target.attack }}</div>
-            <div class="section" ng-if="target.hit"><b>Hit</b>: {{ target.hit }}</div>
-            <div class="section" ng-if="target.miss"><b>Miss</b>: {{ target.miss }}</div>
+            <div class="section gradient" ng-if="target.hit"><b>Hit</b>: <span class="section-content" ng-bind-html-unsafe="target.hit | markdown"></span></div>
+            <div class="section" ng-if="target.miss"><b>Miss</b>: <span class="section-content" ng-bind-html-unsafe="target.miss | markdown"></span></div>
         </div>
         <div class="sections">
-            <div class="section" ng-repeat="section in power.sections">
-                <b>{{ section.title }}</b>: {{ section.content }}
+            <div class="section" ng-repeat="section in power.sections" ng-class="{ gradient: $index % 2 }">
+                <b>{{ section.title }}</b>: <span class="section-content" ng-bind-html-unsafe="section.content | markdown"></span>
             </div>
         </div>
     </div>
