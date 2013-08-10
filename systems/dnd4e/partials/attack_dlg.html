@@ -39,7 +39,7 @@
         <div class="control-group">
             <label class="control-label" for="prof">Proficiency:</label>
             <div class="controls">
-                <input class="input-block-level" type="number" id="prof" placeholder="2" min="0" ng-model="newAttack.context.atk.prof">
+                <input class="input-block-level" type="number" id="prof" ng-init="newAttack.context.atk.prof = newAttack.context.atk.prof || 2" min="0" ng-model="newAttack.context.atk.prof">
                 <span class="help-block">Available as <code>[prof]</code>.</span>
             </div>
         </div>

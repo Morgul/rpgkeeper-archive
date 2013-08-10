@@ -9,8 +9,9 @@
                 <span ng-switch-when="Utility">{{ power.class.name }} Utility {{ power.level }}</span>
                 <span ng-switch-when="ClassFeature">{{ power.class.name }} Class Feature</span>
                 <span ng-switch-when="Race">{{ sysChar.race.name }} Racial</span>
-                <!-- TODO: Figure out how to handle Feat and Skill powers -->
-                <span ng-switch-default>{{ power.kind }}<span ng-if="power.level">{{ power.level }}</span></span>
+                <span ng-switch-when="Skill">{{ power.skill | capitalize }} Utility {{ power.level }}</span>
+                <!-- TODO: Figure out how to handle Feat powers -->
+                <span ng-switch-default>{{ power.kind }}<span ng-if="power.level"> {{ power.level }}</span></span>
             </span>
         </span>
     </header>

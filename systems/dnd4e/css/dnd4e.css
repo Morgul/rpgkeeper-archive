@@ -779,12 +779,23 @@ img.portrait
 
 .attack
 {
+    display: inline-block;
+    width: calc(33% - 30px);
     text-align: center;
+    margin: 5px;
+    min-width: 330px;
 }
 
 .attack .mini-section
 {
     display: inline-block;
+    width: calc(50% - 30px);
+    margin: 2px 5px;
+}
+
+.attack .bonus-input
+{
+    width: 90px;
 }
 
 .attack .edit

@@ -73,16 +73,46 @@ function setupRoutes(system)
 function buildCharacter(character)
 {
     // We need to JSON-ify the db object.
-    character = JSON.parse(JSON.stringify(character));
+    char = JSON.parse(JSON.stringify(character));
 
     // Calculate skill totals
-    character.skills.forEach(function(skill)
+    char.skills.forEach(function(skill)
     {
-        skill.total = ((skill.trained ? 5 : 0) + character[skill.ability + 'Mod']
-            + character.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
+        skill.total = ((skill.trained ? 5 : 0) + char[skill.ability + 'Mod']
+            + char.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
     });
 
-    return character;
+    // Handle the fact that we don't store the entire chosen feature in the db.
+    character.chosenFeatures.forEach(function(feature, index)
+    {
+
+        var chosenFeature;
+        for(var idx = 0; idx < character.class.classFeatures.length; idx++)
+        {
+            var feat = character.class.classFeatures[idx];
+            if((feat.choices || 0).length > 0)
+            {
+                for(cdx = 0; cdx < feat.choices.length; cdx++)
+                {
+                    var choice = feat.choices[cdx];
+                    if(choice.name == feature.name)
+                    {
+                        chosenFeature = choice;
+                        break;
+                    } // end if
+                } // end for
+            } // end if
+
+            if(chosenFeature)
+            {
+                break;
+            } // end if
+        } // end for
+
+        char.chosenFeatures[index] = chosenFeature;
+    });
+
+    return char;
 } // end buildCharacter
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -182,7 +212,6 @@ app.channel('/dnd4e').on('connection', function (socket)
                     character.save();
                     newChar = true;
                 } // end if
-
 
                 callback(null, buildCharacter(character), newChar);
             }

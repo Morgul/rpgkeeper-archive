@@ -71,6 +71,9 @@ db.once('open', function callback () {
         source: { type: String, enum: powerSource },
         uses: { type: Number, default: 1, min: 1 },
 
+        // For Skill Powers
+        skill: String,
+
         // Any combination of Acid, Cold, Fire, Force, Lightning, Necrotic, Poison, Psychic, Radiant, or Thunder.
         damageTypes: String,
 
@@ -159,6 +162,9 @@ db.once('open', function callback () {
         prerequisites: String,
         benefit: String,
         special: String,
+        choice: {
+            type: String
+        },
         powers: [PowerSchema],
         reference: {
             book: String,
@@ -408,13 +414,14 @@ db.once('open', function callback () {
         currentHP: { type: Number, default: 0, min: 0 },
         tempHP: { type: Number, default: 0, min: 0 },
         currentSurges: { type: Number, default: 0, min: 0 },
-        secondWindAvailable: { type: Boolean, default: true},
+        secondWindAvailable: { type: Boolean, default: true },
 
         //--------------------------------------------------------------------------------------------------------------
         // Powers, Feats, etc
         //--------------------------------------------------------------------------------------------------------------
 
         usedPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
+        featChoices: [{ feat: mongoose.Schema.Types.ObjectId, choice: String }],
         additionalPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
         additionalFeats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feat' }],
         additionalLanguages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
