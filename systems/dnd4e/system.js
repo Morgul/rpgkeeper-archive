@@ -109,11 +109,78 @@ function buildCharacter(character)
             } // end if
         } // end for
 
+        // Add chosenFeature's powers
+        char.powers = char.powers.concat((chosenFeature.powers || []));
+
         char.chosenFeatures[index] = chosenFeature;
     });
 
+    // Sort Powers
+    var powers = char.powers;
+    powers = _.sortBy(_.sortBy(powers, 'level'), function(power)
+    {
+        switch(power.kind)
+        {
+            case 'Race':
+                return 1;
+            case 'Attack':
+                return 2;
+            case 'Utility':
+                return 3;
+            case 'ClassFeature':
+                return 4;
+            default:
+                return 5;
+        }
+    });
+
+    // Sort by level and then by kind
+    powers = _.sortBy(powers, function(power)
+    {
+        if(power.type == 'At-Will')
+        {
+            return 1;
+        } // end if
+
+        if(power.type == 'Encounter')
+        {
+            return 2;
+        } // end if
+
+        if(power.type == 'Daily')
+        {
+            return 3;
+        } // end if
+    });
+
+    char.powers = powers;
+
     return char;
 } // end buildCharacter
+
+function buildAttack(attack)
+{
+    var atkContext = {
+        mod: attack.context.atk.mod,
+        enh: attack.context.atk.enh || 0,
+        prof: attack.context.atk.prof || 0,
+        feat: attack.context.atk.feat || 0,
+        misc: attack.context.atk.misc || 0
+    };
+
+    var dmgContext = {
+        mod: attack.context.dmg.mod,
+        enh: attack.context.dmg.enh || 0,
+        feat: attack.context.dmg.feat || 0,
+        misc: attack.context.dmg.misc || 0
+    };
+
+    return {
+        name: attack.name,
+        toHit: [{ name: "[Attack] " + attack.name, context: atkContext, roll: attack.context.atk.roll }],
+        damage: [{ name: "[Damage] " + attack.name, context: dmgContext, roll: attack.context.dmg.roll }]
+    };
+} // end buildAttack
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -344,26 +411,7 @@ app.channel('/dnd4e').on('connection', function (socket)
             }
             else
             {
-                var atkContext = {
-                    mod: attack.context.atk.mod,
-                    enh: attack.context.atk.enh || 0,
-                    prof: attack.context.atk.prof || 0,
-                    feat: attack.context.atk.feat || 0,
-                    misc: attack.context.atk.misc || 0
-                };
-
-                var dmgContext = {
-                    mod: attack.context.dmg.mod,
-                    enh: attack.context.dmg.enh || 0,
-                    feat: attack.context.dmg.feat || 0,
-                    misc: attack.context.dmg.misc || 0
-                };
-
-                char.attacks.push({
-                    name: attack.name,
-                    toHit: [{ name: "[Attack] " + attack.name, context: atkContext, roll: attack.context.atk.roll }],
-                    damage: [{ name: "[Damage] " + attack.name, context: dmgContext, roll: attack.context.dmg.roll }]
-                });
+                char.attacks.push(buildAttack(attack));
 
                 char.save(function(error)
                 {
@@ -381,16 +429,63 @@ app.channel('/dnd4e').on('connection', function (socket)
         });
     });
 
-    socket.on('update_attack', function(attack, callback)
+    socket.on('update_attack', function(args, callback)
     {
-        console.log('update attack!');
-        callback();
+        models.Character.update({ _id: args.charID, 'attacks._id': args.atkID }, { 'attacks.$': buildAttack(args.update) }, function(error)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                callback(null);
+            } // end if
+        });
     });
 
-    socket.on('remove_attack', function(atkID, callback)
+    socket.on('remove_attack', function(args, callback)
     {
-        console.log('remove attack!');
-        callback();
+        models.Character.findOneAndUpdate({ _id: args.charID}, { $pull: { attacks: { _id: args.attackID } } }, function(error)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                callback(null);
+            } // end if
+        });
+        /*
+        console.log("Args:", args);
+        models.Character.findOne({ _id: args.charID }, function(error, char)
+        {
+            if(error)
+            {
+                console.log("Error!", error);
+                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
+            }
+            else
+            {
+                char.attacks.id(args.attackID).remove();
+                char.save(function(error)
+                {
+                    if(error)
+                    {
+                        console.log("Error!", error);
+                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
+                    }
+                    else
+                    {
+                        callback(null);
+                    } // end if
+                });
+            } // end if
+        });
+        */
     });
 });
 

@@ -28,6 +28,10 @@
             <span class="range">{{ power.rangeText }}</span>
         </div>
 
+        <div class="section">
+            <b>Trigger</b>: {{ power.trigger }}
+        </div>
+
         <div class="target" ng-repeat="target in power.targets">
             <div class="section" ng-if="target.target"><b>Target</b>: {{ target.target }}</div>
             <div class="section" ng-if="target.attack"><b>Attack</b>: {{ target.attack }}</div>

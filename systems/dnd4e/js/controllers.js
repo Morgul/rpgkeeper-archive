@@ -312,8 +312,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         {
             if(result)
             {
-                result.charID = $scope.sysChar._id;
-                $scope.systemSocket.emit("update_attack", result, function(error)
+                $scope.systemSocket.emit("update_attack", { atkID: attack._id, update: result, charID: $scope.sysChar._id }, function(error)
                 {
                     $scope.$apply(function()
                     {
@@ -333,6 +332,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
 
     $scope.removeAttack = function(attack)
     {
+        console.log("Attack:", attack);
         $scope.systemSocket.emit("remove_attack", { attackID: attack._id, charID: $scope.sysChar._id }, function(error)
         {
             $scope.$apply(function()

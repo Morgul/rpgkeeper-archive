@@ -83,12 +83,11 @@ db.once('open', function callback () {
 
         // Actions
         actionType: { type: String, enum: actionType },
-        trigger: String,
-        //attackType: { type: String, enum: ["Melee", "Ranged", "Melee or Ranged", "Close", "Area"] },
         rangeText: String,
 
         prerequisites: String,
         requirements: String,
+        trigger: String,
 
         // Attack
         targets: [{
@@ -577,40 +576,16 @@ db.once('open', function callback () {
             ((this.paragonPath || {powers: []}).powers || [])
         );
 
-        powers = _.sortBy(_.sortBy(powers, 'level'), function(power)
+        //TODO: This should be a recursive search!
+        // Search for all powers in the class features
+        this.class.classFeatures.forEach(function(feature)
         {
-            switch(power.kind)
-            {
-                case 'Race':
-                    return 1;
-                case 'Attack':
-                    return 2;
-                case 'Utility':
-                    return 3;
-                case 'ClassFeature':
-                    return 4;
-                default:
-                    return 5;
-            }
-        });
+            powers = powers.concat((feature.powers || []));
 
-        // Sort by level and then by kind
-        powers = _.sortBy(powers, function(power)
-        {
-            if(power.type == 'At-Will')
+            feature.subFeatures.forEach(function(sub)
             {
-                return 1;
-            } // end if
-
-            if(power.type == 'Encounter')
-            {
-                return 2;
-            } // end if
-
-            if(power.type == 'Daily')
-            {
-                return 3;
-            } // end if
+                powers = powers.concat((sub.powers || []));
+            });
         });
 
         return powers;
