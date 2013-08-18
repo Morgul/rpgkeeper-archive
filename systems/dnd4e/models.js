@@ -578,7 +578,7 @@ db.once('open', function callback () {
 
         //TODO: This should be a recursive search!
         // Search for all powers in the class features
-        this.class.classFeatures.forEach(function(feature)
+        (this.class || { classFeatures: [] }).classFeatures.forEach(function(feature)
         {
             powers = powers.concat((feature.powers || []));
 
