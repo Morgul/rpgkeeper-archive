@@ -384,6 +384,20 @@ function DnDCharCtrl($scope, $dialog, $timeout)
         return bonus;
     };
 
+    $scope.openRolls = function()
+    {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/system/dnd4e/partials/rolls.html',
+            controller: 'RollsDialogCtrl'
+        };
+
+        var dlg = $dialog.dialog(opts);
+        dlg.open();
+    };
+
     $scope.addCond = function()
     {
         var opts = {
@@ -683,6 +697,27 @@ function NewCharDialogCtrl($scope, $location, dialog)
         dialog.close($scope.newChar);
     }; // end save
 } // end AddCondDialogCtrl
+
+//----------------------------------------------------------------------------------------------------------------------
+
+function RollsDialogCtrl($scope, dialog)
+{
+    $scope.roll = function(rollText)
+    {
+        var result = window.dice.roll(rollText, $scope.sysChar);
+        $scope.pastRolls.push("[ " + result.rolls.join(" + ") + " ] = " + result.sum);
+    }; // end roll
+
+    $scope.clear = function()
+    {
+        $scope.$root.pastRolls = [];
+    }; // end clear
+
+    $scope.close = function()
+    {
+        dialog.close(false);
+    }; // end close
+} // end RollsDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 

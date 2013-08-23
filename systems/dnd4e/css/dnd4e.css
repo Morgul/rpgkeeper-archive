@@ -847,3 +847,11 @@ form.attack-form-section + form.attack-form-section
     border-right: none;
 }
 
+/** Roll dialog **/
+
+.roll-hist
+{
+    margin-bottom: 5px;
+    height: 400px;
+    overflow: auto;
+}

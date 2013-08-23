@@ -18,6 +18,7 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
         $rootScope.socket = io.connect();
         $rootScope.alerts = [
         ];
+        $rootScope.pastRolls = [];
 
         $rootScope.closeAlert = function(index)
         {
@@ -67,6 +68,11 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
             var converter = new Showdown.converter();
             return converter.makeHtml(text);
         }; // end markdown
+    }).filter('reverse', function() {
+        return function(items) {
+            if (!angular.isArray(items)) return false;
+            return items.slice().reverse();
+        };
     });
 
 //----------------------------------------------------------------------------------------------------------------------
