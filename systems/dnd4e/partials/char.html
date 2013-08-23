@@ -41,6 +41,9 @@
                     <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.class.classFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.chosenFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <br/>
+                    <h5 ng-if="sysChar.paragonPath.features">Paragon Path</h5>
+                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.paragonPath.features" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <br/>
                     <h5 ng-if="sysChar.additionalFeats">Chosen Feats</h5>
                     <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.additionalFeats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                 </div>
