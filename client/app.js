@@ -45,7 +45,8 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
             } // end if
 
             var message = title + "[ " + result.rolls.join(" + ") + " ] = " + result.sum;
-            $rootScope.alerts.push({ message: message })
+            $rootScope.alerts.push({ message: message });
+            $rootScope.pastRolls.push(message);
         }; // end rollDice
 
         $rootScope.isArray = angular.isArray;
