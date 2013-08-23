@@ -390,6 +390,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
+            resolve: { sysChar: function(){ return $scope.sysChar; } },
             templateUrl: '/system/dnd4e/partials/rolls.html',
             controller: 'RollsDialogCtrl'
         };
@@ -700,8 +701,9 @@ function NewCharDialogCtrl($scope, $location, dialog)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function RollsDialogCtrl($scope, dialog)
+function RollsDialogCtrl($scope, dialog, sysChar)
 {
+    $scope.sysChar = sysChar;
     $scope.roll = function(rollText)
     {
         var result = window.dice.roll(rollText, $scope.sysChar);
