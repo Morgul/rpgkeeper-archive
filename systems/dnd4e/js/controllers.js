@@ -215,6 +215,11 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     // Public API
     //------------------------------------------------------------------------------------------------------------------
 
+    $scope.keypressCallback = function(event)
+    {
+        console.log("Keypress!");
+    };
+
     $scope.toggleUsed = function(power, event)
     {
         if(_.contains($scope.sysChar.usedPowers, power._id))
