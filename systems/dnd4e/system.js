@@ -10,7 +10,6 @@ var baseModels = require('../../lib/models');
 
 var path = require('path');
 var app = require('omega-wf').app;
-var db = require('omega-wf').db;
 
 var _ = require('lodash');
 
