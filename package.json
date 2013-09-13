@@ -1,25 +1,26 @@
 {
-    "name": "rpgkeeper",
-    "version": "0.0.0",
-    "description": "A website for managing your digital character sheets.",
-    "main": "server.js",
-    "dependencies": {
-        "omega-wf": "latest",
-        "passport-persona": "latest",
-        "mongoose": "latest",
-        "lodash": "latest"
-    },
-    "devDependencies": {},
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js"
-    },
-    "repository": "",
-    "keywords": [
-        "omega-wf",
-        "rpg",
-        "character"
-    ],
-    "author": "Christopher Case <chris.case@g33xnexus.com>",
-    "license": "MIT"
+  "name": "rpgkeeper",
+  "version": "0.0.0",
+  "description": "A website for managing your digital character sheets.",
+  "main": "server.js",
+  "dependencies": {
+    "omega-wf": "latest",
+    "passport-persona": "latest",
+    "mongoose": "latest",
+    "lodash": "latest",
+    "omega-models": "git+https://github.com/Morgul/omega-models.git"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": "",
+  "keywords": [
+    "omega-wf",
+    "rpg",
+    "character"
+  ],
+  "author": "Christopher Case <chris.case@g33xnexus.com>",
+  "license": "MIT"
 }
