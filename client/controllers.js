@@ -210,6 +210,8 @@
 
     Controllers.controller('AddCharDialogCtrl', function($scope, $location, dialog)
     {
+        $scope.newchar = {};
+
         //--------------------------------------------------------------------------------------------------------------
         // Public API
         //--------------------------------------------------------------------------------------------------------------
@@ -241,6 +243,25 @@
             });
 
         }; // end save
+
+        $scope.chooseDropboxImage = function()
+        {
+            Dropbox.choose({
+                linkType: "direct",
+                extensions: ["images"],
+                success: function(files)
+                {
+                    $scope.$apply(function()
+                    {
+                        console.log('file:', files[0]);
+                        $scope.newchar.thumbnail = files[0].link;
+                        $scope.newchar.portrait = files[0].link;
+
+                        console.log('$scope.newchar:', $scope.newchar);
+                    });
+                } // end success
+            });
+        }; // end chooseDropboxImage
     });
 
     //------------------------------------------------------------------------------------------------------------------

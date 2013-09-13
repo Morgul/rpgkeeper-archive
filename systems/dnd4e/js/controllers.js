@@ -215,6 +215,28 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     // Public API
     //------------------------------------------------------------------------------------------------------------------
 
+    $scope.chooseDropboxImage = function()
+    {
+        Dropbox.choose({
+            linkType: "direct",
+            extensions: ["images"],
+            success: function(files)
+            {
+                $scope.$apply(function()
+                {
+                    $scope.character.portrait = files[0].link;
+                    $scope.socket.emit('update_character', $scope.character, function(error)
+                    {
+                        if(error)
+                        {
+                            console.error(error);
+                        } // end if
+                    });
+                });
+            } // end success
+        });
+    }; // end chooseDropboxImage
+
     $scope.keypressCallback = function(event)
     {
         console.log("Keypress!");

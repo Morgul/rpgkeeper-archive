@@ -16,15 +16,10 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="portrait">Portrait</label>
-            <div class="controls">
-                <input class="input-block-level" type="text" id="portrait" placeholder="Not Implemented" disabled ng-model="newchar.portrait">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="thumbnail">Thumbnail</label>
-            <div class="controls">
-                <input class="input-block-level" type="text" id="thumbnail" placeholder="Not Implemented" disabled ng-model="newchar.thumbnail">
+            <label class="control-label">Portrait</label>
+            <div class="controls" style="text-align: center">
+                <img class="img-polaroid portrait" width="300px" height="auto" ng-if="newchar.thumbnail" src="{{ newchar.thumbnail }}" style="margin-bottom: 5px;"/>
+                <button type="button" class="btn btn-block" ng-click="chooseDropboxImage()"><i class="icon-dropbox"></i> Choose Portrait from Dropbox</button>
             </div>
         </div>
         <div class="control-group">

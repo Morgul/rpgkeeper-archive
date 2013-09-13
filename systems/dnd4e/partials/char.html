@@ -4,7 +4,10 @@
 
 <div ng-controller="DnDCharCtrl">
     <div class="left-sidebar">
-        <img class="portrait" src="http://placehold.it/340x460"/>
+        <img width="340px" height="460px" class="img-polaroid portrait" src="{{ character.portrait || 'http://placehold.it/340x460'  }}"/>
+        <button type="button" class="btn btn-block" ng-click="chooseDropboxImage()" style="margin-bottom: 5px;">
+            <i class="icon-dropbox"></i> Choose Portrait from Dropbox
+        </button>
         <div class="navbar navbar-small">
             <div class="navbar-inner">
                 <span class="brand"><i class="icon-stethoscope"></i> Conditions</span>
