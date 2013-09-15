@@ -51,14 +51,11 @@ function DnDCharCtrl($scope, $dialog, $timeout)
                     result.skills[key] = newSkill;
                 });
 
-                console.log('new skill:', result.skills);
-
                 $scope.sysChar.skills = $scope.sysChar.skills.concat(result.skills);
 
                 // Handle chosen Class Features
                 _.forEach(result.class.chosenFeatures, function(value)
                 {
-                    console.log("Chosen Features:", result.class.chosenFeatures);
                     if(!$scope.sysChar.chosenFeatures)
                     {
                         $scope.sysChar.chosenFeatures = [];
@@ -363,7 +360,6 @@ function DnDCharCtrl($scope, $dialog, $timeout)
 
     $scope.removeAttack = function(attack)
     {
-        console.log("Attack:", attack);
         $scope.systemSocket.emit("remove_attack", { attackID: attack._id, charID: $scope.sysChar._id }, function(error)
         {
             $scope.$apply(function()
@@ -411,6 +407,19 @@ function DnDCharCtrl($scope, $dialog, $timeout)
     {
         var testRoll = window.dice.roll(roll, context);
         var bonus = testRoll.rolls.slice(1).reduce(function(prev, cur){ return prev + parseInt(cur); }, 0);
+
+        return bonus;
+    };
+
+    $scope.calcRollDamage = function(roll, context)
+    {
+        var bonus = 0;
+        var contextVars = roll.match(/\[\s*(\w+)\s*\]/g);
+        contextVars.forEach(function(contextVar)
+        {
+            contextVar = contextVar.replace("[", "").replace("]", "");
+            bonus += parseInt(context[contextVar]);
+        });
 
         return bonus;
     };

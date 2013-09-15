@@ -292,7 +292,7 @@
                 <div class="mini-section">
                     <div popover-placement="top" popover="{{ attack.damage[0].roll }}" popover-trigger="mouseenter">
                         <b>Damage:</b>
-                        <span>1d4+17</span>
+                        <span>+{{ calcRollDamage(attack.damage[0].roll,  buildRollContext(attack.damage[0].context)) }}</span>
                     </div>
                     <div class="input-append">
                         <input class="bonus-input" type="text" placeholder="Misc. Bonus" title="Conditional Bonus to the roll" ng-model="atks[attack._id].dmg_misc" ng-init="atks[attack._id] = {}">
