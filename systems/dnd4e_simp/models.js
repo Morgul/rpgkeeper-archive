@@ -6,12 +6,15 @@
 
 var om = require('omega-models');
 var fields = om.fields;
-var NedbBackend = om.NeDB;
+var NedbBackend = om.backends.NeDB;
 var ns = om.namespace('dnd4e_simp').backend(new NedbBackend({baseDir: './db'}));
 
 //----------------------------------------------------------------------------------------------------------------------
 
 var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "Charisma"];
+var powerTypes = ["At-Will", "Encounter", "Daily"];
+var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
+var actionType = ["Standard", "Move", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
 module.exports = ns.define({
     Condition: {
@@ -21,7 +24,7 @@ module.exports = ns.define({
 
     Skill: {
         name: fields.String({ required: true }),
-        ability: fields.Choice({ choices: abilities }),
+        ability: fields.Choice({ choices: abilities, default: 'strength' }),
         trained: fields.Boolean({ default: false}),
         armorPenalty: fields.Integer({ default: 0 }),
         racial: fields.Integer({ default: 0 }),
@@ -37,14 +40,26 @@ module.exports = ns.define({
 
     Feat: {
         name: fields.String({ required: true }),
+        prerequisites: fields.String(),
         description: fields.String(),
         power: fields.Reference({ model: 'Power' })
     },
 
+    Section: {
+        title: fields.String({ required: true }),
+        description: fields.String()
+    },
+
     Power: {
         name: fields.String({ required: true }),
-        flavor: fields.String()
-        //TODO: More stuff goes here.
+        flavor: fields.String(),
+        level: fields.Integer({ default: 1, min: 1 }),
+        type: fields.Choice({ type: fields.String(), choices: powerTypes, default: "At-Will" }),
+        kind: fields.Choice({ type: fields.String(), choices: powerKinds, default: "Attack" }),
+        keywords: fields.List({ type: fields.String() }),
+        actionType: fields.Choice({ type: fields.String(), choices: actionType, default: "Standard" }),
+        rangeText: fields.String(),
+        sections: fields.List({ type: fields.Reference({ model: 'Section' }) })
     },
 
     Character: {
@@ -61,8 +76,8 @@ module.exports = ns.define({
         class: fields.String(),
         race: fields.String(),
         level: fields.Integer({ default: 1, min: 1 }),
-        halfLevel: fields.Property(function(){ return this.level / 2; }),
-        gender: fields.Choice({ type: fields.String(), choices: ["Male", "Female", "Other"] }),
+        halfLevel: fields.Property(function(){ return Math.floor(this.level / 2); }),
+        gender: fields.Choice({ type: fields.String(), choices: ["Male", "Female", "Other"], default: "Male" }),
         alignment: fields.Choice({ type: fields.String(), choices: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" }),
         deity: fields.String(),
         languages: fields.List({ type: fields.String() }),
@@ -115,7 +130,7 @@ module.exports = ns.define({
             var abilityMod = this.armorAbility != 'none' ? this.abilityMod(this.armorAbility) : 0;
             return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorMisc;
         }),
-        armorAbility: fields.Choice({ choices: ['none'].concat(abilities) }),
+        armorAbility: fields.Choice({ choices: ['none'].concat(abilities), default: 'none' }),
         armorBonus: fields.Integer({ default: 0, min: 0 }),
         armorShieldBonus: fields.Integer({ default: 0, min: 0 }),
         armorMisc: fields.Integer({ default: 0 }),

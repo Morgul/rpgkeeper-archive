@@ -259,8 +259,6 @@
                         var link = files[0].link.replace('https://www.', 'https://dl.');
                         $scope.newchar.thumbnail = link;
                         $scope.newchar.portrait = link;
-
-                        console.log('$scope.newchar:', $scope.newchar);
                     });
                 } // end success
             });
