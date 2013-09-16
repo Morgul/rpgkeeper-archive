@@ -1,1 +1,158 @@
-<h1>This is a simple character</h1>
+<script src="/system/dnd4e_simp/js/controllers.js"></script>
+<link rel="stylesheet" type="text/css" href="/system/dnd4e_simp/css/dnd4e.css">
+<div id="charPage" ng-controller="SimpDnD4eCtrl">
+    <div class="sheetTitle">
+        <input id="charName" type="text" placeholder="Character Name" ng-model="character.name"/>
+        <input id="charClass" type="text" placeholder="Class" ng-model="sysChar.class"/>
+        <input id="charLevel" type="number" ng-model="sysChar.level"/>
+        <div class="spacer"></div>
+        <div>
+            <button class="btn"><i class="icon-dollar"></i></button>
+        </div>
+    </div>
+    <div class="sheetContents">
+        <div class="sheetColumn">
+            <header class="colHeader"><h4>Abilities and Skills</h4></header>
+            <div class="abilities">
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.strength"/>
+                        <h4>Strength</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small"/>
+                            <input type="text" class="input-small"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'strength'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.constitution"/>
+                        <h4>Constitution</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small"/>
+                            <input type="text" class="input-small"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'constitution'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.dexterity"/>
+                        <h4>Dexterity</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small"/>
+                            <input type="text" class="input-small"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'dexterity'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.intelligence"/>
+                        <h4>Intelligence</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small"/>
+                            <input type="text" class="input-small"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'intelligence'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.wisdom"/>
+                        <h4>Wisdom</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small"/>
+                            <input type="text" class="input-small"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'wisdom'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <header>
+                        <input type="text" class="input-small" ng-model="sysChar.charisma"/>
+                        <h4>Charisma</h4>
+                        <div class="pull-right">
+                            <input type="text" class="input-small" value="{{ sysChar.charismaMod }}"/>
+                            <input type="text" class="input-small" value="{{ sysChar.charismaMod + sysChar.halfLevel }}"/>
+                        </div>
+                    </header>
+                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'charisma'}">
+                        <input type="text" class="input-small" value="{{ calcSkill(skill) }}">
+                        <label class="skillName">{{ skill.name|capitalize }}</label>
+                        <div class="pull-right">
+                            <label class="checkbox">
+                                <input type="checkbox" ng-model="skill.trained"> Trained
+                            </label>
+                            <input type="text" class="input-small" ng-model="skill.misc" title="Misc. Bonus">
+                            <input type="text" class="input-small" ng-model="skill.armorPenalty" title="Armor Check Penalty">
+                            <button type="submit" class="btn">Roll</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sheetColumn">
+            <header class="colHeader"><h4>Combat Statistics</h4></header>
+        </div>
+        <div class="sheetColumn">
+            <header class="colHeader"><h4>Biographical Stuff</h4></header>
+        </div>
+    </div>
+</div>

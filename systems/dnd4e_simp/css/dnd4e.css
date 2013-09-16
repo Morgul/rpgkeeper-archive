@@ -1,0 +1,170 @@
+html,
+body,
+#main-view > div:first-child {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#main-view {
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 41px);
+  height: -webkit-calc(100% - 41px);
+}
+body header:first-child .navbar {
+  margin-bottom: 0;
+}
+#charPage {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  -o-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+#charPage .spacer {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flex;
+  display: -o-inline-flex;
+  display: -inline-flex;
+  -webkit-box-flex: 20;
+  -webkit-flex-grow: 20;
+  -moz-box-flex: 20;
+  -ms-flex: 20 1 auto;
+  flex-grow: 20;
+}
+.sheetTitle {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  padding: 5px;
+}
+.sheetTitle input {
+  margin-bottom: 0;
+}
+.sheetContents {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -moz-box-flex: 2;
+  -ms-flex: 2 1 auto;
+  flex-grow: 2;
+}
+.sheetColumn {
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  border: 1px solid #f00;
+  width: 33.333333333333336%;
+}
+.sheetColumn + .sheetColumn {
+  margin-left: 5px;
+}
+#charPage .colHeader {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  -o-flex: 1 1 auto;
+  flex: 1 1 auto;
+  background: #ddd;
+  text-align: center;
+}
+#charPage .colHeader h4 {
+  width: 100%;
+  text-align: center;
+}
+#charPage .ability header {
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  -o-flex: 1 1 auto;
+  flex: 1 1 auto;
+  background-color: #0088cc;
+  padding: 2px 8px;
+}
+#charPage .ability header .pull-right {
+  margin-top: 3px;
+}
+#charPage .ability header input,
+#charPage .ability header h4 {
+  display: inline-block;
+}
+#charPage .ability header input.input-small {
+  text-align: center;
+  width: 30px;
+}
+#charPage .ability .skill {
+  display: block;
+  margin: 8px 5px;
+}
+#charPage .ability .skill .skillName {
+  font-size: 1.05em;
+  font-weight: bold;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+#charPage .ability .skill input.input-small {
+  width: 20px;
+}

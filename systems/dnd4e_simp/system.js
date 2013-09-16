@@ -12,6 +12,7 @@ var path = require('path');
 var app = require('omega-wf').app;
 
 var _ = require('lodash');
+var async = require('async');
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -64,7 +65,59 @@ function setupRoutes(system)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-// Some code here?
+function buildSkills(callback)
+{
+    var skills = [];
+    var skillRefs = [];
+
+    // Create default skills
+    skills.push(new models.Skill({name: 'athletics', ability: 'strength'}));
+    skills.push(new models.Skill({name: 'endurance', ability: 'constitution'}));
+    skills.push(new models.Skill({name: 'acrobatics', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'stealth', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'thievery', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'arcana', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'history', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'religion', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'dungeoneering', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'heal', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'insight', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'nature', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'perception', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'bluff', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'diplomacy', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'intimidate', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'streetwise', ability: 'charisma'}));
+
+    // Save them, and return a list of references for the character to use.
+    async.each(skills, function(skill, done)
+    {
+        skill.save(function(error)
+        {
+            if(error)
+            {
+                console.log('blew up on skill:', skill.name, skill.ability, error);
+                done(error);
+            }
+            else
+            {
+                skillRefs.push({ $id: skill.$id });
+                done();
+            } // end if
+        })
+    }, function(error)
+    {
+        if(error)
+        {
+            console.log("Error while building Skills:", error.stack);
+            callback(error);
+        }
+        else
+        {
+            callback(null, skillRefs);
+        } // end if
+    });
+} // end buildSkills
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -89,20 +142,38 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             {
                 newChar = true;
                 character = new models.Character({ baseChar: charID });
-                character.save(function(error)
+
+                buildSkills(function(error, skills)
                 {
                     if(error)
                     {
-                        console.log('Error:', error);
                         callback(error);
-                    } // end if
+                    }
+                    else
+                    {
+                        character.skills = skills;
+                        character.save(function(error)
+                        {
+                            if(error)
+                            {
+                                console.log('Error:', error);
+                                callback(error);
+                            } // end if
 
-                    callback(error, character, newChar);
+                            character.populate(function(error)
+                            {
+                                callback(error, character, newChar);
+                            });
+                        });
+                    }
                 });
             }
             else
             {
-                callback(null, character, newChar);
+                character.populate(function(error)
+                {
+                    callback(error, character, newChar);
+                });
             } // end if
         });
     });
@@ -113,7 +184,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 module.exports = {
     delete: function(charID)
     {
-        models.Character.remove({ baseCharID: charID }, function(error)
+        models.Character.remove({ baseChar: charID }, function(error)
         {
             if(error)
             {

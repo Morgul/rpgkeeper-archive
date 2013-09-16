@@ -11,7 +11,7 @@ var ns = om.namespace('dnd4e_simp').backend(new NedbBackend({baseDir: './db'}));
 
 //----------------------------------------------------------------------------------------------------------------------
 
-var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "Charisma"];
+var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"];
 var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
