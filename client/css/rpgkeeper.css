@@ -1,5 +1,6 @@
 /* Header */
 
+/*
 .header .brand
 {
     font-weight: 500;
@@ -24,9 +25,9 @@
 {
     padding-top: 2px;
 }
-
+*/
 /* General */
-
+/*
 table td.expand
 {
     width: 99%
@@ -58,7 +59,7 @@ table td.shrink
     text-align: center;
     z-index: 2;
 }
-
+*/
 /* Alerts */
 .alert-area
 {
@@ -88,6 +89,7 @@ table td.shrink
 
 /* Attributes */
 
+/*
 .attribute h2
 {
     display: inline-block;
@@ -108,3 +110,4 @@ img.portrait
 {
     box-shadow: 2px 2px 7px #888888;
 }
+*/

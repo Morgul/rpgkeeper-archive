@@ -1,0 +1,62 @@
+//----------------------------------------------------------------------------------------------------------------------
+// RPGKeeper theme
+//----------------------------------------------------------------------------------------------------------------------
+
+// Primary bootstrap theme
+@import "../../vendor/bootstrap/less/bootstrap";
+
+// Custom variables
+@import "variables";
+
+// Bootstrap 2-ish theme
+@import "bootstrap/theme";
+
+//----------------------------------------------------------------------------------------------------------------------
+
+.icon-persona
+{
+    color: #f90;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Overrides
+//----------------------------------------------------------------------------------------------------------------------
+
+// Fixes a z-fighting issue with navbars and menus.
+.navbar
+{
+    z-index: auto;
+}
+
+// Why is there no padding on the right?
+.navbar-nav.navbar-right
+{
+    margin-right: 15px;
+}
+
+ul.navbar-nav > li + li
+{
+    margin-left: 5px;
+}
+
+
+
+// They removed a btn-inverse. I don't know why. So I re-made one.
+.btn-inverse
+{
+    .btn-styles(#454545);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    border-color: #262626 #222222 #000;
+    //border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.btn-inverse:hover
+{
+    .btn-styles(#525252);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    border-color: #262626 #222222 #000;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
