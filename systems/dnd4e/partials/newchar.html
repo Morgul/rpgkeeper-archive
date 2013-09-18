@@ -8,13 +8,13 @@
 <div class="modal-body new-char">
     <tabset>
         <tab heading="Race" select="setActiveTab(1)" active="tabs[0].active">
-            <div class="row-fluid">
-                <div class="span2">
+            <div class="row">
+                <div class="col-md-1">
                     <select class="tall" ng-model="newChar.race" ng-options="race as race.name for race in choices.race" size="2">
                         <option value="">-----</option>
                     </select>
                 </div>
-                <div class="span10">
+                <div class="col-md-1">
                     <div class="race-details well well-small" ng-show="newChar.race">
                         <h4>{{ newChar.race.name }} Racial Traits</h4>
                         <p>
@@ -54,13 +54,13 @@
             </div>
         </tab>
         <tab heading="Class" select="setActiveTab(2)" active="tabs[1].active">
-            <div class="row-fluid">
-                <div class="span2">
+            <div class="row">
+                <div class="col-md-1">
                     <select class="tall" ng-model="newChar.class" ng-options="class as class.name for class in choices.class" size="2">
                         <option value="">-----</option>
                     </select>
                 </div>
-                <div class="span10 details">
+                <div class="col-md-1 details">
                     <div class="class-details well well-small section" ng-show="newChar.class">
                         <h4>{{ newChar.class.name }} Class Traits</h4>
                         <!--p class="description">{{ newChar.class.description }}</p-->
@@ -141,7 +141,7 @@
             </div>
         </tab>
         <tab heading="Attributes / Skills" select="setActiveTab(3)" active="tabs[2].active">
-            <div class="row-fluid details">
+            <div class="row details">
                 <div class="section">
                     <header>
                         <h4>Attributes</h4>
