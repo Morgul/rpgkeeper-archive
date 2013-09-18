@@ -4,7 +4,7 @@
 // @module app.js
 //----------------------------------------------------------------------------------------------------------------------
 
-window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers', 'rpgkeeper.directives', 'editables', 'ui.bootstrap'])
+window.app = angular.module("rpgkeeper", ['ngResource', 'ui.bootstrap', 'rpgkeeper.controllers', 'rpgkeeper.directives', 'editables'])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider)
     {
         $locationProvider.html5Mode(true);
@@ -13,8 +13,13 @@ window.app = angular.module("rpgkeeper", ['ngResource', 'rpgkeeper.controllers',
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .run(function($rootScope)
+    .run(function($rootScope, $location)
     {
+        $rootScope.setLocation = function(path)
+        {
+            $location.path(path);
+        }; // end setLocation
+
         $rootScope.socket = io.connect();
         $rootScope.alerts = [
         ];

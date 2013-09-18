@@ -12,7 +12,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $dialog)
+    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $modal)
     {
         // Check that we have a username
         if(!$scope.user)
@@ -92,14 +92,13 @@
                 controller: 'AddCharDialogCtrl'
             };
 
-            var dlg = $dialog.dialog(opts);
-            dlg.open();
+            var dlg = $modal.open(opts);
         }; // end addChar
     });
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $dialog)
+    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $modal)
     {
         // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
@@ -123,8 +122,8 @@
                 controller: 'DelCharDialogCtrl'
             };
 
-            var dlg = $dialog.dialog(opts);
-            dlg.open().then(function(result)
+            var dlg = $modal.open(opts);
+            dlg.result.then(function(result)
             {
                 if(result)
                 {
@@ -208,7 +207,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('AddCharDialogCtrl', function($scope, $location, dialog)
+    Controllers.controller('AddCharDialogCtrl', function($scope, $location, $modalInstance)
     {
         $scope.newchar = {};
 
@@ -218,14 +217,14 @@
 
         $scope.close = function()
         {
-            dialog.close();
+            $modalInstance.close();
         }; // end close
 
         $scope.save = function()
         {
             $scope.socket.emit('new_character', $scope.newchar, function(error, character)
             {
-                dialog.close();
+                $modalInstance.close();
 
                 if(error)
                 {
@@ -267,7 +266,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DelCharDialogCtrl', function($scope, dialog)
+    Controllers.controller('DelCharDialogCtrl', function($scope, $modalInstance)
     {
         //--------------------------------------------------------------------------------------------------------------
         // Public API
@@ -275,12 +274,12 @@
 
         $scope.close = function()
         {
-            dialog.close(false);
+            $modalInstance.close(false);
         }; // end close
 
         $scope.delete = function()
         {
-            dialog.close(true);
+            $modalInstance.close(true);
         }; // end save
     });
 
