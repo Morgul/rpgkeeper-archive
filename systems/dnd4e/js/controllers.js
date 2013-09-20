@@ -724,7 +724,7 @@ function NewCharDialogCtrl($scope, $location, $modalInstance)
 
     $scope.cancel = function()
     {
-        $modalInstance.close(false);
+        $modalInstance.dismiss('cancel');
         $location.path('/dashboard');
     }; // end close
 
@@ -752,7 +752,7 @@ function RollsDialogCtrl($scope, $modalInstance, sysChar)
 
     $scope.close = function()
     {
-        $modalInstance.close(false);
+        $modalInstance.dismiss('cancel');
     }; // end close
 } // end RollsDialogCtrl
 
@@ -760,9 +760,10 @@ function RollsDialogCtrl($scope, $modalInstance, sysChar)
 
 function AddCondDialogCtrl($scope, $modalInstance)
 {
+    $scope.newCond = {};
     $scope.cancel = function()
     {
-        $modalInstance.close(false);
+        $modalInstance.dismiss('cancel');
     }; // end close
 
     $scope.add = function()
