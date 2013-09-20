@@ -6,15 +6,15 @@
             {{ sysChar.currentHP + sysChar.tempHP }}
         </div>
         <div class="hp-row">
-            <input class="dmg-input form-control" type="text" placeholder="Damage" ng-model="dmg">
             <button class="btn dmg-btn btn-default btn-sm" ng-click="damage(dmg)">Damage</button>
+            <input class="dmg-input form-control" type="text" placeholder="Damage" ng-model="dmg">
         </div>
         <div class="hp-row">
-            <input class="heal-input form-control" type="text" placeholder="Heal/Tmp" ng-model="hp">
             <div class="btn-group heal-grp">
                 <button class="btn btn-default btn-sm" ng-click="heal(hp)">Heal</button>
                 <button class="btn btn-default btn-sm" ng-click="temp(hp)">Tmp</button>
             </div>
+            <input class="heal-input form-control" type="text" placeholder="Heal/Tmp" ng-model="hp">
         </div>
     </div>
     <div class="right">

@@ -392,13 +392,13 @@ img.portrait
 .hitpoints .hp-counter
 {
     box-sizing: border-box;
-    padding: 12px 5px;
+    /*padding: 12px 5px;*/
     border: 1px solid #aaa;
     border-radius: 3px;
     font-size: 2.75em;
     background-color: white;
     text-align: center;
-    height: 48px;
+    /*height: 48px;*/
     clear: both;
 }
 
@@ -425,14 +425,13 @@ img.portrait
 
 .hitpoints .hp-row + .hp-row
 {
-    margin-top: -5px;
     margin-bottom: -8px;
 }
 
 .hitpoints .dmg-input
 {
-    width: calc(100% - 83px);
-    width: -webkit-calc(100% - 83px);
+    width: calc(100% - 68px);
+    width: -webkit-calc(100% - 68px);
     text-align: center;
 }
 
@@ -442,18 +441,23 @@ img.portrait
 {
     display: inline-block;
     float: right;
-    height: 30px !important;
+    height: 34px !important;
+}
+
+.hitpoints .surge-grp
+{
+    height: 35px !important;
 }
 
 .hitpoints .heal-grp .btn
 {
-    height: 30px !important;
+    height: 34px !important;
 }
 
 .hitpoints .heal-input
 {
-    width: calc(100% - 109px);
-    width: -webkit-calc(100% - 109px);
+    width: calc(100% - 92px);
+    width: -webkit-calc(100% - 92px);
     text-align: center;
 }
 
