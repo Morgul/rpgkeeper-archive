@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 // Primary bootstrap theme
-@import "../../vendor/bootstrap/less/bootstrap";
+@import "/vendor/bootstrap/less/bootstrap";
 
 // Custom variables
 @import "variables";
@@ -11,12 +11,47 @@
 // Bootstrap 2-ish theme
 @import "bootstrap/theme";
 
+// LessHat
+@import "/vendor/lesshat/lesshat";
+
+//----------------------------------------------------------------------------------------------------------------------
+// Header
 //----------------------------------------------------------------------------------------------------------------------
 
 .icon-persona
 {
     color: #f90;
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Dashboard
+//----------------------------------------------------------------------------------------------------------------------
+
+.favorite,
+.favorite:hover
+{
+    color: #f90;
+}
+
+// Alerts
+.alert-area
+{
+    position: absolute;
+    top: 20px;
+    left: calc(~"50%-250px");
+    left: -webkit-calc(~"50% - 250px");
+    width: 100%;
+    max-width: 500px;
+    min-width: 100px;
+    z-index: 50;
+}
+
+.alert-area .alert
+{
+    opacity: 0.98;
+    margin-bottom: 5px;
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 // Overrides
@@ -26,30 +61,6 @@
 .main-container
 {
     padding: 0 15px;
-}
-
-// Fixes a z-fighting issue with navbars and menus.
-.navbar
-{
-    z-index: auto;
-}
-
-// Why is there no padding on the right?
-.navbar-nav.navbar-right
-{
-    margin-right: 15px;
-}
-
-ul.navbar-nav > li + li
-{
-    margin-left: 5px;
-}
-
-// Add the ability to put buttons in panels
-.panel-heading .btn
-{
-    margin-top: -6px;
-    padding: 4px 10px;
 }
 
 // They removed a btn-inverse. I don't know why. So I re-made one.

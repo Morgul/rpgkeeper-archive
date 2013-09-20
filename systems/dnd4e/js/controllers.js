@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function DnDCharCtrl($scope, $dialog, $timeout)
+function DnDCharCtrl($scope, $modal, $timeout)
 {
     if($scope.isNew)
     {
@@ -12,13 +12,12 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            dialogClass: "modal wide",
+            $modalInstanceClass: "modal wide",
             templateUrl: '/system/dnd4e/partials/newchar.html',
             controller: 'NewCharDialogCtrl'
         };
 
-        var dlg = $dialog.dialog(opts);
-        dlg.open().then(function(result)
+        $modal.open(opts).result.then(function(result)
         {
             if(result)
             {
@@ -294,13 +293,12 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            dialogClass: "modal wide",
+            $modalInstanceClass: "modal wide",
             templateUrl: '/system/dnd4e/partials/attack_dlg.html',
             controller: 'AddAttackDialogCtrl'
         };
 
-        var dlg = $dialog.dialog(opts);
-        dlg.open().then(function(result)
+        $modal.open(opts).result.then(function(result)
         {
             if(result)
             {
@@ -330,13 +328,12 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             keyboard: true,
             backdropClick: true,
             resolve: { attack: function(){ return attack; } },
-            dialogClass: "modal wide",
+            $modalInstanceClass: "modal wide",
             templateUrl: '/system/dnd4e/partials/attack_dlg.html',
             controller: 'EditAttackDialogCtrl'
         };
 
-        var dlg = $dialog.dialog(opts);
-        dlg.open().then(function(result)
+        $modal.open(opts).result.then(function(result)
         {
             if(result)
             {
@@ -435,8 +432,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             controller: 'RollsDialogCtrl'
         };
 
-        var dlg = $dialog.dialog(opts);
-        dlg.open();
+        $modal.open(opts);
     };
 
     $scope.addCond = function()
@@ -449,8 +445,7 @@ function DnDCharCtrl($scope, $dialog, $timeout)
             controller: 'AddCondDialogCtrl'
         };
 
-        var dlg = $dialog.dialog(opts);
-        dlg.open().then(function(result)
+        $modal.open(opts).result.then(function(result)
         {
             if(result)
             {
@@ -531,7 +526,7 @@ function updateChar($scope, $timeout)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function NewCharDialogCtrl($scope, $location, dialog)
+function NewCharDialogCtrl($scope, $location, $modalInstance)
 {
     $scope.choices = {};
     $scope.activeTab = 1;
@@ -729,19 +724,19 @@ function NewCharDialogCtrl($scope, $location, dialog)
 
     $scope.cancel = function()
     {
-        dialog.close(false);
+        $modalInstance.close(false);
         $location.path('/dashboard');
     }; // end close
 
     $scope.save = function()
     {
-        dialog.close($scope.newChar);
+        $modalInstance.close($scope.newChar);
     }; // end save
 } // end AddCondDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function RollsDialogCtrl($scope, dialog, sysChar)
+function RollsDialogCtrl($scope, $modalInstance, sysChar)
 {
     $scope.sysChar = sysChar;
     $scope.roll = function(rollText)
@@ -757,22 +752,22 @@ function RollsDialogCtrl($scope, dialog, sysChar)
 
     $scope.close = function()
     {
-        dialog.close(false);
+        $modalInstance.close(false);
     }; // end close
 } // end RollsDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function AddCondDialogCtrl($scope, dialog)
+function AddCondDialogCtrl($scope, $modalInstance)
 {
     $scope.cancel = function()
     {
-        dialog.close(false);
+        $modalInstance.close(false);
     }; // end close
 
     $scope.add = function()
     {
-        dialog.close($scope.newCond);
+        $modalInstance.close($scope.newCond);
     }; // end save
 } // end AddCondDialogCtrl
 
