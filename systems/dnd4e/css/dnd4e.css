@@ -597,7 +597,7 @@ img.portrait
 .stat-group.skills .stat .value
 {
     display: inline-block;
-    min-width: 22px;
+    min-width: 45px;
 }
 .stat input.value
 {
@@ -640,7 +640,7 @@ img.portrait
 
 .stat-group.skills .stat
 {
-    width: 12.5em;
+    width: 14.5em;
 }
 
 .stat-group.skills .stat header
@@ -674,6 +674,7 @@ img.portrait
     font-size: 1.15em;
     font-weight: 600;
     color: white;
+    cursor: pointer;
 }
 
 .power header .type-level
