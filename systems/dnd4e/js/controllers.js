@@ -12,7 +12,7 @@ function DnDCharCtrl($scope, $modal, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            $modalInstanceClass: "modal wide",
+            windowClass: "wide",
             templateUrl: '/system/dnd4e/partials/newchar.html',
             controller: 'NewCharDialogCtrl'
         };
@@ -293,7 +293,7 @@ function DnDCharCtrl($scope, $modal, $timeout)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            $modalInstanceClass: "modal wide",
+            windowClass: "wide",
             templateUrl: '/system/dnd4e/partials/attack_dlg.html',
             controller: 'AddAttackDialogCtrl'
         };
@@ -328,7 +328,7 @@ function DnDCharCtrl($scope, $modal, $timeout)
             keyboard: true,
             backdropClick: true,
             resolve: { attack: function(){ return attack; } },
-            $modalInstanceClass: "modal wide",
+            windowClass: "wide",
             templateUrl: '/system/dnd4e/partials/attack_dlg.html',
             controller: 'EditAttackDialogCtrl'
         };

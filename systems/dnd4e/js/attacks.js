@@ -4,7 +4,7 @@
 // @module attacks.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function AddAttackDialogCtrl($scope, dialog)
+function AddAttackDialogCtrl($scope, $modalInstance)
 {
     $scope.newAttack = {};
     $scope.newAttack.context = {};
@@ -14,7 +14,7 @@ function AddAttackDialogCtrl($scope, dialog)
     $scope.mode = 'add';
     $scope.cancel = function()
     {
-        dialog.close(false);
+        $modalInstance.dismiss('cancel');
     }; // end close
 
     $scope.add = function()
@@ -29,11 +29,11 @@ function AddAttackDialogCtrl($scope, dialog)
             $scope.newAttack.context.dmg.roll = "1d6 + [" + $scope.newAttack.context.dmg.mod + "] + [enh] + [feat] + [misc]";
         } // end if
 
-        dialog.close($scope.newAttack);
+        $modalInstance.close($scope.newAttack);
     }; // end save
 } // end AddAttackDialogCtrl
 
-function EditAttackDialogCtrl($scope, dialog, attack)
+function EditAttackDialogCtrl($scope, $modalInstance, attack)
 {
     $scope.newAttack = {};
     $scope.newAttack.name = attack.name;
@@ -46,7 +46,7 @@ function EditAttackDialogCtrl($scope, dialog, attack)
     $scope.mode = 'edit';
     $scope.cancel = function()
     {
-        dialog.close(false);
+        $modalInstance.dismiss('cancel');
     }; // end close
 
     $scope.update = function()
@@ -61,7 +61,7 @@ function EditAttackDialogCtrl($scope, dialog, attack)
             $scope.newAttack.context.dmg.roll = "1d6 + [" + $scope.newAttack.context.dmg.mod + "] + [enh] + [feat] + [misc]";
         } // end if
 
-        dialog.close($scope.newAttack);
+        $modalInstance.close($scope.newAttack);
     }; // end save
 } // end EditAttackDialogCtrl
 
