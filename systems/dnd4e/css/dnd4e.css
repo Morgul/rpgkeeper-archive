@@ -312,7 +312,18 @@ img.portrait
 
 .char-detail h4.fake-editable
 {
-    margin-bottom: 3px;
+    margin-bottom: 8px;
+}
+
+.char-detail .fake-editable,
+.char-detail .editable,
+.char-detail select
+{
+    border: 1px solid transparent;
+    font-weight: bold;
+    line-height: 0;
+    color: black;
+    text-align: center;
 }
 
 .char-detail select
