@@ -1,142 +1,53 @@
 //----------------------------------------------------------------------------------------------------------------------
-// Dungeon and Dragons 4e Layout
+// Styling for dnd4e_simp
 //----------------------------------------------------------------------------------------------------------------------
 
-@import "flexbox";
-
-//----------------------------------------------------------------------------------------------------------------------
-
-html, body,
-#main-view > div:first-child
+.pull-right .dropdown-menu
 {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-#main-view
-{
-    padding: 0;
-    margin: 0;
-    height: calc(~"100% - 41px");
-    height: -webkit-calc(~"100% - 41px");
-}
-
-body header:first-child .navbar
-{
-    margin-bottom: 0;
-}
-
-#charPage
-{
-    .flexbox;
-    .flex-direction(column);
-
-    width: 100%;
-    height: 100%;
-}
-
-#charPage .spacer
-{
-    .inline-flexbox;
-    .flex-grow(20);
-}
-
-.sheetTitle
-{
-    .flexbox;
+    left: auto;
+    right: 0;
     padding: 5px;
+    min-width: 200px;
 }
 
-.sheetTitle input
+#charDetails
 {
-    margin-bottom: 0;
+    .form-group
+    {
+        margin-bottom: 0 !important;
+    }
 }
 
-.sheetContents
+.attributeBlock
 {
-    .flexbox;
-    .flex-grow(2);
-}
+    .panel-heading
+    {
+        h3
+        {
+            display: inline-block;
+            margin-left: 5px;
+            position: relative;
+            top: 3px;
+        }
+    }
 
-.sheetColumn
-{
-    .flex-direction(row);
-    border: 1px solid #f00;
-    width: 100% / 3;
-}
+    .score
+    {
+        width: 45px;
+        text-align: center;
+        display: inline-block;
+    }
 
-.sheetColumn + .sheetColumn
-{
-    margin-left: 5px;
-}
+    .form-control[readonly]
+    {
+        cursor: inherit;
+        background: #fff;
+    }
 
-#charPage .colHeader
-{
-    .flexbox;
-    .flex(1, 1, auto);
-    background: #ddd;
-    text-align: center;
-}
-
-#charPage .colHeader h4
-{
-    width: 100%;
-    text-align: center;
-}
-
-#charPage .abilities
-{
-}
-
-#charPage .ability
-{
-}
-
-#charPage .ability header
-{
-    .flex(1, 1, auto);
-    background-color: #0088cc;
-    padding: 2px 8px;
-}
-
-#charPage .ability header .pull-right
-{
-    margin-top: 3px;
-}
-
-#charPage .ability header input,
-#charPage .ability header h4,
-{
-    display: inline-block;
-}
-
-#charPage .ability header input.input-small
-{
-    text-align: center;
-    width: 30px;
-}
-
-#charPage .ability .skill
-{
-    display: block;
-    margin: 8px 5px;
-}
-
-#charPage .ability .skill .skillName
-{
-    font-size: 1.05em;
-    font-weight: bold;
-    margin-bottom: 0;
-    vertical-align: middle;
-}
-
-#charPage .ability .skill input.input-small
-{
-    width: 20px;
+    .skill + .skill
+    {
+        margin-top: 3px;
+    }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-
