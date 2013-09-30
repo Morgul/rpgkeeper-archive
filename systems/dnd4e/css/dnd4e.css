@@ -816,7 +816,8 @@ img.portrait
 
 .attack .bonus-input
 {
-    width: 90px;
+    width: 60px;
+    display: inline-block;
 }
 
 .attack .edit
