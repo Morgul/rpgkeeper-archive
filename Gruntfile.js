@@ -35,7 +35,20 @@ module.exports = function(grunt) {
                 }
             }
         },
+        develop: {
+            server: {
+                file: 'server.js'
+            }
+        },
         watch: {
+            rpgkeeper: {
+                files: ['server.js', 'lib/*.js', 'systems/**/system.js', 'systems/**/models.js'],
+                tasks: ['develop'],
+                options: {
+                    atBegin: true,
+                    nospawn: true
+                }
+            },
             systems_js: {
                 files: ['<%= project.systems.js %>/*.js'],
                 tasks: ['controllers', 'filters'],
@@ -55,6 +68,7 @@ module.exports = function(grunt) {
 
     // Grunt Tasks.
     grunt.loadNpmTasks('grunt-recess');
+    grunt.loadNpmTasks('grunt-develop');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Task for building systems.controller.js
