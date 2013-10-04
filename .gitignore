@@ -1,5 +1,11 @@
 # Pycharm artifacts
 .idea
 
+# Less artifacts
+client/css/*.css
+
+# nedb artifacts
+db/*.nedb
+
 # Node artifacts
 node_modules

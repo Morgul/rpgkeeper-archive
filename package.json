@@ -10,7 +10,11 @@
     "lodash": "latest",
     "omega-models": "git+https://github.com/Morgul/omega-models.git"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-recess": "~0.4.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

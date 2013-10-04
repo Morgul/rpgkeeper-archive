@@ -50,10 +50,6 @@ baseModels.db.once('open', function()
 function setupRoutes(system)
 {
     app.router.add({
-            url: '/system/' + system.shortname + '/css/*',
-            path: path.join(__dirname, '..', system.shortname, 'css')
-        },
-        {
             url: '/system/' + system.shortname + '/js/*',
             path: path.join(__dirname, '..', system.shortname, 'js')
         },

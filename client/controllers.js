@@ -246,7 +246,6 @@
         $scope.chooseDropboxImage = function()
         {
             Dropbox.choose({
-                linkType: "direct",
                 extensions: ["images"],
                 success: function(files)
                 {
