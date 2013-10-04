@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function DnDCharCtrl($scope, $modal, $timeout)
+module.controller('DnDCharCtrl', function($scope, $modal, $timeout)
 {
     if($scope.isNew)
     {
@@ -494,7 +494,7 @@ function DnDCharCtrl($scope, $modal, $timeout)
             });
         });
     };
-} // end DnDCharCtrl
+}); // end DnDCharCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -535,7 +535,7 @@ function updateChar($scope, $timeout)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function NewCharDialogCtrl($scope, $location, $modalInstance)
+module.controller('NewCharDialogCtrl', function($scope, $location, $modalInstance)
 {
     $scope.choices = {};
     $scope.activeTab = 1;
@@ -741,11 +741,11 @@ function NewCharDialogCtrl($scope, $location, $modalInstance)
     {
         $modalInstance.close($scope.newChar);
     }; // end save
-} // end AddCondDialogCtrl
+}); // end AddCondDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function RollsDialogCtrl($scope, $modalInstance, sysChar)
+module.controller('RollsDialogCtrl',function ($scope, $modalInstance, sysChar)
 {
     $scope.sysChar = sysChar;
     $scope.roll = function(rollText)
@@ -763,11 +763,11 @@ function RollsDialogCtrl($scope, $modalInstance, sysChar)
     {
         $modalInstance.dismiss('cancel');
     }; // end close
-} // end RollsDialogCtrl
+}); // end RollsDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function AddCondDialogCtrl($scope, $modalInstance)
+module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
 {
     $scope.newCond = {};
     $scope.cancel = function()
@@ -779,11 +779,11 @@ function AddCondDialogCtrl($scope, $modalInstance)
     {
         $modalInstance.close($scope.newCond);
     }; // end save
-} // end AddCondDialogCtrl
+}); // end AddCondDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function HitpointsCtrl($scope)
+module.controller('HitpointsCtrl',function ($scope)
 {
     $scope.damage = function(dmg)
     {
@@ -867,6 +867,6 @@ function HitpointsCtrl($scope)
         $scope.sysChar.tempHP = 0;
         $scope.$root.$broadcast('ext-rest');
     }; // end $scope.extRest
-} // end HitpointsCtrl
+}); // end HitpointsCtrl
 
 //----------------------------------------------------------------------------------------------------------------------

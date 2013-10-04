@@ -11,14 +11,17 @@ module.exports = function(grunt) {
 			css: "client/css",
 			less: "client/less",
 			systems: {
-				less: "systems/**/less"
+				less: "systems/**/less",
+                js: "systems/**/js",
+                controllers: "<%= project.systems.js %>/*controllers*.js",
+                filters: "<%= project.systems.js %>/*filters*.js"
 			}
 		},
         recess: {
             options: {
                 compile: true
             },
-            epic: {
+            dev: {
                 files: {
                     '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less']
                 }
@@ -33,6 +36,13 @@ module.exports = function(grunt) {
             }
         },
         watch: {
+            systems_js: {
+                files: ['<%= project.systems.js %>/*.js'],
+                tasks: ['controllers', 'filters'],
+                options: {
+                    atBegin: true
+                }
+            },
             less: {
                 files: ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less'],
                 tasks: ['recess'],
@@ -46,6 +56,16 @@ module.exports = function(grunt) {
     // Grunt Tasks.
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-contrib-watch');
+
+    // Task for building systems.controller.js
+    grunt.registerTask('controllers', 'build systems.controllers.js file', function () {
+        grunt.file.copy('client/js/systems.controllers.tpl.js', 'client/js/systems.controllers.js', {process: grunt.template.process});
+    });
+
+    // Task for building systems.filters.js
+    grunt.registerTask('filters', 'build systems.filters.js file', function () {
+        grunt.file.copy('client/js/systems.filters.tpl.js', 'client/js/systems.filters.js', {process: grunt.template.process});
+    });
 
     grunt.registerTask('build', ['recess']);
 };

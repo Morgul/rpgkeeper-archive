@@ -1,10 +1,10 @@
 //----------------------------------------------------------------------------------------------------------------------
 // Controllers related to handling the attacks section.
 //
-// @module attacks.js
+// @module dnd4e.controllers.attacks.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function AddAttackDialogCtrl($scope, $modalInstance)
+module.controller('AddAttackDialogCtrl', function($scope, $modalInstance)
 {
     $scope.newAttack = {};
     $scope.newAttack.context = {};
@@ -31,9 +31,9 @@ function AddAttackDialogCtrl($scope, $modalInstance)
 
         $modalInstance.close($scope.newAttack);
     }; // end save
-} // end AddAttackDialogCtrl
+}); // end AddAttackDialogCtrl
 
-function EditAttackDialogCtrl($scope, $modalInstance, attack)
+module.controller('EditAttackDialogCtrl', function($scope, $modalInstance, attack)
 {
     $scope.newAttack = {};
     $scope.newAttack.name = attack.name;
@@ -63,6 +63,6 @@ function EditAttackDialogCtrl($scope, $modalInstance, attack)
 
         $modalInstance.close($scope.newAttack);
     }; // end save
-} // end EditAttackDialogCtrl
+}); // end EditAttackDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------

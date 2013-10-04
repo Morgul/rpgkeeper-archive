@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function SimpDnD4eCtrl($scope)
+module.controller('SimpDnD4eCtrl', function($scope)
 {
     // Watch for changes on the character, and send updates.
     $scope.$watch('sysChar', function(oldChar, newChar)
@@ -28,7 +28,7 @@ function SimpDnD4eCtrl($scope)
         return character.halfLevel + character[skill.ability + 'Mod'] +
                 + (skill.trained ? 2 : 0) + skill.racial + skill.misc - skill.armorPenalty;
     }
-} // end SimpDnD4eCtrl
+}); // end SimpDnD4eCtrl
 
 function updateChar($scope)
 {
