@@ -17,10 +17,7 @@ module.exports = function(grunt) {
                 filters: "<%= project.systems.js %>/*filters*.js"
 			}
 		},
-        recess: {
-            options: {
-                compile: true
-            },
+        less: {
             dev: {
                 files: {
                     '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less']
@@ -58,7 +55,7 @@ module.exports = function(grunt) {
             },
             less: {
                 files: ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less'],
-                tasks: ['recess'],
+                tasks: ['less'],
                 options: {
                     atBegin: true
                 }
@@ -67,8 +64,8 @@ module.exports = function(grunt) {
     });
 
     // Grunt Tasks.
-    grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-develop');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Task for building systems.controller.js
@@ -81,5 +78,5 @@ module.exports = function(grunt) {
         grunt.file.copy('client/js/systems.filters.tpl.js', 'client/js/systems.filters.js', {process: grunt.template.process});
     });
 
-    grunt.registerTask('build', ['recess']);
+    grunt.registerTask('build', ['less']);
 };
