@@ -38,9 +38,6 @@ select.tall {
 .mono {
   font-family: monospace;
 }
-.in {
-  -webkit-transform: translate3d(0, 0, 0);
-}
 
 /*!
  * Bootstrap v3.0.0
