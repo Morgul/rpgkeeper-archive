@@ -35,6 +35,9 @@ select.tall {
 .help-block code {
   font-size: .85em;
 }
+.panel {
+  margin-bottom: 10px !important;
+}
 .mono {
   font-family: monospace;
 }
@@ -712,8 +715,8 @@ pre code {
 .container {
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .container:before,
 .container:after {
@@ -812,8 +815,8 @@ pre code {
   clear: both;
 }
 .row {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 .row:before,
 .row:after {
@@ -961,8 +964,8 @@ pre code {
 .col-lg-12 {
   position: relative;
   min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .col-xs-1,
 .col-xs-2,
@@ -1015,7 +1018,7 @@ pre code {
 }
 @media (min-width: 768px) {
   .container {
-    max-width: 750px;
+    max-width: 728px;
   }
   .col-sm-1,
   .col-sm-2,
@@ -1168,7 +1171,7 @@ pre code {
 }
 @media (min-width: 992px) {
   .container {
-    max-width: 970px;
+    max-width: 948px;
   }
   .col-md-1,
   .col-md-2,
@@ -1330,7 +1333,7 @@ pre code {
 }
 @media (min-width: 1200px) {
   .container {
-    max-width: 1170px;
+    max-width: 1148px;
   }
   .col-lg-1,
   .col-lg-2,
@@ -2153,8 +2156,8 @@ textarea.input-lg {
   padding-top: 7px;
 }
 .form-horizontal .form-group {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after {
@@ -4368,8 +4371,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-collapse {
   max-height: 340px;
   overflow-x: visible;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 4px;
+  padding-left: 4px;
   border-top: 1px solid transparent;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
@@ -4441,10 +4444,10 @@ textarea.input-group-sm > .input-group-btn > .btn {
     overflow-y: visible;
   }
   .navbar-collapse .navbar-nav.navbar-left:first-child {
-    margin-left: -15px;
+    margin-left: -4px;
   }
   .navbar-collapse .navbar-nav.navbar-right:last-child {
-    margin-right: -15px;
+    margin-right: -4px;
   }
   .navbar-collapse .navbar-text:last-child {
     margin-right: 0;
@@ -4452,8 +4455,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .container > .navbar-header,
 .container > .navbar-collapse {
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-right: -4px;
+  margin-left: -4px;
 }
 @media (min-width: 768px) {
   .container > .navbar-header,
@@ -4493,7 +4496,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
+  padding: 15px 4px;
   font-size: 18px;
   line-height: 20px;
 }
@@ -4503,13 +4506,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand {
-    margin-left: -15px;
+    margin-left: -4px;
   }
 }
 .navbar-toggle {
   position: relative;
   float: right;
-  margin-right: 15px;
+  margin-right: 4px;
   padding: 9px 10px;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -4532,7 +4535,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-nav {
-  margin: 7.5px -15px;
+  margin: 7.5px -4px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
@@ -4583,9 +4586,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-form {
-  margin-left: -15px;
-  margin-right: -15px;
-  padding: 10px 15px;
+  margin-left: -4px;
+  margin-right: -4px;
+  padding: 10px 4px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -4659,8 +4662,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar-text {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 4px;
+    margin-right: 4px;
   }
 }
 .navbar-default {
@@ -8167,7 +8170,8 @@ img.portrait {
 }
 .stat-group.attributes {
   margin-top: 5px;
-  float: left;
+  display: inline-block;
+  vertical-align: top;
 }
 .stat-group.attributes .muted {
   color: #777;
@@ -8193,6 +8197,7 @@ img.portrait {
   border-radius: 0;
   margin-bottom: 3px;
   padding: 0 0 0 7px;
+  display: inline-block;
 }
 .stat input.value.large {
   width: 72px;
@@ -8208,6 +8213,8 @@ img.portrait {
 }
 .stat-group.skills {
   width: 600px;
+  display: inline-block;
+  vertical-align: top;
 }
 .stat-group.skills .columns {
   columns: 12.5em 4;
@@ -8414,3 +8421,9 @@ form.attack-form-section + form.attack-form-section {
 .attributeBlock .skill + .skill {
   margin-top: 3px;
 }
+.attributeBlock label.skillName {
+  position: relative;
+  top: 2px;
+  margin-bottom: 0;
+}
+
