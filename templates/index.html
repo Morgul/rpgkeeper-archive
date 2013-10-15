@@ -13,30 +13,33 @@
         <!-- These scripts must be at the start of the page -->
         <script src="/vendor/showdown/showdown.js"></script>
         <!--script src="/vendor/showdown/extensions/table.js"></script-->
+        <script src="/socket.io/socket.io.js"></script>
         <script src="http://code.jquery.com/jquery-2.0.2.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-resource.min.js"></script>
-        <script src="/vendor/ui-bootstrap/ui-bootstrap-tpls-0.4.0.min.js"></script>
+        <script src="/vendor/ui-bootstrap/ui-bootstrap-tpls-0.6.0-SNAPSHOT.min.js"></script>
 
         <!-- Application Scripts -->
         <script src="/client/app.js"></script>
         <script src="/client/controllers.js"></script>
         <script src="/client/directives.js"></script>
         <script src="/client/js/persona.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
+        <script src="/client/js/systems.controllers.js"></script>
+        <script src="/client/js/systems.filters.js"></script>
 
         <!-- Fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Telex|Titillium+Web:400,700,600,400italic,600italic,700italic,900,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,700,600,400italic,600italic,700italic,900,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
 
         <!-- Vendor Styles -->
-        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
         <link href="/vendor/openwebicons/css/openwebicons-bootstrap.min.css" rel="stylesheet">
         <link href="/vendor/icomoon/style.css" rel="stylesheet">
 
         <!-- Application Styles -->
+        <!--link rel="stylesheet/less" type="text/css" href="/client/less/theme.less" />
+        <link rel="stylesheet/less" type="text/css" href="/client/less/overrides.less" /-->
         <link href="/client/css/rpgkeeper.css" rel="stylesheet">
-        <link href="/client/css/overrides.css" rel="stylesheet">
+        <!--link href="/client/css/overrides.css" rel="stylesheet"-->
 
         <!-- Editables -->
         <link href="/vendor/editables/editables.css" rel="stylesheet">
@@ -53,14 +56,17 @@
         <header ng-include="'/partials/header.html'"></header>
 
         <!-- Main View -->
-        <div id="main-view" class="container-fluid" data-ng-view></div>
+        <div id="main-view" class="main-container" data-ng-view></div>
 
         <!-- ======================================================================================================= -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="/vendor/ui-utils/ui-utils.min.js"></script>
         <script src="https://login.persona.org/include.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.1/lodash.min.js"></script>
+
+        <!-- LESS -->
+        <!--script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.4.1/less.min.js"></script-->
 
         <!-- Dropbox -->
         <script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="678jhziclljis0y"></script>

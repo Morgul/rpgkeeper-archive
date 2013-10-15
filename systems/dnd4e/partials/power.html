@@ -28,6 +28,10 @@
             <span class="range">{{ power.rangeText }}</span>
         </div>
 
+        <div class="section" ng-if="power.requirements">
+            <b>Requirements</b>: {{ power.requirements }}
+        </div>
+
         <div class="section" ng-if="power.trigger">
             <b>Trigger</b>: {{ power.trigger }}
         </div>
