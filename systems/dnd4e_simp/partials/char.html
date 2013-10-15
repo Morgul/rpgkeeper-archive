@@ -1,36 +1,12 @@
-<div class="row" ng-controller="SimpDnD4eCtrl">
-    <div class="col-lg-2 visible-lg">
+<div id="SimpleChar" ng-controller="SimpDnD4eCtrl">
+    <div class="left-column">
         <img src="http://placehold.it/340x460" width="100%" class="img-thumbnail" style="margin-bottom: 5px">
         <button class="btn btn-default btn-block" style="margin-bottom: 5px">
             <i class="icon-dropbox"></i> Choose Portrait
         </button>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="pull-right">
-                    <button class="btn btn-default" ng-click="openRolls()"><i class="icon-plus"></i> Add</button>
-                </div>
-                <h3 class="panel-title"><i class="icon-stethoscope"></i> Conditions</h3>
-            </div>
-            <div class="panel-body">
-                <!--h5 ng-if="sysChar.conditions.length == 0" style="text-align: center"><b>No Conditions, yet.</b></h5-->
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <button type="button" class="close" aria-hidden="true">&times;</button>
-                        <div><strong>+2 to all Defenses</strong></div>
-                        <div class="text-muted"><small>til the end of my next turn</small></div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <button type="button" class="close" aria-hidden="true">&times;</button>
-                        <div><strong>So, this is a test of the conditions system. Pretty cool, eh?</strong></div>
-                        <div class="text-muted"><small>This would be the duration.</small></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div ng-include="'/system/dnd4e_simp/partials/conditions.html'"></div>
     </div>
-    <div class="row col-lg-8 col-md-9 col-sm-12">
+    <div class="middle-column">
         <div id="charDetails" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -113,178 +89,41 @@
                 </div>
             </div>
         </div>
-        <div id="charDetails" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="charDetails" class="col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="icon-shield"></i> Combat Statistics</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <p class="col-xs-12">Things go here!</p>
+                        <p class="col-md-6">Things go here!</p>
+                        <div class="col-md-6" ng-include="'/system/dnd4e_simp/partials/hitpoints.html'"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.strength">
-                    <h3 class="panel-title">Strength</h3>
+        <div class="enable-if-both" ng-include="'/system/dnd4e_simp/partials/attributes.html'"></div>
+        <tabset class="disable-if-both">
+            <tab heading="Attributes" select="setTab('attributes')">
+                <div ng-include="'/system/dnd4e_simp/partials/attributes.html'"></div>
+            </tab>
+            <tab heading="Powers" select="setTab('powers')">
+                <div class="powers">
                 </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'strength'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
+            </tab>
+            <tab heading="Feats" select="setTab('feats')">
+                <div class="feats">
                 </div>
-            </div>
-        </div>
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.constitution">
-                    <h3 class="panel-title">Constitution</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'constitution'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.dexterity">
-                    <h3 class="panel-title">Dexterity</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'dexterity'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.intelligence">
-                    <h3 class="panel-title">Intelligence</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'intelligence'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.wisdom">
-                    <h3 class="panel-title">Wisdom</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'wisdom'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="attributeBlock col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="pull-right">
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) }}" readonly>
-                        <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) + sysChar.halfLevel }}" readonly>
-                    </div>
-                    <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.charisma">
-                    <h3 class="panel-title">Charisma</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'charisma'}">
-                        <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
-                        <label class="skillName">{{ skill.name|capitalize }}</label>
-                        <div class="pull-right">
-                            <div class="checkbox"><label class="">
-                                <input type="checkbox" ng-model="skill.trained"> Trained
-                            </label></div>
-                            <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
-                            <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                            <button type="submit" class="btn btn-default">Roll</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </tab>
+            <tab heading="Equipment" select="setTab('equipment')">
+                <h4 class="text-center">Not Implemented Yet</h4>
+            </tab>
+        </tabset>
+
     </div>
-    <div class="col-lg-2 col-md-3 visible-md visible-lg">
-        <div ng-include="'/system/dnd4e_simp/partials/hitpoints.html'"></div>
+    <div class="right-column">
+        <div class="disable-if-left block" ng-include="'/system/dnd4e_simp/partials/conditions.html'"></div>
         <tabset>
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
@@ -294,9 +133,9 @@
                 <div class="feats">
                 </div>
             </tab>
-            <!--tab heading="Equipment" select="setTab('equipment')">
+            <tab heading="Equipment" select="setTab('equipment')">
                 <h4 class="text-center">Not Implemented Yet</h4>
-            </tab-->
+            </tab>
         </tabset>
     </div>
 </div>
