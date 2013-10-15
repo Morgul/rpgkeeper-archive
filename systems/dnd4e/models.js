@@ -310,6 +310,7 @@ db.once('open', function callback () {
         features: [{
             name: { type: String, required: true },
             description: String,
+            level: { type: Number, default: 1, min: 0 },
             powers: [PowerSchema]
         }],
 

@@ -14,7 +14,7 @@ DEBUG = true;
 
 // Server settings
 listenAddress = "0.0.0.0";
-listenPort = 8080;
+listenPort = 8081;
 
 // Database creation
 databases = {

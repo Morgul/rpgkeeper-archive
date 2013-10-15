@@ -1,0 +1,35 @@
+<div class="well hitpoints well-sm">
+    <div class="left">
+        <span class="pull-left tmp-hp">Temp: {{ sysChar.tempHP }}</span>
+        <span class="pull-right max-hp">Max: {{ sysChar.maxHP }}</span>
+        <div class="hp-counter" ng-class="{'text-success': sysChar.currentHP > sysChar.bloodiedValue, 'text-warning': sysChar.currentHP <= sysChar.bloodiedValue && sysChar.currentHP > 0, 'text-error': sysChar.currentHP <= 0 && sysChar.currentHP >= -sysChar.bloodiedValue, 'dead': sysChar.currentHP < -sysChar.bloodiedValue}">
+            {{ (sysChar.currentHP + sysChar.tempHP) || 0 }}
+        </div>
+        <div class="hp-row">
+            <button class="btn dmg-btn btn-default btn-sm" ng-click="damage(dmg)">Damage</button>
+            <input class="dmg-input form-control" type="text" placeholder="Damage" ng-model="dmg">
+        </div>
+        <div class="hp-row">
+            <div class="btn-group heal-grp">
+                <button class="btn btn-default btn-sm" ng-click="heal(hp)">Heal</button>
+                <button class="btn btn-default btn-sm" ng-click="temp(hp)">Tmp</button>
+            </div>
+            <input class="heal-input form-control" type="text" placeholder="Heal/Tmp" ng-model="hp">
+        </div>
+    </div>
+    <div class="right">
+        <span class="pull-left max-hp">Bloodied: {{ sysChar.bloodiedValue }}</span>
+        <span class="pull-right tmp-hp">Surge: {{ sysChar.surgeValue }}</span>
+        <div class="hp-row">
+            <button class="btn btn-full btn-default btn-sm" ng-class="{disabled: !sysChar.secondWindAvailable || sysChar.currentSurges <= 0}" ng-click="secondWind()">Second Wind</button>
+        </div>
+        <div class="btn-group surge-grp">
+            <button class="btn btn-default btn-sm" ng-click="addSurge()"><i class="icon-plus"></i></button>
+            <button class="btn surge-btn btn-default btn-sm" ng-click="surge()" ng-class="{disabled: sysChar.currentSurges <= 0}">Surge ({{ sysChar.currentSurges }})</button>
+            <button class="btn btn-default btn-sm" ng-click="removeSurge()" ng-class="{disabled: sysChar.currentSurges <= 0}"><i class="icon-minus"></i></button>
+        </div>
+        <button class="btn btn-full btn-default btn-sm" ng-click="shortRest()">Short Rest</button>
+        <button class="btn btn-full btn-default btn-sm" ng-click="extRest()">Extended Rest</button>
+    </div>
+    <div class="bottom">&nbsp;</div>
+</div>

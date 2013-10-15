@@ -50,10 +50,6 @@ baseModels.db.once('open', function()
 function setupRoutes(system)
 {
     app.router.add({
-            url: '/system/' + system.shortname + '/css/*',
-            path: path.join(__dirname, '..', system.shortname, 'css')
-        },
-        {
             url: '/system/' + system.shortname + '/js/*',
             path: path.join(__dirname, '..', system.shortname, 'js')
         },
@@ -162,6 +158,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 
                             character.populate(function(error)
                             {
+                                console.log('new char.');
                                 callback(error, character, newChar);
                             });
                         });
@@ -172,10 +169,35 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             {
                 character.populate(function(error)
                 {
+                    console.log('existing char.');
+                    console.log('BaseChar:', character.baseChar, charID);
                     callback(error, character, newChar);
                 });
             } // end if
         });
+    });
+
+    socket.on('update_character', function(character, callback)
+    {
+        // Remove populated fields
+        delete character['conditions'];
+        delete character['skills'];
+        delete character['powers'];
+        delete character['feats'];
+
+        console.log('character:', character);
+
+        models.Character.findOneAndUpdate({baseChar: character.baseChar}, character, function(error, char)
+        {
+            if(error)
+            {
+                console.log("Error:", error);
+                callback({ type: 'error', message: 'Encountered an error while updating system specific character: ' + error.toString()});
+            } // end if
+
+            console.log('updated char:', char);
+            callback(null, char);
+        })
     });
 });
 
