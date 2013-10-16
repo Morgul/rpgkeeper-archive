@@ -36,24 +36,10 @@ baseModels.db.once('open', function()
                 {
                     console.error('Error saving:', error.toString());
                 }
-                setupRoutes(system);
             });
-        }
-        else
-        {
-            setupRoutes(system);
         } // end if
     });
 });
-
-// Setup the routing
-function setupRoutes(system)
-{
-    app.router.add({
-            url: '/systems/' + system.shortname + '/partials/*',
-            path: path.join(__dirname, '..', system.shortname, 'partials')
-        });
-} // end setupRoutes
 
 //----------------------------------------------------------------------------------------------------------------------
 

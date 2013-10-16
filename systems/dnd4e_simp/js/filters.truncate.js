@@ -14,7 +14,6 @@ module.filter('truncate', function()
         }
         else
         {
-            console.log('limit:', limit);
             return string.slice(0, limit - 3) + '...'
         } // end if
     }

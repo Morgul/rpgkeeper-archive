@@ -4,7 +4,18 @@
 // @module app.js
 //----------------------------------------------------------------------------------------------------------------------
 
-window.app = angular.module("rpgkeeper", ['ngResource', 'ui.bootstrap', 'rpgkeeper.controllers', 'rpgkeeper.directives', 'rpgkeeper.systems.controllers', 'rpgkeeper.systems.filters', 'editables'])
+window.app = angular.module("rpgkeeper", [
+        'ngResource',
+        'ui.bootstrap',
+        'editables',
+        'rpgkeeper.controllers',
+        'rpgkeeper.directives',
+        'rpgkeeper.client.templates',
+        'rpgkeeper.systems.templates',
+        'rpgkeeper.systems.controllers',
+        'rpgkeeper.systems.widgets',
+        'rpgkeeper.systems.filters'
+    ])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider)
     {
         $locationProvider.html5Mode(true);

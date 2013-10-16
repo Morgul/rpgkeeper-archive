@@ -88,7 +88,7 @@
                 backdrop: true,
                 keyboard: true,
                 backdropClick: true,
-                templateUrl: 'partials/newchar.html',
+                templateUrl: '/partials/newchar.html',
                 controller: 'AddCharDialogCtrl'
             };
 
@@ -118,7 +118,7 @@
                 backdrop: true,
                 keyboard: true,
                 backdropClick: true,
-                templateUrl: 'partials/deletechar.html',
+                templateUrl: '/partials/deletechar.html',
                 controller: 'DelCharDialogCtrl'
             };
 
@@ -195,7 +195,7 @@
                     {
                         $scope.$apply(function()
                         {
-                            $scope.char_template = '/system/' + character.system.shortname + '/partials/char.html';
+                            $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
                             $scope.sysChar = sysChar;
                             $scope.isNew = isNew;
                         });

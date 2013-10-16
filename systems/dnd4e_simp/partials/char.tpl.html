@@ -4,7 +4,7 @@
         <button class="btn btn-default btn-block" style="margin-bottom: 5px">
             <i class="icon-dropbox"></i> Choose Portrait
         </button>
-        <div ng-include="'/system/dnd4e_simp/partials/conditions.html'"></div>
+        <div ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
     </div>
     <div class="middle-column">
         <div id="charDetails" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -97,16 +97,16 @@
                 <div class="panel-body">
                     <div class="row">
                         <p class="col-md-6">Things go here!</p>
-                        <div class="col-md-6" ng-include="'/system/dnd4e_simp/partials/hitpoints.html'"></div>
+                        <div class="col-md-6" ng-include="'/systems/dnd4e_simp/partials/hitpoints.html'"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="enable-if-both" ng-include="'/system/dnd4e_simp/partials/attributes.html'"></div>
+        <div class="enable-if-both" ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
         <tabset class="disable-if-both">
             <tab heading="Attributes" select="setTab('attributes')">
-                <div ng-include="'/system/dnd4e_simp/partials/attributes.html'"></div>
+                <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
             </tab>
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
@@ -123,7 +123,8 @@
 
     </div>
     <div class="right-column">
-        <div class="disable-if-left block" ng-include="'/system/dnd4e_simp/partials/conditions.html'"></div>
+        <hpcalc></hpcalc>
+        <div class="disable-if-left block" ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
         <tabset>
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
