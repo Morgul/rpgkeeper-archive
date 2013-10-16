@@ -21,7 +21,7 @@
     </div>
 
     <div class="right-sidebar">
-        <div ng-include="'/system/dnd4e/partials/hitpoints.html'" ng-controller="HitpointsCtrl"></div>
+        <div ng-include="'/systems/dnd4e/partials/hitpoints.html'" ng-controller="HitpointsCtrl"></div>
         <tabset>
             <div class="pull-right">
                 <button class="btn btn-default btn-sm" title="Expand All" ng-click="expandAll()"><i class="icon-chevron-down"></i></button>
@@ -29,26 +29,26 @@
             </div>
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
-                    <ng-include src="'/system/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers" ng-init="powers[power._id] = powers[power._id] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers" ng-init="powers[power._id] = powers[power._id] || true"></ng-include>
                 </div>
             </tab>
             <tab heading="Feats" select="setTab('feats')">
                 <div class="feats">
                     <h5 ng-if="sysChar.race.feats">Racial Feats</h5>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.race.feats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.race.feats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <br>
                     <h5 ng-if="sysChar.class.classFeatures || sysChar.chosenFeatures">Class Features</h5>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.class.classFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.chosenFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.class.classFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.chosenFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <br>
                     <h5 ng-if="sysChar.paragonPath.features">Paragon Path</h5>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.paragonPath.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.paragonPath.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <br>
                     <h5 ng-if="sysChar.paragonPath.features">Epic Destiny</h5>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.epicDestiny.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.epicDestiny.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                     <br>
                     <h5 ng-if="sysChar.additionalFeats">Chosen Feats</h5>
-                    <ng-include src="'/system/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.additionalFeats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.additionalFeats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
                 </div>
             </tab>
             <tab heading="Equipment" select="setTab('equipment')">

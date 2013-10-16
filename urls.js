@@ -51,7 +51,7 @@ app.router.add(
         } // end post
     },
     {
-        url: /^\/(?!admin\/|omega\/|system\/)/,
+        url: /^\/(?!admin\/|omega\/|systems\/)/,
         get: views.index
     }
 );
