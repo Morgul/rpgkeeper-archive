@@ -2,6 +2,10 @@
 // Styling for dnd4e_simp
 //----------------------------------------------------------------------------------------------------------------------
 
+@import "/client/less/theme";
+
+//----------------------------------------------------------------------------------------------------------------------
+
 .pull-right .dropdown-menu
 {
     left: auto;
@@ -15,6 +19,33 @@
     .form-group
     {
         margin-bottom: 0 !important;
+    }
+
+    .panel-heading.stat-block-holder {
+        padding: 3px 5px;
+    }
+
+    .panel-heading.defense {
+        @defense-bg: darken(@panel-default-heading-bg, 5%);
+        #gradient > .vertical(@start-color: @defense-bg; @end-color: darken(@defense-bg, 5%))
+    }
+
+    .stat-block {
+        display: inline-block;
+        width: 49.5%;
+
+        .score {
+            width: 45px;
+            text-align: center;
+            display: inline-block;
+            height: 28px;
+            padding-top: 5.5px;
+        }
+
+        .name {
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
     }
 }
 
