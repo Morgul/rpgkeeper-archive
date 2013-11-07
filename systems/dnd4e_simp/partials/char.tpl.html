@@ -32,6 +32,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <button class="btn btn-default"><i class="icon-chevron-up"></i></button>
                     </div>
                     <h3 class="panel-title"><i class="icon-profile"></i> Character Details</h3>
                 </div>
@@ -105,6 +106,9 @@
 
         <div class="enable-if-both" ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
         <tabset class="disable-if-both">
+            <div class="pull-right">
+                <button ng-if="getTab() != 'attributes'" class="btn btn-primary"><i class="icon-plus"></i> Add</button>
+            </div>
             <tab heading="Attributes" select="setTab('attributes')">
                 <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
             </tab>
@@ -123,9 +127,11 @@
 
     </div>
     <div class="right-column">
-        <hpcalc></hpcalc>
         <div class="disable-if-left block" ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
         <tabset>
+            <div class="pull-right">
+                <button class="btn btn-primary"><i class="icon-plus"></i> Add</button>
+            </div>
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
                 </div>
