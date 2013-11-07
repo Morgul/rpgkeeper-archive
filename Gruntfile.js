@@ -44,16 +44,20 @@ module.exports = function(grunt) {
         },
         less: {
             dev: {
+                options: {
+                    paths: ['vendor']
+                },
                 files: {
-                    '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less']
+                    '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', 'systems/**/*.less']
                 }
             },
             min: {
                 options: {
+                    paths: ['vendor'],
                     compress: true
                 },
                 files: {
-                    '<%= project.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less']
+                    '<%= project.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less', 'systems/**/*.less']
                 }
             }
         },
@@ -86,7 +90,7 @@ module.exports = function(grunt) {
                 }
             },
             less: {
-                files: ['<%= project.less %>/*.less', '<%= project.systems.less %>/*.less'],
+                files: ['<%= project.less %>/*.less', 'systems/**/*.less'],
                 tasks: ['less'],
                 options: {
                     atBegin: true
