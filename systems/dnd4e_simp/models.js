@@ -63,7 +63,7 @@ module.exports = ns.define({
     },
 
     Character: {
-        baseChar: fields.String({ required: true }),
+        baseChar: fields.String({ required: true, key: true }),
         conditions: fields.List({ type: fields.Reference({ model: 'Condition' }) }),
         skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
         powers: fields.List({ type: fields.Reference({ model: 'Power' }) }),

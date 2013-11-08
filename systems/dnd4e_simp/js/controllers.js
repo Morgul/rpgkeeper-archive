@@ -6,10 +6,11 @@
 
 module.controller('SimpDnD4eCtrl', function($scope)
 {
+    $scope.updatePending = false;
+
     // Watch for changes on the character, and send updates.
     $scope.$watch('sysChar', function(oldChar, newChar)
     {
-        console.log('watching!');
         if(oldChar != newChar)
         {
             updateChar($scope);
@@ -30,37 +31,59 @@ module.controller('SimpDnD4eCtrl', function($scope)
     }
 }); // end SimpDnD4eCtrl
 
+// We do a few tricky things here; basically, once we get called once, we set a timer, and wait until people stop
+// calling `updateChar` before we send out the update. Not only does this help with rate limiting, but it also prevents
+// odd behavior where we update the model while the user is still trying to type, stomping on their changes.
 function updateChar($scope)
 {
-    console.log('updating!');
-    // If we've already scheduled an update, exit.
-    if($scope.updateRunning)
+    function doUpdate()
     {
-        return;
-    } // end if
-
-    // We do not send any updates while one is currently running.
-    $scope.updateRunning = true;
-    $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, character)
-    {
-        $scope.$apply(function()
+        $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, character)
         {
-            if(error)
+            $scope.$apply(function()
             {
-                $scope.alerts.push(error);
-            }
-            else
-            {
-                if(character)
+                if(error)
                 {
-                    $scope.sysChar = character;
+                    $scope.alerts.push(error);
+                }
+                else
+                {
+                    if(character)
+                    {
+                        $scope.sysChar = character;
+                    } // end if
                 } // end if
-            } // end if
-
-            $scope.updateRunning = false;
+            });
         });
-    });
+    } // end doUpdate
 
+    function waitForUpdatesToStop()
+    {
+        if(!$scope.timerID)
+        {
+            $scope.timerID = setInterval(function()
+            {
+                if($scope.updatesIncoming)
+                {
+                    $scope.$apply(function()
+                    {
+                        // Set this to false, so we can detect if we're called again.
+                        $scope.updatesIncoming = false;
+                    });
+                }
+                else
+                {
+                    clearInterval($scope.timerID);
+                    $scope.timerID = undefined;
+                    doUpdate();
+                } // end if
+            }, 500);
+        } // end if
+    } // end wait
+
+
+    $scope.updatesIncoming = true;
+    waitForUpdatesToStop();
 } // end updateChar
 
 

@@ -138,9 +138,8 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                                 callback(error);
                             } // end if
 
-                            character.populate(function(error)
+                            character.populate(function(error, character)
                             {
-                                console.log('new char.');
                                 callback(error, character, newChar);
                             });
                         });
@@ -149,37 +148,58 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             }
             else
             {
-                character.populate(function(error)
+                character.populate(function(error, character)
                 {
-                    console.log('existing char.');
-                    console.log('BaseChar:', character.baseChar, charID);
                     callback(error, character, newChar);
                 });
             } // end if
         });
     });
 
-    socket.on('update_character', function(character, callback)
+    socket.on('update_character', function(update, callback)
     {
-        // Remove populated fields
-        delete character['conditions'];
-        delete character['skills'];
-        delete character['powers'];
-        delete character['feats'];
-
-        console.log('character:', character);
-
-        models.Character.findOneAndUpdate({baseChar: character.baseChar}, character, function(error, char)
+        // Look up the character here.
+        models.Character.findOne({baseChar: update.baseChar}, function(err, character)
         {
-            if(error)
+            delete update['$id'];
+            delete update['skills'];
+            delete update['conditions'];
+            delete update['powers'];
+            delete update['feats'];
+
+            if(err)
             {
-                console.log("Error:", error);
-                callback({ type: 'error', message: 'Encountered an error while updating system specific character: ' + error.toString()});
+                console.error("Error Encountered:", err);
+                return callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
             } // end if
 
-            console.log('updated char:', char);
-            callback(null, char);
-        })
+            if(!character)
+            {
+                console.error("Failed to find character.");
+                return callback({ type: 'error', message: 'Failed to find character.'});
+            } // end if
+
+            // Update the character
+            _.assign(character, update);
+
+            // Save the character
+            character.save(function(error)
+            {
+                if(error)
+                {
+                    //console.error('Error while saving:', error);
+                    callback({ type:'error', message: 'Encountered error while saving: ' + error.toString() });
+                }
+                else
+                {
+                    // Populate the character
+                    character.populate(function(error, character)
+                    {
+                        callback(error, character);
+                    });
+                } // end if
+            });
+        });
     });
 });
 

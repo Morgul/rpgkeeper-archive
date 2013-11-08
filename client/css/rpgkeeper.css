@@ -8394,7 +8394,7 @@ form.attack-form-section + form.attack-form-section {
   overflow: auto;
 }
 
-.condition {
+.condition .panel-body {
   background-color: #f5f5f5;
 }
 

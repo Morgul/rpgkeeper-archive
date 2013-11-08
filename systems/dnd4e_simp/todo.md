@@ -1,2 +1,21 @@
 # ToDo:
-* Add: Initiative, Speed, Defenses, Passive Perception, Passive Insight
+
+## General
+* Fix the character detail fields so they don't auto-size, but instead have a fixed size, and just float together properly.
+* Add missing fields from the character details into the character model
+* Move the calculation logic from the server to the client.
+* Add support for adding/removing conditions
+* Add support for character profile
+
+## Skills
+* Add support for editing skills
+* Add support for adding skills
+
+## Powers
+* Figure out how to support custom powers
+* Add support for adding and displaying powers
+* Add support for marking powers as used
+* Add support for editing powers
+
+## Feats
+* Build support for feats, similar to powers.
