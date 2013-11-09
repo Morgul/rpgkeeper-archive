@@ -4,7 +4,7 @@
 * ~~Fix the character detail fields so they don't auto-size, but instead have a fixed size, and just float together properly~~
 * ~~Add missing fields from the character details into the character model~~
 * Move the calculation logic from the server to the client
-* Add support for adding/removing conditions
+* ~~Add support for adding/removing conditions~~
 * ~~Add support for character profile~~
 * ~~Add support for displaying choices?~~
 * ~~Hook up the passive skills~~

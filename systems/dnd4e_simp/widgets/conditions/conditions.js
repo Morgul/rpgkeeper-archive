@@ -4,16 +4,30 @@
 // @module conditions.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('ConditionsCtrl', function($scope)
+module.controller('ConditionsCtrl', function($scope, $modal)
 {
     $scope.addCondition = function()
     {
-        $scope.systemSocket.emit("add condition", { description: "This is a test condition.", duration: "till I say so." }, $scope.sysChar.baseChar, function(error, character)
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/systems/dnd4e_simp/widgets/conditions/addcond.html',
+            controller: 'AddCondDialogCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
         {
-            $scope.$apply(function()
+            if(result)
             {
-                $scope.charCtrl.$scope.sysChar = character;
-            });
+                $scope.systemSocket.emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.charCtrl.$scope.sysChar = character;
+                    });
+                });
+            } // end if
         });
     }; // end addCondition
 
@@ -28,6 +42,22 @@ module.controller('ConditionsCtrl', function($scope)
         });
     }; // end removeCondition
 });
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
+{
+    $scope.newCond = {};
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function()
+    {
+        $modalInstance.close($scope.newCond);
+    }; // end save
+}); // end AddCondDialogCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 
