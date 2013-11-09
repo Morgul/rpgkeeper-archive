@@ -28,7 +28,33 @@ module.controller('SimpDnD4eCtrl', function($scope)
         var character = $scope.sysChar;
         return character.halfLevel + character[skill.ability + 'Mod'] +
                 + (skill.trained ? 2 : 0) + skill.racial + skill.misc - skill.armorPenalty;
-    }
+    };
+
+    $scope.chooseDropboxImage = function()
+    {
+        Dropbox.choose({
+            linkType: "preview",
+            extensions: ["images"],
+            success: function(files)
+            {
+                $scope.$apply(function()
+                {
+                    // This is a little obnoxious. Dropbox does not support non-expiring direct links from their
+                    // chooser api, however, any file in dropbox can be directly linked to. The solution? Rewrite
+                    // the url. Thankfully their 'preview' url is almost exactly the same format as url we need.
+                    var link = files[0].link.replace('https://www.', 'https://dl.');
+                    $scope.character.portrait = link;
+                    $scope.socket.emit('update_character', $scope.character, function(error)
+                    {
+                        if(error)
+                        {
+                            console.error(error);
+                        } // end if
+                    });
+                });
+            } // end success
+        });
+    }; // end chooseDropboxImage
 }); // end SimpDnD4eCtrl
 
 // We do a few tricky things here; basically, once we get called once, we set a timer, and wait until people stop

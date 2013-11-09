@@ -1,7 +1,7 @@
 <div id="SimpleChar" ng-controller="SimpDnD4eCtrl">
     <div class="left-column">
-        <img src="http://placehold.it/340x460" width="100%" class="img-thumbnail" style="margin-bottom: 5px">
-        <button class="btn btn-default btn-block" style="margin-bottom: 5px">
+        <img width="100%" class="img-thumbnail" src="{{ character.portrait || 'http://placehold.it/340x460'  }}" style="margin-bottom: 5px">
+        <button class="btn btn-default btn-block" ng-click="chooseDropboxImage()" style="margin-bottom: 5px">
             <i class="icon-dropbox"></i> Choose Portrait
         </button>
         <div ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
