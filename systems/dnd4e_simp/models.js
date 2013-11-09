@@ -75,12 +75,16 @@ module.exports = ns.define({
 
         class: fields.String(),
         race: fields.String(),
+        size: fields.Choice({ type: fields.String(), choices: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"], default: "Medium" }),
         level: fields.Integer({ default: 1, min: 1 }),
         halfLevel: fields.Property(function(){ return Math.floor(this.level / 2); }),
         gender: fields.Choice({ type: fields.String(), choices: ["Male", "Female", "Other"], default: "Male" }),
         alignment: fields.Choice({ type: fields.String(), choices: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" }),
         deity: fields.String(),
         languages: fields.List({ type: fields.String() }),
+
+        paragonPath: fields.String(),
+        epicDestiny: fields.String(),
 
         //-----------------------------------------------------------
         // Abilities

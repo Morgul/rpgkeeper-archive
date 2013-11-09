@@ -7775,10 +7775,13 @@ h6 {
   margin-top: 0;
   margin-bottom: 0;
 }
-select {
-  width: auto !important;
-  margin-bottom: 0;
+/*
+select
+{
+    width: auto !important;
+    margin-bottom: 0;
 }
+*/
 /** New Char Dialog **/
 .race-details h4,
 .class-details h4,

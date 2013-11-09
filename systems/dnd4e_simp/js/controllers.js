@@ -8,6 +8,27 @@ module.controller('SimpDnD4eCtrl', function($scope)
 {
     $scope.updatePending = false;
 
+    $scope.genderChoices = [
+        "Female",
+        "Male",
+        "Other"
+    ];
+    $scope.sizeChoices = [
+        "Tiny",
+        "Small",
+        "Medium",
+        "Large",
+        "Huge",
+        "Gargantuan"
+    ];
+    $scope.alignmentChoices = [
+        "Lawful Good",
+        "Good",
+        "Unaligned",
+        "Evil",
+        "Chaotic Evil"
+    ];
+
     // Watch for changes on the character, and send updates.
     $scope.$watch('sysChar', function(oldChar, newChar)
     {
@@ -29,6 +50,11 @@ module.controller('SimpDnD4eCtrl', function($scope)
         return character.halfLevel + character[skill.ability + 'Mod'] +
                 + (skill.trained ? 2 : 0) + skill.racial + skill.misc - skill.armorPenalty;
     };
+
+    $scope.getSkill = function(name)
+    {
+        return _.find($scope.sysChar.skills, { name: name });
+    }; // end findSkill
 
     $scope.chooseDropboxImage = function()
     {
