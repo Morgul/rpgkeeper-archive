@@ -1,13 +1,20 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="pull-right">
-            <button class="btn btn-primary btn-sm" ng-click=""><i class="icon-plus"></i> Add</button>
+            <button class="btn btn-primary btn-sm" ng-click="addCondition()"><i class="icon-plus"></i> Add</button>
         </div>
         <h3 class="panel-title"><i class="icon-stethoscope"></i> Conditions</h3>
     </div>
     <div class="panel-body">
-        <!--h5 ng-if="sysChar.conditions.length == 0" style="text-align: center"><b>No Conditions, yet.</b></h5-->
-        <div class="panel panel-default condition">
+        <h5 ng-if="sysChar.conditions.length == 0" style="text-align: center"><b>No Conditions, yet.</b></h5>
+        <div class="panel panel-default condition" ng-repeat="cond in sysChar.conditions">
+            <div class="panel-body">
+                <button type="button" class="close" aria-hidden="true" ng-click="removeCondition(cond)">&times;</button>
+                <div><strong>{{ cond.description }}</strong></div>
+                <div class="text-muted"><small>{{ cond.duration }}</small></div>
+            </div>
+        </div>
+        <!--div class="panel panel-default condition">
             <div class="panel-body">
                 <button type="button" class="close" aria-hidden="true">&times;</button>
                 <div><strong>+2 to all Defenses</strong></div>
@@ -20,6 +27,6 @@
                 <div><strong>So, this is a test of the conditions system. Pretty cool, eh?</strong></div>
                 <div class="text-muted"><small>This would be the duration.</small></div>
             </div>
-        </div>
+        </div-->
     </div>
 </div>

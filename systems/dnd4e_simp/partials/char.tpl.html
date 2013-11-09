@@ -1,10 +1,10 @@
-<div id="SimpleChar" ng-controller="SimpDnD4eCtrl">
+<div id="SimpleChar" ng-controller="SimpDnD4eCtrl as charCtrl">
     <div class="left-column">
         <img width="100%" class="img-thumbnail" src="{{ character.portrait || 'http://placehold.it/340x460'  }}" style="margin-bottom: 5px">
         <button class="btn btn-default btn-block" ng-click="chooseDropboxImage()" style="margin-bottom: 5px">
             <i class="icon-dropbox"></i> Choose Portrait
         </button>
-        <div ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
+        <conditions></conditions>
     </div>
     <div class="middle-column">
         <div id="charDetails" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -176,7 +176,7 @@
 
     </div>
     <div class="right-column">
-        <div class="disable-if-left block" ng-include="'/systems/dnd4e_simp/partials/conditions.html'"></div>
+        <conditions></conditions>
         <tabset>
             <div class="pull-right">
                 <button class="btn btn-primary"><i class="icon-plus"></i> Add</button>

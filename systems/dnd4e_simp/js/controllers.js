@@ -6,6 +6,8 @@
 
 module.controller('SimpDnD4eCtrl', function($scope)
 {
+    this.$scope = $scope;
+
     $scope.updatePending = false;
 
     $scope.genderChoices = [

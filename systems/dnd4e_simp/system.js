@@ -201,6 +201,46 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             });
         });
     });
+
+    socket.on('add condition', function(cond, baseChar, callback)
+    {
+        var condition = new models.Condition(cond);
+
+        //TODO: Add error handling.
+        condition.save(function(error)
+        {
+            models.Character.findOne({baseChar: baseChar}, function(err, character)
+            {
+                character.conditions.push({ $id: condition.$id });
+
+                character.save(function()
+                {
+                    character.populate(function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
+
+    socket.on('remove condition', function(condID, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            character.conditions = _.reject(character.conditions, { '$id': condID });
+            character.save(function()
+            {
+                models.Condition.remove(condID, function()
+                {
+                    character.populate(function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
 });
 
 //----------------------------------------------------------------------------------------------------------------------

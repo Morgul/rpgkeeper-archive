@@ -8,6 +8,8 @@
 * ~~Add support for character profile~~
 * ~~Add support for displaying choices?~~
 * ~~Hook up the passive skills~~
+* Make Character Details collapsible (and start collapsed on small screens.)
+* Add character name to nav bar
 
 # HPCalc
 * Need to make HPCalc actually function like the previous one.

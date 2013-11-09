@@ -8397,10 +8397,6 @@ form.attack-form-section + form.attack-form-section {
   overflow: auto;
 }
 
-.condition .panel-body {
-  background-color: #f5f5f5;
-}
-
 /*!
  * Bootstrap v3.0.0
  *
@@ -16320,6 +16316,10 @@ td.visible-print {
   .disable-if-both.block {
     display: block;
   }
+}
+
+.condition .panel-body {
+  background-color: #f5f5f5;
 }
 
 .well {
