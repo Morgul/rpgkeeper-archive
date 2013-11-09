@@ -5,7 +5,7 @@
 * Add missing fields from the character details into the character model
 * Move the calculation logic from the server to the client.
 * Add support for adding/removing conditions
-* Add support for character profile
+* ~~Add support for character profile~~
 
 ## Skills
 * Add support for editing skills
@@ -19,3 +19,6 @@
 
 ## Feats
 * Build support for feats, similar to powers.
+* Feats need to have associated bonuses that can be used in calculating stats.
+
+...and more to come!
