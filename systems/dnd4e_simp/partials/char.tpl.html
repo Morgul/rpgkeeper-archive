@@ -11,7 +11,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="pull-right">
-                        <button class="btn btn-default" ng-click="openRolls()"><i class="icon-dice"></i> Rolls</button>
+
+                        <!-- Money Dropdown -->
                         <div class="btn-group">
                             <a class="btn dropdown-toggle btn-default" data-toggle="dropdown" href="#">
                                 <i class="icon-dollar"></i>
@@ -32,7 +33,20 @@
                                 </li>
                             </ul>
                         </div>
-                        <button class="btn btn-default"><i class="icon-chevron-up"></i></button>
+
+                        <!-- Add Dropdown -->
+                        <!--button class="btn btn-primary" ng-click="addSkill()"><i class="icon-plus"></i> Add Skill</button-->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-plus"></i> Add &hellip; <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="addSkill()"><i class="icon-plus" style="font-size: .85em;"></i> Add Skill</a></li>
+                                <li><a ng-click="addPower()"><i class="icon-plus" style="font-size: .85em;"></i> Add Power</a></li>
+                                <li><a ng-click="addFeat()"><i class="icon-plus" style="font-size: .85em;"></i> Add Feat</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                     <h3 class="panel-title"><i class="icon-profile"></i> Character Details</h3>
                 </div>
@@ -147,7 +161,21 @@
                                 </div>
                             </div>
                         </div>
-                        <hpcalc class="col-md-6"></hpcalc>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="1" ng-model="sysChar.maxHitPoints">
+                                        <span class="name">Max HP</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="0" ng-model="sysChar.surgesPerDay">
+                                        <span class="name">Surges per Day</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hpcalc></hpcalc>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,9 +183,9 @@
 
         <div class="enable-if-both" ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
         <tabset class="disable-if-both">
-            <div class="pull-right">
+            <!--div class="pull-right">
                 <button ng-if="getTab() != 'attributes'" class="btn btn-primary"><i class="icon-plus"></i> Add</button>
-            </div>
+            </div-->
             <tab heading="Attributes" select="setTab('attributes')">
                 <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
             </tab>
@@ -178,9 +206,9 @@
     <div class="right-column">
         <conditions class="disable-if-left block"></conditions>
         <tabset>
-            <div class="pull-right">
+            <!--div class="pull-right">
                 <button class="btn btn-primary"><i class="icon-plus"></i> Add</button>
-            </div>
+            </div-->
             <tab heading="Powers" select="setTab('powers')">
                 <div class="powers">
                 </div>

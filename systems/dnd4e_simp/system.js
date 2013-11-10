@@ -202,6 +202,26 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         });
     });
 
+    socket.on('add skill', function(skillDef, baseChar, callback)
+    {
+
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            var skill = new models.Skill({ name: skillDef.name.toLowerCase(), ability: skillDef.ability.toLowerCase() });
+            skill.save(function()
+            {
+                character.skills.push(skill.$key);
+                character.save(function()
+                {
+                    character.populate(function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
+
     socket.on('update skill', function(skill, callback)
     {
         console.log('skill:', skill);

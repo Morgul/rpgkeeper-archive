@@ -4,11 +4,9 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('SimpDnD4eCtrl', function($scope)
+module.controller('SimpDnD4eCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
-
-    $scope.updatePending = false;
 
     $scope.genderChoices = [
         "Female",
@@ -30,6 +28,10 @@ module.controller('SimpDnD4eCtrl', function($scope)
         "Evil",
         "Chaotic Evil"
     ];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Watches
+    //------------------------------------------------------------------------------------------------------------------
 
     // Setup individual watches, for better performance
     var skipFields = ["skills", "conditions", "languages", "powers", "feats"];
@@ -79,6 +81,10 @@ module.controller('SimpDnD4eCtrl', function($scope)
         }, true);
     });
 
+    //------------------------------------------------------------------------------------------------------------------
+    // Skills
+    //------------------------------------------------------------------------------------------------------------------
+
     $scope.calcAbilityMod = function(abilityScore)
     {
         abilityScore = abilityScore || 0;
@@ -114,6 +120,34 @@ module.controller('SimpDnD4eCtrl', function($scope)
         });
     };
 
+    $scope.addSkill = function() {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/systems/dnd4e_simp/partials/modals/addskill.html',
+            controller: 'AddSkillModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add skill", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+                    });
+                });
+            } // end if
+        });
+    }; // end addSkill
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Dropbox
+    //------------------------------------------------------------------------------------------------------------------
+
     $scope.chooseDropboxImage = function()
     {
         Dropbox.choose({
@@ -140,6 +174,51 @@ module.controller('SimpDnD4eCtrl', function($scope)
         });
     }; // end chooseDropboxImage
 }); // end SimpDnD4eCtrl
+
+module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
+{
+    $scope.newSkill = {};
+    $scope.abilities = [
+        {
+            name: "Strength",
+            value: "strength"
+        },
+        {
+            name: "Constitution",
+            value: "constitution"
+        },
+        {
+            name: "Dexterity",
+            value: "dexterity"
+        },
+        {
+            name: "Intelligence",
+            value: "intelligence"
+        },
+        {
+            name: "Wisdom",
+            value: "wisdom"
+        },
+        {
+            name: "Charisma",
+            value: "charisma"
+        }
+    ];
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function()
+    {
+        $modalInstance.close($scope.newSkill);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+// Helpers
+//----------------------------------------------------------------------------------------------------------------------
 
 // We do a few tricky things here; basically, once we get called once, we set a timer, and wait until people stop
 // calling for updates before we send out the update. Not only does this help with rate limiting, but it also prevents
@@ -178,6 +257,5 @@ function doUpdate($scope, tag, updateFunc)
     $scope[updateTag] = true;
     waitForUpdatesToStop();
 } // end doUpdate
-
 
 //----------------------------------------------------------------------------------------------------------------------
