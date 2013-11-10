@@ -11,11 +11,14 @@
 * Make Character Details collapsible (and start collapsed on small screens.)
 * Add character name to nav bar
 
+# Classes
+* Need to have the ability to add classes, which will store some basic information, like HP/level and healing surges.
+
 # HPCalc
 * Need to make HPCalc actually function like the previous one.
 
 ## Skills
-* Add support for editing skills
+* ~~Add support for editing skills~~
 * Add support for adding skills
 
 ## Powers
@@ -30,6 +33,6 @@
 
 # Combat Statistics
 * Need support for editing the misc bonuses used for calculating those values.
-'* Eventually, need a rolls style interface.
+* Eventually, need a rolls style interface.
 
 ...and more to come!

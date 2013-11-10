@@ -202,6 +202,23 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         });
     });
 
+    socket.on('update skill', function(skill, callback)
+    {
+        console.log('skill:', skill);
+
+        models.Skill.findOne({'$id': skill.$id }, function(error, skillInst)
+        {
+            console.log('before:', skillInst);
+            _.assign(skillInst, skill);
+            console.log('after:', skillInst);
+
+            skillInst.save(function(error)
+            {
+                callback(error, skillInst);
+            })
+        });
+    });
+
     socket.on('add condition', function(cond, baseChar, callback)
     {
         var condition = new models.Condition(cond);

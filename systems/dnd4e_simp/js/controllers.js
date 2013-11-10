@@ -31,14 +31,53 @@ module.controller('SimpDnD4eCtrl', function($scope)
         "Chaotic Evil"
     ];
 
-    // Watch for changes on the character, and send updates.
-    $scope.$watch('sysChar', function(oldChar, newChar)
+    // Setup individual watches, for better performance
+    var skipFields = ["skills", "conditions", "languages", "powers", "feats"];
+    _.each($scope.sysChar, function(value, key)
     {
-        if(oldChar != newChar)
+        if(key && skipFields.indexOf(key) == -1)
         {
-            updateChar($scope);
+            $scope.$watch('sysChar[\'' + key + '\']', function(newProp, oldProp)
+            {
+                if(oldProp && oldProp != newProp)
+                {
+                    // TODO: pass the key that was modified into the update function, for even more better performance
+                    doUpdate($scope, 'updateChar', function()
+                    {
+                        $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, character)
+                        {
+                            $scope.$apply(function()
+                            {
+                                if(error)
+                                {
+                                    $scope.alerts.push(error);
+                                }
+                                else
+                                {
+                                    if(character)
+                                    {
+                                        $scope.sysChar = character;
+                                    } // end if
+                                } // end if
+                            });
+                        });
+                    });
+                } // end if
+            });
         } // end if
-    }, true);
+    });
+
+    // Setup watches for skills
+    $scope.sysChar.skills.forEach(function(skill, index)
+    {
+        $scope.$watch('sysChar.skills[' + index + ']', function(newSkill, oldSkill)
+        {
+            if(oldSkill && oldSkill != newSkill)
+            {
+                $scope.updateSkill(newSkill);
+            } // end if
+        }, true);
+    });
 
     $scope.calcAbilityMod = function(abilityScore)
     {
@@ -50,13 +89,30 @@ module.controller('SimpDnD4eCtrl', function($scope)
     {
         var character = $scope.sysChar;
         return character.halfLevel + character[skill.ability + 'Mod'] +
-                + (skill.trained ? 2 : 0) + skill.racial + skill.misc - skill.armorPenalty;
+                + (skill.trained ? 2 : 0) + parseInt(skill.racial) + parseInt(skill.misc) - parseInt(skill.armorPenalty);
     };
 
     $scope.getSkill = function(name)
     {
         return _.find($scope.sysChar.skills, { name: name });
     }; // end findSkill
+
+    $scope.updateSkill = function(skill)
+    {
+        doUpdate($scope, 'skills', function()
+        {
+            $scope.systemSocket.emit("update skill", skill, function(error, skill)
+            {
+                //TODO: This might be nice to update with the skill, as passed back from the database, but it's not
+                // required, and man is the method below terrible.
+                /*
+                var newSkills = _.reject($scope.sysChar.skills, { '$id': skill.$id });
+                newSkills.push(skill);
+                $scope.sysChar.skills = newSkills;
+                */
+            });
+        });
+    };
 
     $scope.chooseDropboxImage = function()
     {
@@ -86,59 +142,42 @@ module.controller('SimpDnD4eCtrl', function($scope)
 }); // end SimpDnD4eCtrl
 
 // We do a few tricky things here; basically, once we get called once, we set a timer, and wait until people stop
-// calling `updateChar` before we send out the update. Not only does this help with rate limiting, but it also prevents
+// calling for updates before we send out the update. Not only does this help with rate limiting, but it also prevents
 // odd behavior where we update the model while the user is still trying to type, stomping on their changes.
-function updateChar($scope)
+function doUpdate($scope, tag, updateFunc)
 {
-    function doUpdate()
-    {
-        $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, character)
-        {
-            $scope.$apply(function()
-            {
-                if(error)
-                {
-                    $scope.alerts.push(error);
-                }
-                else
-                {
-                    if(character)
-                    {
-                        $scope.sysChar = character;
-                    } // end if
-                } // end if
-            });
-        });
-    } // end doUpdate
+    tag = tag || 'general';
+
+    var timerIDTag = 'timerID-' + tag;
+    var updateTag = 'incomingUpdate-' + tag;
 
     function waitForUpdatesToStop()
     {
-        if(!$scope.timerID)
+        if(!$scope[timerIDTag])
         {
-            $scope.timerID = setInterval(function()
+            $scope[timerIDTag] = setInterval(function()
             {
-                if($scope.updatesIncoming)
+                if($scope[updateTag])
                 {
                     $scope.$apply(function()
                     {
                         // Set this to false, so we can detect if we're called again.
-                        $scope.updatesIncoming = false;
+                        $scope[updateTag] = false;
                     });
                 }
                 else
                 {
-                    clearInterval($scope.timerID);
-                    $scope.timerID = undefined;
-                    doUpdate();
+                    clearInterval($scope[timerIDTag]);
+                    $scope[timerIDTag] = undefined;
+                    updateFunc();
                 } // end if
             }, 500);
         } // end if
     } // end wait
 
-
-    $scope.updatesIncoming = true;
+    $scope[updateTag] = true;
     waitForUpdatesToStop();
-} // end updateChar
+} // end doUpdate
 
 
 //----------------------------------------------------------------------------------------------------------------------
