@@ -228,9 +228,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 
         models.Skill.findOne({'$id': skill.$id }, function(error, skillInst)
         {
-            console.log('before:', skillInst);
             _.assign(skillInst, skill);
-            console.log('after:', skillInst);
 
             skillInst.save(function(error)
             {
