@@ -17,9 +17,28 @@ var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
 module.exports = ns.define({
+    Roll: {
+        title: fields.String(),
+        roll: fields.String({ required: true })
+    },
+
+    Section: {
+        title: fields.String({ required: true }),
+        description: fields.String()
+    },
+
     Condition: {
         description: fields.String(),
         duration: fields.String()
+    },
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    Class: {
+        name: fields.String({ key: true }),
+        description: fields.String(),
+        initialHP: fields.Integer({ default: 0, min: 0 }),
+        hpPerLevel: fields.Integer({ default: 0, min: 0 })
     },
 
     Skill: {
@@ -42,12 +61,10 @@ module.exports = ns.define({
         name: fields.String({ required: true }),
         prerequisites: fields.String(),
         description: fields.String(),
-        power: fields.Reference({ model: 'Power' })
-    },
+        power: fields.Reference({ model: 'Power' }),
 
-    Section: {
-        title: fields.String({ required: true }),
-        description: fields.String()
+        // Distinguishes this as a custom feat, if set.
+        owner: fields.Reference({ model: 'Character' })
     },
 
     Power: {
@@ -59,21 +76,33 @@ module.exports = ns.define({
         keywords: fields.List({ type: fields.String() }),
         actionType: fields.Choice({ type: fields.String(), choices: actionType, default: "Standard" }),
         rangeText: fields.String(),
-        sections: fields.List({ type: fields.Reference({ model: 'Section' }) })
+        sections: fields.List({ type: fields.Reference({ model: 'Section' }) }),
+
+        // Distinguishes this as a custom power, if set.
+        owner: fields.Reference({ model: 'Character' })
     },
+
+    PowerReference: {
+        power: fields.Reference({ model: 'Power' }),
+        maxUses: fields.Integer({ default: 1, min: 1 }),
+        currentUses: fields.Integer({ default: 1, min: 1 }),
+        rolls: fields.List({ type: fields.Reference({ model: 'Rolls' }) })
+    },
+
+    //------------------------------------------------------------------------------------------------------------------
 
     Character: {
         baseChar: fields.String({ required: true, key: true }),
         conditions: fields.List({ type: fields.Reference({ model: 'Condition' }) }),
         skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
-        powers: fields.List({ type: fields.Reference({ model: 'Power' }) }),
+        powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
         feats: fields.List({ type: fields.Reference({ model: 'Feat' }) }),
 
         //-----------------------------------------------------------
         // Biographic Info
         //-----------------------------------------------------------
 
-        class: fields.String(),
+        class: fields.Reference({ model: 'Class' }),
         race: fields.String(),
         size: fields.Choice({ type: fields.String(), choices: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"], default: "Medium" }),
         level: fields.Integer({ default: 1, min: 1 }),
@@ -171,7 +200,15 @@ module.exports = ns.define({
         // Resources
         //-----------------------------------------------------------
 
-        maxHitPoints: fields.Integer({ default: 0, min: 0 }),
+        maxHitPoints: fields.Property(function()
+        {
+            // This will only work on a populated model!
+            var initialHP = this.class.initialHP || 0;
+            var hpPerLevel = this.class.hpPerLevel || 0;
+
+            return initialHP + this.constitution + (this.level * hpPerLevel);
+        }),
+        miscHitPoints: fields.Integer({ default: 0, min: 0 }),
         curHitPoints: fields.Integer({ default: 0, min: 0 }),
         tmpHitPoints: fields.Integer({ default: 0, min: 0 }),
         bloodiedValue: fields.Property(function(){ return this.maxHitPoints / 2; }),
