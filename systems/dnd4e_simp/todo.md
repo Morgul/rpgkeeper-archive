@@ -19,7 +19,7 @@
 
 ## Skills
 * ~~Add support for editing skills~~
-* Add support for adding skills
+* ~~Add support for adding skills~~
 
 ## Powers
 * Figure out how to support custom powers
