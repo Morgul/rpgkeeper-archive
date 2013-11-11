@@ -51,7 +51,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         {
             $scope.$watch('sysChar[\'' + key + '\']', function(newProp, oldProp)
             {
-                if(oldProp && oldProp != newProp)
+                if(oldProp != undefined && oldProp != newProp)
                 {
                     // TODO: pass the key that was modified into the update function, for even more better performance
                     doUpdate($scope, 'updateChar', function()

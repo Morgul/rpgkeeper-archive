@@ -12,10 +12,12 @@
 * Add character name to nav bar
 
 # Classes
-* Need to have the ability to add classes, which will store some basic information, like HP/level and healing surges.
+* ~~Need to have the ability to add classes, which will store some basic information, like HP/level and healing surges.~~
+* Need to limit what classes are shown to only the global ones, and any ones created by your user.
 
 # HPCalc
-* Need to make HPCalc actually function like the previous one.
+* ~~Need to make HPCalc actually function like the previous one.~~
+* Need to add a condition for "+2 to all defenses" when taking second wind.
 
 ## Skills
 * ~~Add support for editing skills~~

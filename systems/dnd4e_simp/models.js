@@ -206,8 +206,8 @@ module.exports = ns.define({
         maxHitPoints: fields.Property(function()
         {
             // This will only work on a populated model!
-            var initialHP = this.class.initialHP || 0;
-            var hpPerLevel = this.class.hpPerLevel || 0;
+            var initialHP = (this.class || {}).initialHP || 0;
+            var hpPerLevel = (this.class || {}).hpPerLevel || 0;
 
             return initialHP + this.constitution + (this.level * hpPerLevel);
         }),

@@ -16414,6 +16414,9 @@ td.visible-print {
 .hpcalc .left .hp-display .hp.bloodied {
   color: #f90;
 }
+.hpcalc .left .hp-display .hp.unconscious {
+  color: #d00;
+}
 .hpcalc .left .hp-display .hp.dead {
   color: #999;
 }
