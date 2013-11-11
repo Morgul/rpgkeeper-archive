@@ -16123,6 +16123,19 @@ td.visible-print {
   padding: 5px;
   min-width: 200px;
 }
+.form-control.form-add-parent {
+  display: inline-block;
+  width: calc(100% - 15px);
+}
+.form-add {
+  display: inline-block;
+  vertical-align: middle;
+  color: #35c435;
+  cursor: pointer;
+}
+.form-add:hover {
+  color: #82DD82;
+}
 #charDetails .form-group {
   margin-bottom: 0 !important;
 }

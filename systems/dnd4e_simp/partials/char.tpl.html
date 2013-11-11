@@ -56,8 +56,11 @@
                             <input type="text" class="form-control" id="characterName" placeholder="Character Name" ng-model="character.name">
                             <span class="help-block">Name</span>
                         </div>
-                        <div class="form-group col-sm-2">
-                            <input type="text" class="form-control" id="characterClass" placeholder="Class" ng-model="sysChar.class">
+                        <div class="form-group col-sm-2" style="width:130px;">
+                            <select class="form-control form-add-parent" id="characterClass" ng-model="sysChar.class" ng-options="class as class.name for class in classChoices track by class.name">
+                                <option value="">Pick a class...</option>
+                            </select>
+                            <i class="icon-plus icon-larger form-add" ng-click="addSkill()" title="Add Class..."></i>
                             <span class="help-block">Class</span>
                         </div>
                         <div class="form-group col-sm-1" style="width:50px;">
@@ -165,8 +168,8 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading stat-block-holder">
                                     <div class="stat-block">
-                                        <input type="text" class="form-control score" placeholder="1" ng-model="sysChar.maxHitPoints">
-                                        <span class="name">Max HP</span>
+                                        <input type="text" class="form-control score" placeholder="0" ng-model="sysChar.miscHitPoints">
+                                        <span class="name">Misc HP</span>
                                     </div>
                                     <div class="stat-block">
                                         <input type="text" class="form-control score" placeholder="0" ng-model="sysChar.surgesPerDay">

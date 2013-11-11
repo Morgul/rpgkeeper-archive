@@ -8,6 +8,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
 
+    //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.genderChoices = [
         "Female",
         "Male",
@@ -29,12 +30,21 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         "Chaotic Evil"
     ];
 
+    // Get the possible choices for class
+    $scope.systemSocket.emit('get classes', function(error, classes)
+    {
+        $scope.$apply(function()
+        {
+            $scope.classChoices = _.sortBy(classes, 'name');
+        });
+    });
+
     //------------------------------------------------------------------------------------------------------------------
     // Watches
     //------------------------------------------------------------------------------------------------------------------
 
     // Setup individual watches, for better performance
-    var skipFields = ["skills", "conditions", "languages", "powers", "feats"];
+    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class"];
     _.each($scope.sysChar, function(value, key)
     {
         if(key && skipFields.indexOf(key) == -1)
@@ -65,6 +75,33 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                         });
                     });
                 } // end if
+            });
+        } // end if
+    });
+
+    $scope.$watch('sysChar.class', function(newClass, oldClass)
+    {
+        if(oldClass && oldClass.name != newClass.name)
+        {
+            doUpdate($scope, 'updateChar', function()
+            {
+                $scope.systemSocket.emit("update_character", { baseChar: $scope.sysChar.baseChar, class: { name: newClass.name } }, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        if(error)
+                        {
+                            $scope.alerts.push(error);
+                        }
+                        else
+                        {
+                            if(character)
+                            {
+                                $scope.sysChar = character;
+                            } // end if
+                        } // end if
+                    });
+                });
             });
         } // end if
     });

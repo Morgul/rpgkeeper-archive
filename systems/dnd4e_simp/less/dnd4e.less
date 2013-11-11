@@ -6,18 +6,33 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-.pull-right .dropdown-menu
-{
+.pull-right .dropdown-menu {
     left: auto;
     right: 0;
     padding: 5px;
     min-width: 200px;
 }
 
+.form-control.form-add-parent
+{
+    display: inline-block;
+    width: calc(~"100% - 15px");
+}
+
+.form-add {
+    display: inline-block;
+    vertical-align: middle;
+    color: darken(#82DD82, 20%);
+    cursor: pointer;
+}
+
+.form-add:hover {
+    color: #82DD82;
+}
+
 #charDetails
 {
-    .form-group
-    {
+    .form-group {
         margin-bottom: 0 !important;
     }
 
@@ -49,12 +64,9 @@
     }
 }
 
-.attributeBlock
-{
-    .panel-heading
-    {
-        h3
-        {
+.attributeBlock {
+    .panel-heading {
+        h3 {
             display: inline-block;
             margin-left: 5px;
             position: relative;
@@ -62,26 +74,22 @@
         }
     }
 
-    .score
-    {
+    .score {
         width: 45px;
         text-align: center;
         display: inline-block;
     }
 
-    .form-control[readonly]
-    {
+    .form-control[readonly] {
         cursor: inherit;
         background: #fff;
     }
 
-    .skill + .skill
-    {
+    .skill + .skill {
         margin-top: 3px;
     }
 
-    .skill
-    {
+    .skill {
         .score.form-control, .btn {
             height: 28px;
         }
@@ -93,8 +101,7 @@
 
     }
 
-    label.skillName
-    {
+    label.skillName {
         position: relative;
         top: 2px;
         margin-bottom: 0;

@@ -103,6 +103,14 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 {
     var user = socket.handshake.user;
 
+    socket.on('get classes', function(callback)
+    {
+        models.Class.find({}, function(error, classes)
+        {
+            callback(error, classes);
+        });
+    });
+
     socket.on('get_character', function(charID, callback)
     {
         var newChar = false;
@@ -113,7 +121,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             if(err)
             {
                 console.error("err:", err);
-                callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+                callback({ type: 'danger', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
             } // end if
 
             if(!character)
@@ -170,13 +178,13 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             if(err)
             {
                 console.error("Error Encountered:", err);
-                return callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+                return callback({ type: 'danger', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
             } // end if
 
             if(!character)
             {
                 console.error("Failed to find character.");
-                return callback({ type: 'error', message: 'Failed to find character.'});
+                return callback({ type: 'danger', message: 'Failed to find character.'});
             } // end if
 
             // Update the character
@@ -192,9 +200,11 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                 }
                 else
                 {
+                    console.log('class after:', character.class);
                     // Populate the character
                     character.populate(function(error, character)
                     {
+                        console.log('class after:', character.class);
                         callback(error, character);
                     });
                 } // end if

@@ -38,7 +38,10 @@ module.exports = ns.define({
         name: fields.String({ key: true }),
         description: fields.String(),
         initialHP: fields.Integer({ default: 0, min: 0 }),
-        hpPerLevel: fields.Integer({ default: 0, min: 0 })
+        hpPerLevel: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom class, if set.
+        owner: fields.Reference({ model: 'Character' })
     },
 
     Skill: {
