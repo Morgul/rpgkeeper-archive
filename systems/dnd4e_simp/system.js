@@ -103,13 +103,9 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 {
     var user = socket.handshake.user;
 
-    socket.on('get classes', function(callback)
-    {
-        models.Class.find({}, function(error, classes)
-        {
-            callback(error, classes);
-        });
-    });
+    //------------------------------------------------------------------------------------------------------------------
+    // Character
+    //------------------------------------------------------------------------------------------------------------------
 
     socket.on('get_character', function(charID, callback)
     {
@@ -200,17 +196,19 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                 }
                 else
                 {
-                    console.log('class after:', character.class);
                     // Populate the character
                     character.populate(function(error, character)
                     {
-                        console.log('class after:', character.class);
                         callback(error, character);
                     });
                 } // end if
             });
         });
     });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Skills
+    //------------------------------------------------------------------------------------------------------------------
 
     socket.on('add skill', function(skillDef, baseChar, callback)
     {
@@ -234,8 +232,6 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 
     socket.on('update skill', function(skill, callback)
     {
-        console.log('skill:', skill);
-
         models.Skill.findOne({'$id': skill.$id }, function(error, skillInst)
         {
             _.assign(skillInst, skill);
@@ -246,6 +242,10 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             })
         });
     });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Conditions
+    //------------------------------------------------------------------------------------------------------------------
 
     socket.on('add condition', function(cond, baseChar, callback)
     {
@@ -286,6 +286,44 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             });
         });
     });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Classes
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get classes', function(callback)
+    {
+        //TODO: Limit this to either classes where `owner` is null, or is the email address of our current user.
+        models.Class.find({}, function(error, classes)
+        {
+            callback(error, classes);
+        });
+    });
+
+    socket.on('add class', function(classDef, baseChar, callback)
+    {
+        if(!classDef.global)
+        {
+            classDef.owner = user.email;
+        } // end if
+
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            var classInst = new models.Class(classDef);
+            classInst.save(function()
+            {
+                character.class = classInst.$key;
+                character.save(function()
+                {
+                    character.populate(function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
+
 });
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -97,7 +97,14 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                         {
                             if(character)
                             {
-                                $scope.sysChar = character;
+                                $scope.systemSocket.emit('get classes', function(error, classes)
+                                {
+                                    $scope.$apply(function()
+                                    {
+                                        $scope.classChoices = _.sortBy(classes, 'name');
+                                        $scope.sysChar = character;
+                                    });
+                                });
                             } // end if
                         } // end if
                     });
@@ -117,6 +124,34 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             } // end if
         }, true);
     });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Classes
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addClass = function() {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            templateUrl: '/systems/dnd4e_simp/partials/modals/addclass.html',
+            controller: 'AddClassModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add class", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+                    });
+                });
+            } // end if
+        });
+    }; // end addSkill
 
     //------------------------------------------------------------------------------------------------------------------
     // Skills
@@ -211,6 +246,26 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end chooseDropboxImage
 }); // end SimpDnD4eCtrl
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('AddClassModalCtrl', function($scope, $modalInstance)
+{
+    $scope.newClass = {};
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function(global)
+    {
+        $scope.newClass.global = global;
+        $modalInstance.close($scope.newClass);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
 
 module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
 {
