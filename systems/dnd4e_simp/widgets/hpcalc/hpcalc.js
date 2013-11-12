@@ -119,7 +119,7 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.checkSurge = function()
     {
-        return ($scope.sysChar.currentSurges < 1) || ($scope.sysChar.curHitPoints > ($scope.maxHP() - $scope.surgeValue()));
+        return $scope.sysChar.currentSurges < 1; // || ($scope.sysChar.curHitPoints > ($scope.maxHP() - $scope.surgeValue()));
     };
 
     $scope.shortRest = function()

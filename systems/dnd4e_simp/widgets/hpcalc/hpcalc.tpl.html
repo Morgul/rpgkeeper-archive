@@ -22,10 +22,10 @@
         </div>
     </div>
     <div class="right">
-        <button class="btn btn-default btn-block" ng-click="secondWind()" ng-class="{ disabled: !sysChar.secondWindAvailable }">Second Wind</button>
+        <button class="btn btn-default btn-block" ng-click="secondWind()" ng-class="{ disabled: !sysChar.secondWindAvailable, possible: sysChar.secondWindAvailable && sysChar.curHitPoints < (maxHP() - surgeValue()) }">Second Wind</button>
         <div class="btn-group btn-block">
             <button class="btn btn-default" ng-click="addSurge()"><i class="icon-plus"></i></button>
-            <button class="btn btn-default surge" ng-click="surge()" ng-class="{ disabled: checkSurge() }">Surge ({{ sysChar.currentSurges }})</button>
+            <button class="btn btn-default surge" ng-click="surge()" ng-class="{ disabled: checkSurge(), possible: sysChar.curHitPoints < (maxHP() - surgeValue()) }">Surge ({{ sysChar.currentSurges }})</button>
             <button class="btn btn-default" ng-click="removeSurge()" ng-class="{ disabled: sysChar.currentSurges < 1 }"><i class="icon-minus"></i></button>
         </div>
         <button class="btn btn-default btn-block" ng-click="shortRest()">Short Rest</button>

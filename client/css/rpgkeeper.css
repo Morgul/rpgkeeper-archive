@@ -16373,6 +16373,9 @@ td.visible-print {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
 }
+.hpcalc .possible {
+  color: #009f00;
+}
 .hpcalc .btn {
   font-size: .85em;
   padding: 7.5px 12px;
@@ -16410,6 +16413,7 @@ td.visible-print {
 }
 .hpcalc .left .hp-display .hp {
   color: green;
+  margin-right: -10px;
 }
 .hpcalc .left .hp-display .hp.bloodied {
   color: #f90;
