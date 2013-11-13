@@ -2,8 +2,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.strength) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.strength">
             <h3 class="panel-title">Strength</h3>
@@ -29,8 +29,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.constitution) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.constitution">
             <h3 class="panel-title">Constitution</h3>
@@ -56,8 +56,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.dexterity) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.dexterity">
             <h3 class="panel-title">Dexterity</h3>
@@ -83,8 +83,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.intelligence) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.intelligence">
             <h3 class="panel-title">Intelligence</h3>
@@ -110,8 +110,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.wisdom) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.wisdom">
             <h3 class="panel-title">Wisdom</h3>
@@ -137,8 +137,8 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) }}" readonly>
-                <input type="text" class="form-control score" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) + sysChar.halfLevel }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.charisma) + sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.charisma">
             <h3 class="panel-title">Charisma</h3>

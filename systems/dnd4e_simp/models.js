@@ -56,7 +56,7 @@ module.exports = ns.define({
         total: function(character)
         {
             return character.halfLevel + character.abilityMod(this.ability)
-                + (this.trained ? 2 : 0) + this.racial + this.misc - this.armorPenalty;
+                + (this.trained ? 5 : 0) + this.racial + this.misc - this.armorPenalty;
         }
     },
 
@@ -164,39 +164,43 @@ module.exports = ns.define({
         {
             // This lets the UI use 'none' for the case where you don't get your armor bonus
             var abilityMod = this.armorAbility != 'none' ? this.abilityMod(this.armorAbility) : 0;
-            return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorMisc;
+            return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorEnh + this.armorMisc;
         }),
         armorAbility: fields.Choice({ choices: ['none'].concat(abilities), default: 'none' }),
         armorBonus: fields.Integer({ default: 0, min: 0 }),
         armorShieldBonus: fields.Integer({ default: 0, min: 0 }),
+        armorEnh: fields.Integer({ default: 0 }),
         armorMisc: fields.Integer({ default: 0 }),
 
         // Calculate Fortitude Defense
         fortDef: fields.Property(function()
         {
             var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
-            return 10 + this.halfLevel + abilityMod + this.fortClassBonus + this.fortMisc;
+            return 10 + this.halfLevel + abilityMod + this.fortClassBonus + this.fortEnh + this.fortMisc;
         }),
         fortClassBonus: fields.Integer({ default: 0, min: 0 }),
+        fortEnh: fields.Integer({ default: 0 }),
         fortMisc: fields.Integer({ default: 0 }),
 
         // Calculate Reflex Defense
         refDef: fields.Property(function()
         {
             var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
-            return 10 + this.halfLevel + abilityMod + this.refClassBonus + this.refShieldBonus + this.refMisc;
+            return 10 + this.halfLevel + abilityMod + this.refClassBonus + this.refShieldBonus + this.refEnh + this.refMisc;
         }),
         refClassBonus: fields.Integer({ default: 0, min: 0 }),
         refShieldBonus: fields.Integer({ default: 0, min: 0 }),
+        refEnh: fields.Integer({ default: 0 }),
         refMisc: fields.Integer({ default: 0 }),
 
         // Calculate Will Defense
         willDef: fields.Property(function()
         {
             var abilityMod = Math.max(this.abilityMod('wisdom'), this.abilityMod('charisma'));
-            return 10 + this.halfLevel + abilityMod + this.willClassBonus + this.willMisc;
+            return 10 + this.halfLevel + abilityMod + this.willClassBonus + this.willEnh + this.willMisc;
         }),
         willClassBonus: fields.Integer({ default: 0, min: 0 }),
+        willEnh: fields.Integer({ default: 0 }),
         willMisc: fields.Integer({ default: 0 }),
 
         //-----------------------------------------------------------

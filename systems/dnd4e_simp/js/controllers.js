@@ -4,9 +4,14 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('SimpDnD4eCtrl', function($scope, $modal)
+module.controller('SimpDnD4eCtrl', function($scope, $modal, $templateCache, $compile)
 {
     this.$scope = $scope;
+
+    // setup the popovers
+    $('.make-popover').popover({ html: true });
+
+    $scope.acPopover = $templateCache.get('/systems/dnd4e_simp/partials/popovers/ac.html');
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.genderChoices = [
@@ -28,6 +33,16 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         "Unaligned",
         "Evil",
         "Chaotic Evil"
+    ];
+
+    $scope.abilityChoices = [
+        "none",
+        "strength",
+        "constitution",
+        "dexterity",
+        "intelligence",
+        "wisdom",
+        "charisma"
     ];
 
     // Get the possible choices for class
@@ -167,7 +182,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     {
         var character = $scope.sysChar;
         return character.halfLevel + character[skill.ability + 'Mod'] +
-                + (skill.trained ? 2 : 0) + parseInt(skill.racial) + parseInt(skill.misc) - parseInt(skill.armorPenalty);
+                + (skill.trained ? 5 : 0) + parseInt(skill.racial) + parseInt(skill.misc) - parseInt(skill.armorPenalty);
     };
 
     $scope.getSkill = function(name)
@@ -306,6 +321,23 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
     {
         $modalInstance.close($scope.newSkill);
     }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+// Helpers
+//----------------------------------------------------------------------------------------------------------------------
+
+module.filter('formatModifier', function()
+{
+    return function(value)
+    {
+        if(parseInt(value) >= 0)
+        {
+            return "+" + value;
+        } // end if
+
+        return value;
+    };
 });
 
 //----------------------------------------------------------------------------------------------------------------------

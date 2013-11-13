@@ -16136,6 +16136,28 @@ td.visible-print {
 .form-add:hover {
   color: #82DD82;
 }
+.popover-inline .spacer {
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 32px;
+}
+.popover-inline .form-group {
+  vertical-align: top;
+  display: inline-block;
+}
+.popover-inline .form-group .form-control {
+  text-align: center;
+}
+#charDetails .popover {
+  max-width: 400px !important;
+}
+#charDetails .form-control[readonly] {
+  cursor: inherit;
+  background: #fff;
+}
+#charDetails .form-control[readonly].clickable {
+  cursor: pointer;
+}
 #charDetails .form-group {
   margin-bottom: 0 !important;
 }
@@ -16175,6 +16197,10 @@ td.visible-print {
   width: 45px;
   text-align: center;
   display: inline-block;
+}
+.attributeBlock .score.mod {
+  width: 50px;
+  color: #999;
 }
 .attributeBlock .form-control[readonly] {
   cursor: inherit;

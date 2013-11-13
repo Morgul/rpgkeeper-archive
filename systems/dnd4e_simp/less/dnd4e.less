@@ -30,8 +30,38 @@
     color: #82DD82;
 }
 
+.popover-inline {
+    .spacer {
+        vertical-align: middle;
+        display: inline-block;
+        line-height: 32px;
+    }
+
+    .form-group {
+        vertical-align: top;
+        display: inline-block;
+
+        .form-control {
+            text-align: center;
+        }
+    }
+}
+
 #charDetails
 {
+    .popover {
+        max-width: 400px !important;
+    }
+
+    .form-control[readonly] {
+        cursor: inherit;
+        background: #fff;
+
+        &.clickable {
+            cursor: pointer;
+        }
+    }
+
     .form-group {
         margin-bottom: 0 !important;
     }
@@ -78,6 +108,11 @@
         width: 45px;
         text-align: center;
         display: inline-block;
+
+        &.mod {
+            width: 50px;
+            color: #999;
+        }
     }
 
     .form-control[readonly] {
