@@ -1,0 +1,60 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>Add Feat</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3" style="height: 500px;">
+            <select class="form-control tall" ng-model="chosenFeat" ng-options="feat as feat.name for feat in featChoices | filter:newFeat.name track by feat.name" size="2" style="height: 100%">
+                <option value="">Add new power...</option>
+            </select>
+        </div>
+        <div class="col-md-9" style="height: 500px;">
+            <div ng-if="!chosenFeat">
+                <div class="form-group">
+                    <label class="control-label" for="name">Name:</label>
+                    <div class="controls">
+                        <input class="form-control" id="name" type="text" placeholder="Type here to filter the list of possibilites, or add your own." ng-model="newFeat.name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="prereq">Prerequisites:</label>
+                    <div class="controls">
+                        <input class="form-control" id="prereq" type="text" placeholder="Prerequisites, if any..." ng-model="newFeat.prerequisites" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="description">Description:</label>
+                    <div class="controls">
+                        <textarea class="form-control" id="description" placeholder="Description..." ng-model="newFeat.description" rows="5" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="chosenFeat" class="well well-sm">
+                <p>
+                    <b>Name:</b> {{ chosenFeat.name }}
+                </p>
+                <p>
+                    <b>Prerequisites:</b> {{ chosenFeat.prerequisites }}
+                </p>
+                <p>
+                    <b>Description:</b> {{ chosenFeat.description }}
+                </p>
+                <p>
+                    <b>Special:</b> {{ chosenFeat.special }}
+                </p>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="control-label" for="notes">Notes:</label>
+                <div class="controls">
+                    <textarea class="form-control" id="notes" placeholder="Notes..." ng-model="newFeat.notes" rows="5" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-if="!chosenFeat" ng-click="add(chosenFeat, 'global')" class="btn btn-info"><i class="icon-plus"></i> Add Global</button>
+    <button ng-click="add(chosenFeat)" class="btn btn-primary"><i class="icon-plus"></i> Add</button>
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+</div>

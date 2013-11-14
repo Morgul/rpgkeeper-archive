@@ -16361,6 +16361,7 @@ td.visible-print {
   background-color: #f5f5f5;
 }
 
+
 .well {
   min-height: 20px;
   padding: 19px;
@@ -16469,6 +16470,6 @@ td.visible-print {
   margin-left: 5px;
 }
 .hpcalc .right .btn-group .btn.surge {
-  width: calc(100% - 69px);
-  width: -webkit-calc(100% - 69px);
+  width: calc(100% - 71px);
+  width: -webkit-calc(100% - 71px);
 }

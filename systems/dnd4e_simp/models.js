@@ -64,10 +64,15 @@ module.exports = ns.define({
         name: fields.String({ required: true }),
         prerequisites: fields.String(),
         description: fields.String(),
-        power: fields.Reference({ model: 'Power' }),
+        special: fields.String(),
 
         // Distinguishes this as a custom feat, if set.
         owner: fields.Reference({ model: 'Character' })
+    },
+
+    FeatReference: {
+        feat: fields.Reference({ model: 'Feat' }),
+        notes: fields.String()
     },
 
     Power: {
@@ -89,6 +94,7 @@ module.exports = ns.define({
         power: fields.Reference({ model: 'Power' }),
         maxUses: fields.Integer({ default: 1, min: 1 }),
         currentUses: fields.Integer({ default: 1, min: 1 }),
+        notes: fields.String(),
         rolls: fields.List({ type: fields.Reference({ model: 'Rolls' }) })
     },
 
@@ -99,7 +105,7 @@ module.exports = ns.define({
         conditions: fields.List({ type: fields.Reference({ model: 'Condition' }) }),
         skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
         powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
-        feats: fields.List({ type: fields.Reference({ model: 'Feat' }) }),
+        feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
 
         //-----------------------------------------------------------
         // Biographic Info

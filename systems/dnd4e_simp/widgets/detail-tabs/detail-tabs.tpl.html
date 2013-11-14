@@ -1,0 +1,22 @@
+<tabset>
+    <tab heading="Attributes" select="setTab('attributes')" ng-if="showAttributes">
+        <pre>{{ showAttributes | json }}</pre>
+        <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
+
+    </tab>
+    <tab heading="Powers" select="setTab('powers')">
+        <div class="powers">
+            <h4 class="text-center">Not Implemented Yet</h4>
+        </div>
+    </tab>
+    <tab heading="Feats" select="setTab('feats')">
+        <div class="feats">
+            <div class="feat" ng-repeat="feat in sysChar.feats">
+                <pre>{{ feat | json }}</pre>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Equipment" select="setTab('equipment')">
+        <h4 class="text-center">Not Implemented Yet</h4>
+    </tab>
+</tabset>

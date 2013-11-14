@@ -189,44 +189,10 @@
         </div>
 
         <div class="enable-if-both" ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
-        <tabset class="disable-if-both">
-            <!--div class="pull-right">
-                <button ng-if="getTab() != 'attributes'" class="btn btn-primary"><i class="icon-plus"></i> Add</button>
-            </div-->
-            <tab heading="Attributes" select="setTab('attributes')">
-                <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
-            </tab>
-            <tab heading="Powers" select="setTab('powers')">
-                <div class="powers">
-                </div>
-            </tab>
-            <tab heading="Feats" select="setTab('feats')">
-                <div class="feats">
-                </div>
-            </tab>
-            <tab heading="Equipment" select="setTab('equipment')">
-                <h4 class="text-center">Not Implemented Yet</h4>
-            </tab>
-        </tabset>
-
+        <detail-tabs attributes="true" class="disable-if-both"></detail-tabs>
     </div>
     <div class="right-column">
         <conditions class="disable-if-left block"></conditions>
-        <tabset>
-            <!--div class="pull-right">
-                <button class="btn btn-primary"><i class="icon-plus"></i> Add</button>
-            </div-->
-            <tab heading="Powers" select="setTab('powers')">
-                <div class="powers">
-                </div>
-            </tab>
-            <tab heading="Feats" select="setTab('feats')">
-                <div class="feats">
-                </div>
-            </tab>
-            <tab heading="Equipment" select="setTab('equipment')">
-                <h4 class="text-center">Not Implemented Yet</h4>
-            </tab>
-        </tabset>
+        <detail-tabs></detail-tabs>
     </div>
 </div>

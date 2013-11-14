@@ -50,7 +50,16 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal, $templateCache, $com
     {
         $scope.$apply(function()
         {
-            $scope.classChoices = _.sortBy(classes, 'name');
+            $scope.$root.classChoices = _.sortBy(classes, 'name');
+        });
+    });
+
+    // Get the possible choices for feat
+    $scope.systemSocket.emit('get feats', function(error, feats)
+    {
+        $scope.$apply(function()
+        {
+            $scope.$root.featChoices = _.sortBy(feats, 'name');
         });
     });
 
@@ -232,6 +241,35 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal, $templateCache, $com
     }; // end addSkill
 
     //------------------------------------------------------------------------------------------------------------------
+    // Feats
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addFeat = function() {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e_simp/partials/modals/addfeat.html',
+            controller: 'AddFeatModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add feat", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+                    });
+                });
+            } // end if
+        });
+    }; // end addFeat
+
+    //------------------------------------------------------------------------------------------------------------------
     // Dropbox
     //------------------------------------------------------------------------------------------------------------------
 
@@ -320,6 +358,42 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
     $scope.add = function()
     {
         $modalInstance.close($scope.newSkill);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
+{
+    $scope.chosenFeat = "";
+    $scope.newFeat = {};
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function(chosenFeat, global)
+    {
+        console.log($scope.newFeat, chosenFeat);
+
+        // If we pick one from the list, we simply set newFeat to the one we selected
+        if(chosenFeat)
+        {
+            // Specify that we're using an existing feat
+            chosenFeat.exists = true;
+
+            // Copy over the notes object
+            chosenFeat.notes = $scope.newFeat.notes;
+
+            // Copy the feats object over newFeat
+            $scope.newFeat = chosenFeat;
+        } // end if
+
+        // Store whether or not this should be added globally.
+        $scope.newFeat.global = global;
+
+        $modalInstance.close($scope.newFeat);
     }; // end save
 });
 

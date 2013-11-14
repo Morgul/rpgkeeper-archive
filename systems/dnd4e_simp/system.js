@@ -142,7 +142,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                                 callback(error);
                             } // end if
 
-                            character.populate(function(error, character)
+                            character.populate(true, function(error, character)
                             {
                                 callback(error, character, newChar);
                             });
@@ -152,7 +152,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             }
             else
             {
-                character.populate(function(error, character)
+                character.populate(true, function(error, character)
                 {
                     callback(error, character, newChar);
                 });
@@ -197,7 +197,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                 else
                 {
                     // Populate the character
-                    character.populate(function(error, character)
+                    character.populate(true, function(error, character)
                     {
                         callback(error, character);
                     });
@@ -221,7 +221,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                 character.skills.push(skill.$key);
                 character.save(function()
                 {
-                    character.populate(function()
+                    character.populate(true, function()
                     {
                         callback(undefined, character);
                     })
@@ -260,7 +260,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 
                 character.save(function()
                 {
-                    character.populate(function()
+                    character.populate(true, function()
                     {
                         callback(undefined, character);
                     })
@@ -278,7 +278,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             {
                 models.Condition.remove(condID, function()
                 {
-                    character.populate(function()
+                    character.populate(true, function()
                     {
                         callback(undefined, character);
                     })
@@ -315,13 +315,75 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
                 character.class = classInst.$key;
                 character.save(function()
                 {
-                    character.populate(function()
+                    character.populate(true, function()
                     {
                         callback(undefined, character);
                     })
                 });
             });
         });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Feats
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get feats', function(callback)
+    {
+        //TODO: Limit this to either feats where `owner` is null, or is the email address of our current user.
+        models.Feat.find({}, function(error, feats)
+        {
+            callback(error, feats);
+        });
+    });
+
+    socket.on('add feat', function(featDef, baseChar, callback)
+    {
+        if(!featDef.global)
+        {
+            featDef.owner = user.email;
+        } // end if
+
+        // Build a new FeatReference Object
+        var featRef = new models.FeatReference({ notes: featDef.notes });
+
+        function addFeat(feat)
+        {
+            featRef.feat = feat.$key;
+            featRef.save(function(error)
+            {
+                console.log('featRef:', error, featRef, featRef.$key);
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    character.feats.push(featRef.$key);
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addFeat
+
+        if(featDef.exists)
+        {
+            // Look up the feat's id
+            models.Feat.findOne({ name: featDef.name }, function(error, feat)
+            {
+                addFeat(feat);
+            });
+        }
+        else
+        {
+            // Build a new feat, save, and do the same as above.
+            var feat = new models.Feat(featDef);
+            feat.save(function()
+            {
+                addFeat(feat);
+            });
+        } // end if
     });
 
 });
