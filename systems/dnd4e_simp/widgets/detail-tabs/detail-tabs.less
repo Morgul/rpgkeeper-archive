@@ -1,0 +1,41 @@
+.detail-tabs
+{
+    .feat {
+        h4 {
+            margin: 0;
+            font-size: .97em;
+            font-weight: bold;
+            background-color: #eee;
+            padding: 4px 6px;
+
+            border-radius: 4px;
+        }
+    }
+
+    .feat + .feat {
+        margin-top: 10px;
+    }
+
+    .section {
+        font-size: .90em;
+        margin: 5px 10px;
+        line-height: 1.2em !important;
+
+        b + span {
+            p:first-child {
+                display: inline;
+            }
+
+            p + p {
+                margin-top: 5px;
+            }
+        }
+    }
+
+    .section.prerequisites {
+        b + span {
+            font-style: italic;
+            font-size: .97em;
+        }
+    }
+}

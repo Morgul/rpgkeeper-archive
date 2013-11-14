@@ -1,4 +1,4 @@
-<tabset>
+<tabset class="detail-tabs">
     <tab heading="Attributes" select="setTab('attributes')" ng-if="showAttributes">
         <pre>{{ showAttributes | json }}</pre>
         <div ng-include="'/systems/dnd4e_simp/partials/attributes.html'"></div>
@@ -11,8 +11,20 @@
     </tab>
     <tab heading="Feats" select="setTab('feats')">
         <div class="feats">
-            <div class="feat" ng-repeat="feat in sysChar.feats">
-                <pre>{{ feat | json }}</pre>
+            <div class="feat" ng-repeat="featRef in sysChar.feats">
+                <h4 class="title">{{ featRef.feat.name }}</h4>
+                <div class="section prerequisites" ng-if="featRef.feat.prerequisites">
+                    <b>Prerequisites:</b> <span ng-bind-html-unsafe="featRef.feat.prerequisites | markdown"></span>
+                </div>
+                <div class="section description" ng-if="featRef.feat.description">
+                    <b>Description:</b> <span ng-bind-html-unsafe="featRef.feat.description | markdown"></span>
+                </div>
+                <div class="section special" ng-if="featRef.feat.special">
+                    <b>Special:</b> <span ng-bind-html-unsafe="featRef.feat.special | markdown"></span>
+                </div>
+                <div class="section notes" ng-if="featRef.notes">
+                    <b>Notes:</b> <span ng-bind-html-unsafe="featRef.notes | markdown"></span>
+                </div>
             </div>
         </div>
     </tab>
