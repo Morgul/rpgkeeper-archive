@@ -6,10 +6,8 @@
 
 module.controller('DetailTabsCtrl', function($scope, $attrs)
 {
+    $scope.collapse = {};
     $scope.showAttributes = $attrs.attributes == "true";
-    console.log($scope.showAttributes);
-
-    // Stuff
 });
 
 //----------------------------------------------------------------------------------------------------------------------

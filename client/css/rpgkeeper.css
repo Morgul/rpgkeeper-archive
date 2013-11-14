@@ -16368,6 +16368,10 @@ td.visible-print {
   background-color: #eee;
   padding: 4px 6px;
   border-radius: 4px;
+  cursor: pointer;
+}
+.detail-tabs .feat h4 .close {
+  margin-top: -4px;
 }
 .detail-tabs .feat + .feat {
   margin-top: 10px;

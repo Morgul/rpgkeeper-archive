@@ -4,14 +4,9 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('SimpDnD4eCtrl', function($scope, $modal, $templateCache, $compile)
+module.controller('SimpDnD4eCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
-
-    // setup the popovers
-    $('.make-popover').popover({ html: true });
-
-    $scope.acPopover = $templateCache.get('/systems/dnd4e_simp/partials/popovers/ac.html');
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.genderChoices = [
@@ -269,6 +264,21 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal, $templateCache, $com
         });
     }; // end addFeat
 
+    $scope.removeFeat = function(featRef, event)
+    {
+        // Prevent the event from triggering a collapse/expand event.
+        event.stopPropagation();
+
+        // Tell the system to remove the reference
+        $scope.systemSocket.emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                $scope.sysChar = character;
+            });
+        });
+    }; // end removeFeat
+
     //------------------------------------------------------------------------------------------------------------------
     // Dropbox
     //------------------------------------------------------------------------------------------------------------------
@@ -375,8 +385,6 @@ module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
 
     $scope.add = function(chosenFeat, global)
     {
-        console.log($scope.newFeat, chosenFeat);
-
         // If we pick one from the list, we simply set newFeat to the one we selected
         if(chosenFeat)
         {

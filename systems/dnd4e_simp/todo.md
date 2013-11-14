@@ -28,9 +28,11 @@
 * Add support for adding and displaying powers
 * Add support for marking powers as used
 * Add support for editing powers
+* Powers need to be able to have their notes edited.
 
 ## Feats
-* Build support for feats, similar to powers.
+* ~~Build support for feats, similar to powers.~~
+* Feats need to be able to have their notes edited.
 * Feats need to have associated bonuses that can be used in calculating stats.
 
 # Combat Statistics

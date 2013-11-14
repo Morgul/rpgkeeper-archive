@@ -352,7 +352,6 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             featRef.feat = feat.$key;
             featRef.save(function(error)
             {
-                console.log('featRef:', error, featRef, featRef.$key);
                 models.Character.findOne({baseChar: baseChar}, function(err, character)
                 {
                     character.feats.push(featRef.$key);
@@ -386,6 +385,23 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         } // end if
     });
 
+    socket.on('remove featRef', function(featRefID, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            character.feats = _.reject(character.feats, { '$id': featRefID });
+            character.save(function()
+            {
+                models.FeatReference.remove({$id: featRefID}, function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    });
+                });
+            });
+        });
+    });
 });
 
 //----------------------------------------------------------------------------------------------------------------------
