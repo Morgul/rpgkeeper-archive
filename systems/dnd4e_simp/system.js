@@ -457,8 +457,14 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         {
             // Build a new power, save, and do the same as above.
             var power = new models.Power(powerDef);
-            power.save(function()
+
+            power.save(function(error)
             {
+                if(error)
+                {
+                    console.error('error:', error);
+                } // end if
+
                 addPower(power);
             });
         } // end if
@@ -470,15 +476,12 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
 
         models.PowerReference.findOne({ $id: powerRef.$id }, function(error, powerRefInst)
         {
-            console.log('before:', powerRefInst);
             _.assign(powerRefInst, powerRef);
-            console.log('after:', powerRefInst);
 
             powerRefInst.save(function()
             {
                 powerRefInst.populate(true, function(error, powerRefInst)
                 {
-                    console.log('populate:', powerRefInst);
                     callback(error, powerRefInst);
                 });
             })

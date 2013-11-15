@@ -496,6 +496,11 @@ module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
 
             // Copy the powers object over newPower
             $scope.newPower = chosenPower;
+        }
+        else
+        {
+            // Split the keywords field
+            $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
         } // end if
 
         // Store whether or not this should be added globally.

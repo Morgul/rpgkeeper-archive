@@ -40,7 +40,6 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
             });
         } // end updatePowerRef
 
-        //TODO: Actually update this over socket.io!
         if(index > powerRef.currentUses)
         {
             powerRef.currentUses += 1;

@@ -24,11 +24,11 @@
 * ~~Add support for adding skills~~
 
 ## Powers
-* Figure out how to support custom powers
-* Add support for adding and displaying powers
-* Add support for marking powers as used
-* Add support for editing powers
-* Powers need to be able to have their notes edited.
+* ~~Figure out how to support custom powers~~
+* ~~Add support for adding and displaying powers~~
+* ~~Add support for marking powers as used~~
+* Powers need to be able to have their notes/metadata edited.
+* Powers need to have rolls associated with them.
 
 ## Feats
 * ~~Build support for feats, similar to powers.~~
@@ -36,7 +36,7 @@
 * Feats need to have associated bonuses that can be used in calculating stats.
 
 # Combat Statistics
-* Need support for editing the misc bonuses used for calculating those values.
+* ~~Need support for editing the misc bonuses used for calculating those values.~~
 * Eventually, need a rolls style interface.
 
 ...and more to come!
