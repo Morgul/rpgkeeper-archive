@@ -321,6 +321,34 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end addPower
 
+    $scope.editPower = function(powerRef, event) {
+        event.stopPropagation();
+
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            windowClass: "wide",
+            resolve: { powerRef: function(){ return powerRef } },
+            templateUrl: '/systems/dnd4e_simp/partials/modals/editpower.html',
+            controller: 'EditPowerModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("update powerRef", result, function(error, powerRefRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.apply(powerRef, powerRefRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end addPower
+
     $scope.removePower = function(powerRef, event)
     {
         // Prevent the event from triggering a collapse/expand event.
@@ -459,6 +487,23 @@ module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
         $scope.newFeat.global = global;
 
         $modalInstance.close($scope.newFeat);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('EditPowerModalCtrl', function($scope, $modalInstance, powerRef)
+{
+    $scope.powerRef = powerRef;
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function()
+    {
+        $modalInstance.close($scope.powerRef);
     }; // end save
 });
 

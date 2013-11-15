@@ -15780,6 +15780,11 @@ td.visible-print {
 .detail-tabs .power h4 .close {
   margin-top: -4px;
 }
+.detail-tabs .power h4 .edit {
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 1.1em;
+}
 .detail-tabs .power h4.at-will {
   color: #fff;
   background-color: #61976a;
@@ -15862,6 +15867,11 @@ td.visible-print {
 }
 .detail-tabs .feat h4 .close {
   margin-top: -4px;
+}
+.detail-tabs .feat h4 .edit {
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 1.1em;
 }
 .detail-tabs .feat + .feat {
   margin-top: 10px;

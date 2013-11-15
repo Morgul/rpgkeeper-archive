@@ -385,6 +385,24 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         } // end if
     });
 
+    socket.on('update featRef', function(featRef, callback)
+    {
+        featRef.feat = { $id: featRef.feat.$id };
+
+        models.FeatReference.findOne({ $id: featRef.$id }, function(error, featRefInst)
+        {
+            _.assign(featRefInst, featRef);
+
+            featRefInst.save(function()
+            {
+                featRefInst.populate(true, function(error, featRefInst)
+                {
+                    callback(error, featRefInst);
+                });
+            })
+        });
+    });
+
     socket.on('remove featRef', function(featRefID, baseChar, callback)
     {
         models.Character.findOne({baseChar: baseChar}, function(err, character)
