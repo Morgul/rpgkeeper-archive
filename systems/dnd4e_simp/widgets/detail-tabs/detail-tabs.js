@@ -8,6 +8,50 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
 {
     $scope.collapse = {};
     $scope.showAttributes = $attrs.attributes == "true";
+
+    $scope.getUseIcon = function(powerRef, index)
+    {
+        // Make index 1 based
+        index += 1;
+
+        if(index <= powerRef.currentUses)
+        {
+            return "icon-check";
+        } // end if
+
+        return "icon-check-empty";
+    };
+
+    $scope.handleUse = function(powerRef, index, event)
+    {
+        event.stopPropagation();
+
+        // Make index 1 based
+        index += 1;
+
+        function updatePowerRef()
+        {
+            $scope.systemSocket.emit('update powerRef', powerRef, function(error, powerRefRet)
+            {
+                $scope.$apply(function()
+                {
+                    _.apply(powerRef, powerRefRet);
+                });
+            });
+        } // end updatePowerRef
+
+        //TODO: Actually update this over socket.io!
+        if(index > powerRef.currentUses)
+        {
+            powerRef.currentUses += 1;
+            updatePowerRef();
+        }
+        else if(powerRef.currentUses > 0)
+        {
+            powerRef.currentUses -= 1;
+            updatePowerRef();
+        } // end if
+    };
 });
 
 //----------------------------------------------------------------------------------------------------------------------

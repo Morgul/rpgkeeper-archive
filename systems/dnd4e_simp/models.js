@@ -14,17 +14,12 @@ var ns = om.namespace('dnd4e_simp').backend(new NedbBackend({baseDir: './db'}));
 var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"];
 var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
-var actionType = ["Standard", "Move", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
 module.exports = ns.define({
     Roll: {
         title: fields.String(),
         roll: fields.String({ required: true })
-    },
-
-    Section: {
-        title: fields.String({ required: true }),
-        description: fields.String()
     },
 
     Condition: {
@@ -83,8 +78,8 @@ module.exports = ns.define({
         kind: fields.Choice({ type: fields.String(), choices: powerKinds, default: "Attack" }),
         keywords: fields.List({ type: fields.String() }),
         actionType: fields.Choice({ type: fields.String(), choices: actionType, default: "Standard" }),
-        rangeText: fields.String(),
-        sections: fields.List({ type: fields.Reference({ model: 'Section' }) }),
+        range: fields.String(),
+        sections: fields.List({ type: fields.Dict() }),
 
         // Distinguishes this as a custom power, if set.
         owner: fields.Reference({ model: 'Character' })
@@ -93,7 +88,7 @@ module.exports = ns.define({
     PowerReference: {
         power: fields.Reference({ model: 'Power' }),
         maxUses: fields.Integer({ default: 1, min: 1 }),
-        currentUses: fields.Integer({ default: 1, min: 1 }),
+        currentUses: fields.Integer({ default: 0, min: 0 }),
         notes: fields.String(),
         rolls: fields.List({ type: fields.Reference({ model: 'Rolls' }) })
     },

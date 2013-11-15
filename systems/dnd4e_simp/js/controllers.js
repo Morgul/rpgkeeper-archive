@@ -9,12 +9,12 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     this.$scope = $scope;
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
-    $scope.genderChoices = [
+    $scope.$root.genderChoices = [
         "Female",
         "Male",
         "Other"
     ];
-    $scope.sizeChoices = [
+    $scope.$root.sizeChoices = [
         "Tiny",
         "Small",
         "Medium",
@@ -22,7 +22,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         "Huge",
         "Gargantuan"
     ];
-    $scope.alignmentChoices = [
+    $scope.$root.alignmentChoices = [
         "Lawful Good",
         "Good",
         "Unaligned",
@@ -30,7 +30,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         "Chaotic Evil"
     ];
 
-    $scope.abilityChoices = [
+    $scope.$root.abilityChoices = [
         "none",
         "strength",
         "constitution",
@@ -39,6 +39,10 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         "wisdom",
         "charisma"
     ];
+
+    $scope.$root.powerTypes = ["At-Will", "Encounter", "Daily"];
+    $scope.$root.powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
+    $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
     // Get the possible choices for class
     $scope.systemSocket.emit('get classes', function(error, classes)
@@ -55,6 +59,15 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         $scope.$apply(function()
         {
             $scope.$root.featChoices = _.sortBy(feats, 'name');
+        });
+    });
+
+    // Get the possible choices for power
+    $scope.systemSocket.emit('get powers', function(error, powers)
+    {
+        $scope.$apply(function()
+        {
+            $scope.$root.powerChoices = _.sortBy(powers, 'name');
         });
     });
 
@@ -280,6 +293,50 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     }; // end removeFeat
 
     //------------------------------------------------------------------------------------------------------------------
+    // Powers
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addPower = function() {
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e_simp/partials/modals/addpower.html',
+            controller: 'AddPowerModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add power", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+                    });
+                });
+            } // end if
+        });
+    }; // end addPower
+
+    $scope.removePower = function(powerRef, event)
+    {
+        // Prevent the event from triggering a collapse/expand event.
+        event.stopPropagation();
+
+        // Tell the system to remove the reference
+        $scope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                $scope.sysChar = character;
+            });
+        });
+    }; // end removePower
+
+    //------------------------------------------------------------------------------------------------------------------
     // Dropbox
     //------------------------------------------------------------------------------------------------------------------
 
@@ -402,6 +459,49 @@ module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
         $scope.newFeat.global = global;
 
         $modalInstance.close($scope.newFeat);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
+{
+    $scope.chosenPower = "";
+    $scope.newPower = {
+        sections: [{}],
+        maxUses: 1
+    };
+
+    $scope.removeSection = function(index)
+    {
+        $scope.newPower.sections.splice(index, 1);
+    }; // end removeSection
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function(chosenPower, global)
+    {
+        // If we pick one from the list, we simply set newPower to the one we selected
+        if(chosenPower)
+        {
+            // Specify that we're using an existing power
+            chosenPower.exists = true;
+
+            // Copy over the notes object
+            chosenPower.notes = $scope.newPower.notes;
+            chosenPower.maxUses = $scope.newPower.maxUses;
+
+            // Copy the powers object over newPower
+            $scope.newPower = chosenPower;
+        } // end if
+
+        // Store whether or not this should be added globally.
+        $scope.newPower.global = global;
+
+        $modalInstance.close($scope.newPower);
     }; // end save
 });
 

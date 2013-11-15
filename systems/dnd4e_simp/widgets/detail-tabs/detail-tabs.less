@@ -1,5 +1,70 @@
 .detail-tabs
 {
+    .power {
+        .gradient {
+            padding-top: 2px !important;
+            background: -moz-linear-gradient(left, rgba(221,220,205,1) 35%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, right top, color-stop(35%,rgba(221,220,205,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(left, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* IE10+ */
+            background: linear-gradient(to right, rgba(221,220,205,1) 35%,rgba(255,255,255,0) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddccd', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+        }
+
+        h4 {
+            margin: 0;
+            font-size: .97em;
+            background-color: #eee;
+            padding: 4px 6px;
+
+            border-radius: 4px;
+            cursor: pointer;
+
+            .close {
+                margin-top: -4px;
+            }
+
+            &.at-will {
+                color: #fff;
+                background-color: #61976a;
+            }
+
+            &.encounter {
+                color: #fff;
+                background-color: #951234;
+            }
+
+            &.daily {
+                color: #fff;
+                background-color: #4c4d4f;
+            }
+        }
+
+        .type-level {
+            float: right;
+            margin-right: 3px;
+        }
+
+        .flavor {
+            .gradient();
+            font-size: .90em;
+            font-style: italic;
+            margin: 0 5px;
+            padding: 2px 4px;
+        }
+
+        .sections {
+            .section:nth-child(even) {
+                .gradient();
+            }
+        }
+    }
+
+    .power + .power {
+        margin-top: 7px;
+    }
+
     .feat {
         h4 {
             margin: 0;

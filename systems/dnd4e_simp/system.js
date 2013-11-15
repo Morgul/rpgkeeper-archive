@@ -402,6 +402,106 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
             });
         });
     });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Powers
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get powers', function(callback)
+    {
+        //TODO: Limit this to either powers where `owner` is null, or is the email address of our current user.
+        models.Power.find({}, function(error, powers)
+        {
+            callback(error, powers);
+        });
+    });
+
+    socket.on('add power', function(powerDef, baseChar, callback)
+    {
+        if(!powerDef.global)
+        {
+            powerDef.owner = user.email;
+        } // end if
+
+        // Build a new PowerReference Object
+        var powerRef = new models.PowerReference({ notes: powerDef.notes, maxUses: powerDef.maxUses });
+
+        function addPower(power)
+        {
+            powerRef.power = power.$key;
+            powerRef.save(function(error)
+            {
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    character.powers.push(powerRef.$key);
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addPower
+
+        if(powerDef.exists)
+        {
+            // Look up the power's id
+            models.Power.findOne({ name: powerDef.name }, function(error, power)
+            {
+                addPower(power);
+            });
+        }
+        else
+        {
+            // Build a new power, save, and do the same as above.
+            var power = new models.Power(powerDef);
+            power.save(function()
+            {
+                addPower(power);
+            });
+        } // end if
+    });
+
+    socket.on('update powerRef', function(powerRef, callback)
+    {
+        powerRef.power = { $id: powerRef.power.$id };
+
+        models.PowerReference.findOne({ $id: powerRef.$id }, function(error, powerRefInst)
+        {
+            console.log('before:', powerRefInst);
+            _.assign(powerRefInst, powerRef);
+            console.log('after:', powerRefInst);
+
+            powerRefInst.save(function()
+            {
+                powerRefInst.populate(true, function(error, powerRefInst)
+                {
+                    console.log('populate:', powerRefInst);
+                    callback(error, powerRefInst);
+                });
+            })
+        });
+    });
+
+    socket.on('remove powerRef', function(powerRefID, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            character.powers = _.reject(character.powers, { '$id': powerRefID });
+            character.save(function()
+            {
+                models.PowerReference.remove({$id: powerRefID}, function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    });
+                });
+            });
+        });
+    });
 });
 
 //----------------------------------------------------------------------------------------------------------------------
