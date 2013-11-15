@@ -10,6 +10,7 @@
 * ~~Hook up the passive skills~~
 * Make Character Details collapsible (and start collapsed on small screens.)
 * Add character name to nav bar
+* Get table support working in markdown support.
 
 # Classes
 * ~~Need to have the ability to add classes, which will store some basic information, like HP/level and healing surges.~~
