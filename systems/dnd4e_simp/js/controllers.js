@@ -277,6 +277,34 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end addFeat
 
+    $scope.editFeat = function(featRef, event) {
+        event.stopPropagation();
+
+        var opts = {
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            windowClass: "wide",
+            resolve: { featRef: function(){ return featRef } },
+            templateUrl: '/systems/dnd4e_simp/partials/modals/editfeat.html',
+            controller: 'EditFeatModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("update featRef", result, function(error, featRefRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.apply(featRef, featRefRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end editFeat
+
     $scope.removeFeat = function(featRef, event)
     {
         // Prevent the event from triggering a collapse/expand event.
@@ -347,7 +375,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                 });
             } // end if
         });
-    }; // end addPower
+    }; // end editPower
 
     $scope.removePower = function(powerRef, event)
     {
@@ -453,6 +481,23 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
     $scope.add = function()
     {
         $modalInstance.close($scope.newSkill);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('EditFeatModalCtrl', function($scope, $modalInstance, featRef)
+{
+    $scope.featRef = featRef;
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.add = function()
+    {
+        $modalInstance.close($scope.featRef);
     }; // end save
 });
 
