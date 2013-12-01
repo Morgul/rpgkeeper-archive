@@ -35,6 +35,15 @@
                             <b>Notes:</b> <span ng-bind-html-unsafe="powerRef.notes | markdown"></span>
                         </div>
                     </div>
+                    <div  ng-if="powerRef.rolls" class="rolls">
+                        <div class="row">
+                            <div ng-class="getPowerRollSize($odd, $last)" ng-repeat="roll in powerRef.rolls">
+                                <button class="btn btn-default btn-sm btn-block">
+                                    {{ roll.title }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

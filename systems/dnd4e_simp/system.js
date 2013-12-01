@@ -97,6 +97,21 @@ function buildSkills(callback)
     });
 } // end buildSkills
 
+function cleanRolls(rolls)
+{
+    var cleaned = [];
+
+    rolls.forEach(function(roll)
+    {
+        cleaned.push({
+            title: roll.title,
+            roll: roll.roll
+        });
+    });
+
+    return cleaned;
+} // end cleanRolls
+
 //----------------------------------------------------------------------------------------------------------------------
 
 app.channel('/dnd4e_simp').on('connection', function (socket)
@@ -442,7 +457,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         } // end if
 
         // Build a new PowerReference Object
-        var powerRef = new models.PowerReference({ notes: powerDef.notes, maxUses: powerDef.maxUses });
+        var powerRef = new models.PowerReference({ notes: powerDef.notes, maxUses: powerDef.maxUses, rolls: powerDef.rolls });
 
         function addPower(power)
         {
@@ -491,6 +506,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
     socket.on('update powerRef', function(powerRef, callback)
     {
         powerRef.power = { $id: powerRef.power.$id };
+        powerRef.rolls = cleanRolls(powerRef.rolls);
 
         models.PowerReference.findOne({ $id: powerRef.$id }, function(error, powerRefInst)
         {
