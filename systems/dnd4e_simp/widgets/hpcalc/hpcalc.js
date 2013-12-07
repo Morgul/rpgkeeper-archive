@@ -11,7 +11,7 @@ module.controller('HPCalcCtrl', function($scope)
         try
         {
             return (parseInt($scope.sysChar.class.initialHP) + parseInt($scope.sysChar.constitution) + parseInt($scope.sysChar.miscHitPoints) +
-                ($scope.sysChar.level * $scope.sysChar.class.hpPerLevel)) || 0;
+                (($scope.sysChar.level - 1) * $scope.sysChar.class.hpPerLevel)) || 0;
         }
         catch(ex)
         {
