@@ -366,7 +366,6 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         {
             if(result)
             {
-                console.log('result:', result);
                 $scope.systemSocket.emit("update powerRef", result, function(error, powerRefRet)
                 {
                     $scope.$apply(function()

@@ -15520,6 +15520,9 @@ td.visible-print {
   right: 10px;
   z-index: 100;
 }
+.power-section + .power-section {
+  margin-top: 5px;
+}
 .popover-inline .spacer {
   vertical-align: middle;
   display: inline-block;
@@ -15897,6 +15900,9 @@ td.visible-print {
 .detail-tabs .rolls div.row {
   padding-top: 5px;
   border-top: 1px solid #ccc;
+}
+.detail-tabs .rolls div.row .btn {
+  margin-bottom: 5px;
 }
 
 .well {
