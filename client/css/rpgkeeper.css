@@ -15746,6 +15746,7 @@ td.visible-print {
 
 .condition .panel-body {
   background-color: #f5f5f5;
+  padding: 7px 10px;
 }
 
 .detail-tabs .power .gradient {
