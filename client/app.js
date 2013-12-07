@@ -26,6 +26,11 @@ window.app = angular.module("rpgkeeper", [
     }])
     .run(function($rootScope, $location)
     {
+        $rootScope.hash = function(s)
+        {
+            return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+        }; // end hash
+
         $rootScope.setLocation = function(path)
         {
             $location.path(path);
@@ -77,13 +82,30 @@ window.app = angular.module("rpgkeeper", [
 
             return '';
         }; // end capitalize
-    }).filter('markdown', function()
+    }).filter('markdown', function($rootScope)
     {
+        if(!$rootScope.markdownCache)
+        {
+            $rootScope.markdownCache = {};
+        } // end if
+
+
         return function markdown(text)
         {
+            var hash = $rootScope.hash(text);
+
+            if(hash in $rootScope.markdownCache)
+            {
+                return $rootScope.markdownCache[hash];
+            } // end if
+
             //var converter = new Showdown.converter({ extensions: 'table' });
             var converter = new Showdown.converter();
-            return converter.makeHtml(text);
+            var mdown = converter.makeHtml(text);
+
+            $rootScope.markdownCache[hash] = mdown;
+
+            return mdown;
         }; // end markdown
     }).filter('reverse', function() {
         return function(items) {
