@@ -31,7 +31,7 @@ module.exports = ns.define({
         hpPerLevel: fields.Integer({ default: 0, min: 0 }),
 
         // Distinguishes this as a custom class, if set.
-        owner: fields.Reference({ model: 'Character' })
+        owner: fields.String()
     },
 
     Skill: {
@@ -57,7 +57,7 @@ module.exports = ns.define({
         special: fields.String(),
 
         // Distinguishes this as a custom feat, if set.
-        owner: fields.Reference({ model: 'Character' })
+        owner: fields.String()
     },
 
     FeatReference: {
@@ -77,7 +77,7 @@ module.exports = ns.define({
         sections: fields.List({ type: fields.Dict() }),
 
         // Distinguishes this as a custom power, if set.
-        owner: fields.Reference({ model: 'Character' })
+        owner: fields.String()
     },
 
     PowerReference: {
