@@ -37,7 +37,7 @@
                     </div>
                     <div  ng-if="powerRef.rolls" class="rolls">
                         <div class="row">
-                            <div ng-class="getPowerRollSize($odd, $last)" ng-repeat="roll in powerRef.rolls">
+                            <div ng-class="getPowerRollSize($index, $last)" ng-repeat="roll in powerRef.rolls">
                                 <button class="btn btn-default btn-sm btn-block" title="Roll: {{ roll.roll }}" ng-click="rollDice(roll.roll, roll.title, sysChar)">
                                     {{ roll.title }}
                                 </button>
