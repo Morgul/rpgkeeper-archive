@@ -394,8 +394,6 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 
     $scope.getPowerRollSize = function($index, $last)
     {
-        console.log($index % 2 != 1, $last);
-
         if($index % 2 != 1 && $last)
         {
             return "col-xs-12"
