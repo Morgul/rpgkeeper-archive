@@ -209,7 +209,7 @@ module.exports = ns.define({
             var initialHP = (this.class || {}).initialHP || 0;
             var hpPerLevel = (this.class || {}).hpPerLevel || 0;
 
-            return initialHP + this.constitution + (this.level * hpPerLevel);
+            return initialHP + this.constitution + ((this.level - 1) * hpPerLevel);
         }),
         miscHitPoints: fields.Integer({ default: 0, min: 0 }),
         curHitPoints: fields.Integer({ default: 0, min: 0 }),
