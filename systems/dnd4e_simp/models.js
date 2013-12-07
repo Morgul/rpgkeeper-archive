@@ -147,7 +147,8 @@ module.exports = ns.define({
         // Combat Statistics
         //-----------------------------------------------------------
 
-        initiative: fields.Property(function(){ return this.halfLevel + this.dexterityMod + this.initiativeMisc; }),
+        initiative: fields.Property(function(){ return this.halfLevel + this.dexterityMod + this.initiativeMisc + this.initiativeFeat; }),
+        initiativeFeat: fields.Integer({ default: 0 }),
         initiativeMisc: fields.Integer({ default: 0 }),
         speed: fields.Integer({ default: 0, min: 0 }),
 
