@@ -29,7 +29,7 @@
 * ~~Add support for adding and displaying powers~~
 * ~~Add support for marking powers as used~~
 * ~~Powers need to be able to have their notes/metadata edited.~~
-* Powers need to have rolls associated with them.
+* ~~Powers need to have rolls associated with them.~~
 
 ## Feats
 * ~~Build support for feats, similar to powers.~~
