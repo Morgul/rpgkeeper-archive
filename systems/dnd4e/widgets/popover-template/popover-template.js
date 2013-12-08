@@ -11,7 +11,7 @@ angular.module( 'ui.bootstrap.popover' )
             restrict: 'EA',
             replace: true,
             scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&' },
-            templateUrl: '/systems/dnd4e_simp/widgets/popover-template/popover-template.html',
+            templateUrl: '/systems/dnd4e/widgets/popover-template/popover-template.html',
             link: function( scope, iElement ) {
 
                 var content = angular.fromJson( scope.content ),

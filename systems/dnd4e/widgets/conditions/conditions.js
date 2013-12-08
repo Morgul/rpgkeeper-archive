@@ -12,7 +12,7 @@ module.controller('ConditionsCtrl', function($scope, $modal)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            templateUrl: '/systems/dnd4e_simp/widgets/conditions/addcond.html',
+            templateUrl: '/systems/dnd4e/widgets/conditions/addcond.html',
             controller: 'AddCondDialogCtrl'
         };
 
@@ -64,7 +64,7 @@ module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
 module.directive('conditions', function() {
     return {
         restrict: 'E',
-        templateUrl: '/systems/dnd4e_simp/widgets/conditions/conditions.html',
+        templateUrl: '/systems/dnd4e/widgets/conditions/conditions.html',
         controller: 'ConditionsCtrl'
     }
 });

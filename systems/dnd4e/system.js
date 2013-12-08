@@ -6,158 +6,111 @@
 
 // Include our models
 var models = require('./models');
-var baseModels = require('../../lib/models.old');
+var baseModels = require('../../lib/models');
 
 var path = require('path');
 var app = require('omega-wf').app;
 
 var _ = require('lodash');
+var async = require('async');
 
 //----------------------------------------------------------------------------------------------------------------------
 
 // Create the system entry in the database
-baseModels.db.once('open', function()
+baseModels.System.findOne({ shortname: "dnd4e"}, function(error, system)
 {
-    baseModels.System.findOne({ shortname: "dnd4e"}, function(error, system)
+    if(!system)
     {
-        if(!system)
-        {
-            // Create new system
-            var system = new baseModels.System({
-                name: "Dungeons and Dragons 4th Edition",
-                shortname: "dnd4e",
-                description: "The DUNGEONS & DRAGONS game is a roleplaying game. In fact, D&D invented the roleplaying game and started an industry.\n\n" +
-                    "A roleplaying game is a storytelling game that has elements of the games of make-believe that many of us played as children. However, a roleplaying game such as D&D provides form and structure, with robust gameplay and endless possibilities.\n\n" +
-                    "D&D is a fantasy-adventure game. You create a character, team up with other characters (your friends), explore a world, and battle monsters. While the D&D game uses dice and miniatures, the action takes place in your imagination. There, you have the freedom to create anything you can imagine, with an unlimited special effects budget and the technology to make anything happen.\n\n" +
-                    "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
-            });
+        // Create new system
+        var system = new baseModels.System({
+            name: "Dungeons and Dragons 4th Edition",
+            shortname: "dnd4e",
+            description: "The DUNGEONS & DRAGONS game is a roleplaying game. In fact, D&D invented the roleplaying game and started an industry.\n\n" +
+                "A roleplaying game is a storytelling game that has elements of the games of make-believe that many of us played as children. However, a roleplaying game such as D&D provides form and structure, with robust gameplay and endless possibilities.\n\n" +
+                "D&D is a fantasy-adventure game. You create a character, team up with other characters (your friends), explore a world, and battle monsters. While the D&D game uses dice and miniatures, the action takes place in your imagination. There, you have the freedom to create anything you can imagine, with an unlimited special effects budget and the technology to make anything happen.\n\n" +
+                "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
+        });
 
-            system.save(function(error)
+        system.save(function(error)
+        {
+            if(error)
             {
-                if(error)
-                {
-                    console.error('Error saving:', error.toString());
-                }
-            });
-        } // end if
-    });
+                console.error('Error saving:', error.toString());
+            } // end if
+        });
+    } // end if
 });
 
 //----------------------------------------------------------------------------------------------------------------------
 
-// The entire point of this is to work around some issues with mongoose, and how it does some of it's things. Call this
-// before you intend to send a character to the client.
-function buildCharacter(character)
+function buildSkills(callback)
 {
-    // We need to JSON-ify the db object.
-    char = JSON.parse(JSON.stringify(character));
+    var skills = [];
+    var skillRefs = [];
 
-    // Calculate skill totals
-    char.skills.forEach(function(skill)
+    // Create default skills
+    skills.push(new models.Skill({name: 'athletics', ability: 'strength'}));
+    skills.push(new models.Skill({name: 'endurance', ability: 'constitution'}));
+    skills.push(new models.Skill({name: 'acrobatics', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'stealth', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'thievery', ability: 'dexterity'}));
+    skills.push(new models.Skill({name: 'arcana', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'history', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'religion', ability: 'intelligence'}));
+    skills.push(new models.Skill({name: 'dungeoneering', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'heal', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'insight', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'nature', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'perception', ability: 'wisdom'}));
+    skills.push(new models.Skill({name: 'bluff', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'diplomacy', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'intimidate', ability: 'charisma'}));
+    skills.push(new models.Skill({name: 'streetwise', ability: 'charisma'}));
+
+    // Save them, and return a list of references for the character to use.
+    async.each(skills, function(skill, done)
     {
-        skill.total = ((skill.trained ? 5 : 0) + char[skill.ability + 'Mod']
-            + char.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
-    });
-
-    // Handle the fact that we don't store the entire chosen feature in the db.
-    character.chosenFeatures.forEach(function(feature, index)
-    {
-
-        var chosenFeature;
-        for(var idx = 0; idx < character.class.classFeatures.length; idx++)
+        skill.save(function(error)
         {
-            var feat = character.class.classFeatures[idx];
-            if((feat.choices || 0).length > 0)
+            if(error)
             {
-                for(cdx = 0; cdx < feat.choices.length; cdx++)
-                {
-                    var choice = feat.choices[cdx];
-                    if(choice.name == feature.name)
-                    {
-                        chosenFeature = choice;
-                        break;
-                    } // end if
-                } // end for
-            } // end if
-
-            if(chosenFeature)
+                console.log('blew up on skill:', skill.name, skill.ability, error);
+                done(error);
+            }
+            else
             {
-                break;
+                skillRefs.push({ $id: skill.$id });
+                done();
             } // end if
-        } // end for
-
-        // Add chosenFeature's powers
-        char.powers = char.powers.concat((chosenFeature.powers || []));
-
-        char.chosenFeatures[index] = chosenFeature;
-    });
-
-    // Sort Powers
-    var powers = char.powers;
-    powers = _.sortBy(_.sortBy(powers, 'level'), function(power)
+        })
+    }, function(error)
     {
-        switch(power.kind)
+        if(error)
         {
-            case 'Race':
-                return 1;
-            case 'Attack':
-                return 2;
-            case 'Utility':
-                return 3;
-            case 'ClassFeature':
-                return 4;
-            default:
-                return 5;
+            console.log("Error while building Skills:", error.stack);
+            callback(error);
         }
-    });
-
-    // Sort by level and then by kind
-    powers = _.sortBy(powers, function(power)
-    {
-        if(power.type == 'At-Will')
+        else
         {
-            return 1;
-        } // end if
-
-        if(power.type == 'Encounter')
-        {
-            return 2;
-        } // end if
-
-        if(power.type == 'Daily')
-        {
-            return 3;
+            callback(null, skillRefs);
         } // end if
     });
+} // end buildSkills
 
-    char.powers = powers;
-
-    return char;
-} // end buildCharacter
-
-function buildAttack(attack)
+function cleanRolls(rolls)
 {
-    var atkContext = {
-        mod: attack.context.atk.mod,
-        enh: attack.context.atk.enh || 0,
-        prof: attack.context.atk.prof || 0,
-        feat: attack.context.atk.feat || 0,
-        misc: attack.context.atk.misc || 0
-    };
+    var cleaned = [];
 
-    var dmgContext = {
-        mod: attack.context.dmg.mod,
-        enh: attack.context.dmg.enh || 0,
-        feat: attack.context.dmg.feat || 0,
-        misc: attack.context.dmg.misc || 0
-    };
+    rolls.forEach(function(roll)
+    {
+        cleaned.push({
+            title: roll.title,
+            roll: roll.roll
+        });
+    });
 
-    return {
-        name: attack.name,
-        toHit: [{ name: "[Attack] " + attack.name, context: atkContext, roll: attack.context.atk.roll }],
-        damage: [{ name: "[Damage] " + attack.name, context: dmgContext, roll: attack.context.dmg.roll }]
-    };
-} // end buildAttack
+    return cleaned;
+} // end cleanRolls
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -165,304 +118,426 @@ app.channel('/dnd4e').on('connection', function (socket)
 {
     var user = socket.handshake.user;
 
-    socket.on('list_classes', function(callback)
-    {
-        // Look up the classes here.
-        models.Class.find(function(error, classes)
-            {
-                if(error)
-                {
-                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
-                }
-                else
-                {
-                    callback(null, classes);
-                } // end if
-            }
-        );
-    });
+    //------------------------------------------------------------------------------------------------------------------
+    // Character
+    //------------------------------------------------------------------------------------------------------------------
 
-    socket.on('list_races', function(callback)
-    {
-        // Look up the classes here.
-        models.Race.find()
-            .populate('languages')
-            .exec(function(error, races)
-            {
-                if(error)
-                {
-                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
-                }
-                else
-                {
-                    callback(null, races);
-                } // end if
-            }
-        );
-    });
-
-    socket.on('list_paths', function(callback)
-    {
-        // Look up the classes here.
-        models.ParagonPath.find(function(error, paths)
-            {
-                if(error)
-                {
-                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
-                }
-                else
-                {
-                    callback(null, paths);
-                } // end if
-            }
-        );
-    });
-
-    socket.on('list_destinies', function(callback)
-    {
-        // Look up the classes here.
-        models.EpicDestiny.find(function(error, destinies)
-            {
-                if(error)
-                {
-                    callback({ type: 'error', message: 'Encountered an error while looking up classes: ' + error.toString()});
-                }
-                else
-                {
-                    callback(null, destinies);
-                } // end if
-            }
-        );
-    });
-
-    socket.on('get_character', function(id, callback)
+    socket.on('get_character', function(charID, callback)
     {
         var newChar = false;
 
         // Look up the character here.
-        models.Character.findOne({baseCharID: id})
-            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
-            .exec(function(err, character)
-            {
-                if(err)
-                {
-                    callback({ type: 'error', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
-                } // end if
-
-                if(!character)
-                {
-                    character = new models.Character({ baseCharID: id });
-                    character.buildSkills();
-                    character.save();
-                    newChar = true;
-                } // end if
-
-                callback(null, buildCharacter(character), newChar);
-            }
-        );
-    });
-
-    socket.on('update_character', function(character, callback)
-    {
-        //-----------------------------------------------------------------
-        // Massage the incoming character into something we can use.
-        //-----------------------------------------------------------------
-
-        // Can't have an _id field
-        delete character._id;
-
-        // Remove arrays of objects that are managed externally to a general update. This prevents us from accidentally
-        // overwriting new changes. (Took me 3 days to figure out what was going on.)
-        delete character.conditions;
-        delete character.skills;
-        delete character.notes;
-        delete character.rolls;
-        delete character.attacks;
-
-        // De-populate our references
-        if(character.race) { character.race = character.race._id; }
-        if(character.class) { character.class = character.class._id; }
-        if(character.paragonPath) { character.paragonPath = character.paragonPath._id; }
-        if(character.epicDestiny) { character.epicDestiny = character.epicDestiny._id; }
-
-        // De-populate our arrays of references
-        character.additionalPowers = _.map(character.additionalPowers, "_id");
-        character.additionalFeats = _.map(character.additionalFeats, "_id");
-        character.additionalLanguages = _.map(character.additionalLanguages, "_id");
-
-        models.Character.findOneAndUpdate({baseCharID: character.baseCharID}, character)
-            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
-            .exec(function(error, char)
+        models.Character.findOne({ baseChar: charID }, function(err, character)
         {
-            if(error)
+            if(err)
             {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while updating system specific character: ' + error.toString()});
+                console.error("err:", err);
+                callback({ type: 'danger', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+            } // end if
+
+            if(!character)
+            {
+                newChar = true;
+                character = new models.Character({ baseChar: charID });
+
+                buildSkills(function(error, skills)
+                {
+                    if(error)
+                    {
+                        callback(error);
+                    }
+                    else
+                    {
+                        character.skills = skills;
+                        character.save(function(error)
+                        {
+                            if(error)
+                            {
+                                console.log('Error:', error);
+                                callback(error);
+                            } // end if
+
+                            character.populate(true, function(error, character)
+                            {
+                                callback(error, character, newChar);
+                            });
+                        });
+                    }
+                });
             }
             else
             {
-                callback(null, buildCharacter(char));
+                character.populate(true, function(error, character)
+                {
+                    callback(error, character, newChar);
+                });
             } // end if
         });
     });
 
-    socket.on('update_skills', function(charID, skills, callback)
+    socket.on('update_character', function(update, callback)
     {
-        models.Character.findOne({_id: charID})
-            .populate('race class paragonPath epicDestiny additionalPowers additionalFeats additionalLanguages')
-            .exec(function(error, char)
+        // Look up the character here.
+        models.Character.findOne({baseChar: update.baseChar}, function(err, character)
+        {
+            delete update['$id'];
+            delete update['skills'];
+            delete update['conditions'];
+            delete update['powers'];
+            delete update['feats'];
+
+            if(err)
+            {
+                console.error("Error Encountered:", err);
+                return callback({ type: 'danger', message: 'Encountered an error while looking up system specific character: ' + err.toString()});
+            } // end if
+
+            if(!character)
+            {
+                console.error("Failed to find character.");
+                return callback({ type: 'danger', message: 'Failed to find character.'});
+            } // end if
+
+            // Update the character
+            _.assign(character, update);
+
+            // Save the character
+            character.save(function(error)
             {
                 if(error)
                 {
-                    console.log("Error!", error);
-                    callback({ type: 'error', message: 'Encountered an error while updating system specific character\'s skills: ' + error.toString()});
+                    //console.error('Error while saving:', error);
+                    callback({ type:'error', message: 'Encountered error while saving: ' + error.toString() });
                 }
                 else
                 {
-                    char.skills = skills;
-                    char.save(function(err, char)
+                    // Populate the character
+                    character.populate(true, function(error, character)
                     {
-                        callback(null, buildCharacter(char));
+                        callback(error, character);
                     });
                 } // end if
             });
-    });
-
-    socket.on('add_condition', function(condition, callback)
-    {
-        var id = condition.charID;
-        delete condition['charID'];
-
-        models.Character.update({_id: id }, { $push: { 'conditions': condition } }, { upsert: true }, function(error)
-        {
-            if(error)
-            {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                callback(null);
-            } // end if
         });
     });
 
-    socket.on('remove_condition', function(args, callback)
+    //------------------------------------------------------------------------------------------------------------------
+    // Skills
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('add skill', function(skillDef, baseChar, callback)
     {
-        models.Character.findOne({ _id: args.charID }, function(error, char)
+
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
         {
-            if(error)
+            var skill = new models.Skill({ name: skillDef.name.toLowerCase(), ability: skillDef.ability.toLowerCase() });
+            skill.save(function()
             {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                char.conditions.id(args.condID).remove();
-                char.save(function(error)
+                character.skills.push(skill.$key);
+                character.save(function()
                 {
-                    if(error)
+                    character.populate(true, function()
                     {
-                        console.log("Error!", error);
-                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
-                    }
-                    else
-                    {
-                        callback(null);
-                    } // end if
+                        callback(undefined, character);
+                    })
                 });
-            } // end if
+            });
         });
     });
 
-    socket.on('add_attack', function(attack, callback)
+    socket.on('update skill', function(skill, callback)
     {
-        var id = attack.charID;
-
-        models.Character.findOne({ _id: id }, function(error, char)
+        models.Skill.findOne({'$id': skill.$id }, function(error, skillInst)
         {
-            if(error)
-            {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                char.attacks.push(buildAttack(attack));
+            _.assign(skillInst, skill);
 
-                char.save(function(error)
+            skillInst.save(function(error)
+            {
+                callback(error, skillInst);
+            })
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Conditions
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('add condition', function(cond, baseChar, callback)
+    {
+        var condition = new models.Condition(cond);
+
+        //TODO: Add error handling.
+        condition.save(function(error)
+        {
+            models.Character.findOne({baseChar: baseChar}, function(err, character)
+            {
+                character.conditions.push({ $id: condition.$id });
+
+                character.save(function()
                 {
-                    if(error)
+                    character.populate(true, function()
                     {
-                        console.log("Error!", error);
-                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
-                    }
-                    else
-                    {
-                        callback(null);
-                    } // end if
+                        callback(undefined, character);
+                    })
                 });
-            } // end if
+            });
         });
     });
 
-    socket.on('update_attack', function(args, callback)
+    socket.on('remove condition', function(condID, baseChar, callback)
     {
-        models.Character.update({ _id: args.charID, 'attacks._id': args.atkID }, { 'attacks.$': buildAttack(args.update) }, function(error)
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
         {
-            if(error)
+            character.conditions = _.reject(character.conditions, { '$id': condID });
+            character.save(function()
             {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                callback(null);
-            } // end if
-        });
-    });
-
-    socket.on('remove_attack', function(args, callback)
-    {
-        models.Character.findOneAndUpdate({ _id: args.charID}, { $pull: { attacks: { _id: args.attackID } } }, function(error)
-        {
-            if(error)
-            {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                callback(null);
-            } // end if
-        });
-        /*
-        console.log("Args:", args);
-        models.Character.findOne({ _id: args.charID }, function(error, char)
-        {
-            if(error)
-            {
-                console.log("Error!", error);
-                callback({ type: 'error', message: 'Encountered an error while looking up the system specific character: ' + error.toString()});
-            }
-            else
-            {
-                char.attacks.id(args.attackID).remove();
-                char.save(function(error)
+                models.Condition.remove(condID, function()
                 {
-                    if(error)
+                    character.populate(true, function()
                     {
-                        console.log("Error!", error);
-                        callback({ type: 'error', message: 'Encountered an error while saving the system specific character: ' + error.toString()});
-                    }
-                    else
-                    {
-                        callback(null);
-                    } // end if
+                        callback(undefined, character);
+                    })
                 });
-            } // end if
+            });
         });
-        */
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Classes
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get classes', function(callback)
+    {
+        //TODO: Limit this to either classes where `owner` is null, or is the email address of our current user.
+        models.Class.find({}, function(error, classes)
+        {
+            callback(error, classes);
+        });
+    });
+
+    socket.on('add class', function(classDef, baseChar, callback)
+    {
+        if(!classDef.global)
+        {
+            classDef.owner = user.email;
+        } // end if
+
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            var classInst = new models.Class(classDef);
+            classInst.save(function()
+            {
+                character.class = classInst.$key;
+                character.save(function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Feats
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get feats', function(callback)
+    {
+        //TODO: Limit this to either feats where `owner` is null, or is the email address of our current user.
+        models.Feat.find({}, function(error, feats)
+        {
+            callback(error, feats);
+        });
+    });
+
+    socket.on('add feat', function(featDef, baseChar, callback)
+    {
+        if(!featDef.global)
+        {
+            featDef.owner = user.email;
+        } // end if
+
+        // Build a new FeatReference Object
+        var featRef = new models.FeatReference({ notes: featDef.notes });
+
+        function addFeat(feat)
+        {
+            featRef.feat = feat.$key;
+            featRef.save(function(error)
+            {
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    character.feats.push(featRef.$key);
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addFeat
+
+        if(featDef.exists)
+        {
+            // Look up the feat's id
+            models.Feat.findOne({ name: featDef.name }, function(error, feat)
+            {
+                addFeat(feat);
+            });
+        }
+        else
+        {
+            // Build a new feat, save, and do the same as above.
+            var feat = new models.Feat(featDef);
+            feat.save(function()
+            {
+                addFeat(feat);
+            });
+        } // end if
+    });
+
+    socket.on('update featRef', function(featRef, callback)
+    {
+        featRef.feat = { $id: featRef.feat.$id };
+
+        models.FeatReference.findOne({ $id: featRef.$id }, function(error, featRefInst)
+        {
+            _.assign(featRefInst, featRef);
+
+            featRefInst.save(function()
+            {
+                featRefInst.populate(true, function(error, featRefInst)
+                {
+                    callback(error, featRefInst);
+                });
+            })
+        });
+    });
+
+    socket.on('remove featRef', function(featRefID, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            character.feats = _.reject(character.feats, { '$id': featRefID });
+            character.save(function()
+            {
+                models.FeatReference.remove({$id: featRefID}, function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    });
+                });
+            });
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Powers
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get powers', function(callback)
+    {
+        //TODO: Limit this to either powers where `owner` is null, or is the email address of our current user.
+        models.Power.find({}, function(error, powers)
+        {
+            callback(error, powers);
+        });
+    });
+
+    socket.on('add power', function(powerDef, baseChar, callback)
+    {
+        if(!powerDef.global)
+        {
+            powerDef.owner = user.email;
+        } // end if
+
+        // Build a new PowerReference Object
+        var powerRef = new models.PowerReference({ notes: powerDef.notes, maxUses: powerDef.maxUses, rolls: powerDef.rolls });
+
+        function addPower(power)
+        {
+            powerRef.power = power.$key;
+            powerRef.save(function(error)
+            {
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    character.powers.push(powerRef.$key);
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addPower
+
+        if(powerDef.exists)
+        {
+            // Look up the power's id
+            models.Power.findOne({ name: powerDef.name }, function(error, power)
+            {
+                addPower(power);
+            });
+        }
+        else
+        {
+            // Build a new power, save, and do the same as above.
+            var power = new models.Power(powerDef);
+
+            power.save(function(error)
+            {
+                if(error)
+                {
+                    console.error('error:', error);
+                } // end if
+
+                addPower(power);
+            });
+        } // end if
+    });
+
+    socket.on('update powerRef', function(powerRef, callback)
+    {
+        powerRef.power = { $id: powerRef.power.$id };
+        powerRef.rolls = cleanRolls(powerRef.rolls);
+
+        models.PowerReference.findOne({ $id: powerRef.$id }, function(error, powerRefInst)
+        {
+            _.assign(powerRefInst, powerRef);
+
+            powerRefInst.save(function()
+            {
+                powerRefInst.populate(true, function(error, powerRefInst)
+                {
+                    callback(error, powerRefInst);
+                });
+            })
+        });
+    });
+
+    socket.on('remove powerRef', function(powerRefID, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            character.powers = _.reject(character.powers, { '$id': powerRefID });
+            character.save(function()
+            {
+                models.PowerReference.remove({$id: powerRefID}, function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    });
+                });
+            });
+        });
     });
 });
 
@@ -471,7 +546,7 @@ app.channel('/dnd4e').on('connection', function (socket)
 module.exports = {
     delete: function(charID)
     {
-        models.Character.remove({ baseCharID: charID }, function(error)
+        models.Character.remove({ baseChar: charID }, function(error)
         {
             if(error)
             {

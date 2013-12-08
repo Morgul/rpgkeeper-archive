@@ -4,642 +4,237 @@
 // @module models.js
 //----------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-
-var mongoose = require('mongoose');
-var db = mongoose.createConnection('mongodb://localhost/dnd4e');
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.exports = { db: db };
+var om = require('omega-models');
+var fields = om.fields;
+var NedbBackend = om.backends.NeDB;
+var ns = om.namespace('dnd4e').backend(new NedbBackend({baseDir: './db'}));
 
 //----------------------------------------------------------------------------------------------------------------------
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-    //------------------------------------------------------------------------------------------------------------------
+var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"];
+var powerTypes = ["At-Will", "Encounter", "Daily"];
+var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
+var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
-    var NotesSchema = mongoose.Schema({
-        title: String,
-        contents: String
-    });
-
-    // Export model
-    module.exports['Note'] = db.model('Note', NotesSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var RollsSchema = mongoose.Schema({
-        name: String,
-        context: {},
-        roll: String
-    });
-
-    // Export model
-    module.exports['Roll'] = db.model('Roll', RollsSchema);
+module.exports = ns.define({
+    Condition: {
+        description: fields.String(),
+        duration: fields.String()
+    },
 
     //------------------------------------------------------------------------------------------------------------------
 
-    var ConditionsSchema = mongoose.Schema({
-        effect: String,
-        duration: String
-    });
+    Class: {
+        name: fields.String({ key: true }),
+        description: fields.String(),
+        initialHP: fields.Integer({ default: 0, min: 0 }),
+        hpPerLevel: fields.Integer({ default: 0, min: 0 }),
 
-    // Export model
-    module.exports['Condition'] = db.model('Condition', ConditionsSchema);
+        // Distinguishes this as a custom class, if set.
+        owner: fields.String()
+    },
+
+    Skill: {
+        name: fields.String({ required: true }),
+        ability: fields.Choice({ choices: abilities, default: 'strength' }),
+        trained: fields.Boolean({ default: false}),
+        armorPenalty: fields.Integer({ default: 0 }),
+        racial: fields.Integer({ default: 0 }),
+        misc: fields.Integer({ default: 0 }),
+
+        // Calculates the total value of the skill
+        total: function(character)
+        {
+            return character.halfLevel + character.abilityMod(this.ability)
+                + (this.trained ? 5 : 0) + this.racial + this.misc - this.armorPenalty;
+        }
+    },
+
+    Feat: {
+        name: fields.String({ required: true }),
+        prerequisites: fields.String(),
+        description: fields.String(),
+        special: fields.String(),
+
+        // Distinguishes this as a custom feat, if set.
+        owner: fields.String()
+    },
+
+    FeatReference: {
+        feat: fields.Reference({ model: 'Feat' }),
+        notes: fields.String()
+    },
+
+    Power: {
+        name: fields.String({ required: true }),
+        flavor: fields.String(),
+        level: fields.Integer({ default: 1, min: 1 }),
+        type: fields.Choice({ type: fields.String(), choices: powerTypes, default: "At-Will" }),
+        kind: fields.Choice({ type: fields.String(), choices: powerKinds, default: "Attack" }),
+        keywords: fields.List({ type: fields.String() }),
+        actionType: fields.Choice({ type: fields.String(), choices: actionType, default: "Standard" }),
+        range: fields.String(),
+        sections: fields.List({ type: fields.Dict() }),
+
+        // Distinguishes this as a custom power, if set.
+        owner: fields.String()
+    },
+
+    PowerReference: {
+        power: fields.Reference({ model: 'Power' }),
+        maxUses: fields.Integer({ default: 1, min: 1 }),
+        currentUses: fields.Integer({ default: 0, min: 0 }),
+        notes: fields.String(),
+        rolls: fields.List({ type: fields.Dict() })
+    },
 
     //------------------------------------------------------------------------------------------------------------------
 
-    var LanguageSchema = mongoose.Schema({
-        name: String,
-        script: String
-    });
+    Character: {
+        baseChar: fields.String({ required: true, key: true }),
+        conditions: fields.List({ type: fields.Reference({ model: 'Condition' }) }),
+        skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
+        powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
+        feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
 
-    // Export model
-    module.exports['Language'] = db.model('Language', LanguageSchema);
+        //-----------------------------------------------------------
+        // Biographic Info
+        //-----------------------------------------------------------
 
-    //------------------------------------------------------------------------------------------------------------------
+        class: fields.Reference({ model: 'Class' }),
+        race: fields.String(),
+        size: fields.Choice({ type: fields.String(), choices: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"], default: "Medium" }),
+        level: fields.Integer({ default: 1, min: 1 }),
+        halfLevel: fields.Property(function(){ return Math.floor(this.level / 2); }),
+        gender: fields.Choice({ type: fields.String(), choices: ["Male", "Female", "Other"], default: "Male" }),
+        alignment: fields.Choice({ type: fields.String(), choices: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" }),
+        deity: fields.String(),
+        languages: fields.List({ type: fields.String() }),
 
-    var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
-    var powerSource = ["Arcane", "Divine", "Martial", "Psionic", "Shadow", "Primal", "Ki"];
-    var PowerSchema = mongoose.Schema({
-        name: String,
-        flavor: String,
-        kind: { type: String, enum: ["Attack", "ClassFeature", "Feat", "Skill", "Race", "Utility"] },
-        level: { type: Number, default: 0, min: 0 },
-        type: { type: String, enum: ["At-Will", "Encounter", "Daily"] },
-        source: { type: String, enum: powerSource },
-        uses: { type: Number, default: 1, min: 1 },
+        paragonPath: fields.String(),
+        epicDestiny: fields.String(),
 
-        // For Skill Powers
-        skill: String,
+        //-----------------------------------------------------------
+        // Abilities
+        //-----------------------------------------------------------
 
-        // Any combination of Acid, Cold, Fire, Force, Lightning, Necrotic, Poison, Psychic, Radiant, or Thunder.
-        damageTypes: String,
-
-        effectType: { type: String, enum: ["Charm", "Conjuration", "Fear", "Healing", "Illusion", "Poison", "Polymorph", "Reliable", "Sleep", "Stance", "Teleportation", "Zone"] },
-        accessory: { type: String, enum: ["Implement", "Weapon"] },
-        additionalKeywords: String,
-
-        // Actions
-        actionType: { type: String, enum: actionType },
-        rangeText: String,
-
-        prerequisites: String,
-        requirements: String,
-        trigger: String,
-
-        // Attack
-        targets: [{
-            target: String,
-            //targetPlural: Boolean,     // If true, will display as "Targets"
-            attack: String,
-            hit: String,
-            miss: String
-        }],
-
-        // Additional sections
-        sections: [{
-            title: String,
-            content: String
-        }],
-
-        sustainType: { type: String, enum: actionType },
-        sustainText: String,
-
-        reference: {
-            book: String,
-            page: Number,
-            url: String
+        // Function to calculate the ability mod from an ability's name
+        abilityMod: function(abilityName)
+        {
+            var ability = this[abilityName] || 0;
+            return Math.floor((ability - 10) / 2);
         },
 
-        // Refer to the class, since that could make our lives a bit easier when trying to look these things up.
-        class: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassSchema' }
-    });
+        strength: fields.Integer({ default: 10, min: 0 }),
+        strengthMod: fields.Property(function(){ return this.abilityMod('strength'); }),
 
-    //--------------------------------------------------------------------
+        constitution: fields.Integer({ default: 10, min: 0 }),
+        constitutionMod: fields.Property(function(){ return this.abilityMod('constitution'); }),
 
-    PowerSchema.virtual('keywords').get(function()
-    {
-        var keywords = [];
-        if(this.source)
-        {
-            keywords.push(this.source);
-        } // end if
+        dexterity: fields.Integer({ default: 10, min: 0 }),
+        dexterityMod: fields.Property(function(){ return this.abilityMod('dexterity'); }),
 
-        if(this.damageTypes)
-        {
-            keywords.push(this.damageTypes);
-        } // end if
+        intelligence: fields.Integer({ default: 10, min: 0 }),
+        intelligenceMod: fields.Property(function(){ return this.abilityMod('intelligence'); }),
 
-        if(this.effectType)
-        {
-            keywords.push(this.effectType)
-        } // end if
+        wisdom: fields.Integer({ default: 10, min: 0 }),
+        wisdomMod: fields.Property(function(){ return this.abilityMod('wisdom'); }),
 
-        if(this.accessory)
-        {
-            keywords.push(this.accessory)
-        } // end if
+        charisma: fields.Integer({ default: 10, min: 0 }),
+        charismaMod: fields.Property(function(){ return this.abilityMod('charisma'); }),
 
-        if(this.additionalKeywords)
-        {
-            keywords.push(this.additionalKeywords)
-        } // end if
+        //-----------------------------------------------------------
+        // Combat Statistics
+        //-----------------------------------------------------------
 
-        return keywords.join(", ");
-    });
+        initiative: fields.Property(function(){ return this.halfLevel + this.dexterityMod + this.initiativeMisc + this.initiativeFeat; }),
+        initiativeFeat: fields.Integer({ default: 0 }),
+        initiativeMisc: fields.Integer({ default: 0 }),
+        speed: fields.Integer({ default: 0, min: 0 }),
 
-    // Export model
-    module.exports['Power'] = db.model('Power', PowerSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var FeatSchema = mongoose.Schema({
-        name: String,
-        type: { type: String, enum: ["Normal", "Class", "Racial", "Multiclass", "Divinity"]},
-        prerequisites: String,
-        benefit: String,
-        special: String,
-        choice: {
-            type: String
-        },
-        powers: [PowerSchema],
-        reference: {
-            book: String,
-            page: Number,
-            url: String
-        }
-    });
-
-    //--------------------------------------------------------------------
-
-    // Export model
-    module.exports['Feat'] = db.model('Feat', FeatSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var ClassFeatureSchema = mongoose.Schema({
-        name: { type: String, required: true },
-        description: String,
-
-        // Any choices the player needs to make about this class feature
-        choices: [ClassFeatureSchema],
-
-        // You always get sub-features
-        subFeatures: [ClassFeatureSchema],
-
-        // The powers the player gains from this feature
-        powers: [PowerSchema]
-    });
-
-    // Export model
-    module.exports['ClassFeature'] = db.model('ClassFeature', ClassFeatureSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var ClassSchema = mongoose.Schema({
-        name: { type: String, required: true },
-        description: String,
-        role: { type: String, enum: ["Defender", "Controller", "Leader", "Striker"] },
-        powerSource: { type: String, enum: powerSource },
-        keyAbilities: String,
-        armorProficiencies: String,
-        weaponProficiencies: String,
-        implements: String,
-        defenseBonus: String,
-        initialHitpoints: { type: Number, default: 0, min: 0 },
-        hitpointsPerLevel: { type: Number, default: 0, min: 0 },
-
-        classFeatures: [ClassFeatureSchema],
-
-        healingSurges: { type: Number, default: 0, min: 0 },
-
-        // Trained skills
-        trainedSkills: [mongoose.Schema.Types.Mixed],
-        trainedSkillChoices: [String],
-        trainedSkillsAmount: { type: Number, default: 0, min: 0 },
-        reference: {
-            book: String,
-            page: Number,
-            url: String
-        }
-    });
-
-    // Export model
-    module.exports['Class'] = db.model('Class', ClassSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var RaceSchema = mongoose.Schema({
-        name: { type: String, required: true },
-        heightRange: String,
-        weightRange: String,
-        size: { type: String, enum: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"] },
-        speed: { type: Number, min: 0 },
-        vision: { type: String, enum: ["Normal", "Low-light", "Darkvision", "Blindsight", "Tremorsense"] },
-        languages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
-        feats: [FeatSchema],
-        powers: [PowerSchema],
-
-        skillBonuses: [{
-            skill: String,
-            bonus: { type: Number, default: 2, min: 0 }
-        }],
-
-        // Some races have "+2 to ability X"
-        abilityBonuses: [{
-            ability: { type: String, enum: ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"] },
-            bonus: { type: Number, default: 2 }
-        }],
-
-        // Some races have "+2 to either ability X or ability Y"
-        abilityBonusChoices: [{
-            abilities: [{ type: String, enum: ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"] }],
-            bonus: { type: Number, default: 2 }
-        }],
-
-        // If true, then the race gets +2 to an ability score of the player's choice
-        abilityBonusChoice: Boolean,
-
-        // If true, then the race gets +1 to Fort, Ref, and Will Defenses
-        defenseBonus: Boolean,
-        reference: {
-            book: String,
-            page: Number,
-            url: String
-        }
-    });
-
-    // Export model
-    module.exports['Race'] = db.model('Race', RaceSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var ParagonPathSchema = mongoose.Schema({
-        name: String,
-        flavor: String,
-        prerequisites: String,
-        description: String,
-
-        features: [{
-            name: { type: String, required: true },
-            level: { type: Number, default: 0, min: 0 },
-            description: String,
-            powers: [PowerSchema]
-        }],
-
-        powers: [PowerSchema],
-        reference: {
-            book: String,
-            page: Number,
-            url: String
-        }
-    });
-
-    // Export model
-    module.exports['ParagonPath'] = db.model('ParagonPath', ParagonPathSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var EpicDestinySchema = mongoose.Schema({
-        name: String,
-        prerequisites: String,
-        immortality: String,
-
-        features: [{
-            name: { type: String, required: true },
-            description: String,
-            level: { type: Number, default: 1, min: 0 },
-            powers: [PowerSchema]
-        }],
-
-        powers: [PowerSchema],
-        reference: {
-            book: String,
-            page: Number,
-            url: String
-        }
-    });
-
-    // Export model
-    module.exports['EpicDestiny'] = db.model('EpicDestiny', EpicDestinySchema);
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var SkillSchema = mongoose.Schema({
-        name: { type: String, required: true },
-        ability: String,
-        trained: Boolean,
-        misc: { type: Number, default: 0, min: 0 },
-        armorPenalty: { type: Number, default: 0, min: 0 }
-    });
-
-    //------------------------------------------------------------------------------------------------------------------
-
-    var CharacterSchema = mongoose.Schema({
-        baseCharID: { type: String, required: true },
-
-        alignment: { type: String, enum: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" },
-        gender: { type: String, enum: ["Male", "Female", "Other"] },
-        deity: String,
-        affiliation: String,
-        level: { type: Number, default: 0, min: 0 },
-        actionPoints: { type: Number, default: 0, min: 0 },
-        experience: { type: Number, default: 0, min: 0 },
-        currency: {
-            copper: { type: Number, default: 0, min: 0 },
-            silver: { type: Number, default: 0, min: 0 },
-            gold: { type: Number, default: 0, min: 0 },
-            platinum: { type: Number, default: 0, min: 0 }
-        },
-
-        skills: [SkillSchema],
-
-        // Bonuses
-        initiativeMisc: { type: Number, default: 0, min: 0 },
-        speedArmorPenalty: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
-        speedMisc: { type: Number, default: 0, min: 0 },
-
-        race: { type: mongoose.Schema.Types.ObjectId, ref: 'Race'},
-        class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class' },
-
-        chosenFeatures: [{
-            name: String,
-            description: String
-        }],
-
-        paragonPath: { type: mongoose.Schema.Types.ObjectId, ref: 'ParagonPath' },
-        epicDestiny: { type: mongoose.Schema.Types.ObjectId, ref: 'EpicDestiny'},
-
-        //--------------------------------------------------------------------------------------------------------------
-        // Ability Scores
-        //--------------------------------------------------------------------------------------------------------------
-
-        strength: { type: Number, default: 10, min: 0 },
-        constitution: { type: Number, default: 10, min: 0 },
-        dexterity: { type: Number, default: 10, min: 0 },
-        intelligence: { type: Number, default: 10, min: 0 },
-        wisdom: { type: Number, default: 10, min: 0 },
-        charisma: { type: Number, default: 10, min: 0 },
-
-        // Store this for hp calculation
-        initialCon: { type: Number, default: 10, min: 0 },
-
-        //--------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------
         // Defenses
-        //--------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------
 
-        acArmor: { type: Number, default: 0, min: 0 },
-        acFeat: { type: Number, default: 0, min: 0 },       //TODO: This should be calculated from all feats
-        acEnhance: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
-        acMisc: { type: Number, default: 0, min: 0 },
-
-        fortFeat: { type: Number, default: 0, min: 0 },       //TODO: This should be calculated from all feats
-        fortEnhance: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
-        fortMisc: { type: Number, default: 0, min: 0 },
-
-        refFeat: { type: Number, default: 0, min: 0 },       //TODO: This should be calculated from all feats
-        refEnhance: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
-        refMisc: { type: Number, default: 0, min: 0 },
-
-        willFeat: { type: Number, default: 0, min: 0 },       //TODO: This should be calculated from all feats
-        willEnhance: { type: Number, default: 0, min: 0 },    //TODO: This should be calculated from all armor/equipment
-        willMisc: { type: Number, default: 0, min: 0 },
-
-        //--------------------------------------------------------------------------------------------------------------
-        // Hitpoints
-        //--------------------------------------------------------------------------------------------------------------
-
-        currentHP: { type: Number, default: 0, min: 0 },
-        tempHP: { type: Number, default: 0, min: 0 },
-        currentSurges: { type: Number, default: 0, min: 0 },
-        secondWindAvailable: { type: Boolean, default: true },
-
-        //--------------------------------------------------------------------------------------------------------------
-        // Powers, Feats, etc
-        //--------------------------------------------------------------------------------------------------------------
-
-        usedPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
-        featChoices: [{ feat: mongoose.Schema.Types.ObjectId, choice: String }],
-        additionalPowers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Power' }],
-        additionalFeats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feat' }],
-        additionalLanguages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Language' }],
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        rolls: [RollsSchema],
-        attacks: [{
-            name: String,
-            toHit: [RollsSchema],
-            damage: [RollsSchema]
-        }],
-        conditions: [ConditionsSchema],
-        notes: [NotesSchema]
-    });
-
-    //--------------------------------------------------------------------
-
-    CharacterSchema.virtual('halfLevel').get(function()
-    {
-        return Math.floor(this.level / 2);
-    }); // end halfLevel
-
-    CharacterSchema.virtual('size').get(function()
-    {
-        return (this.race || {size: 'Medium'}).size;
-    }); // end size
-
-    CharacterSchema.virtual('initiative').get(function()
-    {
-        return this.dexterityMod + this.halfLevel + this.initiativeMisc;
-    }); // end initiative
-
-    CharacterSchema.virtual('speed').get(function()
-    {
-        return (this.race || {speed: 0}).speed - this.speedArmorPenalty + this.speedMisc;
-    }); // end speed
-
-    //--------------------------------------------------------------------
-
-    CharacterSchema.virtual('ac').get(function()
-    {
-        var lightArmor = true;      //TODO: Calculate this from armor
-        var acAbility = lightArmor ? Math.max(this.intelligenceMod, this.dexterityMod) : 0;
-
-        return 10 + this.halfLevel + this.acArmor + acAbility + this.acFeat + this.acEnhance + this.acMisc;
-    }); // end ac
-
-    CharacterSchema.virtual('fort').get(function()
-    {
-        return 10 + this.halfLevel + this.fortFeat + this.fortEnhance + this.fortMisc + Math.max(this.strengthMod, this.constitutionMod)
-    }); // end fort
-
-    CharacterSchema.virtual('ref').get(function()
-    {
-        return 10 + this.halfLevel + this.refFeat + this.refEnhance + this.refMisc + Math.max(this.dexterityMod, this.intelligenceMod)
-    }); // end ref
-
-    CharacterSchema.virtual('will').get(function()
-    {
-        return 10 + this.halfLevel + this.willFeat + this.willEnhance + this.willMisc + Math.max(this.wisdomMod, this.charismaMod)
-    }); // end will
-
-    //--------------------------------------------------------------------
-
-    // Build a bunch of default skills.
-    CharacterSchema.methods.buildSkills = function()
-    {
-        this.skills = [];
-        [
-            ['acrobatics', 'dexterity'],
-            ['arcana', 'intelligence'],
-            ['athletics', 'strength'],
-            ['bluff', 'charisma'],
-            ['diplomacy', 'charisma'],
-            ['dungeoneering', 'wisdom'],
-            ['endurance', 'constitution'],
-            ['heal', 'wisdom'],
-            ['history', 'intelligence'],
-            ['insight', 'wisdom'],
-            ['intimidate', 'charisma'],
-            ['nature', 'wisdom'],
-            ['perception', 'wisdom'],
-            ['religion', 'wisdom'],
-            ['stealth', 'dexterity'],
-            ['streetwise', 'charisma'],
-            ['thievery', 'dexterity']
-        ].forEach(function(val)
+        // Calculate Armor Class
+        armorClass: fields.Property(function()
         {
-            this.addSKill(val[0], val[1]);
-        }.bind(this));
+            // This lets the UI use 'none' for the case where you don't get your armor bonus
+            var abilityMod = this.armorAbility != 'none' ? this.abilityMod(this.armorAbility) : 0;
+            return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorEnh + this.armorMisc;
+        }),
+        armorAbility: fields.Choice({ choices: ['none'].concat(abilities), default: 'none' }),
+        armorBonus: fields.Integer({ default: 0, min: 0 }),
+        armorShieldBonus: fields.Integer({ default: 0, min: 0 }),
+        armorEnh: fields.Integer({ default: 0 }),
+        armorMisc: fields.Integer({ default: 0 }),
 
-        this.save();
-    }; // end buildSkills
-
-    CharacterSchema.methods.addSKill = function(skillName, skillAttr)
-    {
-        var skill = { name: skillName, ability: skillAttr };
-
-        this.skills.push(skill);
-    }; // end addSkill
-
-    //--------------------------------------------------------------------
-
-    CharacterSchema.virtual('passiveInsight').get(function()
-    {
-        var skill = _.find(this.skills, {name: 'insight'});
-        return 10 + ((skill.trained ? 5 : 0) + this[skill.ability + 'Mod'] + this.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
-    }); // end passiveInsight
-
-    CharacterSchema.virtual('passivePerception').get(function()
-    {
-        var skill = _.find(this.skills, {name: 'perception'});
-        return 10 + ((skill.trained ? 5 : 0) + this[skill.ability + 'Mod'] + this.halfLevel + (skill.misc || 0) - (skill.armorPenalty || 0)) || 0;
-    }); // end passivePerception
-
-    //--------------------------------------------------------------------
-
-    CharacterSchema.virtual('maxHP').get(function()
-    {
-        return ((this.class || {hitpointsPerLevel: 0}).hitpointsPerLevel * (this.level - 1)) +
-            (this.class || {initialHitpoints: 0}).initialHitpoints + this.initialCon;
-    }); // end maxHP
-
-    CharacterSchema.virtual('bloodiedValue').get(function()
-    {
-        return Math.floor(this.maxHP / 2);
-    }); // end bloodiedValue
-
-    CharacterSchema.virtual('surgeValue').get(function()
-    {
-        return Math.floor(this.bloodiedValue / 2);
-    }); // end surgeValue
-
-    CharacterSchema.virtual('surgesPerDay').get(function()
-    {
-        //TODO: This could be modified by magic items, or feats.
-        return (this.class || {healingSurges: 0}).healingSurges + this.constitutionMod
-    }); // end surgesPerDay
-
-    CharacterSchema.virtual('bloodied').get(function()
-    {
-        return this.currentHP <= this.bloodiedValue;
-    }); // end bloodied
-
-    //--------------------------------------------------------------------
-
-    CharacterSchema.virtual('powers').get(function()
-    {
-        var powers = this.additionalPowers.concat(
-            ((this.race || {powers: []}).powers || []),
-            ((this.class || {powers: []}).powers || []),
-            ((this.paragonPath || {powers: []}).powers || [])
-        );
-
-        //TODO: This should be a recursive search!
-        // Search for all powers in the class features
-        (this.class || { classFeatures: [] }).classFeatures.forEach(function(feature)
+        // Calculate Fortitude Defense
+        fortDef: fields.Property(function()
         {
-            powers = powers.concat((feature.powers || []));
+            var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
+            return 10 + this.halfLevel + abilityMod + this.fortClassBonus + this.fortEnh + this.fortMisc;
+        }),
+        fortClassBonus: fields.Integer({ default: 0, min: 0 }),
+        fortEnh: fields.Integer({ default: 0 }),
+        fortMisc: fields.Integer({ default: 0 }),
 
-            feature.subFeatures.forEach(function(sub)
-            {
-                powers = powers.concat((sub.powers || []));
-            });
-        });
+        // Calculate Reflex Defense
+        refDef: fields.Property(function()
+        {
+            var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
+            return 10 + this.halfLevel + abilityMod + this.refClassBonus + this.refShieldBonus + this.refEnh + this.refMisc;
+        }),
+        refClassBonus: fields.Integer({ default: 0, min: 0 }),
+        refShieldBonus: fields.Integer({ default: 0, min: 0 }),
+        refEnh: fields.Integer({ default: 0 }),
+        refMisc: fields.Integer({ default: 0 }),
 
-        return powers;
-    }); // end powers
+        // Calculate Will Defense
+        willDef: fields.Property(function()
+        {
+            var abilityMod = Math.max(this.abilityMod('wisdom'), this.abilityMod('charisma'));
+            return 10 + this.halfLevel + abilityMod + this.willClassBonus + this.willEnh + this.willMisc;
+        }),
+        willClassBonus: fields.Integer({ default: 0, min: 0 }),
+        willEnh: fields.Integer({ default: 0 }),
+        willMisc: fields.Integer({ default: 0 }),
 
-    CharacterSchema.virtual('languages').get(function()
-    {
-        return this.additionalLanguages.concat((this.race || {languages: []}).languages);
-    }); // end languages
+        //-----------------------------------------------------------
+        // Resources
+        //-----------------------------------------------------------
 
-    //--------------------------------------------------------------------
+        maxHitPoints: fields.Property(function()
+        {
+            // This will only work on a populated model!
+            var initialHP = (this.class || {}).initialHP || 0;
+            var hpPerLevel = (this.class || {}).hpPerLevel || 0;
 
-    // XXX: Fucking mongoose! You can't access the properties of the instance with `this['foo']`! You must use
-    // `this.foo`. That means I can't refactor any of this code out into a helper library.
+            return initialHP + this.constitution + ((this.level - 1) * hpPerLevel);
+        }),
+        miscHitPoints: fields.Integer({ default: 0, min: 0 }),
+        curHitPoints: fields.Integer({ default: 0, min: 0 }),
+        tmpHitPoints: fields.Integer({ default: 0, min: 0 }),
+        bloodiedValue: fields.Property(function(){ return this.maxHitPoints / 2; }),
 
-    CharacterSchema.virtual('strengthMod').get(function()
-    {
-        return (Math.floor((this.strength - 10) / 2)) || 0;
-    }); // end strengthMod
+        surgesPerDay: fields.Integer({ default: 0, min: 0 }),
+        currentSurges: fields.Integer({ default: 0, min: 0 }),
+        surgeValue: fields.Property(function(){ return this.maxHitPoints / 4; }),
 
-    CharacterSchema.virtual('constitutionMod').get(function()
-    {
-        return (Math.floor((this.constitution - 10) / 2)) || 0;
-    }); // end constitutionMod
+        secondWindAvailable: fields.Boolean({ default: true }),
 
-    CharacterSchema.virtual('dexterityMod').get(function()
-    {
-        return (Math.floor((this.dexterity - 10) / 2)) || 0;
-    }); // end dexterityMod
+        actionPoints: fields.Integer({ default: 0, min: 0 }),
+        experience: fields.Integer({ default: 0, min: 0 }),
 
-    CharacterSchema.virtual('intelligenceMod').get(function()
-    {
-        return (Math.floor((this.intelligence - 10) / 2)) || 0;
-    }); // end intelligenceMod
+        //-----------------------------------------------------------
+        // Currency
+        //-----------------------------------------------------------
 
-    CharacterSchema.virtual('wisdomMod').get(function()
-    {
-        return (Math.floor((this.wisdom - 10) / 2)) || 0;
-    }); // end wisdomMod
-
-    CharacterSchema.virtual('charismaMod').get(function()
-    {
-        return (Math.floor((this.charisma - 10) / 2)) || 0;
-    }); // end charismaMod
-
-    // Export virtuals
-    CharacterSchema.set('toJSON', { virtuals: true });
-
-    // Export model
-    module.exports['Character'] = db.model('Character', CharacterSchema);
-
-    //------------------------------------------------------------------------------------------------------------------
+        copper: fields.Integer({ default: 0, min: 0 }),
+        silver: fields.Integer({ default: 0, min: 0 }),
+        gold: fields.Integer({ default: 0, min: 0 }),
+        platinum: fields.Integer({ default: 0, min: 0 })
+    }
 });
 
 //----------------------------------------------------------------------------------------------------------------------
-

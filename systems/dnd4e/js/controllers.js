@@ -166,7 +166,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            templateUrl: '/systems/dnd4e_simp/partials/modals/addclass.html',
+            templateUrl: '/systems/dnd4e/partials/modals/addclass.html',
             controller: 'AddClassModalCtrl'
         };
 
@@ -229,7 +229,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            templateUrl: '/systems/dnd4e_simp/partials/modals/addskill.html',
+            templateUrl: '/systems/dnd4e/partials/modals/addskill.html',
             controller: 'AddSkillModalCtrl'
         };
 
@@ -258,7 +258,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             keyboard: true,
             backdropClick: true,
             windowClass: "wide",
-            templateUrl: '/systems/dnd4e_simp/partials/modals/addfeat.html',
+            templateUrl: '/systems/dnd4e/partials/modals/addfeat.html',
             controller: 'AddFeatModalCtrl'
         };
 
@@ -286,7 +286,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             backdropClick: true,
             windowClass: "wide",
             resolve: { featRef: function(){ return featRef } },
-            templateUrl: '/systems/dnd4e_simp/partials/modals/editfeat.html',
+            templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
             controller: 'EditFeatModalCtrl'
         };
 
@@ -330,7 +330,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             keyboard: true,
             backdropClick: true,
             windowClass: "wide",
-            templateUrl: '/systems/dnd4e_simp/partials/modals/addpower.html',
+            templateUrl: '/systems/dnd4e/partials/modals/addpower.html',
             controller: 'AddPowerModalCtrl'
         };
 
@@ -358,7 +358,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             backdropClick: true,
             windowClass: "wide",
             resolve: { powerRef: function(){ return powerRef } },
-            templateUrl: '/systems/dnd4e_simp/partials/modals/editpower.html',
+            templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
             controller: 'EditPowerModalCtrl'
         };
 

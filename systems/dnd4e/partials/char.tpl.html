@@ -1,315 +1,199 @@
-<div ng-controller="DnDCharCtrl">
-    <div class="left-sidebar">
-        <img width="340px" height="460px" class="img-polaroid portrait" src="{{ character.portrait || 'http://placehold.it/340x460'  }}">
-        <button type="button" class="btn btn-block btn-default" ng-click="chooseDropboxImage()" style="margin-bottom: 5px;">
-            <i class="icon-dropbox"></i> Choose Portrait from Dropbox
+<div id="SimpleChar" ng-controller="SimpDnD4eCtrl as charCtrl">
+    <div class="left-column">
+        <img width="100%" class="img-thumbnail" src="{{ character.portrait || 'http://placehold.it/340x460'  }}" style="margin-bottom: 5px">
+        <button class="btn btn-default btn-block" ng-click="chooseDropboxImage()" style="margin-bottom: 5px">
+            <i class="icon-dropbox"></i> Choose Portrait
         </button>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button class="btn btn-primary pull-right" ng-click="addCond()"><i class="icon-plus"></i> Add</button>
-                <h3 class="panel-title"><i class="icon-stethoscope"></i> Conditions</span></h3>
-            </div>
-            <div class="panel-body">
-                <div class="well condition well-sm" ng-repeat="condition in sysChar.conditions">
-                    <button type="button" class="close" ng-click="removeCond(condition)">×</button>
-                    <h4>{{ condition.effect }}</h4>
-                    <span class="text-muted">{{ condition.duration }}</span>
-                </div>
-            </div>
-        </div>
+        <conditions></conditions>
     </div>
+    <div class="middle-column">
+        <div id="charDetails" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-right">
 
-    <div class="right-sidebar">
-        <div ng-include="'/systems/dnd4e/partials/hitpoints.html'" ng-controller="HitpointsCtrl"></div>
-        <tabset>
-            <div class="pull-right">
-                <button class="btn btn-default btn-sm" title="Expand All" ng-click="expandAll()"><i class="icon-chevron-down"></i></button>
-                <button class="btn btn-default btn-sm" title="Collapse All" ng-click="collapseAll()"><i class="icon-chevron-up"></i></button>
+                        <!-- Money Dropdown -->
+                        <div class="btn-group">
+                            <a class="btn dropdown-toggle btn-default" data-toggle="dropdown" href="#">
+                                <i class="icon-dollar"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <form>
+                                        <label for="copper">Copper</label>
+                                        <input id="copper" type="number" class="value form-control" ng-model="sysChar.copper" ng-click="$event.stopPropagation()">
+                                        <label for="silver">Silver</label>
+                                        <input id="silver" type="number" class="value form-control" ng-model="sysChar.silver" ng-click="$event.stopPropagation()">
+                                        <label for="gold">Gold</label>
+                                        <input id="gold" type="number" class="value form-control" ng-model="sysChar.gold" ng-click="$event.stopPropagation()">
+                                        <label for="plat">Platinum</label>
+                                        <input id="plat" type="number" class="value form-control" ng-model="sysChar.platinum" ng-click="$event.stopPropagation()">
+                                        <h4>Total: <span style="font-weight: normal">{{ sysChar.platinum * 10 + sysChar.gold + sysChar.silver / 10 + sysChar.copper / 100 }} gp</span></h4>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Add Dropdown -->
+                        <!--button class="btn btn-primary" ng-click="addSkill()"><i class="icon-plus"></i> Add Skill</button-->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-plus"></i> Add &hellip; <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="addSkill()"><i class="icon-plus" style="font-size: .85em;"></i> Add Skill</a></li>
+                                <li><a ng-click="addPower()"><i class="icon-plus" style="font-size: .85em;"></i> Add Power</a></li>
+                                <li><a ng-click="addFeat()"><i class="icon-plus" style="font-size: .85em;"></i> Add Feat</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <h3 class="panel-title"><i class="icon-profile"></i> Character Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <input type="text" class="form-control" id="characterName" placeholder="Character Name" ng-model="character.name">
+                            <span class="help-block">Name</span>
+                        </div>
+                        <div class="form-group col-sm-2" style="width:130px;">
+                            <select class="form-control form-add-parent" id="characterClass" ng-model="sysChar.class" ng-options="class as class.name for class in classChoices track by class.name">
+                                <option value="">Pick a class...</option>
+                            </select>
+                            <i class="icon-plus icon-larger form-add" ng-click="addClass()" title="Add Class..."></i>
+                            <span class="help-block">Class</span>
+                        </div>
+                        <div class="form-group col-sm-1" style="width:50px;">
+                            <input type="text" class="form-control" id="characterLevel" placeholder="Level" ng-model="sysChar.level">
+                            <span class="help-block">Level</span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <input type="text" class="form-control" id="characterRace" placeholder="Race" ng-model="sysChar.race">
+                            <span class="help-block">Race</span>
+                        </div>
+                        <div class="form-group col-sm-1" style="min-width:90px">
+                            <select class="form-control" id="characterGender" ng-model="sysChar.gender" ng-options="gender for gender in genderChoices"></select>
+                            <span class="help-block">Gender</span>
+                        </div>
+                        <div class="form-group col-sm-1" style="min-width:90px">
+                            <select class="form-control" id="characterSize" ng-model="sysChar.size" ng-options="size for size in sizeChoices"></select>
+                            <span class="help-block">Size</span>
+                        </div>
+                        <div class="form-group col-sm-2" style="min-width:120px">
+                            <input type="text" class="form-control" id="characterDeity" placeholder="Deity" ng-model="sysChar.deity">
+                            <span class="help-block">Deity</span>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <input type="text" class="form-control" id="characterParagonPath" placeholder="Paragon Path" ng-model="sysChar.paragonPath">
+                            <span class="help-block">Paragon Path</span>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <input type="text" class="form-control" id="characterEpicDestiny" placeholder="Epic Destiny" ng-model="sysChar.epicDestiny">
+                            <span class="help-block">Epic Destiny</span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <select class="form-control" id="characterAlignment" ng-model="sysChar.alignment" ng-options="alignment for alignment in alignmentChoices"></select>
+                            <span class="help-block">Alignment</span>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <input type="text" class="form-control" id="characterExperience" placeholder="XP" ng-model="sysChar.experience">
+                            <span class="help-block">XP</span>
+                        </div>
+                        <div class="form-group col-sm-1" style="width:50px;">
+                            <input type="text" class="form-control" id="characterActionPoints" placeholder="AP" ng-model="sysChar.actionPoints">
+                            <span class="help-block">Action Points</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <tab heading="Powers" select="setTab('powers')">
-                <div class="powers">
-                    <ng-include src="'/systems/dnd4e/partials/power.html'" ng-repeat="power in sysChar.powers" ng-init="powers[power._id] = powers[power._id] || true"></ng-include>
+        </div>
+        <div id="charDetails" class="col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="icon-shield"></i> Combat Statistics</h3>
                 </div>
-            </tab>
-            <tab heading="Feats" select="setTab('feats')">
-                <div class="feats">
-                    <h5 ng-if="sysChar.race.feats">Racial Feats</h5>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.race.feats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <br>
-                    <h5 ng-if="sysChar.class.classFeatures || sysChar.chosenFeatures">Class Features</h5>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.class.classFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.chosenFeatures" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <br>
-                    <h5 ng-if="sysChar.paragonPath.features">Paragon Path</h5>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.paragonPath.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <br>
-                    <h5 ng-if="sysChar.paragonPath.features">Epic Destiny</h5>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.epicDestiny.features | filter:filterByLevel" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
-                    <br>
-                    <h5 ng-if="sysChar.additionalFeats">Chosen Feats</h5>
-                    <ng-include src="'/systems/dnd4e/partials/feat.html'" ng-repeat="feat in sysChar.additionalFeats" ng-init="feats[feat.name] = feats[feat.name] || true"></ng-include>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder defense">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score clickable make-popover" placeholder="10" ng-model="sysChar.armorClass"
+                                               popover-template="/systems/dnd4e/partials/popovers/ac.html" popover-title="Armor Class" readonly>
+                                        <span class="name">Armor Class</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score clickable" placeholder="10" ng-model="sysChar.fortDef"
+                                               popover-template="/systems/dnd4e/partials/popovers/fort.html" popover-title="Fortitude Defense" readonly>
+                                        <span class="name">Fortitude</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder defense">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score clickable" placeholder="10" ng-model="sysChar.refDef"
+                                            popover-template="/systems/dnd4e/partials/popovers/ref.html" popover-title="Reflex Defense" readonly>
+                                        <span class="name">Reflex</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score clickable" placeholder="10" ng-model="sysChar.willDef"
+                                            popover-template="/systems/dnd4e/partials/popovers/will.html" popover-title="Will Defense" readonly>
+                                        <span class="name">Will</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="10" value="{{ 10 + calcSkill(getSkill('perception')) }}" readonly>
+                                        <span class="name">Passive Perception</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="10" value="{{ 10 + calcSkill(getSkill('insight')) }}" readonly>
+                                        <span class="name">Passive Insight</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score clickable" placeholder="10" ng-model="sysChar.initiative"
+                                               popover-template="/systems/dnd4e/partials/popovers/initiative.html" popover-title="Initiative" readonly>
+                                        <span class="name">Initiative</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.speed">
+                                        <span class="name">Speed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading stat-block-holder">
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="0" ng-model="sysChar.miscHitPoints">
+                                        <span class="name">Misc HP</span>
+                                    </div>
+                                    <div class="stat-block">
+                                        <input type="text" class="form-control score" placeholder="0" ng-model="sysChar.surgesPerDay">
+                                        <span class="name">Surges per Day</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hpcalc></hpcalc>
+                        </div>
+                    </div>
                 </div>
-            </tab>
-            <tab heading="Equipment" select="setTab('equipment')">
-                <h4 class="text-center">Not Implemented Yet</h4>
-            </tab>
-        </tabset>
+            </div>
+        </div>
+
+        <div class="enable-if-both" ng-include="'/systems/dnd4e/partials/attributes.html'"></div>
+        <detail-tabs attributes="true" class="disable-if-both"></detail-tabs>
     </div>
-
-    <div class="center-content">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="pull-right">
-                    <button class="btn btn-default" ng-click="openRolls()"><i class="icon-dice"></i> Rolls</button>
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle btn-default" data-toggle="dropdown" href="#">
-                            <i class="icon-dollar"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <form>
-                                    <label for="copper">Copper</label>
-                                    <input id="copper" type="number" class="value form-control" ng-model="sysChar.currency.copper" ng-click="$event.stopPropagation()">
-                                    <label for="silver">Silver</label>
-                                    <input id="silver" type="number" class="value form-control" ng-model="sysChar.currency.silver" ng-click="$event.stopPropagation()">
-                                    <label for="gold">Gold</label>
-                                    <input id="gold" type="number" class="value form-control" ng-model="sysChar.currency.gold" ng-click="$event.stopPropagation()">
-                                    <label for="plat">Platinum</label>
-                                    <input id="plat" type="number" class="value form-control" ng-model="sysChar.currency.platinum" ng-click="$event.stopPropagation()">
-                                    <h4>Total: <span style="font-weight: normal">{{ sysChar.currency.platinum * 10 + sysChar.currency.gold + sysChar.currency.silver / 10 + sysChar.currency.copper / 100 }} gp</span></h4>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    <button class="btn btn-primary btn-xs" ng-click="addChar()"><i class="icon-plus"></i> Level Up</button>
-                </div>
-                <h3 class="panel-title"><i class="icon-profile"></i> Character Details</h3>
-            </div>
-            <div class="panel-body">
-                <div class="char-details">
-                    <div class="char-detail name">
-                        <h2 class="title" editable="character.name" type="text">Character Name</h2>
-                        <p class="subtitle">Character Name</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title" editable="sysChar.level" type="text">Level</h4>
-                        <p class="subtitle">Level</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title fake-editable">{{ sysChar.class.name }}</h4>
-                        <p class="subtitle">Class</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title fake-editable">{{ sysChar.race.name }}</h4>
-                        <p class="subtitle">Race</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title">
-                            <select ng-model="pathID" ng-options="path._id as path.name for path in choices.paragonPath">
-                                <option value="">-----</option>
-                            </select>
-                        </h4>
-                        <p class="subtitle">Paragon Path</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title">
-                            <select ng-model="destinyID" ng-options="destiny._id as destiny.name for destiny in choices.epicDestiny">
-                                <option value="">-----</option>
-                            </select>
-                        </h4>
-                        <p class="subtitle">Epic Destiny</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title">
-                            <select ng-model="sysChar.alignment" ng-options="alignment for alignment in choices.alignment">
-                            </select>
-                        </h4>
-                        <p class="subtitle">Alignment</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title" editable="sysChar.deity" type="text">Deity</h4>
-                        <p class="subtitle">Deity</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title">
-                            <select ng-model="sysChar.gender" ng-options="gender for gender in choices.gender">
-                            </select>
-                        </h4>
-                        <p class="subtitle">Gender</p>
-                    </div>
-                    <div class="char-detail">
-                        <h4 class="title fake-editable">{{ sysChar.size }}</h4>
-                        <p class="subtitle">Size</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Combat Statistics</h3>
-            </div>
-            <div class="panel-body">
-                <div class="section">
-                    <div class="stat-group">
-                        <header class="group-title">Movement</header>
-                        <div class="stat">
-                            <header>Initiative</header>
-                            <span class="value">{{ sysChar.initiative }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [mod]', 'Initiative', {mod:sysChar.initiative})">Roll</button>
-                        </div>
-                        <div class="stat">
-                            <header>Speed</header>
-                            <span class="value">{{ sysChar.speed }}</span>
-                        </div>
-                    </div>
-                    <div class="stat-group">
-                        <header class="group-title">Senses</header>
-                        <div class="stat">
-                            <header>Passive Insight</header>
-                            <span class="value">{{ sysChar.passiveInsight }}</span>
-                        </div>
-                        <div class="stat">
-                            <header>Passive Perception</header>
-                            <span class="value">{{ sysChar.passivePerception }}</span>
-                        </div>
-                    </div>
-                    <div class="stat-group">
-                        <header class="group-title">Defenses</header>
-                        <div class="stat">
-                            <header>AC</header>
-                            <span class="value">{{ sysChar.ac }}</span>
-                        </div>
-                        <div class="stat">
-                            <header>Fortitude</header>
-                            <span class="value">{{ sysChar.fort }}</span>
-                        </div>
-                        <div class="stat">
-                            <header>Reflex</header>
-                            <span class="value">{{ sysChar.ref }}</span>
-                        </div>
-                        <div class="stat">
-                            <header>Will</header>
-                            <span class="value">{{ sysChar.will }}</span>
-                        </div>
-                    </div>
-                    <div class="stat-group">
-                        <header class="group-title">Misc</header>
-                        <!--div class="stat">
-                            <header>Gold</header>
-                            <input type="number" class="value xlarge" ng-model="sysChar.gold">
-                        </div-->
-                        <div class="stat">
-                            <header>XP</header>
-                            <input type="number" class="value large form-control" ng-model="sysChar.experience">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Attributes & Skills</h3>
-            </div>
-            <div class="panel-body">
-                <div class="section">
-                    <div class="stat-group attributes">
-                        <header class="group-title">Attributes</header>
-                        <div class="stat">
-                            <header>STR</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.strength">
-                            <span class="value text-muted">{{ addSign(sysChar.strengthMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [strengthMod] + [halfLevel]', 'Strength', sysChar)">Roll</button>
-                        </div>
-
-                        <div class="stat">
-                            <header>CON</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.constitution">
-                            <span class="value text-muted">{{ addSign(sysChar.constitutionMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [constitutionMod] + [halfLevel]', 'Constitution', sysChar)">Roll</button>
-                        </div>
-
-                        <div class="stat">
-                            <header>DEX</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.dexterity">
-                            <span class="value text-muted">{{ addSign(sysChar.dexterityMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [dexterityMod] + [halfLevel]', 'Dexterity', sysChar)">Roll</button>
-                        </div>
-
-                        <div class="stat">
-                            <header>INT</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.intelligence">
-                            <span class="value text-muted">{{ addSign(sysChar.intelligenceMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [intelligenceMod] + [halfLevel]', 'Intelligence', sysChar)">Roll</button>
-                        </div>
-
-                        <div class="stat">
-                            <header>WIS</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.wisdom">
-                            <span class="value text-muted">{{ addSign(sysChar.wisdomMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [wisdomMod] + [halfLevel]', 'Wisdom', sysChar)">Roll</button>
-                        </div>
-
-                        <div class="stat">
-                            <header>CHA</header>
-                            <input type="number" class="value form-control" ng-model="sysChar.charisma">
-                            <span class="value text-muted">{{ addSign(sysChar.charismaMod) }}</span>
-                            <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [charismaMod] + [halfLevel]', 'Charisma', sysChar)">Roll</button>
-                        </div>
-                    </div>
-
-                    <div class="stat-group skills">
-                        <header class="group-title">Skills</header>
-                        <div class="columns">
-                            <div class="stat" ng-repeat="skill in sysChar.skills">
-                                <header>{{ skill.name|capitalize }} <i ng-if="skill.trained" class="icon-star icon-tiny" title="Trained"></i></header>
-                                <span class="value">{{ skill.total }}</span>
-                                <button class="btn btn-default btn-xs" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:skill.total})">Roll</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button class="btn btn-primary pull-right" ng-click="addAttack()"><i class="icon-plus"></i> Add Attack</button>
-                <h3 class="panel-title"><i class="icon-plus"></i> Add Attack</h3>
-            </div>
-            <div class="panel-body">
-                <div class="attacks">
-                    <div class="well attack well-sm" ng-repeat="attack in sysChar.attacks">
-                        <button type="button" class="close" ng-click="removeAttack(attack)">×</button>
-                        <button type="button" class="close edit" ng-click="editAttack(attack)"><i class="icon-pencil"></i></button>
-                        <h4>{{ attack.name }}</h4>
-                        <div class="mini-section">
-                            <div popover-placement="top" popover="{{ attack.toHit[0].roll }}" popover-trigger="mouseenter">
-                                <b>Attack:</b>
-                                <span>+{{ calcRollDisplay(attack.toHit[0].roll, buildRollContext(attack.toHit[0].context)) }}</span>
-                            </div>
-                            <div class="input-append">
-                                <input class="bonus-input form-control" type="text" placeholder="Misc. Bonus" title="Conditional Bonus to the roll" ng-model="atks[attack._id].atk_misc" ng-init="atks[attack._id] = {}">
-                                <button class="btn btn-default" type="button" ng-click="rollDice(buildRollText(attack.toHit[0].roll, atks[attack._id].atk_misc), attack.toHit[0].name, buildRollContext(attack.toHit[0].context))">Roll</button>
-                            </div>
-                        </div>
-                        <div class="mini-section">
-                            <div popover-placement="top" popover="{{ attack.damage[0].roll }}" popover-trigger="mouseenter">
-                                <b>Damage:</b>
-                                <span>+{{ calcRollDamage(attack.damage[0].roll,  buildRollContext(attack.damage[0].context)) }}</span>
-                            </div>
-                            <div class="input-append">
-                                <input class="bonus-input form-control" type="text" placeholder="Misc. Bonus" title="Conditional Bonus to the roll" ng-model="atks[attack._id].dmg_misc" ng-init="atks[attack._id] = {}">
-                                <button class="btn btn-default" type="button" ng-click="rollDice(buildRollText(attack.damage[0].roll, atks[attack._id].dmg_misc), attack.damage[0].name, buildRollContext(attack.damage[0].context))">Roll</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="right-column">
+        <conditions class="disable-if-left block"></conditions>
+        <detail-tabs></detail-tabs>
     </div>
-
-    <div class="bottom">&nbsp;</div>
 </div>

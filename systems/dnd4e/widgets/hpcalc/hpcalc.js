@@ -147,7 +147,7 @@ module.controller('HPCalcCtrl', function($scope)
 module.directive('hpcalc', function() {
     return {
         restrict: 'E',
-		templateUrl: '/systems/dnd4e_simp/widgets/hpcalc/hpcalc.html',
+		templateUrl: '/systems/dnd4e/widgets/hpcalc/hpcalc.html',
         controller: 'HPCalcCtrl'
     }
 });

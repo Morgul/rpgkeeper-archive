@@ -59,7 +59,7 @@ module.directive('detailTabs', function() {
     return {
         restrict: 'E',
         scope: true,
-		templateUrl: '/systems/dnd4e_simp/widgets/detail-tabs/detail-tabs.html',
+		templateUrl: '/systems/dnd4e/widgets/detail-tabs/detail-tabs.html',
         controller: 'DetailTabsCtrl'
     }
 });
