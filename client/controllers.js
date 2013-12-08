@@ -172,7 +172,7 @@
                     $scope.$apply(function()
                     {
                         // We didn't find a character by that name.
-                        $scope.char_template = '/client/partials/notfound.html';
+                        $scope.char_template = '/partials/notfound.html';
                     });
                 }
                 else
@@ -237,7 +237,7 @@
                 {
                     // Update the list of characters.
                     $scope.socket.emit("list_characters");
-                    $location.path("/character/" + character._id);
+                    $location.path("/character/" + character.$id);
                 } // end if
             });
 

@@ -17,28 +17,30 @@ var async = require('async');
 //----------------------------------------------------------------------------------------------------------------------
 
 // Create the system entry in the database
-baseModels.db.once('open', function()
+baseModels.System.findOne({ shortname: "dnd4e_simp"}, function(error, system)
 {
-    baseModels.System.findOne({ shortname: "dnd4e_simp"}, function(error, system)
+    if(!system)
     {
-        if(!system)
-        {
-            // Create new system
-            var system = new baseModels.System({
-                name: "Simple DnD4e",
-                shortname: "dnd4e_simp",
-                description: "A simplified version of the dnd4e backend."
-            });
+        // Create new system
+        var system = new baseModels.System({
+            name: "Dungeons and Dragons 4th Edition",
+            shortname: "dnd4e_simp",
+            description: "The DUNGEONS & DRAGONS game is a roleplaying game. In fact, D&D invented the roleplaying game and started an industry.\n\n" +
+                "A roleplaying game is a storytelling game that has elements of the games of make-believe that many of us played as children. However, a roleplaying game such as D&D provides form and structure, with robust gameplay and endless possibilities.\n\n" +
+                "D&D is a fantasy-adventure game. You create a character, team up with other characters (your friends), explore a world, and battle monsters. While the D&D game uses dice and miniatures, the action takes place in your imagination. There, you have the freedom to create anything you can imagine, with an unlimited special effects budget and the technology to make anything happen.\n\n" +
+                "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
+        });
 
-            system.save(function(error)
+        system.save(function(error)
+        {
+            console.log('sup?');
+
+            if(error)
             {
-                if(error)
-                {
-                    console.error('Error saving:', error.toString());
-                }
-            });
-        } // end if
-    });
+                console.error('Error saving:', error.toString());
+            } // end if
+        });
+    } // end if
 });
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -127,7 +129,7 @@ app.channel('/dnd4e_simp').on('connection', function (socket)
         var newChar = false;
 
         // Look up the character here.
-        models.Character.findOne({baseChar: charID}, function(err, character)
+        models.Character.findOne({ baseChar: charID }, function(err, character)
         {
             if(err)
             {

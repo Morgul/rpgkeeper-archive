@@ -12,7 +12,9 @@
         <div class="form-group">
             <label class="control-label" for="system">System</label>
             <div class="controls">
-                <select class="form-control" id="system" ng-model="newchar.system" required="" ng-options="system._id as system.name for system in systems"></select>
+                <select class="form-control" id="system" ng-model="newchar.system" required="" ng-options="system.shortname as system.name for system in systems">
+                    <option value="">Please Select a System...</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
