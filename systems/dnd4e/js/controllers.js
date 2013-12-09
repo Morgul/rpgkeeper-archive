@@ -599,8 +599,11 @@ module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
         }
         else
         {
-            // Split the keywords field
-            $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
+            if($scope.newPower.keywords)
+            {
+                // Split the keywords field
+                $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
+            } // end if
         } // end if
 
         // Store whether or not this should be added globally.
