@@ -7720,6 +7720,14 @@ td.visible-print {
   opacity: 0.98;
   margin-bottom: 5px;
 }
+/*
+.elastic:focus {
+    -webkit-transition: height 50ms ease-in-out;
+    -moz-transition: height 50ms ease-in-out;
+    -o-transition: height 50ms ease-in-out;
+    transition: height 50ms ease-in-out;
+}
+*/
 .main-container {
   padding: 0 15px;
 }
@@ -15442,6 +15450,14 @@ td.visible-print {
   opacity: 0.98;
   margin-bottom: 5px;
 }
+/*
+.elastic:focus {
+    -webkit-transition: height 50ms ease-in-out;
+    -moz-transition: height 50ms ease-in-out;
+    -o-transition: height 50ms ease-in-out;
+    transition: height 50ms ease-in-out;
+}
+*/
 .main-container {
   padding: 0 15px;
 }
