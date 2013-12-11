@@ -182,7 +182,7 @@ module.exports = ns.define({
         // Calculate Reflex Defense
         refDef: fields.Property(function()
         {
-            var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
+            var abilityMod = Math.max(this.abilityMod('reflex'), this.abilityMod('intelligence'));
             return 10 + this.halfLevel + abilityMod + this.refClassBonus + this.refShieldBonus + this.refEnh + this.refMisc;
         }),
         refClassBonus: fields.Integer({ default: 0, min: 0 }),

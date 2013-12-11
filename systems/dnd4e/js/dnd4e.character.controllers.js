@@ -52,7 +52,8 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
     $scope.calcRefDef = function()
     {
-        var abilityMod = Math.max($scope.calcAbilityMod('strength'), $scope.calcAbilityMod('constitution'));
+        var abilityMod = Math.max($scope.calcAbilityMod('reflex'), $scope.calcAbilityMod('intelligence'));
+
         return 10 + character.halfLevel + abilityMod + parseInt(character.refClassBonus || 0) + parseInt(character.refShieldBonus || 0) + parseInt(character.refEnh || 0) + parseInt(character.refMisc || 0);
     };
 
