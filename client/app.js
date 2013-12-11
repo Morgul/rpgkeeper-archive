@@ -110,10 +110,13 @@ window.app = angular.module("rpgkeeper", [
                 return $sce.trustAsHtml($rootScope.markdownCache[hash]);
             } // end if
 
-            //var converter = new Showdown.converter({ extensions: 'table' });
-            //var converter = new Showdown.converter();
-            //var mdown = converter.makeHtml(text);
             mdown = marked(text);
+
+            // Support first-line breaks
+            if(text[0] == '\n' || text[0] =='\r')
+            {
+                mdown  = '<br>' + mdown;
+            } // end if
 
             $rootScope.markdownCache[hash] = mdown;
 
