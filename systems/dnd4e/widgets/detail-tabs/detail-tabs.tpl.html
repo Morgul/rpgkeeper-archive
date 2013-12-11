@@ -29,10 +29,10 @@
                     </div>
                     <div class="sections">
                         <div class="section" ng-repeat="section in powerRef.power.sections">
-                            <b>{{ section.title }}:</b> <span ng-bind-html-unsafe="section.content | markdown"></span>
+                            <b>{{ section.title }}:</b> <span ng-bind-html="section.content | markdown"></span>
                         </div>
                         <div class="section notes" ng-if="powerRef.notes">
-                            <b>Notes:</b> <span ng-bind-html-unsafe="powerRef.notes | markdown"></span>
+                            <b>Notes:</b> <span ng-bind-html="powerRef.notes | markdown"></span>
                         </div>
                     </div>
                     <div  ng-if="powerRef.rolls" class="rolls">
@@ -58,16 +58,16 @@
                 </h4>
                 <div collapse="collapse['feat-' + $index]">
                     <div class="section prerequisites" ng-if="featRef.feat.prerequisites">
-                        <b>Prerequisites:</b> <span ng-bind-html-unsafe="featRef.feat.prerequisites | markdown"></span>
+                        <b>Prerequisites:</b> <span ng-bind-html="featRef.feat.prerequisites | markdown"></span>
                     </div>
                     <div class="section description" ng-if="featRef.feat.description">
-                        <b>Description:</b> <span ng-bind-html-unsafe="featRef.feat.description | markdown"></span>
+                        <b>Description:</b> <span ng-bind-html="featRef.feat.description | markdown"></span>
                     </div>
                     <div class="section special" ng-if="featRef.feat.special">
-                        <b>Special:</b> <span ng-bind-html-unsafe="featRef.feat.special | markdown"></span>
+                        <b>Special:</b> <span ng-bind-html="featRef.feat.special | markdown"></span>
                     </div>
                     <div class="section notes" ng-if="featRef.notes">
-                        <b>Notes:</b> <span ng-bind-html-unsafe="featRef.notes | markdown"></span>
+                        <b>Notes:</b> <span ng-bind-html="featRef.notes | markdown"></span>
                     </div>
                 </div>
             </div>

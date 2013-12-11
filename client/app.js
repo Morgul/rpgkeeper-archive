@@ -5,9 +5,10 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 window.app = angular.module("rpgkeeper", [
+        'ngRoute',
         'ngResource',
         'ui.bootstrap',
-        'editables',
+        //'editables',
         'rpgkeeper.controllers',
         'rpgkeeper.directives',
         'rpgkeeper.client.templates',
@@ -82,7 +83,7 @@ window.app = angular.module("rpgkeeper", [
 
             return '';
         }; // end capitalize
-    }).filter('markdown', function($rootScope)
+    }).filter('markdown', function($rootScope, $sce)
     {
         if(!$rootScope.markdownCache)
         {
@@ -96,7 +97,7 @@ window.app = angular.module("rpgkeeper", [
 
             if(hash in $rootScope.markdownCache)
             {
-                return $rootScope.markdownCache[hash];
+                return $sce.trustAsHtml($rootScope.markdownCache[hash]);
             } // end if
 
             //var converter = new Showdown.converter({ extensions: 'table' });
@@ -105,7 +106,7 @@ window.app = angular.module("rpgkeeper", [
 
             $rootScope.markdownCache[hash] = mdown;
 
-            return mdown;
+            return $sce.trustAsHtml(mdown);
         }; // end markdown
     }).filter('reverse', function() {
         return function(items) {
