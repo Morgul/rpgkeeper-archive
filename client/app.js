@@ -110,13 +110,13 @@ window.app = angular.module("rpgkeeper", [
                 return $sce.trustAsHtml($rootScope.markdownCache[hash]);
             } // end if
 
-            mdown = marked(text);
+            var mdown = marked(text);
 
-            // Support first-line breaks
-            if(text[0] == '\n' || text[0] =='\r')
+            // Support leading newlines.
+            text.replace(/^(\r?\n)+/, function(match)
             {
-                mdown  = '<br>' + mdown;
-            } // end if
+                mdown = match.split(/\r?\n/).join("<br>") + mdown;
+            });
 
             $rootScope.markdownCache[hash] = mdown;
 
