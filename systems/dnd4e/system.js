@@ -207,7 +207,7 @@ app.channel('/dnd4e').on('connection', function (socket)
                 if(error)
                 {
                     //console.error('Error while saving:', error);
-                    callback({ type:'error', message: 'Encountered error while saving: ' + error.toString() });
+                    callback({ type:'danger', message: 'Encountered error while saving: ' + error.toString() });
                 }
                 else
                 {

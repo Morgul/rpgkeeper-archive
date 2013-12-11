@@ -185,23 +185,6 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end addSkill
 
-    //------------------------------------------------------------------------------------------------------------------
-    // Skills
-    //------------------------------------------------------------------------------------------------------------------
-
-    $scope.calcAbilityMod = function(abilityScore)
-    {
-        abilityScore = abilityScore || 0;
-        return Math.floor((abilityScore - 10) / 2);
-    };
-
-    $scope.calcSkill = function(skill)
-    {
-        var character = $scope.sysChar;
-        return character.halfLevel + character[skill.ability + 'Mod'] +
-                + (skill.trained ? 5 : 0) + parseInt(skill.racial) + parseInt(skill.misc) - parseInt(skill.armorPenalty);
-    };
-
     $scope.getSkill = function(name)
     {
         return _.find($scope.sysChar.skills, { name: name });
