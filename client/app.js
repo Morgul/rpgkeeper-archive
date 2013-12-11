@@ -26,6 +26,17 @@ window.app = angular.module("rpgkeeper", [
     }])
     .run(function($rootScope, $location)
     {
+        // Configure marked parser
+        marked.setOptions({
+            gfm: true,
+            tables: true,
+            breaks: true,
+            pedantic: false,
+            sanitize: true,
+            smartLists: true,
+            smartypants: false
+        });
+
         $rootScope.hash = function(s)
         {
             return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
@@ -100,8 +111,9 @@ window.app = angular.module("rpgkeeper", [
             } // end if
 
             //var converter = new Showdown.converter({ extensions: 'table' });
-            var converter = new Showdown.converter();
-            var mdown = converter.makeHtml(text);
+            //var converter = new Showdown.converter();
+            //var mdown = converter.makeHtml(text);
+            mdown = marked(text);
 
             $rootScope.markdownCache[hash] = mdown;
 
