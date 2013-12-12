@@ -163,9 +163,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 
     $scope.addClass = function() {
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             templateUrl: '/systems/dnd4e/partials/modals/addclass.html',
             controller: 'AddClassModalCtrl'
         };
@@ -226,9 +225,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 
     $scope.addSkill = function() {
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             templateUrl: '/systems/dnd4e/partials/modals/addskill.html',
             controller: 'AddSkillModalCtrl'
         };
@@ -254,9 +252,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 
     $scope.addFeat = function() {
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             windowClass: "wide",
             templateUrl: '/systems/dnd4e/partials/modals/addfeat.html',
             controller: 'AddFeatModalCtrl'
@@ -281,9 +278,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         event.stopPropagation();
 
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             windowClass: "wide",
             resolve: { featRef: function(){ return featRef } },
             templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
@@ -326,9 +322,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 
     $scope.addPower = function() {
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             windowClass: "wide",
             templateUrl: '/systems/dnd4e/partials/modals/addpower.html',
             controller: 'AddPowerModalCtrl'
@@ -353,9 +348,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         event.stopPropagation();
 
         var opts = {
-            backdrop: true,
+            backdrop: 'static',
             keyboard: true,
-            backdropClick: true,
             windowClass: "wide",
             resolve: { powerRef: function(){ return powerRef } },
             templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
