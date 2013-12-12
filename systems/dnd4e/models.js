@@ -157,12 +157,14 @@ module.exports = ns.define({
         //-----------------------------------------------------------
 
         // Calculate Armor Class
+        /*
         armorClass: fields.Property(function()
         {
             // This lets the UI use 'none' for the case where you don't get your armor bonus
             var abilityMod = this.armorAbility != 'none' ? this.abilityMod(this.armorAbility) : 0;
             return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorEnh + this.armorMisc;
         }),
+        */
         armorAbility: fields.Choice({ choices: ['none'].concat(abilities), default: 'none' }),
         armorBonus: fields.Integer({ default: 0, min: 0 }),
         armorShieldBonus: fields.Integer({ default: 0, min: 0 }),
