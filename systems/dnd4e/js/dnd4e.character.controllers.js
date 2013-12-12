@@ -29,7 +29,7 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
     $scope.calcInitiative = function()
     {
-        return character.halfLevel + character.dexterityMod + character.initiativeMisc + character.initiativeFeat;
+        return character.halfLevel + character.dexterityMod + parseInt(character.initiativeMisc || 0) + parseInt(character.initiativeFeat || 0);
     };
 
     //------------------------------------------------------------------------------------------------------------------
@@ -53,7 +53,6 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
     $scope.calcRefDef = function()
     {
         var abilityMod = Math.max($scope.calcAbilityMod('dexterity'), $scope.calcAbilityMod('intelligence'));
-
         return 10 + character.halfLevel + abilityMod + parseInt(character.refClassBonus || 0) + parseInt(character.refShieldBonus || 0) + parseInt(character.refEnh || 0) + parseInt(character.refMisc || 0);
     };
 
