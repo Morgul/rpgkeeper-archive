@@ -29,7 +29,7 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
     $scope.calcInitiative = function()
     {
-        return character.halfLevel + character.dexterityMod + parseInt(character.initiativeMisc || 0) + parseInt(character.initiativeFeat || 0);
+        return character.halfLevel + $scope.calcAbilityMod('dexterity') + parseInt(character.initiativeMisc || 0) + parseInt(character.initiativeFeat || 0);
     };
 
     //------------------------------------------------------------------------------------------------------------------
