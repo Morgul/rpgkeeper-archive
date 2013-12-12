@@ -22,6 +22,21 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
         return "icon-check-empty";
     };
 
+    $scope.sortPowerType = function(powerRef)
+    {
+        switch(powerRef.power.type)
+        {
+            case 'At-Will':
+                return 0;
+            case 'Encounter':
+                return 1;
+            case 'Daily':
+                return 2;
+            default:
+                return 999;
+        } // end switch
+    };
+
     $scope.handleUse = function(powerRef, index, event)
     {
         event.stopPropagation();

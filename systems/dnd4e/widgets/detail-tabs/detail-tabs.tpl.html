@@ -4,7 +4,7 @@
     </tab>
     <tab heading="Powers" select="setTab('powers')">
         <div class="powers">
-            <div class="power" ng-repeat="powerRef in sysChar.powers | orderBy: ['power.type', 'power.kind', 'power.level', 'power.name']" ng-init="collapse['power-' + $index] = true">
+            <div class="power" ng-repeat="powerRef in sysChar.powers | orderBy: [sortPowerType, 'power.kind', 'power.level', 'power.name']" ng-init="collapse['power-' + $index] = true">
                 <h4 class="title {{ powerRef.power.type.toLowerCase() }}" ng-click="collapse['power-' + $index] = !collapse['power-' + $index]">
                     <span  ng-repeat="i in range(powerRef.maxUses) track by $index">
                         <i title="Indicates if a power has been used." ng-if="powerRef.power.type != 'At-Will'" class="{{ getUseIcon(powerRef, $index) }}" ng-click="handleUse(powerRef, $index, $event)"></i>
