@@ -198,12 +198,8 @@ app.channel('/dnd4e').on('connection', function (socket)
                 return callback({ type: 'danger', message: 'Failed to find character.'});
             } // end if
 
-            console.log('notes:', update.notes);
-
             // Update the character
             _.assign(character, update);
-
-            console.log('notes 2:', character.notes);
 
             // Save the character
             character.save(function(error)
@@ -218,7 +214,6 @@ app.channel('/dnd4e').on('connection', function (socket)
                     // Populate the character
                     character.populate(true, function(error, character)
                     {
-                        console.log('notes 3:', character.notes);
                         callback(error, character);
                     });
                 } // end if
