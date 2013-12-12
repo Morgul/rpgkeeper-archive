@@ -96,6 +96,7 @@ module.exports = ns.define({
         skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
         powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
         feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
+        notes: fields.String({ default: "" }),
 
         //-----------------------------------------------------------
         // Biographic Info

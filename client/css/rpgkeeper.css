@@ -15624,6 +15624,9 @@ td.visible-print {
   top: 2px;
   margin-bottom: 0;
 }
+#notes {
+  margin-top: 5px;
+}
 
 #SimpleChar .truncate {
   display: none;

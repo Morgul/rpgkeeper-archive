@@ -8,6 +8,9 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
 
+    // Default so that watches get made.
+    $scope.sysChar.notes = $scope.sysChar.notes || "";
+
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.$root.genderChoices = [
         "Female",
@@ -81,10 +84,20 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     {
         if(key && skipFields.indexOf(key) == -1)
         {
+            if(key == 'notes')
+            {
+                console.log('notes!');
+            }
+
             $scope.$watch('sysChar[\'' + key + '\']', function(newProp, oldProp)
             {
                 if(oldProp != undefined && oldProp != newProp)
                 {
+                    if(key=='notes')
+                    {
+                        console.log('updating notes!', newProp);
+                    }
+
                     // TODO: pass the key that was modified into the update function, for even more better performance
                     doUpdate($scope, 'updateChar', function()
                     {
