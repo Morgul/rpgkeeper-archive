@@ -1,14 +1,14 @@
 {
   "name": "rpgkeeper",
-  "version": "0.0.0",
+  "version": "1.9.1",
   "description": "A website for managing your digital character sheets.",
   "main": "server.js",
   "dependencies": {
     "omega-wf": "latest",
     "passport-persona": "latest",
-    "mongoose": "latest",
     "lodash": "latest",
-    "omega-models": "git+https://github.com/Morgul/omega-models.git"
+    "omega-models": "git+https://github.com/Morgul/omega-models.git",
+    "async": "~0.2.9"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
