@@ -15748,6 +15748,24 @@ td.visible-print {
   padding: 7px 10px;
 }
 
+.detail-tabs .power table,
+.detail-tabs .feat table {
+  width: 100%;
+  margin-top: 5px;
+}
+.detail-tabs .power table thead,
+.detail-tabs .feat table thead {
+  background-color: #ddd;
+}
+.detail-tabs .power table th,
+.detail-tabs .feat table th {
+  text-align: center;
+  padding: 2px 5px;
+}
+.detail-tabs .power table td,
+.detail-tabs .feat table td {
+  text-align: center;
+}
 .detail-tabs .power .gradient {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
