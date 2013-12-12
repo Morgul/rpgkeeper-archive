@@ -21,8 +21,13 @@ and I want to implement features, not tests.
 
 ## Running
 
-Install node, checkout the code, do `npm install` and then `npm start`. Oh, you will want to have MongoDB running, and
-will most likely want to import the json files in `/db/`.
+1) Install node 10.X
+2) Checkout the code.
+3) `npm install`
+4) `npm install -g grunt-cli`
+5) `grunt watch`
+
+That should be it!
 
 ## Contributions
 
