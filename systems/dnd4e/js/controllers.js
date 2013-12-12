@@ -84,20 +84,10 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     {
         if(key && skipFields.indexOf(key) == -1)
         {
-            if(key == 'notes')
-            {
-                console.log('notes!');
-            }
-
             $scope.$watch('sysChar[\'' + key + '\']', function(newProp, oldProp)
             {
                 if(oldProp != undefined && oldProp != newProp)
                 {
-                    if(key=='notes')
-                    {
-                        console.log('updating notes!', newProp);
-                    }
-
                     // TODO: pass the key that was modified into the update function, for even more better performance
                     doUpdate($scope, 'updateChar', function()
                     {
