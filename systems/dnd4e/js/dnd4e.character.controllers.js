@@ -6,8 +6,6 @@
 
 module.controller("Dnd4eCharacterCtrl", function($scope)
 {
-    var character = $scope.sysChar;
-
     //------------------------------------------------------------------------------------------------------------------
     // Abilities
     //------------------------------------------------------------------------------------------------------------------
@@ -16,7 +14,7 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
     {
         if(typeof abilityScore == 'string')
         {
-            abilityScore = character[abilityScore];
+            abilityScore = $scope.sysChar[abilityScore];
         } // end if
 
         abilityScore = abilityScore || 0;
@@ -29,7 +27,7 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
     $scope.calcInitiative = function()
     {
-        return character.halfLevel + $scope.calcAbilityMod('dexterity') + parseInt(character.initiativeMisc || 0) + parseInt(character.initiativeFeat || 0);
+        return $scope.sysChar.halfLevel + $scope.calcAbilityMod('dexterity') + parseInt($scope.sysChar.initiativeMisc || 0) + parseInt($scope.sysChar.initiativeFeat || 0);
     };
 
     //------------------------------------------------------------------------------------------------------------------
@@ -39,27 +37,27 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
     $scope.calcArmorClass = function()
     {
         // This lets the UI use 'none' for the case where you don't get your armor bonus
-        var abilityMod = character.armorAbility != 'none' ? $scope.calcAbilityMod(character.armorAbility) : 0;
+        var abilityMod = $scope.sysChar.armorAbility != 'none' ? $scope.calcAbilityMod($scope.sysChar.armorAbility) : 0;
 
-        return 10 + character.halfLevel + abilityMod + parseInt(character.armorBonus || 0) + parseInt(character.armorShieldBonus || 0) + parseInt(character.armorEnh || 0) + parseInt(character.armorMisc || 0);
+        return 10 + $scope.sysChar.halfLevel + abilityMod + parseInt($scope.sysChar.armorBonus || 0) + parseInt($scope.sysChar.armorShieldBonus || 0) + parseInt($scope.sysChar.armorEnh || 0) + parseInt($scope.sysChar.armorMisc || 0);
     };
 
     $scope.calcFortDef = function()
     {
         var abilityMod = Math.max($scope.calcAbilityMod('strength'), $scope.calcAbilityMod('constitution'));
-        return 10 + character.halfLevel + abilityMod + parseInt(character.fortClassBonus || 0) + parseInt(character.fortEnh || 0) + parseInt(character.fortMisc || 0);
+        return 10 + $scope.sysChar.halfLevel + abilityMod + parseInt($scope.sysChar.fortClassBonus || 0) + parseInt($scope.sysChar.fortEnh || 0) + parseInt($scope.sysChar.fortMisc || 0);
     };
 
     $scope.calcRefDef = function()
     {
         var abilityMod = Math.max($scope.calcAbilityMod('dexterity'), $scope.calcAbilityMod('intelligence'));
-        return 10 + character.halfLevel + abilityMod + parseInt(character.refClassBonus || 0) + parseInt(character.refShieldBonus || 0) + parseInt(character.refEnh || 0) + parseInt(character.refMisc || 0);
+        return 10 + $scope.sysChar.halfLevel + abilityMod + parseInt($scope.sysChar.refClassBonus || 0) + parseInt($scope.sysChar.refShieldBonus || 0) + parseInt($scope.sysChar.refEnh || 0) + parseInt($scope.sysChar.refMisc || 0);
     };
 
     $scope.calcWillDef = function()
     {
         var abilityMod = Math.max($scope.calcAbilityMod('wisdom'), $scope.calcAbilityMod('charisma'));
-        return 10 + character.halfLevel + abilityMod + parseInt(character.willClassBonus || 0) + parseInt(character.willEnh || 0) + parseInt(character.willMisc || 0);
+        return 10 + $scope.sysChar.halfLevel + abilityMod + parseInt($scope.sysChar.willClassBonus || 0) + parseInt($scope.sysChar.willEnh || 0) + parseInt($scope.sysChar.willMisc || 0);
     };
 
     //------------------------------------------------------------------------------------------------------------------
@@ -68,7 +66,7 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
     $scope.calcSkill = function(skill)
     {
-        return character.halfLevel + character[skill.ability + 'Mod'] +
+        return $scope.sysChar.halfLevel + $scope.sysChar[skill.ability + 'Mod'] +
             + (skill.trained ? 5 : 0) + parseInt(skill.racial || 0) + parseInt(skill.misc || 0) - parseInt(skill.armorPenalty || 0);
     };
 

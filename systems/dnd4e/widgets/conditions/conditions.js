@@ -24,7 +24,7 @@ module.controller('ConditionsCtrl', function($scope, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        $scope.charCtrl.$scope.sysChar = character;
+                        $scope.pageCtrl.$scope.sysChar = character;
                     });
                 });
             } // end if
@@ -37,7 +37,7 @@ module.controller('ConditionsCtrl', function($scope, $modal)
         {
             $scope.$apply(function()
             {
-                $scope.charCtrl.$scope.sysChar = character;
+                $scope.pageCtrl.$scope.sysChar = character;
             });
         });
     }; // end removeCondition
