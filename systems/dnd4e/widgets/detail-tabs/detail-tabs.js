@@ -24,17 +24,20 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
 
     $scope.sortPowerType = function(powerRef)
     {
-        switch(powerRef.power.type)
+        if(powerRef.power && powerRef.power.type)
         {
-            case 'At-Will':
-                return 0;
-            case 'Encounter':
-                return 1;
-            case 'Daily':
-                return 2;
-            default:
-                return 999;
-        } // end switch
+            switch(powerRef.power.type)
+            {
+                case 'At-Will':
+                    return 0;
+                case 'Encounter':
+                    return 1;
+                case 'Daily':
+                    return 2;
+                default:
+                    return 999;
+            } // end switch
+        } // end if
     };
 
     $scope.handleUse = function(powerRef, index, event)
