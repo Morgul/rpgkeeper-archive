@@ -44,7 +44,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     ];
 
     $scope.$root.powerTypes = ["At-Will", "Encounter", "Daily"];
-    $scope.$root.powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
+    $scope.$root.powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
     $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
     // Get the possible choices for class
@@ -583,6 +583,12 @@ module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
             {
                 // Split the keywords field
                 $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
+            } // end if
+
+            // Handle the case of it being 0, null, or ''; the DB needs it to be undefined in those cases.
+            if(!$scope.newPower.level)
+            {
+                $scope.newPower.level = undefined;
             } // end if
         } // end if
 

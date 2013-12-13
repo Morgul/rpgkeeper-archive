@@ -13,7 +13,7 @@ var ns = om.namespace('dnd4e').backend(new NedbBackend({baseDir: './db'}));
 
 var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"];
 var powerTypes = ["At-Will", "Encounter", "Daily"];
-var powerKinds = ["Attack", "Utility", "Class Feature", "Racial"];
+var powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
 module.exports = ns.define({
@@ -68,7 +68,7 @@ module.exports = ns.define({
     Power: {
         name: fields.String({ required: true }),
         flavor: fields.String(),
-        level: fields.Integer({ default: 1, min: 1 }),
+        level: fields.Integer(),
         type: fields.Choice({ type: fields.String(), choices: powerTypes, default: "At-Will" }),
         kind: fields.Choice({ type: fields.String(), choices: powerKinds, default: "Attack" }),
         keywords: fields.List({ type: fields.String() }),

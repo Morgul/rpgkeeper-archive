@@ -22,6 +22,41 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
         return "icon-check-empty";
     };
 
+    $scope.sortPowerLevel = function(powerRef)
+    {
+        if(powerRef.power)
+        {
+            if(!powerRef.power.level)
+            {
+                // Sort undefineds to the top.
+                return 0;
+            } // end if
+            return powerRef.power.level;
+        } // end if
+    };
+
+    $scope.sortPowerKind = function(powerRef)
+    {
+        if(powerRef.power && powerRef.power.type)
+        {
+            switch(powerRef.power.kind)
+            {
+                case 'Basic Attack':
+                    return 0;
+                case 'Attack':
+                    return 1;
+                case 'Utility':
+                    return 2;
+                case 'Class Feature':
+                    return 3;
+                case 'Racial':
+                    return 4;
+                default:
+                    return 999;
+            } // end switch
+        } // end if
+    };
+
     $scope.sortPowerType = function(powerRef)
     {
         if(powerRef.power && powerRef.power.type)
