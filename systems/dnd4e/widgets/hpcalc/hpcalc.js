@@ -125,6 +125,7 @@ module.controller('HPCalcCtrl', function($scope)
     $scope.shortRest = function()
     {
         $scope.sysChar.secondWindAvailable = true;
+        $scope.sysChar.tmpHitPoints = 0;
 
         // Inform anything else interested that an extended rest has been taken.
         $scope.$root.$broadcast('short rest');
