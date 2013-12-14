@@ -376,7 +376,8 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
     {
         if($index % 2 != 1 && $last)
         {
-            return "col-xs-12"
+            // For whatever reason, this breaks if it's not forced to float left.
+            return "col-xs-12 pull-left"
         } // end if
 
         return "col-xs-6";
