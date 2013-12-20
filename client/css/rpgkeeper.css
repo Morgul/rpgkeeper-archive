@@ -7765,6 +7765,9 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
+.btn {
+  outline: none;
+}
 
 
 /*!
@@ -15495,6 +15498,9 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
+.btn {
+  outline: none;
+}
 .pull-right .dropdown-menu {
   left: auto;
   right: 0;
@@ -16054,3 +16060,7 @@ td.visible-print {
   width: -webkit-calc(100% - 71px);
 }
 
+.tooltip-inner {
+  max-width: 500px;
+  white-space: nowrap;
+}
