@@ -7765,7 +7765,7 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
-.btn {
+.btn:focus {
   outline: none;
 }
 
@@ -15498,7 +15498,7 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
-.btn {
+.btn:focus {
   outline: none;
 }
 .pull-right .dropdown-menu {

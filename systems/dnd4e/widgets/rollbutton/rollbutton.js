@@ -9,7 +9,7 @@ module.controller('RollButtonCtrl', function($scope, $timeout)
     $scope.context = $scope.context();
     $scope.roll = $scope.roll();
     $scope.result = false;
-    $scope.btnText = $scope.title || "Roll";
+    $scope.btnText = $scope.title || $scope.roll.title || "Roll";
 
     function rollDice(roll, scope)
     {
@@ -54,7 +54,8 @@ module.directive('rollButton', function() {
         scope: {
             roll: "&",
             context: "&",
-            title: "@"
+            title: "@",
+            class: "@"
         },
 		templateUrl: '/systems/dnd4e/widgets/rollbutton/rollbutton.html',
         controller: 'RollButtonCtrl'
