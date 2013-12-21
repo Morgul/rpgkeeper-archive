@@ -22,6 +22,11 @@ module.exports = ns.define({
         duration: fields.String()
     },
 
+    Rolls: {
+        title: fields.String(),
+        roll: fields.String()
+    },
+
     //------------------------------------------------------------------------------------------------------------------
 
     Class: {
