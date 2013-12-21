@@ -539,6 +539,13 @@ module.controller('EditPowerModalCtrl', function($scope, $modalInstance, powerRe
 
     $scope.add = function()
     {
+        console.log("Power:", $scope.powerRef);
+
+        if(!$scope.powerRef.notes)
+        {
+           $scope.powerRef.notes = "";
+        } // end if
+
         $modalInstance.close($scope.powerRef);
     }; // end save
 });
