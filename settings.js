@@ -16,14 +16,6 @@ DEBUG = true;
 listenAddress = "0.0.0.0";
 listenPort = 8081;
 
-// Database creation
-databases = {
-    default: {
-        engine: 'sqlite',
-        database: './keeper.db'
-    }
-};
-
 // Use the admin section if we're in DEBUG
 useOmegaAdmin = DEBUG;
 

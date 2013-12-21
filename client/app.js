@@ -65,8 +65,6 @@ window.app = angular.module("rpgkeeper", [
 
         $rootScope.rollDice = function(roll, title, scope)
         {
-            console.log(roll, title, scope);
-
             var result = window.dice.roll(roll, scope);
             if(title)
             {

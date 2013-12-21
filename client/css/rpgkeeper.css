@@ -7765,6 +7765,9 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
+.btn:focus {
+  outline: none;
+}
 
 
 /*!
@@ -15495,6 +15498,9 @@ td.visible-print {
   background-color: #393939;
   border-color: #333333;
 }
+.btn:focus {
+  outline: none;
+}
 .pull-right .dropdown-menu {
   left: auto;
   right: 0;
@@ -16052,4 +16058,9 @@ td.visible-print {
 .hpcalc .right .btn-group .btn.surge {
   width: calc(100% - 71px);
   width: -webkit-calc(100% - 71px);
+}
+
+.tooltip-inner {
+  max-width: 500px;
+  white-space: nowrap;
 }

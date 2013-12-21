@@ -19,7 +19,8 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -46,7 +47,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -73,7 +74,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -100,7 +101,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -127,7 +128,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -154,7 +155,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <button type="submit" class="btn btn-default" ng-click="rollDice('1d20 + [mod]', (skill.name | capitalize), {mod:calcSkill(skill)})">Roll</button>
+                    <roll-button roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
