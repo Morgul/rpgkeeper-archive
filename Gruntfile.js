@@ -13,8 +13,8 @@ module.exports = function(grunt) {
 			systems: {
 				less: "systems/**/less",
                 js: "systems/**/js",
-                controllers: "<%= project.systems.js %>/*controllers*.js",
-                filters: "<%= project.systems.js %>/*filters*.js",
+                controllers: "<%= project.systems.js %>/*controller*.js",
+                filters: "<%= project.systems.js %>/*filter*.js",
                 widgets: "systems/**/widgets/**/*.js"
 			}
 		},
