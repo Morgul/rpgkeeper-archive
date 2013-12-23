@@ -260,7 +260,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addFeat
 
-    $scope.editFeat = function(featRef, event) {
+    $scope.editFeatRef = function(featRef, event) {
         event.stopPropagation();
 
         var opts = {
@@ -330,7 +330,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addPower
 
-    $scope.editPower = function(powerRef, event) {
+    $scope.editPowerRef = function(powerRef, event) {
         event.stopPropagation();
 
         var opts = {

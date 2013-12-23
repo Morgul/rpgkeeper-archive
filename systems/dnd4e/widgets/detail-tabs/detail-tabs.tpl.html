@@ -10,7 +10,7 @@
                         <i title="Indicates if a power has been used." ng-if="powerRef.power.type != 'At-Will'" class="{{ getUseIcon(powerRef, $index) }}" ng-click="handleUse(powerRef, $index, $event)"></i>
                     </span>
                     <button type="button" title="Remove this power" class="close" aria-hidden="true" ng-click="removePower(powerRef, $event)">&times;</button>
-                    <button type="button" title="Edit this power" class="close edit" aria-hidden="true" ng-click="editPower(powerRef, $event)"><i class="icon-edit"></i></button>
+                    <button type="button" title="Edit this power" class="close edit" aria-hidden="true" ng-click="editPowerRef(powerRef, $event)"><i class="icon-edit"></i></button>
                     <span class="type-level" ng-switch="powerRef.power.kind">{{ powerRef.power.kind }}<span ng-if="powerRef.power.level"> {{ powerRef.power.level }}</span></span>
                     <b>{{ powerRef.power.name }}</b>
                 </h4>
@@ -54,7 +54,7 @@
             <div class="feat" ng-repeat="featRef in sysChar.feats | orderBy: 'feat.name'" ng-init="collapse['feat-' + $index] = true">
                 <h4 class="title" ng-click="collapse['feat-' + $index] = !collapse['feat-' + $index]">
                     <button type="button" title="Remove this feat" class="close" aria-hidden="true" ng-click="removeFeat(featRef, $event)">&times;</button>
-                    <button type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeat(featRef, $event)"><i class="icon-edit"></i></button>
+                    <button type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef, $event)"><i class="icon-edit"></i></button>
                     {{ featRef.feat.name }}
                 </h4>
                 <div collapse="collapse['feat-' + $index]">
