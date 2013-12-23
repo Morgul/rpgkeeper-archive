@@ -13,8 +13,8 @@ module.exports = function(grunt) {
 			systems: {
 				less: "systems/**/less",
                 js: "systems/**/js",
-                controllers: "<%= project.systems.js %>/*controllers*.js",
-                filters: "<%= project.systems.js %>/*filters*.js",
+                controllers: "<%= project.systems.js %>/*controller*.js",
+                filters: "<%= project.systems.js %>/*filter*.js",
                 widgets: "systems/**/widgets/**/*.js"
 			}
 		},
@@ -120,5 +120,6 @@ module.exports = function(grunt) {
         grunt.file.copy('client/js/systems.widgets.tpl.js', 'client/js/systems.widgets.js', {process: grunt.template.process});
     });
 
-    grunt.registerTask('build', ['less', 'systems_js', 'html2js']);
+    // Setup the build task.
+    grunt.registerTask('build', ['controllers', 'filters', 'widgets', 'less', 'html2js']);
 };
