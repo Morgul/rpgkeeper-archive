@@ -268,7 +268,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
             keyboard: true,
             windowClass: "wide",
             resolve: { featRef: function(){ return featRef } },
-            templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
+            templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
             controller: 'EditFeatModalCtrl'
         };
 
@@ -338,7 +338,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
             keyboard: true,
             windowClass: "wide",
             resolve: { powerRef: function(){ return powerRef } },
-            templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
+            templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
             controller: 'EditPowerModalCtrl'
         };
 
