@@ -3,14 +3,14 @@
 ## General
 * ~~Fix the character detail fields so they don't auto-size, but instead have a fixed size, and just float together properly~~
 * ~~Add missing fields from the character details into the character model~~
-* Move the calculation logic from the server to the client
+* ~~Move the calculation logic from the server to the client~~
 * ~~Add support for adding/removing conditions~~
 * ~~Add support for character profile~~
 * ~~Add support for displaying choices?~~
 * ~~Hook up the passive skills~~
 * Make Character Details collapsible (and start collapsed on small screens.)
 * Add character name to nav bar
-* Get table support working in markdown support.
+* ~~Get table support working in markdown support.~~
 
 # Classes
 * ~~Need to have the ability to add classes, which will store some basic information, like HP/level and healing surges.~~

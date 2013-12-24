@@ -21,11 +21,11 @@ and I want to implement features, not tests.
 
 ## Running
 
-1) Install node 10.X
-2) Checkout the code.
-3) `npm install`
-4) `npm install -g grunt-cli`
-5) `grunt watch`
+1. Install node 10.X
+2. Checkout the code.
+3. `npm install`
+4. `npm install -g grunt-cli`
+5. `grunt watch`
 
 That should be it!
 
