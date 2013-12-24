@@ -260,6 +260,48 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addFeat
 
+    $scope.editFeat = function(feat, event) {
+        if(feat && feat.stopPropagation !== undefined)
+        {
+            event = feat;
+            feat = undefined;
+        } // end if
+
+        if(event && event.stopPropagation)
+        {
+            event.stopPropagation();
+        } // end if
+
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { feat: function(){ return angular.copy(feat) } },
+            templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
+            controller: 'EditFeatModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                console.log('result:', result);
+
+                $scope.systemSocket.emit("update feat", result, function(error, featRet)
+                {
+                    console.log('featRet:', featRet);
+
+                    $scope.$apply(function()
+                    {
+                        _.assign(feat, featRet);
+
+                        console.log('feat:', feat);
+                    });
+                });
+            } // end if
+        });
+    }; // end editFeat
+
     $scope.editFeatRef = function(featRef, event) {
         event.stopPropagation();
 
@@ -267,9 +309,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { featRef: function(){ return featRef } },
+            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $scope.editFeat; }},
             templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
-            controller: 'EditFeatModalCtrl'
+            controller: 'EditFeatRefModalCtrl'
         };
 
         $modal.open(opts).result.then(function(result)
@@ -280,12 +322,12 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        _.apply(featRef, featRefRet);
+                        _.assign(featRef, featRefRet);
                     });
                 });
             } // end if
         });
-    }; // end editFeat
+    }; // end editFeatRef
 
     $scope.removeFeat = function(featRef, event)
     {
@@ -330,6 +372,44 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addPower
 
+    $scope.editPower = function(power, event) {
+        if(power && power.stopPropagation !== undefined)
+        {
+            event = power;
+            power = undefined;
+        } // end if
+
+        if(event && event.stopPropagation)
+        {
+            event.stopPropagation();
+        } // end if
+
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { power: function(){ return angular.copy(power) } },
+            templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
+            controller: 'EditPowerModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                console.log('result:', result);
+
+                $scope.systemSocket.emit("update power", result, function(error, powerRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.assign(power, powerRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end editPower
+
     $scope.editPowerRef = function(powerRef, event) {
         event.stopPropagation();
 
@@ -337,9 +417,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { powerRef: function(){ return powerRef } },
+            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $scope.editPower; } },
             templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
-            controller: 'EditPowerModalCtrl'
+            controller: 'EditPowerRefModalCtrl'
         };
 
         $modal.open(opts).result.then(function(result)
@@ -350,12 +430,12 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        _.apply(powerRef, powerRefRet);
+                        _.assign(powerRef, powerRefRet);
                     });
                 });
             } // end if
         });
-    }; // end editPower
+    }; // end editPowerRef
 
     $scope.removePower = function(powerRef, event)
     {

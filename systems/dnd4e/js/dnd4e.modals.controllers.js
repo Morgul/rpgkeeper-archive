@@ -60,19 +60,42 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
     $scope.add = function()
     {
         $modalInstance.close($scope.newSkill);
-    }; // end save
+    }; // end add
 });
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('EditFeatModalCtrl', function($scope, $modalInstance, featRef)
+module.controller('EditFeatModalCtrl', function($scope, $modalInstance, feat)
 {
-    $scope.featRef = featRef;
+    $scope.feat = feat || $scope.featChoices[0];
 
     $scope.cancel = function()
     {
         $modalInstance.dismiss('cancel');
     }; // end close
+
+    $scope.save = function(feat)
+    {
+        $modalInstance.close(feat);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('EditFeatRefModalCtrl', function($scope, $modalInstance, featRef, editFeat)
+{
+    $scope.featRef = featRef;
+
+    $scope.edit = function(feat, event)
+    {
+        $modalInstance.dismiss('cancel');
+        editFeat(feat, event);
+    }; // end edit
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end cancel
 
     $scope.add = function()
     {
@@ -116,19 +139,40 @@ module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('EditPowerModalCtrl', function($scope, $modalInstance, powerRef)
+module.controller('EditPowerModalCtrl', function($scope, $modalInstance, power)
 {
-    $scope.powerRef = powerRef;
+    $scope.power = power || $scope.powerChoices[0];
 
     $scope.cancel = function()
     {
         $modalInstance.dismiss('cancel');
-    }; // end close
+    }; // end cancel
+
+    $scope.save = function(power)
+    {
+        $modalInstance.close(power);
+    }; // end save
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('EditPowerRefModalCtrl', function($scope, $modalInstance, powerRef, editPower)
+{
+    $scope.powerRef = powerRef;
+
+    $scope.edit = function(power, event)
+    {
+        $modalInstance.dismiss('cancel');
+        editPower(power, event);
+    }; // end edit
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end cancel
 
     $scope.add = function()
     {
-        console.log("Power:", $scope.powerRef);
-
         if(!$scope.powerRef.notes)
         {
             $scope.powerRef.notes = "";
