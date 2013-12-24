@@ -339,6 +339,19 @@ app.channel('/dnd4e').on('connection', function (socket)
         });
     });
 
+    socket.on('update class', function(dndClass, callback)
+    {
+        models.Class.findOne({ name: dndClass.name }, function(error, classInst)
+        {
+            _.assign(classInst, dndClass);
+
+            classInst.save(function()
+            {
+                callback(error, classInst);
+            })
+        });
+    });
+
     //------------------------------------------------------------------------------------------------------------------
     // Feats
     //------------------------------------------------------------------------------------------------------------------

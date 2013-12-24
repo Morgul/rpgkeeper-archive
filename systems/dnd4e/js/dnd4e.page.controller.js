@@ -185,7 +185,35 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                 });
             } // end if
         });
-    }; // end addSkill
+    }; // end addClass
+
+    $scope.editClass = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/editclass.html',
+            controller: 'EditClassModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("update class", result, function(error, classRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.assign($scope.sysChar.class, classRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end addClass
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Skills
+    //------------------------------------------------------------------------------------------------------------------
 
     $scope.getSkill = function(name)
     {

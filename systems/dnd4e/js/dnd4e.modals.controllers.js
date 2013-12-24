@@ -11,12 +11,27 @@ module.controller('AddClassModalCtrl', function($scope, $modalInstance)
     $scope.cancel = function()
     {
         $modalInstance.dismiss('cancel');
-    }; // end close
+    }; // end cancel
 
     $scope.add = function(global)
     {
         $scope.newClass.global = global;
         $modalInstance.close($scope.newClass);
+    }; // end add
+});
+
+module.controller('EditClassModalCtrl', function($scope, $modalInstance)
+{
+    $scope.class = $scope.classChoices[0];
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end cancel
+
+    $scope.save = function(dndClass)
+    {
+        $modalInstance.close(dndClass);
     }; // end save
 });
 
