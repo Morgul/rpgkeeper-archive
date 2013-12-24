@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('SimpDnD4eCtrl', function($scope, $modal)
+module.controller('DnD4ePageCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
 
@@ -185,7 +185,35 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                 });
             } // end if
         });
-    }; // end addSkill
+    }; // end addClass
+
+    $scope.editClass = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/editclass.html',
+            controller: 'EditClassModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("update class", result, function(error, classRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.assign($scope.sysChar.class, classRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end addClass
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Skills
+    //------------------------------------------------------------------------------------------------------------------
 
     $scope.getSkill = function(name)
     {
@@ -260,16 +288,58 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end addFeat
 
-    $scope.editFeat = function(featRef, event) {
+    $scope.editFeat = function(feat, event) {
+        if(feat && feat.stopPropagation !== undefined)
+        {
+            event = feat;
+            feat = undefined;
+        } // end if
+
+        if(event && event.stopPropagation)
+        {
+            event.stopPropagation();
+        } // end if
+
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { feat: function(){ return angular.copy(feat) } },
+            templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
+            controller: 'EditFeatModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                console.log('result:', result);
+
+                $scope.systemSocket.emit("update feat", result, function(error, featRet)
+                {
+                    console.log('featRet:', featRet);
+
+                    $scope.$apply(function()
+                    {
+                        _.assign(feat, featRet);
+
+                        console.log('feat:', feat);
+                    });
+                });
+            } // end if
+        });
+    }; // end editFeat
+
+    $scope.editFeatRef = function(featRef, event) {
         event.stopPropagation();
 
         var opts = {
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { featRef: function(){ return featRef } },
-            templateUrl: '/systems/dnd4e/partials/modals/editfeat.html',
-            controller: 'EditFeatModalCtrl'
+            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $scope.editFeat; }},
+            templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
+            controller: 'EditFeatRefModalCtrl'
         };
 
         $modal.open(opts).result.then(function(result)
@@ -280,12 +350,12 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        _.apply(featRef, featRefRet);
+                        _.assign(featRef, featRefRet);
                     });
                 });
             } // end if
         });
-    }; // end editFeat
+    }; // end editFeatRef
 
     $scope.removeFeat = function(featRef, event)
     {
@@ -330,16 +400,54 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
         });
     }; // end addPower
 
-    $scope.editPower = function(powerRef, event) {
+    $scope.editPower = function(power, event) {
+        if(power && power.stopPropagation !== undefined)
+        {
+            event = power;
+            power = undefined;
+        } // end if
+
+        if(event && event.stopPropagation)
+        {
+            event.stopPropagation();
+        } // end if
+
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { power: function(){ return angular.copy(power) } },
+            templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
+            controller: 'EditPowerModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                console.log('result:', result);
+
+                $scope.systemSocket.emit("update power", result, function(error, powerRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.assign(power, powerRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end editPower
+
+    $scope.editPowerRef = function(powerRef, event) {
         event.stopPropagation();
 
         var opts = {
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { powerRef: function(){ return powerRef } },
-            templateUrl: '/systems/dnd4e/partials/modals/editpower.html',
-            controller: 'EditPowerModalCtrl'
+            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $scope.editPower; } },
+            templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
+            controller: 'EditPowerRefModalCtrl'
         };
 
         $modal.open(opts).result.then(function(result)
@@ -350,12 +458,12 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        _.apply(powerRef, powerRefRet);
+                        _.assign(powerRef, powerRefRet);
                     });
                 });
             } // end if
         });
-    }; // end editPower
+    }; // end editPowerRef
 
     $scope.removePower = function(powerRef, event)
     {
@@ -412,200 +520,7 @@ module.controller('SimpDnD4eCtrl', function($scope, $modal)
             } // end success
         });
     }; // end chooseDropboxImage
-}); // end SimpDnD4eCtrl
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('AddClassModalCtrl', function($scope, $modalInstance)
-{
-    $scope.newClass = {};
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function(global)
-    {
-        $scope.newClass.global = global;
-        $modalInstance.close($scope.newClass);
-    }; // end save
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
-{
-    $scope.newSkill = {};
-    $scope.abilities = [
-        {
-            name: "Strength",
-            value: "strength"
-        },
-        {
-            name: "Constitution",
-            value: "constitution"
-        },
-        {
-            name: "Dexterity",
-            value: "dexterity"
-        },
-        {
-            name: "Intelligence",
-            value: "intelligence"
-        },
-        {
-            name: "Wisdom",
-            value: "wisdom"
-        },
-        {
-            name: "Charisma",
-            value: "charisma"
-        }
-    ];
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function()
-    {
-        $modalInstance.close($scope.newSkill);
-    }; // end save
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('EditFeatModalCtrl', function($scope, $modalInstance, featRef)
-{
-    $scope.featRef = featRef;
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function()
-    {
-        $modalInstance.close($scope.featRef);
-    }; // end save
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
-{
-    $scope.chosenFeat = "";
-    $scope.newFeat = {};
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function(chosenFeat, global)
-    {
-        // If we pick one from the list, we simply set newFeat to the one we selected
-        if(chosenFeat)
-        {
-            // Specify that we're using an existing feat
-            chosenFeat.exists = true;
-
-            // Copy over the notes object
-            chosenFeat.notes = $scope.newFeat.notes;
-
-            // Copy the feats object over newFeat
-            $scope.newFeat = chosenFeat;
-        } // end if
-
-        // Store whether or not this should be added globally.
-        $scope.newFeat.global = global;
-
-        $modalInstance.close($scope.newFeat);
-    }; // end save
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('EditPowerModalCtrl', function($scope, $modalInstance, powerRef)
-{
-    $scope.powerRef = powerRef;
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function()
-    {
-        console.log("Power:", $scope.powerRef);
-
-        if(!$scope.powerRef.notes)
-        {
-           $scope.powerRef.notes = "";
-        } // end if
-
-        $modalInstance.close($scope.powerRef);
-    }; // end save
-});
-
-//----------------------------------------------------------------------------------------------------------------------
-
-module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
-{
-    $scope.chosenPower = "";
-    $scope.newPower = {
-        sections: [{}],
-        maxUses: 1
-    };
-
-    $scope.removeSection = function(index)
-    {
-        $scope.newPower.sections.splice(index, 1);
-    }; // end removeSection
-
-    $scope.cancel = function()
-    {
-        $modalInstance.dismiss('cancel');
-    }; // end close
-
-    $scope.add = function(chosenPower, global)
-    {
-        // If we pick one from the list, we simply set newPower to the one we selected
-        if(chosenPower)
-        {
-            // Specify that we're using an existing power
-            chosenPower.exists = true;
-
-            // Copy over the notes object
-            chosenPower.notes = $scope.newPower.notes;
-            chosenPower.maxUses = $scope.newPower.maxUses;
-
-            // Copy the powers object over newPower
-            $scope.newPower = chosenPower;
-        }
-        else
-        {
-            if($scope.newPower.keywords)
-            {
-                // Split the keywords field
-                $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
-            } // end if
-
-            // Handle the case of it being 0, null, or ''; the DB needs it to be undefined in those cases.
-            if(!$scope.newPower.level)
-            {
-                $scope.newPower.level = undefined;
-            } // end if
-        } // end if
-
-        // Store whether or not this should be added globally.
-        $scope.newPower.global = global;
-
-        $modalInstance.close($scope.newPower);
-    }; // end save
-});
+}); // end DnD4ePageCtrl
 
 //----------------------------------------------------------------------------------------------------------------------
 // Helpers

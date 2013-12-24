@@ -339,6 +339,19 @@ app.channel('/dnd4e').on('connection', function (socket)
         });
     });
 
+    socket.on('update class', function(dndClass, callback)
+    {
+        models.Class.findOne({ name: dndClass.name }, function(error, classInst)
+        {
+            _.assign(classInst, dndClass);
+
+            classInst.save(function()
+            {
+                callback(error, classInst);
+            })
+        });
+    });
+
     //------------------------------------------------------------------------------------------------------------------
     // Feats
     //------------------------------------------------------------------------------------------------------------------
@@ -398,6 +411,22 @@ app.channel('/dnd4e').on('connection', function (socket)
                 addFeat(feat);
             });
         } // end if
+    });
+
+    socket.on('update feat', function(feat, callback)
+    {
+        models.Feat.findOne({ $id: feat.$id }, function(error, featInst)
+        {
+            _.assign(featInst, feat);
+
+            featInst.save(function()
+            {
+                featInst.populate(true, function(error, featInst)
+                {
+                    callback(error, featInst);
+                });
+            })
+        });
     });
 
     socket.on('update featRef', function(featRef, callback)
@@ -501,6 +530,22 @@ app.channel('/dnd4e').on('connection', function (socket)
                 addPower(power);
             });
         } // end if
+    });
+
+    socket.on('update power', function(power, callback)
+    {
+        models.Power.findOne({ $id: power.$id }, function(error, powerInst)
+        {
+            _.assign(powerInst, power);
+
+            powerInst.save(function()
+            {
+                powerInst.populate(true, function(error, powerInst)
+                {
+                    callback(error, powerInst);
+                });
+            })
+        });
     });
 
     socket.on('update powerRef', function(powerRef, callback)
