@@ -15556,6 +15556,10 @@ td.visible-print {
 .popover-inline .form-group .form-control {
   text-align: center;
 }
+#charDetails hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 #charDetails .popover {
   max-width: 400px !important;
 }
@@ -15580,6 +15584,20 @@ td.visible-print {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe8e8e8', endColorstr='#ffdbdbdb', GradientType=0);
 }
+#charDetails .defenses {
+  padding: 10px;
+}
+#charDetails .defenses label {
+  margin-top: 5px;
+  margin-bottom: 0 !important;
+}
+#charDetails .defenses label.muted {
+  color: black;
+  font-weight: normal;
+}
+#charDetails .defenses roll-button {
+  padding-top: 2px;
+}
 #charDetails .stat-block {
   display: inline-block;
   width: 49.5%;
@@ -15588,7 +15606,6 @@ td.visible-print {
   width: 45px;
   text-align: center;
   display: inline-block;
-  height: 28px;
   padding-top: 5.5px;
 }
 #charDetails .stat-block .name {

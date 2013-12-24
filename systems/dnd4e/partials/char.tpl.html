@@ -121,7 +121,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="panel panel-default">
+                                <!--div class="panel panel-default">
                                     <div class="panel-heading stat-block-holder defense">
                                         <div class="stat-block">
                                             <input type="text" class="form-control score clickable make-popover" placeholder="10" value="{{ calcArmorClass() }}"
@@ -160,19 +160,62 @@
                                             <span class="name">Passive Insight</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading stat-block-holder">
+                                </div-->
+                                <div class="panel panel-default defenses">
+                                    <!--div class="panel-heading stat-block-holder">
                                         <div class="stat-block">
                                             <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcInitiative() }}"
                                                    popover-template="/systems/dnd4e/partials/popovers/initiative.html" popover-title="Initiative" readonly>
                                             <span class="name">Initiative</span>
+                                            <roll-button class="btn-sm pull-right" roll="{ roll: '1d20 + [init]' }" context="{ init: calcInitiative() }"></roll-button>
                                         </div>
                                         <div class="stat-block">
                                             <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.speed">
                                             <span class="name">Speed</span>
                                         </div>
+                                    </div-->
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score clickable make-popover" placeholder="10" value="{{ calcArmorClass() }}"
+                                               popover-template="/systems/dnd4e/partials/popovers/ac.html" popover-title="Armor Class" readonly>
+                                        <label>Armor Class</label>
                                     </div>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcFortDef() }}"
+                                               popover-template="/systems/dnd4e/partials/popovers/fort.html" popover-title="Fortitude Defense" readonly>
+                                        <label>Fortitude</label>
+                                    </div>
+                                    <hr>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcRefDef() }}"
+                                               popover-template="/systems/dnd4e/partials/popovers/ref.html" popover-title="Reflex Defense" readonly>
+                                        <label>Reflex</label>
+                                    </div>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcWillDef() }}"
+                                               popover-template="/systems/dnd4e/partials/popovers/will.html" popover-title="Will Defense" readonly>
+                                        <label>Will</label>
+                                    </div>
+                                    <hr>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score" placeholder="10" value="{{ 10 + calcSkill(getSkill('perception')) }}" readonly>
+                                        <label class="muted">Passive Perception</label>
+                                    </div>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score" placeholder="10" value="{{ 10 + calcSkill(getSkill('insight')) }}" readonly>
+                                        <label class="muted">Passive Insight</label>
+                                    </div>
+                                    <hr>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcInitiative() }}"
+                                               popover-template="/systems/dnd4e/partials/popovers/initiative.html" popover-title="Initiative" readonly>
+                                        <label class="muted">Initiative</label>
+                                        <roll-button class="btn-sm pull-right" roll="{ roll: '1d20 + [init]' }" context="{ init: calcInitiative() }"></roll-button>
+                                    </div>
+                                    <div class="stat-block form-inline">
+                                        <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.speed">
+                                        <label class="muted">Speed</label>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
