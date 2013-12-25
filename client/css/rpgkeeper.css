@@ -15790,6 +15790,9 @@ td.visible-print {
   padding: 7px 10px;
 }
 
+.detail-tabs ul.nav.nav-tabs {
+  margin-bottom: 10px;
+}
 .detail-tabs .power table,
 .detail-tabs .feat table {
   width: 100%;
