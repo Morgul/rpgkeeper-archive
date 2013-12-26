@@ -101,12 +101,14 @@
                     <button type="button" class="btn btn-default" ng-click="removeRoll(roll)"><i class="icon-remove"></i></button>
                 </div>
                 <div ng-show="rollEdits[$index] && rollEdits[$index] != 'roll'" class="input-group">
+                    <span class="input-group-addon">Title:</span>
                     <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.title" ng-enter="startUpdateRoll($index)">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" ng-click="startUpdateRoll($index)">Next</button>
+                        <button class="btn btn-default" type="button" ng-click="startUpdateRoll($index)">Next</button>
                     </span>
                 </div>
                 <div ng-show="rollEdits[$index] == 'roll'" class="input-group">
+                    <span class="input-group-addon">Roll:</span>
                     <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.roll" ng-enter="updateRoll(roll)">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="button" ng-click="updateRoll(roll, $index)">Save Roll</button>
@@ -117,13 +119,15 @@
             <hr>
             <div class="form-group">
                 <div ng-hide="addStage == 'roll'" class="input-group">
-                    <input type="text" class="form-control" placeholder="Roll Title..." ng-model="newRoll.title" ng-enter="startAddRoll()">
+                    <span class="input-group-addon">Title:</span>
+                    <input type="text" class="form-control" placeholder="ex: Sneak Attack" ng-model="newRoll.title" ng-enter="startAddRoll()">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" ng-click="startAddRoll()">Add Roll</button>
+                        <button class="btn btn-default" type="button" ng-click="startAddRoll()">Add Roll</button>
                     </span>
                 </div>
                 <div ng-show="addStage == 'roll'" class="input-group">
-                    <input id="rollTextEntry" type="text" class="form-control" placeholder="Roll text..." ng-model="newRoll.roll" ng-enter="addRoll()">
+                    <span class="input-group-addon">Roll:</span>
+                    <input id="rollTextEntry" type="text" class="form-control" placeholder="ex: 5d6 + [dexterityMod]" ng-model="newRoll.roll" ng-enter="addRoll()">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="button" ng-click="addRoll()">Save Roll</button>
                     </span>
