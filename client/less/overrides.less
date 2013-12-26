@@ -47,6 +47,23 @@ body .modal.wide .modal-dialog
 
 //----------------------------------------------------------------------------------------------------------------------
 
+.input-group {
+    input:first-child:not(:last-child) {
+        border-right: none;
+    }
+
+    input:last-child:not(:first-child) {
+        border-left: none;
+    }
+
+    input:not(:last-child):not(:first-child) {
+        border-right: none;
+        border-left: none;
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
 select.tall
 {
     height: 400px;
