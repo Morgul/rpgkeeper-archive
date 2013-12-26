@@ -94,7 +94,29 @@
                 </div>
             </div>
             <hr>
-            <h4 class="text-center">General Rolls would go here.</h4>
+            <div class="form-group" ng-repeat="roll in sysChar.rolls">
+                <div class="btn-group btn-block">
+                    <roll-button class="fill-width" roll="roll"></roll-button>
+                    <button type="button" class="btn btn-default"><i class="icon-edit"></i></button>
+                    <button type="button" class="btn btn-default"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+            <h5 ng-if="sysChar.rolls.length == 0" class="text-center">No general rolls added yet.</h5>
+            <hr>
+            <div class="form-group">
+                <div ng-if="addStage != 'roll'" class="input-group">
+                    <input type="text" class="form-control" placeholder="Roll Title..." ng-model="newRoll.title" ng-enter="addRoll()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="startAddRoll()">Add Roll</button>
+                    </span>
+                </div>
+                <div ng-if="addStage == 'roll'" class="input-group">
+                    <input type="text" class="form-control" placeholder="Roll text..." ng-model="newRoll.roll" ng-enter="saveRoll()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="addRoll()">Save Roll</button>
+                    </span>
+                </div>
+            </div>
         </div>
     </tab>
     <tab title="Notes" select="setTab('notes')">

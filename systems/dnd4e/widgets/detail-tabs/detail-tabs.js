@@ -7,6 +7,10 @@
 module.controller('DetailTabsCtrl', function($scope, $attrs)
 {
     $scope.collapse = {};
+    $scope.newRoll = {
+        title: '',
+        roll: ''
+    };
     $scope.showAttributes = $attrs.attributes == "true";
 
     function updatePowerRef(powerRef)
@@ -133,11 +137,30 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
         } // end if
     };
 
+    //------------------------------------------------------------------------------------------------------------------
+    // Rolls Tab
+    //------------------------------------------------------------------------------------------------------------------
+
     $scope.doGenericRoll = function()
     {
         $scope.$root.rollDice($scope.genericRoll, $scope.sysChar);
         $scope.genericRoll = "";
     }; // end doGenericRoll
+
+    $scope.startAddRoll = function()
+    {
+        $scope.addStage = 'roll';
+    }; // end startAddRoll
+
+    $scope.addRoll = function()
+    {
+        //TODO: Actually send the socket.io message
+
+        $scope.newRoll = { title: '', roll: '' };
+        $scope.addStage = undefined;
+    }; // end addRoll
+
+    //------------------------------------------------------------------------------------------------------------------
 });
 
 //----------------------------------------------------------------------------------------------------------------------
