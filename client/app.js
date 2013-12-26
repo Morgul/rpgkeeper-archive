@@ -73,8 +73,8 @@ window.app = angular.module("rpgkeeper", [
         {
             if(arguments.length == 2)
             {
-                roll = title;
                 scope = roll;
+                roll = title;
                 title = undefined;
             } // end if
 
@@ -117,7 +117,26 @@ window.app = angular.module("rpgkeeper", [
         */
 
         $rootScope.isArray = angular.isArray;
-    }).filter('capitalize', function()
+    })
+    .directive('ngEnter', function()
+    {
+        return function(scope, element, attrs)
+        {
+            element.bind("keydown keypress", function(event)
+            {
+                if(event.which === 13)
+                {
+                    scope.$apply(function()
+                    {
+                        scope.$eval(attrs.ngEnter);
+                    });
+
+                    event.preventDefault();
+                } // end if
+            });
+        };
+    })
+    .filter('capitalize', function()
     {
         return function capitalize(input)
         {
@@ -128,7 +147,8 @@ window.app = angular.module("rpgkeeper", [
 
             return '';
         }; // end capitalize
-    }).filter('markdown', function($rootScope, $sce)
+    })
+    .filter('markdown', function($rootScope, $sce)
     {
         if(!$rootScope.markdownCache)
         {
