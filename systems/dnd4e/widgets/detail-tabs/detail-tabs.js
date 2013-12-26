@@ -4,7 +4,7 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', function($scope, $attrs)
+module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
 {
     $scope.collapse = {};
     $scope.newRoll = {
@@ -150,15 +150,49 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
     $scope.startAddRoll = function()
     {
         $scope.addStage = 'roll';
+
+        /*
+        $timeout(function()
+        {
+            angular.element('#rollTextEntry')[0].focus();
+        }, 500);
+        */
     }; // end startAddRoll
 
     $scope.addRoll = function()
     {
-        //TODO: Actually send the socket.io message
+        $scope.systemSocket.emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                // Avoid assigning to sysChar; otherwise we'll have scope issues.
+                _.assign($scope.sysChar, character);
+            });
+        });
 
         $scope.newRoll = { title: '', roll: '' };
         $scope.addStage = undefined;
     }; // end addRoll
+
+    $scope.editRoll = function(roll)
+    {
+        //TODO: Would edit roll here.
+        console.log('edit roll:', roll);
+    }; // end editRoll
+
+    $scope.removeRoll = function(roll)
+    {
+        console.log('remove roll called!');
+
+        $scope.systemSocket.emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                // Avoid assigning to sysChar; otherwise we'll have scope issues.
+                _.assign($scope.sysChar, character);
+            });
+        });
+    }; // end removeRoll
 
     //------------------------------------------------------------------------------------------------------------------
 });

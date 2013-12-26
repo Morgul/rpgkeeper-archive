@@ -95,7 +95,7 @@ window.app = angular.module("rpgkeeper", [
             } // end if
 
             return rollResult;
-        } // end rollDice
+        }; // end rollDice
 
         /*
         $rootScope.rollDice = function(roll, title, scope)
