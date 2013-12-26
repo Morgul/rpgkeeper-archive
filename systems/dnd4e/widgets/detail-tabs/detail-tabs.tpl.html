@@ -81,7 +81,7 @@
         <div class="rolls-tab">
             <div class="form-group">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll">
+                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll" ng-enter="doGenericRoll()">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-click="doGenericRoll()">Roll</button>
                     <button class="btn btn-default" type="button" ng-click="clearRolls()">Clear</button>
