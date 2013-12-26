@@ -132,6 +132,12 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
             updatePowerRef(powerRef);
         } // end if
     };
+
+    $scope.doGenericRoll = function()
+    {
+        $scope.$root.rollDice($scope.genericRoll, $scope.sysChar);
+        $scope.genericRoll = "";
+    }; // end doGenericRoll
 });
 
 //----------------------------------------------------------------------------------------------------------------------

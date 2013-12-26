@@ -38,10 +38,7 @@
                     <div  ng-if="powerRef.rolls" class="rolls">
                         <div class="row">
                             <div ng-class="getPowerRollSize($index, $last)" ng-repeat="roll in powerRef.rolls">
-                                <roll-button class="btn-block" roll="roll" context="sysChar"></roll-button>
-                                <!--button class="btn btn-default btn-sm btn-block" title="Roll: {{ roll.roll }}" ng-click="rollDice(roll.roll, roll.title, sysChar)">
-                                    {{ roll.title }}
-                                </button-->
+                                <roll-button class="btn-block" roll-title="'[' + powerRef.power.name + '] ' + roll.title" roll="roll" context="sysChar"></roll-button>
                             </div>
                         </div>
                     </div>
@@ -77,7 +74,33 @@
     <tab heading="Equipment" select="setTab('equipment')">
         <h4 class="text-center">Not Implemented Yet</h4>
     </tab>
-    <tab heading="Notes" select="setTab('notes')">
+    <tab title="Rolls" select="setTab('rolls')">
+        <tab-heading>
+            <i class='icon-dice'></i>
+        </tab-heading>
+        <div class="rolls-tab">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="doGenericRoll()">Roll</button>
+                    <button class="btn btn-default" type="button" ng-click="clearRolls()">Clear</button>
+                </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control fake">
+                    <p ng-repeat="roll in pastRolls track by $index">{{ roll || "&nbsp;" }}</p>
+                </div>
+            </div>
+            <hr>
+            <h4 class="text-center">General Rolls would go here.</h4>
+        </div>
+    </tab>
+    <tab title="Notes" select="setTab('notes')">
+        <tab-heading>
+            <i class='icon-edit'></i>
+        </tab-heading>
         <textarea id="notes" class="form-control" ng-model="sysChar.notes" style="min-height: 600px;" msd-elastic ng-trim="false"></textarea>
     </tab>
 </tabset>

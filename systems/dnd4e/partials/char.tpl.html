@@ -209,7 +209,7 @@
                                         <input type="text" class="form-control score clickable" placeholder="10" value="{{ calcInitiative() }}"
                                                popover-template="/systems/dnd4e/partials/popovers/initiative.html" popover-title="Initiative" readonly>
                                         <label class="muted">Initiative</label>
-                                        <roll-button class="btn-sm pull-right" roll="{ roll: '1d20 + [init]' }" context="{ init: calcInitiative() }"></roll-button>
+                                        <roll-button class="btn-sm pull-right" roll-title="'Initiative'" roll="{ roll: '1d20 + [init]' }" context="{ init: calcInitiative() }"></roll-button>
                                     </div>
                                     <div class="stat-block form-inline">
                                         <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.speed">

@@ -15790,6 +15790,16 @@ td.visible-print {
   padding: 7px 10px;
 }
 
+.detail-tabs .rolls-tab .form-group {
+  margin-bottom: 5px;
+}
+.detail-tabs .rolls-tab hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.detail-tabs .rolls-tab .form-control.fake {
+  height: auto !important;
+}
 .detail-tabs ul.nav.nav-tabs {
   margin-bottom: 10px;
 }
