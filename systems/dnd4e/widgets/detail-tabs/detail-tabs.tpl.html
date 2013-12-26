@@ -95,10 +95,22 @@
             </div>
             <hr>
             <div class="form-group" ng-repeat="roll in sysChar.rolls">
-                <div class="btn-group btn-block">
+                <div ng-hide="rollEdits[$index]" class="btn-group btn-block">
                     <roll-button class="fill-width" roll="roll" context="sysChar"></roll-button>
-                    <button type="button" class="btn btn-default" ng-click="editRoll(roll)"><i class="icon-edit"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="editRoll($index)"><i class="icon-edit"></i></button>
                     <button type="button" class="btn btn-default" ng-click="removeRoll(roll)"><i class="icon-remove"></i></button>
+                </div>
+                <div ng-show="rollEdits[$index] && rollEdits[$index] != 'roll'" class="input-group">
+                    <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.title" ng-enter="startUpdateRoll($index)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="startUpdateRoll($index)">Next</button>
+                    </span>
+                </div>
+                <div ng-show="rollEdits[$index] == 'roll'" class="input-group">
+                    <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.roll" ng-enter="updateRoll(roll)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="updateRoll(roll, $index)">Save Roll</button>
+                    </span>
                 </div>
             </div>
             <h5 ng-if="sysChar.rolls.length == 0" class="text-center">No general rolls added yet.</h5>

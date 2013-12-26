@@ -11,6 +11,8 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
         title: '',
         roll: ''
     };
+
+    $scope.rollEdits = [];
     $scope.showAttributes = $attrs.attributes == "true";
 
     function updatePowerRef(powerRef)
@@ -174,10 +176,32 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
         $scope.addStage = undefined;
     }; // end addRoll
 
-    $scope.editRoll = function(roll)
+    $scope.editRoll = function(index)
     {
-        //TODO: Would edit roll here.
-        console.log('edit roll:', roll);
+        $scope.rollEdits[index] = true;
+    }; // end editRoll
+
+    $scope.startUpdateRoll = function(index)
+    {
+        $scope.rollEdits[index] = 'roll';
+    }; // end editRoll
+
+    $scope.updateRoll = function(roll, index)
+    {
+        $scope.systemSocket.emit("update roll", roll, function(error, rollRet)
+        {
+            $scope.$apply(function()
+            {
+                roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
+
+                // Avoid assigning to roll; otherwise we'll have scope issues.
+                _.assign(roll, rollRet);
+
+                console.log('updated Roll:', roll);
+            });
+        });
+
+        $scope.rollEdits[index] = false;
     }; // end editRoll
 
     $scope.removeRoll = function(roll)
