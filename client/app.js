@@ -78,8 +78,8 @@ window.app = angular.module("rpgkeeper", [
                 title = undefined;
             } // end if
 
-            var result = window.dice.roll(roll, scope);
-            var rollResult = "[ " + result.rolls.join(" + ") + " ] = " + result.sum;
+            var result = dice.roll(roll, scope);
+            var rollResult = "[ " + dice.stringify(result) + " ] = " + result;
 
             var hist = title + ": " + rollResult;
             if(!title)
@@ -96,25 +96,6 @@ window.app = angular.module("rpgkeeper", [
 
             return rollResult;
         }; // end rollDice
-
-        /*
-        $rootScope.rollDice = function(roll, title, scope)
-        {
-            var result = window.dice.roll(roll, scope);
-            if(title)
-            {
-                title = title + ": ";
-            }
-            else
-            {
-                title = "";
-            } // end if
-
-            var message = title + "[ " + result.rolls.join(" + ") + " ] = " + result.sum;
-            $rootScope.alerts.push({ message: message });
-            $rootScope.pastRolls.push(message);
-        }; // end rollDice
-        */
 
         $rootScope.isArray = angular.isArray;
     })

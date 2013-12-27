@@ -77,18 +77,7 @@
         <script type="text/javascript" src="//www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="678jhziclljis0y"></script>
 
         <!-- Dicer -->
-        <script>
-		    window.dice = {
-                roll: function(roll, scope)
-                {
-                    var parsed = dice.parse.parse(roll);
-                    var evaled = dice.eval.eval(parsed, scope);
-                    return evaled;
-                }
-            };
-	    </script>
-        <script src="/vendor/dicer/dice.parse.js"></script>
-        <script src="/vendor/dicer/dice.eval.js"></script>
+        <script src="/vendor/dicer/dice.min.js"></script>
         <!-- ======================================================================================================= -->
     </body>
 </html>
