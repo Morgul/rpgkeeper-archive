@@ -291,6 +291,11 @@ app.channel('/dnd4e').on('connection', function (socket)
 
             roll.save(function()
             {
+                if(!Array.isArray(character.rolls))
+                {
+                    character.rolls = [];
+                } // end if
+
                 character.rolls.push(roll.$key);
                 character.save(function()
                 {
