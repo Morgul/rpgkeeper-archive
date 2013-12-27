@@ -50,7 +50,8 @@ module.directive('rollButton', function() {
             context: "&",
             title: "=",
             rollTitle: "&",
-            class: "@"
+            class: "@",
+            icon: "="
         },
 		templateUrl: '/systems/dnd4e/widgets/rollbutton/rollbutton.html',
         controller: 'RollButtonCtrl'
