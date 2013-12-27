@@ -161,6 +161,23 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     });
 
     //------------------------------------------------------------------------------------------------------------------
+    // Roll Help
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.rollHelp = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { sysChar: function(){ return $scope.sysChar; } },
+            templateUrl: '/systems/dnd4e/partials/modals/rollhelp.html',
+            controller: 'RollHelpCtrl'
+        };
+
+        $modal.open(opts);
+    }; // end addClass
+
+    //------------------------------------------------------------------------------------------------------------------
     // Classes
     //------------------------------------------------------------------------------------------------------------------
 

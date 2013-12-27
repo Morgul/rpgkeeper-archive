@@ -4,6 +4,17 @@
 // @module dnd4e.modals.controllers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+module.controller('RollHelpCtrl', function($scope, $modalInstance, sysChar)
+{
+    $scope.sysChar = sysChar;
+    $scope.close = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end close
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
 module.controller('AddClassModalCtrl', function($scope, $modalInstance)
 {
     $scope.newClass = {};
