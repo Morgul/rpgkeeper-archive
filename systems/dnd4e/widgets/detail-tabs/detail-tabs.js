@@ -4,9 +4,15 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', function($scope, $attrs)
+module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
 {
     $scope.collapse = {};
+    $scope.newRoll = {
+        title: '',
+        roll: ''
+    };
+
+    $scope.rollEdits = [];
     $scope.showAttributes = $attrs.attributes == "true";
 
     function updatePowerRef(powerRef)
@@ -132,6 +138,87 @@ module.controller('DetailTabsCtrl', function($scope, $attrs)
             updatePowerRef(powerRef);
         } // end if
     };
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Rolls Tab
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.doGenericRoll = function()
+    {
+        $scope.$root.rollDice($scope.genericRoll, $scope.sysChar);
+        $scope.genericRoll = "";
+    }; // end doGenericRoll
+
+    $scope.startAddRoll = function()
+    {
+        $scope.addStage = 'roll';
+
+        /*
+        $timeout(function()
+        {
+            angular.element('#rollTextEntry')[0].focus();
+        }, 500);
+        */
+    }; // end startAddRoll
+
+    $scope.addRoll = function()
+    {
+        $scope.systemSocket.emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                // Avoid assigning to sysChar; otherwise we'll have scope issues.
+                _.assign($scope.sysChar, character);
+            });
+        });
+
+        $scope.newRoll = { title: '', roll: '' };
+        $scope.addStage = undefined;
+    }; // end addRoll
+
+    $scope.editRoll = function(index)
+    {
+        $scope.rollEdits[index] = true;
+    }; // end editRoll
+
+    $scope.startUpdateRoll = function(index)
+    {
+        $scope.rollEdits[index] = 'roll';
+    }; // end editRoll
+
+    $scope.updateRoll = function(roll, index)
+    {
+        $scope.systemSocket.emit("update roll", roll, function(error, rollRet)
+        {
+            $scope.$apply(function()
+            {
+                roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
+
+                // Avoid assigning to roll; otherwise we'll have scope issues.
+                _.assign(roll, rollRet);
+
+                console.log('updated Roll:', roll);
+            });
+        });
+
+        $scope.rollEdits[index] = false;
+    }; // end editRoll
+
+    $scope.removeRoll = function(roll)
+    {
+        console.log('remove roll called!');
+
+        $scope.systemSocket.emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                // Avoid assigning to sysChar; otherwise we'll have scope issues.
+                _.assign($scope.sysChar, character);
+            });
+        });
+    }; // end removeRoll
+
+    //------------------------------------------------------------------------------------------------------------------
 });
 
 //----------------------------------------------------------------------------------------------------------------------

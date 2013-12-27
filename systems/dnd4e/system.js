@@ -181,6 +181,7 @@ app.channel('/dnd4e').on('connection', function (socket)
         models.Character.findOne({baseChar: update.baseChar}, function(err, character)
         {
             delete update['$id'];
+            delete update['rolls'];
             delete update['skills'];
             delete update['conditions'];
             delete update['powers'];
@@ -255,6 +256,63 @@ app.channel('/dnd4e').on('connection', function (socket)
             {
                 callback(error, skillInst);
             })
+        });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Rolls
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('add roll', function(rollDef, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            var roll = new models.Roll(rollDef);
+
+            roll.save(function()
+            {
+                character.rolls.push(roll.$key);
+                character.save(function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
+        });
+    });
+
+    socket.on('update roll', function(roll, callback)
+    {
+        models.Roll.findOne({'$id': roll.$id }, function(error, rollInst)
+        {
+            _.assign(rollInst, roll);
+
+            rollInst.save(function(error)
+            {
+                callback(error, rollInst);
+            })
+        });
+    });
+
+    socket.on('remove roll', function(roll, baseChar, callback)
+    {
+        models.Character.findOne({baseChar: baseChar}, function(err, character)
+        {
+            console.log('sup?', err, roll, baseChar);
+
+            character.rolls = _.reject(character.rolls, { '$id': roll.$id });
+            character.save(function()
+            {
+                models.Roll.remove(roll.$id, function()
+                {
+                    character.populate(true, function()
+                    {
+                        callback(undefined, character);
+                    })
+                });
+            });
         });
     });
 

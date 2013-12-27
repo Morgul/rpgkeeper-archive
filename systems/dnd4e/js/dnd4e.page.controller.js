@@ -79,7 +79,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     //------------------------------------------------------------------------------------------------------------------
 
     // Setup individual watches, for better performance
-    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class"];
+    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls"];
     _.each($scope.sysChar, function(value, key)
     {
         if(key && skipFields.indexOf(key) == -1)

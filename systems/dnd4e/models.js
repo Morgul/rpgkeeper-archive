@@ -22,6 +22,11 @@ module.exports = ns.define({
         duration: fields.String()
     },
 
+    Roll: {
+        title: fields.String(),
+        roll: fields.String()
+    },
+
     //------------------------------------------------------------------------------------------------------------------
 
     Class: {
@@ -96,6 +101,7 @@ module.exports = ns.define({
         skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
         powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
         feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
+        rolls: fields.List({ type: fields.Reference({ model: 'Roll' }) }),
         notes: fields.String({ default: "" }),
 
         //-----------------------------------------------------------

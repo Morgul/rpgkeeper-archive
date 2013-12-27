@@ -1,5 +1,59 @@
+//----------------------------------------------------------------------------------------------------------------------
+
+@import "/client/less/theme";
+
+//----------------------------------------------------------------------------------------------------------------------
+// Button Group support
+//----------------------------------------------------------------------------------------------------------------------
+
+// Make the div behave like a button
+.btn-group,
+.btn-group-vertical {
+    & > roll-button .btn {
+        position: relative;
+        float: left;
+        // Bring the "active" button to the front
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            z-index: 2;
+        }
+        &:focus {
+            // Remove focus outline when dropdown JS adds it after closing the menu
+            outline: none;
+        }
+    }
+}
+
+// Prevent double borders when buttons are next to each other
+.btn-group {
+    roll-button + .btn,
+    .btn + roll-button,
+    roll-button + roll-button,
+    roll-btton + .btn-group,
+    .btn-group + roll-button {
+        margin-left: -1px;
+    }
+}
+
+.btn-group > roll-button:not(:first-child):not(:last-child):not(.dropdown-toggle) .btn {
+    border-radius: 0;
+}
+
+// Set corners individual because sometimes a single button can be in a .btn-group and we need :first-child and :last-child to both match
+.btn-group > roll-button:first-child:not(:last-child):not(.dropdown-toggle) .btn {
+    margin-left: 0;
+    .border-right-radius(0);
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
 .tooltip-inner
 {
     max-width: 500px;
     white-space: nowrap;
 }
+
+//----------------------------------------------------------------------------------------------------------------------

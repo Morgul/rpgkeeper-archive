@@ -38,10 +38,7 @@
                     <div  ng-if="powerRef.rolls" class="rolls">
                         <div class="row">
                             <div ng-class="getPowerRollSize($index, $last)" ng-repeat="roll in powerRef.rolls">
-                                <roll-button class="btn-block" roll="roll" context="sysChar"></roll-button>
-                                <!--button class="btn btn-default btn-sm btn-block" title="Roll: {{ roll.roll }}" ng-click="rollDice(roll.roll, roll.title, sysChar)">
-                                    {{ roll.title }}
-                                </button-->
+                                <roll-button class="btn-block" roll-title="'[' + powerRef.power.name + '] ' + roll.title" roll="roll" context="sysChar"></roll-button>
                             </div>
                         </div>
                     </div>
@@ -77,7 +74,71 @@
     <tab heading="Equipment" select="setTab('equipment')">
         <h4 class="text-center">Not Implemented Yet</h4>
     </tab>
-    <tab heading="Notes" select="setTab('notes')">
+    <tab title="Rolls" select="setTab('rolls')">
+        <tab-heading>
+            <i class='icon-dice'></i>
+        </tab-heading>
+        <div class="rolls-tab">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll" ng-enter="doGenericRoll()">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="doGenericRoll()">Roll</button>
+                    <button class="btn btn-default" type="button" ng-click="clearRolls()">Clear</button>
+                </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-control fake">
+                    <p ng-repeat="roll in pastRolls track by $index">{{ roll || "&nbsp;" }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group" ng-repeat="roll in sysChar.rolls">
+                <div ng-hide="rollEdits[$index]" class="btn-group btn-block">
+                    <roll-button icon="'icon-dice'" class="fill-width" roll="roll" context="sysChar"></roll-button>
+                    <button type="button" class="btn btn-default" ng-click="editRoll($index)" title="Edit roll"><i class="icon-edit"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="removeRoll(roll)" title="Remove roll"><i class="icon-remove"></i></button>
+                </div>
+                <div ng-show="rollEdits[$index] && rollEdits[$index] != 'roll'" class="input-group">
+                    <span class="input-group-addon">Title:</span>
+                    <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.title" ng-enter="startUpdateRoll($index)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="startUpdateRoll($index)">Next</button>
+                    </span>
+                </div>
+                <div ng-show="rollEdits[$index] == 'roll'" class="input-group">
+                    <span class="input-group-addon">Roll:</span>
+                    <input type="text" class="form-control" placeholder="Roll title..." ng-model="roll.roll" ng-enter="updateRoll(roll)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="updateRoll(roll, $index)">Save Roll</button>
+                    </span>
+                </div>
+            </div>
+            <h5 ng-if="sysChar.rolls.length == 0" class="text-center">No general rolls added yet.</h5>
+            <hr>
+            <div class="form-group">
+                <div ng-hide="addStage == 'roll'" class="input-group">
+                    <span class="input-group-addon">Title:</span>
+                    <input type="text" class="form-control" placeholder="ex: Sneak Attack" ng-model="newRoll.title" ng-enter="startAddRoll()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="startAddRoll()">Add Roll</button>
+                    </span>
+                </div>
+                <div ng-show="addStage == 'roll'" class="input-group">
+                    <span class="input-group-addon">Roll:</span>
+                    <input id="rollTextEntry" type="text" class="form-control" placeholder="ex: 5d6 + [dexterityMod]" ng-model="newRoll.roll" ng-enter="addRoll()">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="addRoll()">Save Roll</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </tab>
+    <tab title="Notes" select="setTab('notes')">
+        <tab-heading>
+            <i class='icon-edit'></i>
+        </tab-heading>
         <textarea id="notes" class="form-control" ng-model="sysChar.notes" style="min-height: 600px;" msd-elastic ng-trim="false"></textarea>
     </tab>
 </tabset>
