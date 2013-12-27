@@ -97,8 +97,8 @@
             <div class="form-group" ng-repeat="roll in sysChar.rolls">
                 <div ng-hide="rollEdits[$index]" class="btn-group btn-block">
                     <roll-button class="fill-width" roll="roll" context="sysChar"></roll-button>
-                    <button type="button" class="btn btn-default" ng-click="editRoll($index)"><i class="icon-edit"></i></button>
-                    <button type="button" class="btn btn-default" ng-click="removeRoll(roll)"><i class="icon-remove"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="editRoll($index)" title="Edit roll"><i class="icon-edit"></i></button>
+                    <button type="button" class="btn btn-default" ng-click="removeRoll(roll)" title="Remove roll"><i class="icon-remove"></i></button>
                 </div>
                 <div ng-show="rollEdits[$index] && rollEdits[$index] != 'roll'" class="input-group">
                     <span class="input-group-addon">Title:</span>
