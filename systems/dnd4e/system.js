@@ -149,17 +149,37 @@ app.channel('/dnd4e').on('connection', function (socket)
                     else
                     {
                         character.skills = skills;
-                        character.save(function(error)
-                        {
-                            if(error)
-                            {
-                                console.log('Error:', error);
-                                callback(error);
-                            } // end if
 
-                            character.populate(true, function(error, character)
+                        // Add basic attacks
+                        models.Power.find({ kind: 'Basic Attack' }, function(error, powers)
+                        {
+
+                            character.powers = [];
+
+                            async.each(powers, function(power, done)
                             {
-                                callback(error, character, newChar);
+                                var ref = new models.PowerReference({ power: power.$key });
+
+                                ref.save(function()
+                                {
+                                    character.powers.push(ref.$key);
+                                    done();
+                                });
+                            }, function()
+                            {
+                                character.save(function(error)
+                                {
+                                    if(error)
+                                    {
+                                        console.log('Error:', error);
+                                        callback(error);
+                                    } // end if
+
+                                    character.populate(true, function(error, character)
+                                    {
+                                        callback(error, character, newChar);
+                                    });
+                                });
                             });
                         });
                     }
