@@ -44,7 +44,8 @@ module.exports = ns.define({
     MundaneItemRef: {
         item: fields.Reference({ model: 'MundaneItem' }),
         amount: fields.Integer({ default: 0, min: 0 }),
-        stats: fields.Dict({default: {} })
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
     },
 
     MagicItem: {
@@ -61,7 +62,8 @@ module.exports = ns.define({
     MagicItemRef: {
         item: fields.Reference({ model: 'MagicItem' }),
         amount: fields.Integer({ default: 0, min: 0 }),
-        stats: fields.Dict({default: {} })
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
     },
 
     Armor: {
@@ -80,7 +82,8 @@ module.exports = ns.define({
     ArmorRef: {
         armor: fields.Reference({ model: 'MasterworkArmor' }),
         magic: fields.Reference({ model: 'MagicItem' }),
-        stats: fields.Dict({default: {} })
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
     },
 
     Shield: {
@@ -99,7 +102,8 @@ module.exports = ns.define({
     ShieldRef: {
         shield: fields.Reference({ model: 'Shield' }),
         magic: fields.Reference({ model: 'MagicItem' }),
-        stats: fields.Dict({default: {} })
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
     },
 
     Weapon: {
@@ -120,7 +124,8 @@ module.exports = ns.define({
         magic: fields.Reference({ model: 'MagicItem' }),
         stats: fields.Dict({default: {} }),
         silvered: fields.Boolean({ default: false }),
-        equipped: fields.Boolean({ default: false })
+        equipped: fields.Boolean({ default: false }),
+        notes: fields.String()
     },
 
     //------------------------------------------------------------------------------------------------------------------
