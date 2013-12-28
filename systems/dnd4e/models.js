@@ -15,6 +15,8 @@ var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdo
 var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+var itemType = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+var armorType = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
 
 module.exports = ns.define({
     Condition: {
@@ -25,6 +27,104 @@ module.exports = ns.define({
     Roll: {
         title: fields.String(),
         roll: fields.String()
+    },
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    MundaneItem: {
+        name: fields.String({ required: true }),
+        description: fields.String(),
+        cost: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom item, if set.
+        owner: fields.String()
+    },
+
+    MundaneItemRef: {
+        item: fields.Reference({ model: 'MundaneItem' }),
+        amount: fields.Integer({ default: 0, min: 0 }),
+        stats: fields.Dict({default: {} })
+    },
+
+    MagicItem: {
+        name: fields.String({ required: true }),
+        flavor: fields.String(),
+        type: fields.Choice({ choices: itemType, default: 'Wondrous' }),
+        levels: fields.List({ type: fields.Dict() }),
+        sections: fields.List({ type: fields.Dict() }),
+
+        // Distinguishes this as a custom item, if set.
+        owner: fields.String()
+    },
+
+    MagicItemRef: {
+        item: fields.Reference({ model: 'MagicItem' }),
+        amount: fields.Integer({ default: 0, min: 0 }),
+        stats: fields.Dict({default: {} })
+    },
+
+    Armor: {
+        type: fields.Choice({ choices: armorType, default: 'Cloth' }),
+        bonus: fields.Integer({ default: 0, min: 0 }),
+        minEnh: fields.Integer({ default: 0, min: 0 }),
+        check: fields.Integer({ default: 0 }),
+        speed: fields.Integer({ default: 0 }),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom armor, if set.
+        owner: fields.String()
+    },
+
+    ArmorRef: {
+        armor: fields.Reference({ model: 'MasterworkArmor' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} })
+    },
+
+    Shield: {
+        type: fields.Choice({ choices: armorType, default: 'Cloth' }),
+        bonus: fields.Integer({ default: 0, min: 0 }),
+        minEnh: fields.Integer({ default: 0, min: 0 }),
+        check: fields.Integer({ default: 0 }),
+        speed: fields.Integer({ default: 0 }),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom shield, if set.
+        owner: fields.String()
+    },
+
+    ShieldRef: {
+        shield: fields.Reference({ model: 'Shield' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} })
+    },
+
+    Weapon: {
+        proficiency: fields.Integer({ default: 0, min: 0 }),
+        damage: fields.String(),
+        range: fields.String(),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+        groups: fields.List({ type:fields.String() }),
+        properties: fields.List({ type:fields.String() }),
+
+        // Distinguishes this as a custom weapon, if set.
+        owner: fields.String()
+    },
+
+    WeaponRef: {
+        weapon: fields.Reference({ model: 'Weapon' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} }),
+        silvered: fields.Boolean({ default: false })
+    },
+
+    ImplementRef: {
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} })
     },
 
     //------------------------------------------------------------------------------------------------------------------
