@@ -40,4 +40,12 @@
 * ~~Need support for editing the misc bonuses used for calculating those values.~~
 * Eventually, need a rolls style interface.
 
+# Equipment
+* ~~Implement the data storage for equipment.~~
+* Implement modals for magical items.
+* Implement modals for mundane items.
+* Implement modals for armor.
+* Implement modals for shields.
+* Implement modals for weapons.
+
 ...and more to come!

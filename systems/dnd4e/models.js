@@ -119,12 +119,8 @@ module.exports = ns.define({
         weapon: fields.Reference({ model: 'Weapon' }),
         magic: fields.Reference({ model: 'MagicItem' }),
         stats: fields.Dict({default: {} }),
-        silvered: fields.Boolean({ default: false })
-    },
-
-    ImplementRef: {
-        magic: fields.Reference({ model: 'MagicItem' }),
-        stats: fields.Dict({default: {} })
+        silvered: fields.Boolean({ default: false }),
+        equipped: fields.Boolean({ default: false })
     },
 
     //------------------------------------------------------------------------------------------------------------------
@@ -203,6 +199,27 @@ module.exports = ns.define({
         feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
         rolls: fields.List({ type: fields.Reference({ model: 'Roll' }) }),
         notes: fields.String({ default: "" }),
+
+        //-----------------------------------------------------------
+        // Equipment
+        //-----------------------------------------------------------
+
+        armor: fields.Reference({ model: 'ArmorRef' }),
+        shield: fields.Reference({ model: 'ShieldRef' }),
+        head: fields.Reference({ model: 'MagicItemRef' }),
+        neck: fields.Reference({ model: 'MagicItemRef' }),
+        arm: fields.Reference({ model: 'MagicItemRef' }),
+        hand: fields.Reference({ model: 'MagicItemRef' }),
+        waist: fields.Reference({ model: 'MagicItemRef' }),
+        feet: fields.Reference({ model: 'MagicItemRef' }),
+        ring1: fields.Reference({ model: 'MagicItemRef' }),
+        ring2: fields.Reference({ model: 'MagicItemRef' }),
+
+        // Characters can have multiple weapons (ex: dagger and shurikens). However, dual-wielding really only counts as 'one' weapon, even though it's two physical weapons.
+        weapons: fields.List({ type: fields.Reference({ model: 'WeaponRef' }) }),
+
+        // We don't specify a type, so that we can use both mundane and magic items here.
+        equipment: fields.List(),
 
         //-----------------------------------------------------------
         // Biographic Info
