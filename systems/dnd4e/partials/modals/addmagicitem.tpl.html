@@ -54,7 +54,9 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-link" ng-click="newItem.levels.push({})"><i class="icon-plus form-add-text"></i> Add new level</button>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="newItem.levels.push({})"><i class="icon-plus form-add-text"></i> Add new level</button>
+                </div>
                 <hr>
                 <h4><b>Sections</b></h4>
                 <p class="text-muted">Sections are the parts of magic items that have a title, and then a paragraph of text.</p>
@@ -76,7 +78,9 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-link" ng-click="newItem.sections.push({})"><i class="icon-plus form-add-text"></i> Add new section</button>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="newItem.sections.push({})"><i class="icon-plus form-add-text"></i> Add new section</button>
+                </div>
             </div>
             <div ng-if="chosenItem" class="well well-sm">
                 <p>
@@ -90,18 +94,20 @@
                 </p>
             </div>
             <hr>
-            <div class="form-group">
-                <label class="control-label" for="amount">Amount:</label>
-                <div class="controls">
-                    <input type="number" class="form-control" id="amount" ng-model="newItem.amount" required>
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label class="control-label" for="amount">Amount:</label>
+                    <div class="controls">
+                        <input type="number" class="form-control" id="amount" ng-model="newItem.amount" required>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="level">Item Level:</label>
-                <div class="controls">
-                    <select class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in newItem.levels" required>
-                        <option value="">Please select a level...</option>
-                    </select>
+                <div class="form-group col-sm-10">
+                    <label class="control-label" for="level">Item Level:</label>
+                    <div class="controls">
+                        <select class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in newItem.levels" required>
+                            <option value="">Please select a level...</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
