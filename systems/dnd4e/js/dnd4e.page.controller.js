@@ -46,6 +46,8 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     $scope.$root.powerTypes = ["At-Will", "Encounter", "Daily"];
     $scope.$root.powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
     $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+    $scope.$root.itemTypes = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+    $scope.$root.armorTypes = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
 
     // Get the possible choices for class
     $scope.systemSocket.emit('get classes', function(error, classes)
@@ -176,6 +178,34 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
 
         $modal.open(opts);
     }; // end addClass
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Equipment
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addMagicItem = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/addmagicitem.html',
+            controller: 'AddMagicItemModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add magic item", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+                    });
+                });
+            } // end if
+        });
+    }; // end addMagicItem
 
     //------------------------------------------------------------------------------------------------------------------
     // Classes

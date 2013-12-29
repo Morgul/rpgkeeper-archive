@@ -15536,6 +15536,7 @@ td.visible-print {
 .form-add-text:hover {
   color: #82DD82;
 }
+.item-section,
 .power-section {
   padding: 5px;
   padding-right: 10px;
@@ -15545,12 +15546,14 @@ td.visible-print {
   border: 1px solid #ddd;
   position: relative;
 }
+.item-section .close,
 .power-section .close {
   position: absolute;
   top: 5px;
   right: 10px;
   z-index: 100;
 }
+.item-section + .item-section,
 .power-section + .power-section {
   margin-top: 5px;
 }
