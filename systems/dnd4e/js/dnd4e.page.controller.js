@@ -49,32 +49,63 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     $scope.$root.itemTypes = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
     $scope.$root.armorTypes = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
 
-    // Get the possible choices for class
-    $scope.systemSocket.emit('get classes', function(error, classes)
+    //------------------------------------------------------------------------------------------------------------------
+    // Get Lists
+    //------------------------------------------------------------------------------------------------------------------
+
+    // Get the possible choices for magic items
+    $scope.getMagicItems = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get magic items', function(error, classes)
         {
-            $scope.$root.classChoices = _.sortBy(classes, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.classChoices = _.sortBy(classes, 'name');
+            });
         });
-    });
+    }; // end getMagicItems
+
+    // Get the possible choices for class
+    $scope.getClasses = function()
+    {
+        $scope.systemSocket.emit('get classes', function(error, classes)
+        {
+            $scope.$apply(function()
+            {
+                $scope.$root.classChoices = _.sortBy(classes, 'name');
+            });
+        });
+    }; // end getClasses
 
     // Get the possible choices for feat
-    $scope.systemSocket.emit('get feats', function(error, feats)
+    $scope.getFeats = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get feats', function(error, feats)
         {
-            $scope.$root.featChoices = _.sortBy(feats, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.featChoices = _.sortBy(feats, 'name');
+            });
         });
-    });
+    }; // end getFeats
 
     // Get the possible choices for power
-    $scope.systemSocket.emit('get powers', function(error, powers)
+    $scope.getPowers = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get powers', function(error, powers)
         {
-            $scope.$root.powerChoices = _.sortBy(powers, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.powerChoices = _.sortBy(powers, 'name');
+            });
         });
-    });
+    }; // end getPowers
+
+    // Call them initially
+    $scope.getMagicItems();
+    $scope.getClasses();
+    $scope.getFeats();
+    $scope.getPowers();
 
     //------------------------------------------------------------------------------------------------------------------
     // Watches
@@ -201,6 +232,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getMagicItems();
                     });
                 });
             } // end if
@@ -228,6 +262,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getClasses();
                     });
                 });
             } // end if
@@ -329,6 +366,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getFeats();
                     });
                 });
             } // end if
@@ -441,6 +481,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getPowers();
                     });
                 });
             } // end if
