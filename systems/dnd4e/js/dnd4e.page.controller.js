@@ -56,11 +56,11 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     // Get the possible choices for magic items
     $scope.getMagicItems = function()
     {
-        $scope.systemSocket.emit('get magic items', function(error, classes)
+        $scope.systemSocket.emit('get magic items', function(error, items)
         {
             $scope.$apply(function()
             {
-                $scope.$root.classChoices = _.sortBy(classes, 'name');
+                $scope.$root.magicItemChoices = _.sortBy(items, 'name');
             });
         });
     }; // end getMagicItems
@@ -112,7 +112,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     //------------------------------------------------------------------------------------------------------------------
 
     // Setup individual watches, for better performance
-    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls"];
+    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls", "equipment"];
     _.each($scope.sysChar, function(value, key)
     {
         if(key && skipFields.indexOf(key) == -1)

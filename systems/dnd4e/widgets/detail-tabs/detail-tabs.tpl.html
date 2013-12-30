@@ -72,7 +72,7 @@
         </div>
     </tab>
     <tab heading="Equipment" select="setTab('equipment')">
-        <h4 class="text-center">Not Implemented Yet</h4>
+        <pre ng-repeat="itemRef in sysChar.equipment">{{ itemRef | json }}</pre>
     </tab>
     <tab title="Rolls" select="setTab('rolls')">
         <tab-heading>

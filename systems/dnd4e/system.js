@@ -561,6 +561,61 @@ app.channel('/dnd4e').on('connection', function (socket)
         });
     });
 
+    socket.on('add magic item', function(itemDef, baseChar, callback)
+    {
+        if(!itemDef.global)
+        {
+            itemDef.owner = user.email;
+        } // end if
+
+        // Build a new MagicItemReference Object
+        var itemRef = new models.MagicItemReference(itemDef);
+
+        function addMagicItem(item)
+        {
+            itemRef.item = item.$key;
+            itemRef.save(function()
+            {
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    character.equipment.push(itemRef.$key);
+
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addMagicItem
+
+        if(itemDef.exists)
+        {
+            // Look up the item's id
+            models.MagicItem.findOne({ name: itemDef.name }, function(error, item)
+            {
+                addMagicItem(item);
+            });
+        }
+        else
+        {
+            // Build a new item, save, and do the same as above.
+            var item = new models.MagicItem(itemDef);
+
+            item.save(function(error)
+            {
+                if(error)
+                {
+                    console.error('error:', error);
+                } // end if
+
+                addMagicItem(item);
+            });
+        } // end if
+    });
+
     //------------------------------------------------------------------------------------------------------------------
     // Powers
     //------------------------------------------------------------------------------------------------------------------

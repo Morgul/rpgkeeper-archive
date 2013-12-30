@@ -50,10 +50,25 @@ module.controller('AddMagicItemModalCtrl', function($scope, $modalInstance)
         $modalInstance.dismiss('cancel');
     }; // end cancel
 
-    $scope.add = function(global)
+    $scope.add = function(global, chosenItem)
     {
-        $scope.newClass.global = global;
-        $modalInstance.close($scope.newClass);
+        var addItem = {};
+
+        if(chosenItem)
+        {
+            addItem = chosenItem;
+            addItem.exists = true;
+            addItem.amount = $scope.newItem.amount;
+            addItem.stats = $scope.newItem.stats;
+        }
+        else
+        {
+            addItem = $scope.newItem;
+        } // end if
+
+        addItem.global = global;
+
+        $modalInstance.close(addItem);
     }; // end add
 });
 

@@ -41,7 +41,7 @@ module.exports = ns.define({
         owner: fields.String()
     },
 
-    MundaneItemRef: {
+    MundaneItemReference: {
         item: fields.Reference({ model: 'MundaneItem' }),
         amount: fields.Integer({ default: 0, min: 0 }),
         stats: fields.Dict({default: {} }),
@@ -59,7 +59,7 @@ module.exports = ns.define({
         owner: fields.String()
     },
 
-    MagicItemRef: {
+    MagicItemReference: {
         item: fields.Reference({ model: 'MagicItem' }),
         amount: fields.Integer({ default: 0, min: 0 }),
         stats: fields.Dict({default: {} }),
@@ -79,7 +79,7 @@ module.exports = ns.define({
         owner: fields.String()
     },
 
-    ArmorRef: {
+    ArmorReference: {
         armor: fields.Reference({ model: 'MasterworkArmor' }),
         magic: fields.Reference({ model: 'MagicItem' }),
         stats: fields.Dict({default: {} }),
@@ -99,7 +99,7 @@ module.exports = ns.define({
         owner: fields.String()
     },
 
-    ShieldRef: {
+    ShieldReference: {
         shield: fields.Reference({ model: 'Shield' }),
         magic: fields.Reference({ model: 'MagicItem' }),
         stats: fields.Dict({default: {} }),
@@ -119,7 +119,7 @@ module.exports = ns.define({
         owner: fields.String()
     },
 
-    WeaponRef: {
+    WeaponReference: {
         weapon: fields.Reference({ model: 'Weapon' }),
         magic: fields.Reference({ model: 'MagicItem' }),
         stats: fields.Dict({default: {} }),
@@ -209,22 +209,22 @@ module.exports = ns.define({
         // Equipment
         //-----------------------------------------------------------
 
-        armor: fields.Reference({ model: 'ArmorRef' }),
-        shield: fields.Reference({ model: 'ShieldRef' }),
-        head: fields.Reference({ model: 'MagicItemRef' }),
-        neck: fields.Reference({ model: 'MagicItemRef' }),
-        arm: fields.Reference({ model: 'MagicItemRef' }),
-        hand: fields.Reference({ model: 'MagicItemRef' }),
-        waist: fields.Reference({ model: 'MagicItemRef' }),
-        feet: fields.Reference({ model: 'MagicItemRef' }),
-        ring1: fields.Reference({ model: 'MagicItemRef' }),
-        ring2: fields.Reference({ model: 'MagicItemRef' }),
+        armor: fields.Reference({ model: 'ArmorReference' }),
+        shield: fields.Reference({ model: 'ShieldReference' }),
+        head: fields.Reference({ model: 'MagicItemReference' }),
+        neck: fields.Reference({ model: 'MagicItemReference' }),
+        arm: fields.Reference({ model: 'MagicItemReference' }),
+        hand: fields.Reference({ model: 'MagicItemReference' }),
+        waist: fields.Reference({ model: 'MagicItemReference' }),
+        feet: fields.Reference({ model: 'MagicItemReference' }),
+        ring1: fields.Reference({ model: 'MagicItemReference' }),
+        ring2: fields.Reference({ model: 'MagicItemReference' }),
 
         // Characters can have multiple weapons (ex: dagger and shurikens). However, dual-wielding really only counts as 'one' weapon, even though it's two physical weapons.
-        weapons: fields.List({ type: fields.Reference({ model: 'WeaponRef' }) }),
+        weapons: fields.List({ type: fields.Reference({ model: 'WeaponReference' }) }),
 
         // We don't specify a type, so that we can use both mundane and magic items here.
-        equipment: fields.List(),
+        equipment: fields.List({ type: fields.Reference({ model: 'MagicItemReference' }) }),
 
         //-----------------------------------------------------------
         // Biographic Info
