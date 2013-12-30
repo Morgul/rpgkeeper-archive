@@ -68,7 +68,7 @@ module.controller('AddMagicItemModalCtrl', function($scope, $modalInstance)
 
         addItem.global = global;
 
-        $modalInstance.close(addItem);
+        $modalInstance.close(angular.copy(addItem));
     }; // end add
 });
 

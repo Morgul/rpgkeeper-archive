@@ -568,16 +568,29 @@ app.channel('/dnd4e').on('connection', function (socket)
             itemDef.owner = user.email;
         } // end if
 
-        // Build a new MagicItemReference Object
-        var itemRef = new models.MagicItemReference(itemDef);
-
         function addMagicItem(item)
         {
+            // Clear the $id, as it's for the item, not the item ref.
+            itemDef.$id = undefined;
+
+            // Build a new MagicItemReference Object
+            var itemRef = new models.MagicItemReference(itemDef);
+
             itemRef.item = item.$key;
             itemRef.save(function()
             {
                 models.Character.findOne({baseChar: baseChar}, function(err, character)
                 {
+                    if(err)
+                    {
+                        console.error('Error:', err);
+                    } // end if
+
+                    if(!character.equipment)
+                    {
+                        character.equipment = [];
+                    } // end if
+
                     character.equipment.push(itemRef.$key);
 
                     character.save(function()
@@ -594,7 +607,7 @@ app.channel('/dnd4e').on('connection', function (socket)
         if(itemDef.exists)
         {
             // Look up the item's id
-            models.MagicItem.findOne({ name: itemDef.name }, function(error, item)
+            models.MagicItem.findOne({ $id: itemDef.$id }, function(error, item)
             {
                 addMagicItem(item);
             });
