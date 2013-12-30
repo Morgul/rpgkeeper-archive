@@ -15821,24 +15821,29 @@ td.visible-print {
   margin-bottom: 10px;
 }
 .detail-tabs .power table,
-.detail-tabs .feat table {
+.detail-tabs .feat table,
+.detail-tabs .item table {
   width: 100%;
   margin-top: 5px;
 }
 .detail-tabs .power table thead,
-.detail-tabs .feat table thead {
+.detail-tabs .feat table thead,
+.detail-tabs .item table thead {
   background-color: #ddd;
 }
 .detail-tabs .power table th,
-.detail-tabs .feat table th {
+.detail-tabs .feat table th,
+.detail-tabs .item table th {
   text-align: center;
   padding: 2px 5px;
 }
 .detail-tabs .power table td,
-.detail-tabs .feat table td {
+.detail-tabs .feat table td,
+.detail-tabs .item table td {
   text-align: center;
 }
-.detail-tabs .power .gradient {
+.detail-tabs .power .gradient,
+.detail-tabs .item .gradient {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
   /* FF3.6+ */
@@ -15862,7 +15867,8 @@ td.visible-print {
   /* IE6-9 */
 
 }
-.detail-tabs .power h4 {
+.detail-tabs .power h4,
+.detail-tabs .item h4 {
   margin: 0;
   font-size: .97em;
   background-color: #eee;
@@ -15870,31 +15876,43 @@ td.visible-print {
   border-radius: 4px;
   cursor: pointer;
 }
-.detail-tabs .power h4 .close {
+.detail-tabs .power h4 .close,
+.detail-tabs .item h4 .close {
   margin-top: -4px;
 }
-.detail-tabs .power h4 .edit {
+.detail-tabs .power h4 .edit,
+.detail-tabs .item h4 .edit {
   margin-top: 1px;
   margin-right: 2px;
   font-size: 1.1em;
 }
-.detail-tabs .power h4.at-will {
+.detail-tabs .power h4.at-will,
+.detail-tabs .item h4.at-will {
   color: #fff;
   background-color: #61976a;
 }
-.detail-tabs .power h4.encounter {
+.detail-tabs .power h4.encounter,
+.detail-tabs .item h4.encounter {
   color: #fff;
   background-color: #951234;
 }
-.detail-tabs .power h4.daily {
+.detail-tabs .power h4.daily,
+.detail-tabs .item h4.daily {
   color: #fff;
   background-color: #4c4d4f;
 }
-.detail-tabs .power .type-level {
+.detail-tabs .power h4.magic,
+.detail-tabs .item h4.magic {
+  color: #fff;
+  background-color: #dba516;
+}
+.detail-tabs .power .type-level,
+.detail-tabs .item .type-level {
   float: right;
   margin-right: 3px;
 }
-.detail-tabs .power .flavor {
+.detail-tabs .power .flavor,
+.detail-tabs .item .flavor {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
   /* FF3.6+ */
@@ -15922,7 +15940,8 @@ td.visible-print {
   margin: 0 5px;
   padding: 2px 4px;
 }
-.detail-tabs .power .sections .section:nth-child(even) {
+.detail-tabs .power .sections .section:nth-child(even),
+.detail-tabs .item .sections .section:nth-child(even) {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
   /* FF3.6+ */
@@ -15946,6 +15965,7 @@ td.visible-print {
   /* IE6-9 */
 
 }
+.detail-tabs .item + .item,
 .detail-tabs .power + .power {
   margin-top: 7px;
 }

@@ -24,7 +24,7 @@
         margin-bottom: 10px;
     }
 
-    .power, .feat {
+    .power, .feat, .item {
         table {
             width: 100%;
             margin-top: 5px;
@@ -44,7 +44,7 @@
         }
     }
 
-    .power {
+    .power, .item {
         .gradient {
             padding-top: 2px !important;
             background: -moz-linear-gradient(left, rgba(221,220,205,1) 35%, rgba(255,255,255,0) 100%); /* FF3.6+ */
@@ -89,6 +89,11 @@
                 color: #fff;
                 background-color: #4c4d4f;
             }
+
+            &.magic {
+                color: #fff;
+                background-color: #dba516;
+            }
         }
 
         .type-level {
@@ -111,6 +116,7 @@
         }
     }
 
+    .item + .item,
     .power + .power {
         margin-top: 7px;
     }
