@@ -83,6 +83,11 @@ module.controller("Dnd4eCharacterCtrl", function($scope)
 
         return false;
     }; // end isLightArmor
+
+    $scope.isEquipable = function(item)
+    {
+        return ["Head", "Neck", "Arm", "Hand", "Waist", "Foot", "Ring"].indexOf(item.type) != -1;
+    }; // end isEquipable
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

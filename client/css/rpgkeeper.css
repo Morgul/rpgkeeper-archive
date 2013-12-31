@@ -15965,6 +15965,11 @@ td.visible-print {
   /* IE6-9 */
 
 }
+.detail-tabs .power hr,
+.detail-tabs .item hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .detail-tabs .item + .item,
 .detail-tabs .power + .power {
   margin-top: 7px;
