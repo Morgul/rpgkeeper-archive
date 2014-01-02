@@ -255,8 +255,13 @@ app.channel('/dnd4e').on('connection', function (socket)
             skill.save(function()
             {
                 character.skills.push(skill.$key);
-                character.save(function()
+                character.save(function(error)
                 {
+                    if(error)
+                    {
+                        console.log('Error:', error);
+                    } // end if
+
                     character.populate(true, function()
                     {
                         callback(undefined, character);
@@ -297,8 +302,13 @@ app.channel('/dnd4e').on('connection', function (socket)
                 } // end if
 
                 character.rolls.push(roll.$key);
-                character.save(function()
+                character.save(function(error)
                 {
+                    if(error)
+                    {
+                        console.log('Error:', error);
+                    } // end if
+
                     character.populate(true, function()
                     {
                         callback(undefined, character);
@@ -328,8 +338,13 @@ app.channel('/dnd4e').on('connection', function (socket)
             console.log('sup?', err, roll, baseChar);
 
             character.rolls = _.reject(character.rolls, { '$id': roll.$id });
-            character.save(function()
+            character.save(function(error)
             {
+                if(error)
+                {
+                    console.log('Error:', error);
+                } // end if
+
                 models.Roll.remove(roll.$id, function()
                 {
                     character.populate(true, function()
@@ -356,8 +371,13 @@ app.channel('/dnd4e').on('connection', function (socket)
             {
                 character.conditions.push({ $id: condition.$id });
 
-                character.save(function()
+                character.save(function(error)
                 {
+                    if(error)
+                    {
+                        console.log('Error:', error);
+                    } // end if
+
                     character.populate(true, function()
                     {
                         callback(undefined, character);
@@ -372,8 +392,13 @@ app.channel('/dnd4e').on('connection', function (socket)
         models.Character.findOne({baseChar: baseChar}, function(err, character)
         {
             character.conditions = _.reject(character.conditions, { '$id': condID });
-            character.save(function()
+            character.save(function(error)
             {
+                if(error)
+                {
+                    console.log('Error:', error);
+                } // end if
+
                 models.Condition.remove(condID, function()
                 {
                     character.populate(true, function()
@@ -411,8 +436,13 @@ app.channel('/dnd4e').on('connection', function (socket)
             classInst.save(function()
             {
                 character.class = classInst.$key;
-                character.save(function()
+                character.save(function(error)
                 {
+                    if(error)
+                    {
+                        console.log('Error:', error);
+                    } // end if
+
                     character.populate(true, function()
                     {
                         callback(undefined, character);
@@ -466,8 +496,13 @@ app.channel('/dnd4e').on('connection', function (socket)
                 models.Character.findOne({baseChar: baseChar}, function(err, character)
                 {
                     character.feats.push(featRef.$key);
-                    character.save(function()
+                    character.save(function(error)
                     {
+                        if(error)
+                        {
+                            console.log('Error:', error);
+                        } // end if
+
                         character.populate(true, function()
                         {
                             callback(undefined, character);
@@ -535,8 +570,13 @@ app.channel('/dnd4e').on('connection', function (socket)
         models.Character.findOne({baseChar: baseChar}, function(err, character)
         {
             character.feats = _.reject(character.feats, { '$id': featRefID });
-            character.save(function()
+            character.save(function(error)
             {
+                if(error)
+                {
+                    console.log('Error:', error);
+                } // end if
+
                 models.FeatReference.remove({$id: featRefID}, function()
                 {
                     character.populate(true, function()
@@ -579,8 +619,13 @@ app.channel('/dnd4e').on('connection', function (socket)
                 models.Character.findOne({baseChar: baseChar}, function(err, character)
                 {
                     character.powers.push(powerRef.$key);
-                    character.save(function()
+                    character.save(function(error)
                     {
+                        if(error)
+                        {
+                            console.error('Error:', error);
+                        } // end if
+
                         character.populate(true, function()
                         {
                             callback(undefined, character);
@@ -607,7 +652,7 @@ app.channel('/dnd4e').on('connection', function (socket)
             {
                 if(error)
                 {
-                    console.error('error:', error);
+                    console.error('Error:', error);
                 } // end if
 
                 addPower(power);
@@ -655,8 +700,13 @@ app.channel('/dnd4e').on('connection', function (socket)
         models.Character.findOne({baseChar: baseChar}, function(err, character)
         {
             character.powers = _.reject(character.powers, { '$id': powerRefID });
-            character.save(function()
+            character.save(function(error)
             {
+                if(error)
+                {
+                    console.error('Error:', error);
+                } // end if
+
                 models.PowerReference.remove({$id: powerRefID}, function()
                 {
                     character.populate(true, function()
@@ -676,6 +726,8 @@ module.exports = {
     {
         models.Character.remove({ baseChar: charID }, function(error)
         {
+            console.log('Deleting Character:', charID);
+
             if(error)
             {
                 console.log("Error!", error);
