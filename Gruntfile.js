@@ -61,6 +61,15 @@ module.exports = function(grunt) {
                 }
             }
         },
+        cssmin: {
+            minify: {
+                expand: true,
+                cwd: 'client/css/',
+                src: ['*.css', '!*.min.css'],
+                dest: 'client/css/',
+                ext: '.min.css'
+            }
+        },
         develop: {
             server: {
                 file: 'server.js'
@@ -91,7 +100,7 @@ module.exports = function(grunt) {
             },
             less: {
                 files: ['<%= project.less %>/*.less', 'systems/**/*.less'],
-                tasks: ['less'],
+                tasks: ['less', 'cssmin'],
                 options: {
                     atBegin: true
                 }
@@ -104,6 +113,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Task for building systems.controllers.js
     grunt.registerTask('controllers', 'build systems.controllers.js file', function () {
@@ -121,5 +131,5 @@ module.exports = function(grunt) {
     });
 
     // Setup the build task.
-    grunt.registerTask('build', ['controllers', 'filters', 'widgets', 'less', 'html2js']);
+    grunt.registerTask('build', ['controllers', 'filters', 'widgets', 'less', 'cssmin', 'html2js']);
 };
