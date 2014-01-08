@@ -11,8 +11,9 @@ client/js/systems.widgets.js
 client/js/systems.templates.js
 client/js/client.templates.js
 
-# nedb artifacts
+# db artifacts
 db/*.nedb
+db/*.sdb
 
 # Node artifacts
 node_modules
