@@ -7714,7 +7714,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -7774,6 +7774,10 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus,
+.btn-inverse:active {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
@@ -15447,7 +15451,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -15507,6 +15511,10 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus,
+.btn-inverse:active {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
@@ -23769,7 +23777,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -23829,6 +23837,10 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus,
+.btn-inverse:active {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
