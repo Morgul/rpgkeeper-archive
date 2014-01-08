@@ -82,6 +82,24 @@
         // Public API
         //--------------------------------------------------------------------------------------------------------------
 
+        $scope.hasFavorites = function()
+        {
+            var favs = false;
+            if($scope.characters)
+            {
+                for(var idx = 0; idx < $scope.characters.length; idx++)
+                {
+                    if($scope.characters[idx].favorite)
+                    {
+                        favs = true;
+                        break;
+                    } // end if
+                } // end for
+            } // end if
+
+            return favs;
+        }; // end hasFavorites
+
         $scope.addChar = function()
         {
             var opts = {
