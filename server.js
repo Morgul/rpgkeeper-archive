@@ -8,9 +8,9 @@ var app = require('omega-wf').app;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-require('./lib/authentication.js');
-require('./lib/sockets.js');
-require('./urls');
+require('./server/lib/authentication.js');
+require('./server/lib/sockets.js');
+require('./server/urls');
 
 // ---------------------------------------------------------------------------------------------------------------------
 

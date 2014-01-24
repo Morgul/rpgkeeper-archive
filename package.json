@@ -8,15 +8,16 @@
     "passport-persona": "latest",
     "lodash": "latest",
     "omega-models": "git+https://github.com/Morgul/omega-models.git",
-    "async": "~0.2.9",
-    "grunt-contrib-cssmin": "~0.7.0"
+    "async": "~0.2.9"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-develop": "~0.2.2",
     "grunt-contrib-less": "~0.7.0",
-    "grunt-html2js": "~0.1.8"
+    "grunt-html2js": "~0.1.8",
+    "grunt-contrib-cssmin": "~0.7.0"
+
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

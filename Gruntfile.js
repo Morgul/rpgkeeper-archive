@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         less: {
             dev: {
                 options: {
-                    paths: ['vendor']
+                    paths: ['client/vendor']
                 },
                 files: {
                     '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', 'systems/**/*.less']
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             },
             min: {
                 options: {
-                    paths: ['vendor'],
+                    paths: ['client/vendor'],
                     compress: true
                 },
                 files: {

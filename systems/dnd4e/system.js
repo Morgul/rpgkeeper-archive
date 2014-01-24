@@ -6,7 +6,7 @@
 
 // Include our models
 var models = require('./models');
-var baseModels = require('../../lib/models');
+var baseModels = require('../../server/lib/models');
 
 var path = require('path');
 var app = require('omega-wf').app;
