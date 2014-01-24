@@ -1,0 +1,22 @@
+<div class="feat">
+    <h4 class="title" ng-click="collapseClick()">
+        <button ng-if="!removable" type="button" title="Remove this feat" class="close" aria-hidden="true" ng-click="removeFeat(featRef, $event)">&times;</button>
+        <button ng-if="!editable" type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef, $event)"><i class="icon-edit"></i></button>
+        {{ featRef.feat.name }}
+    </h4>
+    <div collapse="toggle">
+        <div class="section prerequisites" ng-if="featRef.feat.prerequisites">
+            <b>Prerequisites:</b> <span ng-bind-html="featRef.feat.prerequisites | markdown"></span>
+        </div>
+        <div class="section description" ng-if="featRef.feat.description">
+            <b>Description:</b> <span ng-bind-html="featRef.feat.description | markdown"></span>
+        </div>
+        <div class="section special" ng-if="featRef.feat.special">
+            <b>Special:</b> <span ng-bind-html="featRef.feat.special | markdown"></span>
+        </div>
+        <div class="section notes" ng-if="featRef.notes">
+            <b>Notes:</b> <span ng-bind-html="featRef.notes | markdown"></span>
+        </div>
+    </div>
+</div>
+
