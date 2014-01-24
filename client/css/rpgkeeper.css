@@ -15863,55 +15863,6 @@ td.visible-print {
 .detail-tabs ul.nav.nav-tabs {
   margin-bottom: 10px;
 }
-.detail-tabs .feat table {
-  width: 100%;
-  margin-top: 5px;
-}
-.detail-tabs .feat table thead {
-  background-color: #ddd;
-}
-.detail-tabs .feat table th {
-  text-align: center;
-  padding: 2px 5px;
-}
-.detail-tabs .feat table td {
-  text-align: center;
-}
-.detail-tabs .feat h4 {
-  margin: 0;
-  font-size: .97em;
-  font-weight: bold;
-  background-color: #eee;
-  padding: 4px 6px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.detail-tabs .feat h4 .close {
-  margin-top: -4px;
-}
-.detail-tabs .feat h4 .edit {
-  margin-top: 1px;
-  margin-right: 2px;
-  font-size: 1.1em;
-}
-.detail-tabs .feat + .feat {
-  margin-top: 10px;
-}
-.detail-tabs .section {
-  font-size: .90em;
-  margin: 5px 10px;
-  line-height: 1.2em !important;
-}
-.detail-tabs .section b + span p:first-child {
-  display: inline;
-}
-.detail-tabs .section b + span p + p {
-  margin-top: 5px;
-}
-.detail-tabs .section.prerequisites b + span {
-  font-style: italic;
-  font-size: .97em;
-}
 .detail-tabs .rolls {
   padding: 0 8px;
 }
@@ -15923,130 +15874,58 @@ td.visible-print {
   margin-bottom: 5px;
 }
 
-.power table {
+.feat table {
   width: 100%;
   margin-top: 5px;
 }
-.power table thead {
+.feat table thead {
   background-color: #ddd;
 }
-.power table th {
+.feat table th {
   text-align: center;
   padding: 2px 5px;
 }
-.power table td {
+.feat table td {
   text-align: center;
 }
-.power .gradient {
-  padding-top: 2px !important;
-  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
-  /* IE6-9 */
-
-}
-.power h4 {
+.feat h4 {
   margin: 0;
   font-size: .97em;
+  font-weight: bold;
   background-color: #eee;
   padding: 4px 6px;
   border-radius: 4px;
   cursor: pointer;
 }
-.power h4 .close {
+.feat h4 .close {
   margin-top: -4px;
 }
-.power h4 .edit {
+.feat h4 .edit {
   margin-top: 1px;
   margin-right: 2px;
   font-size: 1.1em;
 }
-.power h4.at-will {
-  color: #fff;
-  background-color: #61976a;
-}
-.power h4.encounter {
-  color: #fff;
-  background-color: #951234;
-}
-.power h4.daily {
-  color: #fff;
-  background-color: #4c4d4f;
-}
-.power .type-level {
-  float: right;
-  margin-right: 3px;
-}
-.power .flavor {
-  padding-top: 2px !important;
-  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
-  /* IE6-9 */
-
+.feat .section {
   font-size: .90em;
+  margin: 5px 10px;
+  line-height: 1.2em !important;
+  padding-left: 7px;
+}
+.feat .section b.title {
+  margin-left: -5px;
+}
+.feat .section b + span p:first-child {
+  display: inline;
+}
+.feat .section b + span p + p {
+  margin-top: 5px;
+}
+.feat .section.prerequisites b + span {
   font-style: italic;
-  margin: 0 5px;
-  padding: 2px 4px;
+  font-size: .97em;
 }
-.power .sections .section:nth-child(even) {
-  padding-top: 2px !important;
-  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
-  /* IE6-9 */
-
-}
-.power + .power {
-  margin-top: 7px;
+.feat + .feat {
+  margin-top: 10px;
 }
 
 .well {
@@ -16174,6 +16053,25 @@ td.visible-print {
 }
 .power table td {
   text-align: center;
+}
+.power .section {
+  font-size: .90em;
+  margin: 5px 10px;
+  line-height: 1.2em !important;
+  padding-left: 7px;
+}
+.power .section b.title {
+  margin-left: -5px;
+}
+.power .section b + span p:first-child {
+  display: inline;
+}
+.power .section b + span p + p {
+  margin-top: 5px;
+}
+.power .section.prerequisites b + span {
+  font-style: italic;
+  font-size: .97em;
 }
 .power .gradient {
   padding-top: 2px !important;

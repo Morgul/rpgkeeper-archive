@@ -6,16 +6,6 @@
 
 module.controller('PowerController', function($scope, $modal)
 {
-    $scope.powerRef = $scope.powerRef();
-
-    // Support pure power objects
-    if($scope.powerRef.name)
-    {
-        $scope.powerRef = {
-            power: $scope.powerRef
-        };
-    } // end if
-
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
     {

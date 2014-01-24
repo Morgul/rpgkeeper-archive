@@ -16,9 +16,35 @@
             text-align: center;
         }
     }
-}
 
-.power {
+    .section {
+        font-size: .90em;
+        margin: 5px 10px;
+        line-height: 1.2em !important;
+        padding-left: 7px;
+
+        b.title {
+            margin-left: -5px;
+        }
+
+        b + span {
+            p:first-child {
+                display: inline;
+            }
+
+            p + p {
+                margin-top: 5px;
+            }
+        }
+    }
+
+    .section.prerequisites {
+        b + span {
+            font-style: italic;
+            font-size: .97em;
+        }
+    }
+
     .gradient {
         padding-top: 2px !important;
         background: -moz-linear-gradient(left, rgba(221,220,205,1) 35%, rgba(255,255,255,0) 100%); /* FF3.6+ */

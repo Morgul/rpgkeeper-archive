@@ -6,17 +6,6 @@
 
 module.controller('FeatController', function($scope, $modal)
 {
-    console.log($scope.toggle);
-    $scope.featRef = $scope.featRef();
-
-    // Support pure feat objects
-    if($scope.featRef.name)
-    {
-        $scope.featRef = {
-            feat: $scope.featRef
-        };
-    } // end if
-
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
     {
@@ -78,7 +67,6 @@ module.controller('FeatController', function($scope, $modal)
             });
         });
     }; // end removeFeat
-
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
