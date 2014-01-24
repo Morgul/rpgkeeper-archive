@@ -7,6 +7,7 @@
 module.controller('DnD4ePageCtrl', function($scope, $modal)
 {
     this.$scope = $scope;
+    $scope.collapse = {};
 
     // Default so that watches get made.
     $scope.sysChar.notes = $scope.sysChar.notes || "";
