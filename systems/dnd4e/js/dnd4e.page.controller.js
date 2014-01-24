@@ -456,59 +456,6 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end editPower
 
-    $scope.editPowerRef = function(powerRef, event) {
-        event.stopPropagation();
-
-        var opts = {
-            backdrop: 'static',
-            keyboard: true,
-            windowClass: "wide",
-            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $scope.editPower; } },
-            templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
-            controller: 'EditPowerRefModalCtrl'
-        };
-
-        $modal.open(opts).result.then(function(result)
-        {
-            if(result)
-            {
-                $scope.systemSocket.emit("update powerRef", result, function(error, powerRefRet)
-                {
-                    $scope.$apply(function()
-                    {
-                        _.assign(powerRef, powerRefRet);
-                    });
-                });
-            } // end if
-        });
-    }; // end editPowerRef
-
-    $scope.removePower = function(powerRef, event)
-    {
-        // Prevent the event from triggering a collapse/expand event.
-        event.stopPropagation();
-
-        // Tell the system to remove the reference
-        $scope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
-        {
-            $scope.$apply(function()
-            {
-                $scope.sysChar = character;
-            });
-        });
-    }; // end removePower
-
-    $scope.getPowerRollSize = function($index, $last)
-    {
-        if($index % 2 != 1 && $last)
-        {
-            // For whatever reason, this breaks if it's not forced to float left.
-            return "col-xs-12 pull-left"
-        } // end if
-
-        return "col-xs-6";
-    }; // end getPowerRollSize
-
     //------------------------------------------------------------------------------------------------------------------
     // Dropbox
     //------------------------------------------------------------------------------------------------------------------

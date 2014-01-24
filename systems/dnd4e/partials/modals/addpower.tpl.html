@@ -86,31 +86,8 @@
                 </div>
                 <button class="btn btn-link" ng-click="newPower.sections.push({})"><i class="icon-plus form-add-text"></i> Add new section</button>
             </div>
-            <div ng-if="chosenPower" class="well well-sm">
-                <p>
-                    <b>Name:</b> {{ chosenPower.name }}
-                </p>
-                <p>
-                    <b>Flavor:</b> {{ chosenPower.flavor }}
-                </p>
-                <p>
-                    <b>Type:</b> {{ chosenPower.type }}
-                </p>
-                <p>
-                    <b>Kind:</b> {{ chosenPower.kind }}
-                </p>
-                <p>
-                    <b>Keywords:</b> {{ chosenPower.keywords }}
-                </p>
-                <p>
-                    <b>Action Type:</b> {{ chosenPower.actionType }}
-                </p>
-                <p ng-if="chosenPower.range">
-                    <b>Range:</b> {{ chosenPower.range }}
-                </p>
-                <p ng-repeat="section in chosenPower.sections">
-                    <b>{{ section.title }}:</b> {{ section.content }}
-                </p>
+            <div ng-if="chosenPower">
+                <power power-ref="chosenPower" editable="false" removable="false" style="max-width: 450px; margin: 0 auto;"></power>
             </div>
             <hr>
             <div class="form-group" ng-if="chosenPower.type != 'At-Will'">

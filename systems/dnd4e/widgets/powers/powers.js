@@ -4,12 +4,29 @@
 // @module powers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('PowerController', function($scope, $attrs)
+module.controller('PowerController', function($scope, $modal)
 {
-    $attrs.$observe('toggle', function(val)
+    $scope.powerRef = $scope.powerRef();
+
+    // Support pure power objects
+    if($scope.powerRef.name)
     {
-        $scope.collapsePower = val;
-    });
+        $scope.powerRef = {
+            power: $scope.powerRef
+        };
+    } // end if
+
+    // Only disable this if it's explicitly set to false.
+    if($scope.editable != false)
+    {
+        $scope.editable = true;
+    } // end if
+
+    // Only disable this if it's explicitly set to false.
+    if($scope.removable != false)
+    {
+        $scope.removeable = true;
+    } // end if
 
     function updatePowerRef(powerRef)
     {
@@ -52,11 +69,22 @@ module.controller('PowerController', function($scope, $attrs)
 
     $scope.collapseClick = function()
     {
-        if($scope.collapsePower != undefined)
+        if($scope.toggle != undefined)
         {
-            $scope.collapsePower = !$scope.collapsePower;
+            $scope.toggle = !$scope.toggle;
         } // end if
     };
+
+    $scope.getPowerRollSize = function($index, $last)
+    {
+        if($index % 2 != 1 && $last)
+        {
+            // For whatever reason, this breaks if it's not forced to float left.
+            return "col-xs-12 pull-left"
+        } // end if
+
+        return "col-xs-6";
+    }; // end getPowerRollSize
 
     $scope.getUseIcon = function(powerRef, index)
     {
@@ -70,7 +98,6 @@ module.controller('PowerController', function($scope, $attrs)
 
         return "icon-check-empty";
     };
-
 
     $scope.handleUse = function(powerRef, index, event)
     {
@@ -90,6 +117,48 @@ module.controller('PowerController', function($scope, $attrs)
             updatePowerRef(powerRef);
         } // end if
     };
+
+    $scope.editPowerRef = function(powerRef, event) {
+        event.stopPropagation();
+
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $scope.editPower; } },
+            templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
+            controller: 'EditPowerRefModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("update powerRef", result, function(error, powerRefRet)
+                {
+                    $scope.$apply(function()
+                    {
+                        _.assign(powerRef, powerRefRet);
+                    });
+                });
+            } // end if
+        });
+    }; // end editPowerRef
+
+    $scope.removePower = function(powerRef, event)
+    {
+        // Prevent the event from triggering a collapse/expand event.
+        event.stopPropagation();
+
+        // Tell the system to remove the reference
+        $scope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
+        {
+            $scope.$apply(function()
+            {
+                $scope.sysChar = character;
+            });
+        });
+    }; // end removePower
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -98,7 +167,12 @@ module.directive('power', function()
 {
     return {
         restrict: 'E',
-        scope: true,
+        scope: {
+            toggle: "=",
+            powerRef: "&",
+            editable: "@",
+            removable: "@"
+        },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',
         replace: true
