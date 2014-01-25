@@ -1,0 +1,136 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>Add Magic Item</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3" style="height: 750px;">
+            <select class="form-control tall" ng-model="chosenItem" ng-options="item as item.name for item in magicItemChoices | filter:chosenItem.name track by item.name" size="2" style="height: 100%">
+                <option value="">Add new magic item...</option>
+            </select>
+        </div>
+        <div class="col-md-9">
+            <div ng-if="!chosenItem.name">
+                <div class="form-group">
+                    <label class="control-label" for="name">Name:</label>
+                    <div class="controls">
+                        <input class="form-control" id="name" type="text" placeholder="Type here to filter the list of possibilites, or add your own." ng-model="newItem.name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="flavor">Flavor:</label>
+                    <div class="controls">
+                        <textarea class="form-control elastic" id="flavor" placeholder="Flavor text..." ng-model="newItem.flavor" rows="1" msd-elastic required></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="type">Item Type:</label>
+                    <div class="controls" ng-init="newItem.type = 'Wondrous'">
+                        <select class="form-control" id="type" ng-model="newItem.type" ng-options="type for type in itemTypes" required></select>
+                    </div>
+                </div>
+                <hr>
+                <h4><b>Levels</b></h4>
+                <p class="text-muted">Levels are the parts of magic items that have a level, (optionally) an enhancement, and then a price. Not all magic items have all of these; but they do all have at least one level.</p>
+                <div class="item-section" ng-repeat="level in newItem.levels track by $index">
+                    <button ng-if="$index > 0" type="button" class="close" aria-hidden="true" ng-click="removeLevel($index)">&times;</button>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="level-{{ $index }}">Level:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="level-{{ $index }}" ng-model="level.level" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="enhancement-{{ $index }}">Enhancement:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="enhancement-{{ $index }}" ng-model="level.enhancement" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="price-{{ $index }}">Price:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="price-{{ $index }}" ng-model="level.price" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="newItem.levels.push({})"><i class="icon-plus form-add-text"></i> Add new level</button>
+                </div>
+                <hr>
+                <h4><b>Sections</b></h4>
+                <p class="text-muted">Sections are the parts of magic items that have a title, and then a paragraph of text.</p>
+                <div class="item-section" ng-repeat="section in newItem.sections track by $index">
+                    <button ng-if="$index > 0" type="button" class="close" aria-hidden="true" ng-click="removeSection($index)">&times;</button>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label class="control-label" for="title-{{ $index }}">Title:</label>
+                            <div class="controls">
+                                <input class="form-control" id="title-{{ $index }}" type="text" placeholder="Title..." ng-model="section.title" required>
+                                <span class="help-block" style="margin-bottom: 0">ie., Target, Effect, Hit, etc.</span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-9">
+                            <label class="control-label" for="content-{{ $index }}">Content:</label>
+                            <div class="controls">
+                                <textarea class="form-control" id="content-{{ $index }}" placeholder="Content goes here." ng-model="section.content" rows="2" msd-elastic ng-trim="false" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="newItem.sections.push({})"><i class="icon-plus form-add-text"></i> Add new section</button>
+                </div>
+            </div>
+            <div ng-if="chosenItem.name" class="well well-sm">
+                <p>
+                    <b>Name:</b> {{ chosenItem.name }}
+                </p>
+                <p>
+                    <b>Flavor:</b> {{ chosenItem.flavor }}
+                </p>
+                <p>
+                    <b>Type:</b> {{ chosenItem.type }}
+                </p>
+                <p ng-repeat="level in chosenItem.levels">
+                    <b>Levels:</b><br/>
+                    <b>Level {{ level.level }}:</b> <span ng-if="level.enhancement">(+{{ level.enhancement }}) </span>{{ level.price }} gp
+                </p>
+                <p ng-repeat="section in chosenItem.sections">
+                    <b>{{ section.title }}:</b> {{ section.content }}
+                </p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label class="control-label" for="amount">Amount:</label>
+                    <div class="controls">
+                        <input type="number" class="form-control" id="amount" ng-model="newItem.amount" required>
+                    </div>
+                </div>
+                <div class="form-group col-sm-10">
+                    <label class="control-label" for="level">Item Level:</label>
+                    <div class="controls">
+                        <select ng-if="!chosenItem" class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in newItem.levels" required>
+                            <option value="">Please select a level...</option>
+                        </select>
+                        <select ng-if="chosenItem" class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in chosenItem.levels" required>
+                            <option value="">Please select a level...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="notes">Notes:</label>
+                <div class="controls">
+                    <textarea class="form-control" id="notes" placeholder="Notes..." ng-model="newItem.notes" rows="5" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-if="!newItem" ng-click="add('global', chosenItem)" class="btn btn-info"><i class="icon-plus"></i> Add to character (Global)</button>
+    <button ng-click="add(false, chosenItem)" class="btn btn-primary"><i class="icon-plus"></i> Add to character</button>
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+</div>

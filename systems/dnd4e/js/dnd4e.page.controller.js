@@ -47,40 +47,73 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     $scope.$root.powerTypes = ["At-Will", "Encounter", "Daily"];
     $scope.$root.powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
     $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+    $scope.$root.itemTypes = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+    $scope.$root.armorTypes = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Get Lists
+    //------------------------------------------------------------------------------------------------------------------
+
+    // Get the possible choices for magic items
+    $scope.getMagicItems = function()
+    {
+        $scope.systemSocket.emit('get magic items', function(error, items)
+        {
+            $scope.$apply(function()
+            {
+                $scope.$root.magicItemChoices = _.sortBy(items, 'name');
+            });
+        });
+    }; // end getMagicItems
 
     // Get the possible choices for class
-    $scope.systemSocket.emit('get classes', function(error, classes)
+    $scope.getClasses = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get classes', function(error, classes)
         {
-            $scope.$root.classChoices = _.sortBy(classes, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.classChoices = _.sortBy(classes, 'name');
+            });
         });
-    });
+    }; // end getClasses
 
     // Get the possible choices for feat
-    $scope.systemSocket.emit('get feats', function(error, feats)
+    $scope.getFeats = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get feats', function(error, feats)
         {
-            $scope.$root.featChoices = _.sortBy(feats, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.featChoices = _.sortBy(feats, 'name');
+            });
         });
-    });
+    }; // end getFeats
 
     // Get the possible choices for power
-    $scope.systemSocket.emit('get powers', function(error, powers)
+    $scope.getPowers = function()
     {
-        $scope.$apply(function()
+        $scope.systemSocket.emit('get powers', function(error, powers)
         {
-            $scope.$root.powerChoices = _.sortBy(powers, 'name');
+            $scope.$apply(function()
+            {
+                $scope.$root.powerChoices = _.sortBy(powers, 'name');
+            });
         });
-    });
+    }; // end getPowers
+
+    // Call them initially
+    $scope.getMagicItems();
+    $scope.getClasses();
+    $scope.getFeats();
+    $scope.getPowers();
 
     //------------------------------------------------------------------------------------------------------------------
     // Watches
     //------------------------------------------------------------------------------------------------------------------
 
     // Setup individual watches, for better performance
-    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls"];
+    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls", "equipment"];
     _.each($scope.sysChar, function(value, key)
     {
         if(key && skipFields.indexOf(key) == -1)
@@ -179,6 +212,37 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     }; // end addClass
 
     //------------------------------------------------------------------------------------------------------------------
+    // Equipment
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addMagicItem = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/addmagicitem.html',
+            controller: 'AddMagicItemModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                $scope.systemSocket.emit("add magic item", result, $scope.sysChar.baseChar, function(error, character)
+                {
+                    $scope.$apply(function()
+                    {
+                        $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getMagicItems();
+                    });
+                });
+            } // end if
+        });
+    }; // end addMagicItem
+
+    //------------------------------------------------------------------------------------------------------------------
     // Classes
     //------------------------------------------------------------------------------------------------------------------
 
@@ -199,6 +263,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getClasses();
                     });
                 });
             } // end if
@@ -300,6 +367,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getFeats();
                     });
                 });
             } // end if
@@ -370,6 +440,9 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     $scope.$apply(function()
                     {
                         $scope.sysChar = character;
+
+                        // Update our list, just in case we added anything.
+                        $scope.getPowers();
                     });
                 });
             } // end if
