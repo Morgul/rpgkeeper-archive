@@ -75,9 +75,9 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
     // Rolls Tab
     //------------------------------------------------------------------------------------------------------------------
 
-    $scope.doGenericRoll = function()
+    $scope.doGenericRoll = function(roll)
     {
-        $scope.$root.rollDice($scope.genericRoll, $scope.sysChar);
+        $scope.$root.rollDice(roll, $scope.sysChar);
         $scope.genericRoll = "";
     }; // end doGenericRoll
 
