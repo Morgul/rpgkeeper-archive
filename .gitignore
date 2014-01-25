@@ -1,3 +1,5 @@
+.DS_Store
+
 # Pycharm artifacts
 .idea
 
@@ -11,8 +13,8 @@ client/js/systems.widgets.js
 client/js/systems.templates.js
 client/js/client.templates.js
 
-# nedb artifacts
-db/*.nedb
+# db artifacts
+server/db/
 
 # Node artifacts
 node_modules

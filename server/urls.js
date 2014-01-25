@@ -16,15 +16,15 @@ app.router.add(
     // Static Files
     {
         url: '/client/*',
-        path: path.join(__dirname, 'client')
+        path: path.join(__dirname, '../client')
     },
     {
         url: '/partials/*',
-        path: path.join(__dirname, 'client/partials')
+        path: path.join(__dirname, '../client/partials')
     },
     {
         url: '/vendor/*',
-        path: path.join(__dirname, 'vendor')
+        path: path.join(__dirname, '../vendor')
     },
 
     // Authentication

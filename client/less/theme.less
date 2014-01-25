@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 // Primary bootstrap theme
-@import "/vendor/bootstrap/less/bootstrap";
+@import "/client/vendor/bootstrap/less/bootstrap";
 
 // Custom variables
 @import "variables";
@@ -12,7 +12,7 @@
 @import "bootstrap/theme";
 
 // LessHat
-@import "/vendor/lesshat/lesshat";
+@import "/client/vendor/lesshat/lesshat";
 
 //----------------------------------------------------------------------------------------------------------------------
 // Header
@@ -30,7 +30,7 @@
 .favorite,
 .favorite:hover
 {
-    color: #f90;
+    color: #f90 !important;
 }
 
 // Alerts
@@ -85,12 +85,28 @@
     //border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
+.btn-group.open .btn-inverse,
+.btn-inverse:active
+{
+    .btn-styles(#606060);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    border-color: #262626 #222222 #000;
+    //border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+}
+
 .btn-inverse:hover
 {
     .btn-styles(#525252);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     color: #FFF;
     border-color: #262626 #222222 #000;
+}
+
+.btn-inverse:focus
+{
+    color: #FFF;
 }
 
 .btn:focus

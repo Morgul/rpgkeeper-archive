@@ -6,7 +6,6 @@
 
 module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
 {
-    $scope.collapse = {};
     $scope.newRoll = {
         title: '',
         roll: ''
@@ -15,57 +14,9 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
     $scope.rollEdits = [];
     $scope.showAttributes = $attrs.attributes == "true";
 
-    function updatePowerRef(powerRef)
-    {
-        $scope.systemSocket.emit('update powerRef', powerRef, function(error, powerRefRet)
-        {
-            $scope.$apply(function()
-            {
-                _.apply(powerRef, powerRefRet);
-            });
-        });
-    } // end updatePowerRef
-
-    $scope.$on('short rest', function()
-    {
-        $scope.sysChar.powers.forEach(function(powerRef)
-        {
-            var power = powerRef.power;
-            if(power.type == 'Encounter')
-            {
-                powerRef.currentUses = 0;
-
-                updatePowerRef(powerRef);
-            } // end if
-        });
-    });
-
-    $scope.$on('extended rest', function()
-    {
-        $scope.sysChar.powers.forEach(function(powerRef)
-        {
-            var power = powerRef.power;
-            if(power.type == 'Encounter' || power.type == 'Daily')
-            {
-                powerRef.currentUses = 0;
-
-                updatePowerRef(powerRef);
-            } // end if
-        });
-    });
-
-    $scope.getUseIcon = function(powerRef, index)
-    {
-        // Make index 1 based
-        index += 1;
-
-        if(index <= powerRef.currentUses)
-        {
-            return "icon-check";
-        } // end if
-
-        return "icon-check-empty";
-    };
+    //------------------------------------------------------------------------------------------------------------------
+    // Powers Tab
+    //------------------------------------------------------------------------------------------------------------------
 
     $scope.sortPowerLevel = function(powerRef)
     {
@@ -120,32 +71,13 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
         } // end if
     };
 
-    $scope.handleUse = function(powerRef, index, event)
-    {
-        event.stopPropagation();
-
-        // Make index 1 based
-        index += 1;
-
-        if(index > powerRef.currentUses)
-        {
-            powerRef.currentUses += 1;
-            updatePowerRef(powerRef);
-        }
-        else if(powerRef.currentUses > 0)
-        {
-            powerRef.currentUses -= 1;
-            updatePowerRef(powerRef);
-        } // end if
-    };
-
     //------------------------------------------------------------------------------------------------------------------
     // Rolls Tab
     //------------------------------------------------------------------------------------------------------------------
 
-    $scope.doGenericRoll = function()
+    $scope.doGenericRoll = function(roll)
     {
-        $scope.$root.rollDice($scope.genericRoll, $scope.sysChar);
+        $scope.$root.rollDice(roll, $scope.sysChar);
         $scope.genericRoll = "";
     }; // end doGenericRoll
 

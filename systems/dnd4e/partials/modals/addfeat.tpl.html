@@ -29,19 +29,8 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="chosenFeat" class="well well-sm">
-                <p>
-                    <b>Name:</b> {{ chosenFeat.name }}
-                </p>
-                <p>
-                    <b>Prerequisites:</b> {{ chosenFeat.prerequisites }}
-                </p>
-                <p>
-                    <b>Description:</b> {{ chosenFeat.description }}
-                </p>
-                <p>
-                    <b>Special:</b> {{ chosenFeat.special }}
-                </p>
+            <div ng-if="chosenFeat">
+                <feat feat-ref="chosenFeat" editable="false" removable="false" style="max-width: 450px; margin: 0 auto;"></feat>
             </div>
             <hr>
             <div class="form-group">

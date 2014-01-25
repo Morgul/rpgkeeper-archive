@@ -9,7 +9,7 @@
 
             <!-- Table -->
             <table class="table table-bordered table-striped">
-                <tr ng-repeat="character in characters">
+                <tr ng-repeat="character in characters | orderBy:['-favorite', 'name']">
                     <td class="shrink">
                         <button class="btn btn-default" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i>
                         </button>

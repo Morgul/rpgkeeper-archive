@@ -6,8 +6,8 @@
 
 var om = require('omega-models');
 var fields = om.fields;
-var NedbBackend = om.backends.NeDB;
-var ns = om.namespace('dnd4e').backend(new NedbBackend({baseDir: './db'}));
+var SimpleBackend = om.backends.Simple;
+var ns = om.namespace('dnd4e').backend(new SimpleBackend({root: './server/db'}));
 
 //----------------------------------------------------------------------------------------------------------------------
 

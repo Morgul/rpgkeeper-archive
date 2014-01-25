@@ -10,8 +10,19 @@
         <!-- Turn off IE Compatibility mode, for Persona support -->
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
+        <!-- Fonts -->
+        <link href='//fonts.googleapis.com/css?family=Titillium+Web:400,700,600,400italic,600italic,700italic,900,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
+
+        <!-- Vendor Styles -->
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/client/vendor/openwebicons/css/openwebicons-bootstrap.min.css" rel="stylesheet">
+        <link href="/client/vendor/icomoon/style.css" rel="stylesheet">
+
+        <!-- Application Styles -->
+        <link href="/client/css/rpgkeeper.min.css" rel="stylesheet">
+
         <!-- These scripts must be at the start of the page -->
-        <script src="/vendor/marked/marked.js"></script>
+        <script src="/client/vendor/marked/marked.js"></script>
         <!--script src="/vendor/showdown/showdown.js"></script-->
         <!--script src="/vendor/showdown/extensions/table.js"></script-->
         <script src="/socket.io/socket.io.js"></script>
@@ -19,9 +30,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-route.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-resource.min.js"></script>
-        <!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-resource.min.js"></script-->
-        <script src="/vendor/ui-bootstrap/ui-bootstrap-tpls-0.7.0-SNAPSHOT.min.js"></script>
+        <script src="/client/vendor/ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js"></script>
 
         <!-- Application Scripts -->
         <script src="/client/app.js"></script>
@@ -35,26 +44,8 @@
         <script src="/client/js/systems.filters.js"></script>
         <script src="/client/js/systems.widgets.js"></script>
 
-        <!-- Fonts -->
-        <link href='//fonts.googleapis.com/css?family=Titillium+Web:400,700,600,400italic,600italic,700italic,900,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
-
-        <!-- Vendor Styles -->
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/vendor/openwebicons/css/openwebicons-bootstrap.min.css" rel="stylesheet">
-        <link href="/vendor/icomoon/style.css" rel="stylesheet">
-
-        <!-- Application Styles -->
-        <!--link rel="stylesheet/less" type="text/css" href="/client/less/theme.less" />
-        <link rel="stylesheet/less" type="text/css" href="/client/less/overrides.less" /-->
-        <link href="/client/css/rpgkeeper.css" rel="stylesheet">
-        <!--link href="/client/css/overrides.css" rel="stylesheet"-->
-
         <!-- Fav Icon -->
         <link rel="shortcut icon" href="/client/images/favicon.png" />
-
-        <!--Fix for stupid AngularJS 1.1.5 router behavior -->
-        <!-- See: https://github.com/angular/angular.js/issues/2799 -->
-        <base href="/">
     </head>
     <body>
         <!-- Main Header -->
@@ -65,8 +56,8 @@
 
         <!-- ======================================================================================================= -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="/vendor/ui-utils/ui-utils.min.js"></script>
+        <script src="/client/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/client/vendor/ui-utils/ui-utils.min.js"></script>
         <script src="//login.persona.org/include.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.1/lodash.min.js"></script>
 
@@ -77,7 +68,7 @@
         <script type="text/javascript" src="//www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="678jhziclljis0y"></script>
 
         <!-- Dicer -->
-        <script src="/vendor/dicer/dice.min.js"></script>
+        <script src="/client/vendor/dicer/dice.min.js"></script>
         <!-- ======================================================================================================= -->
     </body>
 </html>

@@ -1,9 +1,0 @@
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.powers", "name" : "_id_" }
-{ "v" : 1, "key" : { "name" : 1 }, "unique" : true, "ns" : "dnd4e.powers", "name" : "name_1", "background" : true, "safe" : null }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.languages", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.races", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.classes", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.characters", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.feats", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.paragonpaths", "name" : "_id_" }
-{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "dnd4e.epicdestinies", "name" : "_id_" }

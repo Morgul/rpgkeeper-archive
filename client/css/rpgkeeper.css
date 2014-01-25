@@ -7714,7 +7714,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -7758,6 +7758,26 @@ td.visible-print {
   background-color: #2b2b2b;
   border-color: #262626;
 }
+.btn-group.open .btn-inverse,
+.btn-inverse:active {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#606060), to(#474747));
+  background-image: -webkit-linear-gradient(top, #606060, 0%, #474747, 100%);
+  background-image: -moz-linear-gradient(top, #606060 0%, #474747 100%);
+  background-image: linear-gradient(to bottom, #606060 0%, #474747 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff606060', endColorstr='#ff474747', GradientType=0);
+  border-color: #414141;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  border-color: #262626 #222222 #000;
+}
+.btn-group.open .btn-inverse:active,
+.btn-inverse:active:active,
+.btn-group.open .btn-inverse.active,
+.btn-inverse:active.active {
+  background-color: #474747;
+  border-color: #414141;
+}
 .btn-inverse:hover {
   background-image: -webkit-gradient(linear, left 0%, left 100%, from(#525252), to(#393939));
   background-image: -webkit-linear-gradient(top, #525252, 0%, #393939, 100%);
@@ -7774,6 +7794,9 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
@@ -15447,7 +15470,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -15491,6 +15514,26 @@ td.visible-print {
   background-color: #2b2b2b;
   border-color: #262626;
 }
+.btn-group.open .btn-inverse,
+.btn-inverse:active {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#606060), to(#474747));
+  background-image: -webkit-linear-gradient(top, #606060, 0%, #474747, 100%);
+  background-image: -moz-linear-gradient(top, #606060 0%, #474747 100%);
+  background-image: linear-gradient(to bottom, #606060 0%, #474747 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff606060', endColorstr='#ff474747', GradientType=0);
+  border-color: #414141;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  border-color: #262626 #222222 #000;
+}
+.btn-group.open .btn-inverse:active,
+.btn-inverse:active:active,
+.btn-group.open .btn-inverse.active,
+.btn-inverse:active.active {
+  background-color: #474747;
+  border-color: #414141;
+}
 .btn-inverse:hover {
   background-image: -webkit-gradient(linear, left 0%, left 100%, from(#525252), to(#393939));
   background-image: -webkit-linear-gradient(top, #525252, 0%, #393939, 100%);
@@ -15507,6 +15550,9 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
@@ -15820,29 +15866,20 @@ td.visible-print {
 .detail-tabs ul.nav.nav-tabs {
   margin-bottom: 10px;
 }
-.detail-tabs .power table,
-.detail-tabs .feat table,
 .detail-tabs .item table {
   width: 100%;
   margin-top: 5px;
 }
-.detail-tabs .power table thead,
-.detail-tabs .feat table thead,
 .detail-tabs .item table thead {
   background-color: #ddd;
 }
-.detail-tabs .power table th,
-.detail-tabs .feat table th,
 .detail-tabs .item table th {
   text-align: center;
   padding: 2px 5px;
 }
-.detail-tabs .power table td,
-.detail-tabs .feat table td,
 .detail-tabs .item table td {
   text-align: center;
 }
-.detail-tabs .power .gradient,
 .detail-tabs .item .gradient {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
@@ -15867,7 +15904,6 @@ td.visible-print {
   /* IE6-9 */
 
 }
-.detail-tabs .power h4,
 .detail-tabs .item h4 {
   margin: 0;
   font-size: .97em;
@@ -15876,42 +15912,34 @@ td.visible-print {
   border-radius: 4px;
   cursor: pointer;
 }
-.detail-tabs .power h4 .close,
 .detail-tabs .item h4 .close {
   margin-top: -4px;
 }
-.detail-tabs .power h4 .edit,
 .detail-tabs .item h4 .edit {
   margin-top: 1px;
   margin-right: 2px;
   font-size: 1.1em;
 }
-.detail-tabs .power h4.at-will,
 .detail-tabs .item h4.at-will {
   color: #fff;
   background-color: #61976a;
 }
-.detail-tabs .power h4.encounter,
 .detail-tabs .item h4.encounter {
   color: #fff;
   background-color: #951234;
 }
-.detail-tabs .power h4.daily,
 .detail-tabs .item h4.daily {
   color: #fff;
   background-color: #4c4d4f;
 }
-.detail-tabs .power h4.magic,
 .detail-tabs .item h4.magic {
   color: #fff;
   background-color: #dba516;
 }
-.detail-tabs .power .type-level,
 .detail-tabs .item .type-level {
   float: right;
   margin-right: 3px;
 }
-.detail-tabs .power .flavor,
 .detail-tabs .item .flavor {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
@@ -15940,7 +15968,6 @@ td.visible-print {
   margin: 0 5px;
   padding: 2px 4px;
 }
-.detail-tabs .power .sections .section:nth-child(even),
 .detail-tabs .item .sections .section:nth-child(even) {
   padding-top: 2px !important;
   background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
@@ -15965,13 +15992,11 @@ td.visible-print {
   /* IE6-9 */
 
 }
-.detail-tabs .power hr,
 .detail-tabs .item hr {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.detail-tabs .item + .item,
-.detail-tabs .power + .power {
+.detail-tabs .item + .item {
   margin-top: 7px;
 }
 .detail-tabs .feat h4 {
@@ -15990,9 +16015,6 @@ td.visible-print {
   margin-top: 1px;
   margin-right: 2px;
   font-size: 1.1em;
-}
-.detail-tabs .feat + .feat {
-  margin-top: 10px;
 }
 .detail-tabs .section {
   font-size: .90em;
@@ -16018,6 +16040,60 @@ td.visible-print {
 }
 .detail-tabs .rolls div.row .btn {
   margin-bottom: 5px;
+}
+
+.feat table {
+  width: 100%;
+  margin-top: 5px;
+}
+.feat table thead {
+  background-color: #ddd;
+}
+.feat table th {
+  text-align: center;
+  padding: 2px 5px;
+}
+.feat table td {
+  text-align: center;
+}
+.feat h4 {
+  margin: 0;
+  font-size: .97em;
+  font-weight: bold;
+  background-color: #eee;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.feat h4 .close {
+  margin-top: -4px;
+}
+.feat h4 .edit {
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 1.1em;
+}
+.feat .section {
+  font-size: .90em;
+  margin: 5px 10px;
+  line-height: 1.2em !important;
+  padding-left: 7px;
+}
+.feat .section b.title {
+  margin-left: -5px;
+}
+.feat .section b + span p:first-child {
+  display: inline;
+}
+.feat .section b + span p + p {
+  margin-top: 5px;
+}
+.feat .section.prerequisites b + span {
+  font-style: italic;
+  font-size: .97em;
+}
+.feat + .feat {
+  margin-top: 10px;
 }
 
 .well {
@@ -16130,6 +16206,151 @@ td.visible-print {
 .hpcalc .right .btn-group .btn.surge {
   width: calc(100% - 71px);
   width: -webkit-calc(100% - 71px);
+}
+
+.power table {
+  width: 100%;
+  margin-top: 5px;
+}
+.power table thead {
+  background-color: #ddd;
+}
+.power table th {
+  text-align: center;
+  padding: 2px 5px;
+}
+.power table td {
+  text-align: center;
+}
+.power .section {
+  font-size: .90em;
+  margin: 5px 10px;
+  line-height: 1.2em !important;
+  padding-left: 7px;
+}
+.power .section b.title {
+  margin-left: -5px;
+}
+.power .section b + span p:first-child {
+  display: inline;
+}
+.power .section b + span p + p {
+  margin-top: 5px;
+}
+.power .section.prerequisites b + span {
+  font-style: italic;
+  font-size: .97em;
+}
+.power .gradient {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+}
+.power h4 {
+  margin: 0;
+  font-size: .97em;
+  background-color: #eee;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.power h4 .close {
+  margin-top: -4px;
+}
+.power h4 .edit {
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 1.1em;
+}
+.power h4.at-will {
+  color: #fff;
+  background-color: #61976a;
+}
+.power h4.encounter {
+  color: #fff;
+  background-color: #951234;
+}
+.power h4.daily {
+  color: #fff;
+  background-color: #4c4d4f;
+}
+.power .type-level {
+  float: right;
+  margin-right: 3px;
+}
+.power .flavor {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+  font-size: .90em;
+  font-style: italic;
+  margin: 0 5px;
+  padding: 2px 4px;
+}
+.power .sections .section:nth-child(even) {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+}
+.power + .power {
+  margin-top: 7px;
 }
 
 /*!
@@ -23797,7 +24018,7 @@ td.visible-print {
 }
 .favorite,
 .favorite:hover {
-  color: #f90;
+  color: #f90 !important;
 }
 .alert-area {
   position: absolute;
@@ -23841,6 +24062,26 @@ td.visible-print {
   background-color: #2b2b2b;
   border-color: #262626;
 }
+.btn-group.open .btn-inverse,
+.btn-inverse:active {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#606060), to(#474747));
+  background-image: -webkit-linear-gradient(top, #606060, 0%, #474747, 100%);
+  background-image: -moz-linear-gradient(top, #606060 0%, #474747 100%);
+  background-image: linear-gradient(to bottom, #606060 0%, #474747 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff606060', endColorstr='#ff474747', GradientType=0);
+  border-color: #414141;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  border-color: #262626 #222222 #000;
+}
+.btn-group.open .btn-inverse:active,
+.btn-inverse:active:active,
+.btn-group.open .btn-inverse.active,
+.btn-inverse:active.active {
+  background-color: #474747;
+  border-color: #414141;
+}
 .btn-inverse:hover {
   background-image: -webkit-gradient(linear, left 0%, left 100%, from(#525252), to(#393939));
   background-image: -webkit-linear-gradient(top, #525252, 0%, #393939, 100%);
@@ -23857,6 +24098,9 @@ td.visible-print {
 .btn-inverse:hover.active {
   background-color: #393939;
   border-color: #333333;
+}
+.btn-inverse:focus {
+  color: #FFF;
 }
 .btn:focus {
   outline: none;
