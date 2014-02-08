@@ -331,17 +331,11 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                console.log('result:', result);
-
                 $scope.systemSocket.emit("update feat", result, function(error, featRet)
                 {
-                    console.log('featRet:', featRet);
-
                     $scope.$apply(function()
                     {
                         _.assign(feat, featRet);
-
-                        console.log('feat:', feat);
                     });
                 });
             } // end if
@@ -401,8 +395,6 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                console.log('result:', result);
-
                 $scope.systemSocket.emit("update power", result, function(error, powerRet)
                 {
                     $scope.$apply(function()
