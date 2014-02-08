@@ -33,7 +33,7 @@ module.controller('FeatController', function($scope, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $scope.editFeat; }},
+            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $scope.$root.editFeat; }},
             templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
             controller: 'EditFeatRefModalCtrl'
         };

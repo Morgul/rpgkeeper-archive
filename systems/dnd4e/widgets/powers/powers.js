@@ -120,7 +120,7 @@ module.controller('PowerController', function($scope, $rootScope, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $scope.editPower; } },
+            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $rootScope.editPower; } },
             templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
             controller: 'EditPowerRefModalCtrl'
         };

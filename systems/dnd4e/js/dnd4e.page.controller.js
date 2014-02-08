@@ -306,7 +306,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addFeat
 
-    $scope.editFeat = function(feat, event) {
+    $scope.$root.editFeat = function(feat, event) {
         if(feat && feat.stopPropagation !== undefined)
         {
             event = feat;
@@ -376,7 +376,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         });
     }; // end addPower
 
-    $scope.editPower = function(power, event) {
+    $scope.$root.editPower = function(power, event) {
         if(power && power.stopPropagation !== undefined)
         {
             event = power;
