@@ -57,6 +57,11 @@ module.controller('PowerController', function($scope, $modal)
         });
     });
 
+    $scope.range = function(n)
+    {
+        return new Array(n);
+    }; // end range
+
     $scope.collapseClick = function()
     {
         if($scope.toggle != undefined)
