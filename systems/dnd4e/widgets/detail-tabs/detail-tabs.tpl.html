@@ -4,7 +4,7 @@
     </tab>
     <tab heading="Powers" select="setTab('powers')">
         <div class="powers">
-            <power ng-repeat="powerRef in sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" ng-init="collapse['power-' + $index] = true" toggle="collapse['power-' + $index]" power-ref="powerRef"></power>
+            <power ng-repeat="powerRef in sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" ng-init="collapse['power-' + $index] = true" toggle="collapse['power-' + $index]" power-ref="powerRef" sys-char="sysChar"></power>
         </div>
     </tab>
     <tab heading="Feats" select="setTab('feats')">

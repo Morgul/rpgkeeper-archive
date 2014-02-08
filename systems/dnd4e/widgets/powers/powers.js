@@ -4,7 +4,7 @@
 // @module powers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('PowerController', function($scope, $modal)
+module.controller('PowerController', function($scope, $rootScope, $modal)
 {
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
@@ -20,7 +20,7 @@ module.controller('PowerController', function($scope, $modal)
 
     function updatePowerRef(powerRef)
     {
-        $scope.systemSocket.emit('update powerRef', powerRef, function(error, powerRefRet)
+        $rootScope.systemSocket.emit('update powerRef', powerRef, function(error, powerRefRet)
         {
             $scope.$apply(function()
             {
@@ -29,7 +29,7 @@ module.controller('PowerController', function($scope, $modal)
         });
     } // end updatePowerRef
 
-    $scope.$on('short rest', function()
+    $rootScope.$on('short rest', function()
     {
         $scope.sysChar.powers.forEach(function(powerRef)
         {
@@ -43,7 +43,7 @@ module.controller('PowerController', function($scope, $modal)
         });
     });
 
-    $scope.$on('extended rest', function()
+    $rootScope.$on('extended rest', function()
     {
         $scope.sysChar.powers.forEach(function(powerRef)
         {
@@ -166,7 +166,9 @@ module.directive('power', function()
             toggle: "=",
             powerRef: "&",
             editable: "@",
-            removable: "@"
+            removable: "@",
+            sysChar: "=",
+            systemSocket: "="
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',
