@@ -4,6 +4,8 @@
 // @module modules.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+angular.module('rpgkeeper.services', []);
+
 angular.module('rpgkeeper.systems.services', []);
 
 angular.module('rpgkeeper.systems', [

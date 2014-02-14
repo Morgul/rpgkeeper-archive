@@ -12,6 +12,7 @@ window.app = angular.module("rpgkeeper", [
         'rpgkeeper.controllers',
         'rpgkeeper.directives',
         'rpgkeeper.client.templates',
+        'rpgkeeper.services',
         'rpgkeeper.systems'
     ])
     .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider)
