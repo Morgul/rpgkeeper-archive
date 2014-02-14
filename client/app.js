@@ -23,7 +23,7 @@ window.app = angular.module("rpgkeeper", [
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .run(function($rootScope, $location)
+    .run(function($rootScope, $location, $socket)
     {
         // Configure marked parser
         marked.setOptions({
@@ -46,7 +46,9 @@ window.app = angular.module("rpgkeeper", [
             $location.path(path);
         }; // end setLocation
 
-        $rootScope.socket = io.connect();
+        $socket.connect();
+
+        //$rootScope.socket = io.connect();
         $rootScope.alerts = [
         ];
 

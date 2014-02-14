@@ -77,13 +77,6 @@ var SocketProvider = function() {
 
         // -------------------------------------------------------------------------------------------------------------
 
-        function SocketChannel(socket)
-        {
-            this.socket = socket
-        } // end SocketChannel
-
-        SocketChannel.prototype.on = SocketService.prototype.on;
-        SocketChannel.prototype.emit = SocketService.prototype.emit;
 
         // -------------------------------------------------------------------------------------------------------------
 
@@ -206,7 +199,7 @@ var SocketProvider = function() {
             // Emit over socket.io
             if(this.socket)
             {
-                this.socket.emit.apply(this.socket, arguments);
+                this.socket.emit.apply(this.socket, args);
             } // end if
         }; // end emit
 
@@ -223,7 +216,7 @@ var SocketProvider = function() {
 
             if(this.socket)
             {
-                this.socket.on.apply(this.socket, arguments);
+                this.socket.on.apply(this.socket, [event, wrappedCB]);
             }
             else
             {
@@ -234,6 +227,14 @@ var SocketProvider = function() {
 
         SocketService.prototype.channel = function(channel)
         {
+            function SocketChannel(socket)
+            {
+                this.socket = socket
+            } // end SocketChannel
+
+            SocketChannel.prototype.on = this.on;
+            SocketChannel.prototype.emit = this.emit;
+
             // If we're not using the mock service, we should use socket.io.
             if(!socketLib)
             {
