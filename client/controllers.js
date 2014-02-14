@@ -196,14 +196,14 @@
 
                 $scope.character = character;
 
-                $scope.$root.systemSocket = $socket.channel('/' + character.system.shortname);
+                var systemSocket = $socket.channel('/' + character.system.shortname);
 
-                $scope.systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
+                systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
                 {
                     $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
                     $scope.sysChar = sysChar;
                     $scope.isNew = isNew;
-                })
+                });
             } // end if
         });
     });

@@ -4,7 +4,7 @@
 // @module feats.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('FeatController', function($scope, $rootScope, $modal)
+module.controller('FeatController', function($scope, $rootScope, $socket, $modal)
 {
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
@@ -42,12 +42,9 @@ module.controller('FeatController', function($scope, $rootScope, $modal)
         {
             if(result)
             {
-                $rootScope.systemSocket.emit("update featRef", result, function(error, featRefRet)
+                $socket.channel('/dnd4e').emit("update featRef", result, function(error, featRefRet)
                 {
-                    $scope.$apply(function()
-                    {
-                        _.assign(featRef, featRefRet);
-                    });
+                    _.assign(featRef, featRefRet);
                 });
             } // end if
         });
@@ -59,12 +56,9 @@ module.controller('FeatController', function($scope, $rootScope, $modal)
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $rootScope.systemSocket.emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
         {
-            $scope.$apply(function()
-            {
-                $scope.sysChar = character;
-            });
+            $scope.sysChar = character;
         });
     }; // end removeFeat
 });

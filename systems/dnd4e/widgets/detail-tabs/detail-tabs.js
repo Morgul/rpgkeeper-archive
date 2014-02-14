@@ -4,7 +4,7 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
+module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
 {
     $scope.newRoll = {
         title: '',
@@ -95,13 +95,10 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
 
     $scope.addRoll = function()
     {
-        $scope.systemSocket.emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
         {
-            $scope.$apply(function()
-            {
-                // Avoid assigning to sysChar; otherwise we'll have scope issues.
-                _.assign($scope.sysChar, character);
-            });
+            // Avoid assigning to sysChar; otherwise we'll have scope issues.
+            _.assign($scope.sysChar, character);
         });
 
         $scope.newRoll = { title: '', roll: '' };
@@ -120,17 +117,14 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
 
     $scope.updateRoll = function(roll, index)
     {
-        $scope.systemSocket.emit("update roll", roll, function(error, rollRet)
+        $socket.channel('/dnd4e').emit("update roll", roll, function(error, rollRet)
         {
-            $scope.$apply(function()
-            {
-                roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
+            roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
 
-                // Avoid assigning to roll; otherwise we'll have scope issues.
-                _.assign(roll, rollRet);
+            // Avoid assigning to roll; otherwise we'll have scope issues.
+            _.assign(roll, rollRet);
 
-                console.log('updated Roll:', roll);
-            });
+            console.log('updated Roll:', roll);
         });
 
         $scope.rollEdits[index] = false;
@@ -140,13 +134,10 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs)
     {
         console.log('remove roll called!');
 
-        $scope.systemSocket.emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
         {
-            $scope.$apply(function()
-            {
-                // Avoid assigning to sysChar; otherwise we'll have scope issues.
-                _.assign($scope.sysChar, character);
-            });
+            // Avoid assigning to sysChar; otherwise we'll have scope issues.
+            _.assign($scope.sysChar, character);
         });
     }; // end removeRoll
 
