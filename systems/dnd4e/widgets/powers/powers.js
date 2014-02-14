@@ -146,7 +146,7 @@ module.controller('PowerController', function($scope, $rootScope, $modal)
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $scope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $rootScope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
         {
             $scope.$apply(function()
             {

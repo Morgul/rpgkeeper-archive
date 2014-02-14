@@ -4,7 +4,7 @@
 // @module feats.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('FeatController', function($scope, $modal)
+module.controller('FeatController', function($scope, $rootScope, $modal)
 {
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
@@ -33,7 +33,7 @@ module.controller('FeatController', function($scope, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $scope.$root.editFeat; }},
+            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $rootScope.editFeat; }},
             templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
             controller: 'EditFeatRefModalCtrl'
         };
@@ -42,7 +42,7 @@ module.controller('FeatController', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("update featRef", result, function(error, featRefRet)
+                $rootScope.systemSocket.emit("update featRef", result, function(error, featRefRet)
                 {
                     $scope.$apply(function()
                     {
@@ -59,7 +59,7 @@ module.controller('FeatController', function($scope, $modal)
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $scope.systemSocket.emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $rootScope.systemSocket.emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
         {
             $scope.$apply(function()
             {
@@ -79,7 +79,9 @@ module.directive('feat', function()
             toggle: "=",
             featRef: "&",
             editable: "@",
-            removable: "@"
+            removable: "@",
+            sysChar: "=",
+            systemSocket: "="
         },
         templateUrl: '/systems/dnd4e/widgets/feats/feat.html',
         controller: 'FeatController',
