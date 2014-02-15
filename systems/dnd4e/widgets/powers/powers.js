@@ -4,7 +4,7 @@
 // @module powers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('PowerController', function($scope, $rootScope, $modal)
+module.controller('PowerController', function($scope, $rootScope, $socket, $modal)
 {
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
@@ -20,12 +20,9 @@ module.controller('PowerController', function($scope, $rootScope, $modal)
 
     function updatePowerRef(powerRef)
     {
-        $rootScope.systemSocket.emit('update powerRef', powerRef, function(error, powerRefRet)
+        $socket.channel('/dnd4e').emit('update powerRef', powerRef, function(error, powerRefRet)
         {
-            $scope.$apply(function()
-            {
-                _.apply(powerRef, powerRefRet);
-            });
+            _.apply(powerRef, powerRefRet);
         });
     } // end updatePowerRef
 
@@ -129,12 +126,9 @@ module.controller('PowerController', function($scope, $rootScope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("update powerRef", result, function(error, powerRefRet)
+                $socket.channel('/dnd4e').emit("update powerRef", result, function(error, powerRefRet)
                 {
-                    $scope.$apply(function()
-                    {
-                        _.assign(powerRef, powerRefRet);
-                    });
+                    _.assign(powerRef, powerRefRet);
                 });
             } // end if
         });
@@ -146,12 +140,9 @@ module.controller('PowerController', function($scope, $rootScope, $modal)
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $rootScope.systemSocket.emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
         {
-            $scope.$apply(function()
-            {
-                $scope.sysChar = character;
-            });
+            $scope.sysChar = character;
         });
     }; // end removePower
 });
@@ -167,8 +158,7 @@ module.directive('power', function()
             powerRef: "&",
             editable: "@",
             removable: "@",
-            sysChar: "=",
-            systemSocket: "="
+            sysChar: "="
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',

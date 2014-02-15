@@ -4,7 +4,7 @@
 // @module conditions.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('ConditionsCtrl', function($scope, $modal)
+module.controller('ConditionsCtrl', function($scope, $socket, $modal)
 {
     $scope.addCondition = function()
     {
@@ -20,12 +20,10 @@ module.controller('ConditionsCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
                 {
-                    $scope.$apply(function()
-                    {
-                        $scope.pageCtrl.$scope.sysChar = character;
-                    });
+                    // FIXME: This is a terrible hack!
+                    $scope.pageCtrl.$scope.sysChar = character;
                 });
             } // end if
         });
@@ -33,12 +31,10 @@ module.controller('ConditionsCtrl', function($scope, $modal)
 
     $scope.removeCondition = function(cond)
     {
-        $scope.systemSocket.emit("remove condition", cond.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove condition", cond.$id, $scope.sysChar.baseChar, function(error, character)
         {
-            $scope.$apply(function()
-            {
-                $scope.pageCtrl.$scope.sysChar = character;
-            });
+            // FIXME: This is a terrible hack!
+            $scope.pageCtrl.$scope.sysChar = character;
         });
     }; // end removeCondition
 });

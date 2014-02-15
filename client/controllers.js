@@ -12,7 +12,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $modal)
+    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $socket, $modal)
     {
         // Check that we have a username
         if(!$scope.user)
@@ -20,7 +20,7 @@
             $http.get('/user')
                 .success(function(data, status)
                 {
-                    $scope.$root.user = data.user;
+                    $rootScope.user = data.user;
                 })
                 .error(function(data, status){
                     $location.path("/");
@@ -30,13 +30,13 @@
         // Get our characters
         if(!$scope.characters)
         {
-            $scope.socket.emit('list_characters');
+            $socket.emit('list_characters');
         } // end if
 
         // Get all systems
         if(!$scope.systems)
         {
-            $scope.socket.emit('list_systems');
+            $socket.emit('list_systems');
         } // end if
 
         //--------------------------------------------------------------------------------------------------------------
@@ -58,24 +58,18 @@
         //--------------------------------------------------------------------------------------------------------------
 
         // Get a list of favorite characters
-        $scope.socket.on('characters', function(characters)
+        $socket.on('characters', function(characters)
         {
-            $rootScope.$apply(function()
+            $rootScope.characters = _.sortBy(characters, function(character)
             {
-                $rootScope.characters = _.sortBy(characters, function(character)
-                {
-                    return character.system.name;
-                });
+                return character.system.name;
             });
         });
 
         // Handle the list of systems
-        $scope.socket.on('systems', function(systems)
+        $socket.on('systems', function(systems)
         {
-            $rootScope.$apply(function()
-            {
-                $rootScope.systems = systems;
-            });
+            $rootScope.systems = systems;
         });
 
         //--------------------------------------------------------------------------------------------------------------
@@ -116,7 +110,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $modal)
+    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $socket, $modal)
     {
         // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
@@ -145,7 +139,7 @@
             {
                 if(result)
                 {
-                    $scope.socket.emit('delete_character', character, function(error)
+                    $socket.emit('delete_character', character, function(error)
                     {
                         if(error)
                         {
@@ -154,7 +148,7 @@
                         else
                         {
                             // Update the list of characters.
-                            $scope.socket.emit("list_characters");
+                            $socket.emit("list_characters");
                         } // end if
                     });
                 } // end if
@@ -164,7 +158,7 @@
         $scope.toggleFavorite = function(character)
         {
             character.favorite = !character.favorite;
-            $scope.socket.emit('favorite', character, function(error)
+            $socket.emit('favorite', character, function(error)
             {
                 if(error)
                 {
@@ -177,21 +171,18 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $routeParams)
+    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $socket, $routeParams)
     {
         var charID = $routeParams.id;
 
-        $scope.socket.emit('get_character', charID, function(error, character)
+        $socket.emit('get_character', charID, function(error, character)
         {
             if(error)
             {
                 if(error.type == 'notfound')
                 {
-                    $scope.$apply(function()
-                    {
-                        // We didn't find a character by that name.
-                        $scope.char_template = '/partials/notfound.html';
-                    });
+                    // We didn't find a character by that name.
+                    $scope.char_template = '/partials/notfound.html';
                 }
                 else
                 {
@@ -200,24 +191,18 @@
             }
             else
             {
-                $scope.$apply(function()
+                // Change our page title
+                $scope.$root.$broadcast('title', character.name);
+
+                $scope.character = character;
+
+                var systemSocket = $socket.channel('/' + character.system.shortname);
+
+                systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
                 {
-                    // Change our page title
-                    $scope.$root.$broadcast('title', character.name);
-
-                    $scope.character = character;
-
-                    $scope.$root.systemSocket = io.connect('/' + character.system.shortname);
-
-                    $scope.systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
-                    {
-                        $scope.$apply(function()
-                        {
-                            $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
-                            $scope.sysChar = sysChar;
-                            $scope.isNew = isNew;
-                        });
-                    })
+                    $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
+                    $scope.sysChar = sysChar;
+                    $scope.isNew = isNew;
                 });
             } // end if
         });
@@ -225,7 +210,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('AddCharDialogCtrl', function($scope, $location, $modalInstance)
+    Controllers.controller('AddCharDialogCtrl', function($scope, $location, $socket, $modalInstance)
     {
         $scope.newchar = {};
 
@@ -240,21 +225,18 @@
 
         $scope.save = function()
         {
-            $scope.socket.emit('new_character', $scope.newchar, function(error, character)
+            $socket.emit('new_character', $scope.newchar, function(error, character)
             {
                 $modalInstance.close();
 
                 if(error)
                 {
-                    $scope.$apply(function()
-                    {
-                        $scope.alerts.push(error);
-                    });
+                    $scope.alerts.push(error);
                 }
                 else
                 {
                     // Update the list of characters.
-                    $scope.socket.emit("list_characters");
+                    $socket.emit("list_characters");
                     $location.path("/character/" + character.$id);
                 } // end if
             });

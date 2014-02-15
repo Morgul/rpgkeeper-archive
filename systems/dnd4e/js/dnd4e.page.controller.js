@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DnD4ePageCtrl', function($scope, $modal)
+module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
 {
     this.$scope = $scope;
     $scope.collapse = {};
@@ -49,7 +49,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
     // Get the possible choices for class
-    $scope.systemSocket.emit('get classes', function(error, classes)
+    $socket.channel('/dnd4e').emit('get classes', function(error, classes)
     {
         $scope.$apply(function()
         {
@@ -58,7 +58,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     });
 
     // Get the possible choices for feat
-    $scope.systemSocket.emit('get feats', function(error, feats)
+    $socket.channel('/dnd4e').emit('get feats', function(error, feats)
     {
         $scope.$apply(function()
         {
@@ -67,7 +67,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     });
 
     // Get the possible choices for power
-    $scope.systemSocket.emit('get powers', function(error, powers)
+    $socket.channel('/dnd4e').emit('get powers', function(error, powers)
     {
         $scope.$apply(function()
         {
@@ -92,7 +92,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     // TODO: pass the key that was modified into the update function, for even more better performance
                     doUpdate($scope, 'updateChar', function()
                     {
-                        $scope.systemSocket.emit("update_character", $scope.sysChar, function(error, character)
+                        $socket.channel('/dnd4e').emit("update_character", $scope.sysChar, function(error, character)
                         {
                             $scope.$apply(function()
                             {
@@ -121,7 +121,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             doUpdate($scope, 'updateChar', function()
             {
-                $scope.systemSocket.emit("update_character", { baseChar: $scope.sysChar.baseChar, class: { name: newClass.name } }, function(error, character)
+                $socket.channel('/dnd4e').emit("update_character", { baseChar: $scope.sysChar.baseChar, class: { name: newClass.name } }, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -133,7 +133,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                         {
                             if(character)
                             {
-                                $scope.systemSocket.emit('get classes', function(error, classes)
+                                $socket.channel('/dnd4e').emit('get classes', function(error, classes)
                                 {
                                     $scope.$apply(function()
                                     {
@@ -194,7 +194,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("add class", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add class", result, $scope.sysChar.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -218,7 +218,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("update class", result, function(error, classRet)
+                $socket.channel('/dnd4e').emit("update class", result, function(error, classRet)
                 {
                     $scope.$apply(function()
                     {
@@ -242,7 +242,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
     {
         doUpdate($scope, 'skills', function()
         {
-            $scope.systemSocket.emit("update skill", skill, function(error, skill)
+            $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill)
             {
                 //TODO: This might be nice to update with the skill, as passed back from the database, but it's not
                 // required, and man is the method below terrible.
@@ -267,7 +267,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("add skill", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add skill", result, $scope.sysChar.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -295,7 +295,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("add feat", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add feat", result, $scope.sysChar.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -331,7 +331,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("update feat", result, function(error, featRet)
+                $socket.channel('/dnd4e').emit("update feat", result, function(error, featRet)
                 {
                     $scope.$apply(function()
                     {
@@ -359,7 +359,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("add power", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add power", result, $scope.sysChar.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -395,7 +395,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
         {
             if(result)
             {
-                $scope.systemSocket.emit("update power", result, function(error, powerRet)
+                $socket.channel('/dnd4e').emit("update power", result, function(error, powerRet)
                 {
                     $scope.$apply(function()
                     {
@@ -424,7 +424,7 @@ module.controller('DnD4ePageCtrl', function($scope, $modal)
                     // the url. Thankfully their 'preview' url is almost exactly the same format as url we need.
                     var link = files[0].link.replace('https://www.', 'https://dl.');
                     $scope.character.portrait = link;
-                    $scope.socket.emit('update_character', $scope.character, function(error)
+                    $socket.emit('update_character', $scope.character, function(error)
                     {
                         if(error)
                         {
