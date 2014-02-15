@@ -56,9 +56,9 @@ module.controller('FeatController', function($scope, $rootScope, $socket, $modal
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $rootScope.sysChar.baseChar, function(error, character)
         {
-            $scope.sysChar = character;
+            $rootScope.sysChar = character;
         });
     }; // end removeFeat
 });
@@ -74,8 +74,7 @@ module.directive('feat', function()
             featRef: "&",
             editable: "@",
             removable: "@",
-            sysChar: "=",
-            systemSocket: "="
+            sysChar: "="
         },
         templateUrl: '/systems/dnd4e/widgets/feats/feat.html',
         controller: 'FeatController',

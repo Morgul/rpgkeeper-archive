@@ -28,7 +28,7 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
 
     $rootScope.$on('short rest', function()
     {
-        $scope.sysChar.powers.forEach(function(powerRef)
+        $rootScope.sysChar.powers.forEach(function(powerRef)
         {
             var power = powerRef.power;
             if(power.type == 'Encounter')
@@ -42,7 +42,7 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
 
     $rootScope.$on('extended rest', function()
     {
-        $scope.sysChar.powers.forEach(function(powerRef)
+        $rootScope.sysChar.powers.forEach(function(powerRef)
         {
             var power = powerRef.power;
             if(power.type == 'Encounter' || power.type == 'Daily')
@@ -140,9 +140,9 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, $rootScope.sysChar.baseChar, function(error, character)
         {
-            $scope.sysChar = character;
+            $rootScope.sysChar = character;
         });
     }; // end removePower
 });
@@ -157,8 +157,7 @@ module.directive('power', function()
             toggle: "=",
             powerRef: "&",
             editable: "@",
-            removable: "@",
-            sysChar: "="
+            removable: "@"
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',

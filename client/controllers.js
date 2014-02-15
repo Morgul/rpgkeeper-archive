@@ -201,7 +201,7 @@
                 systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
                 {
                     $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
-                    $scope.sysChar = sysChar;
+                    $scope.$root.sysChar = sysChar;
                     $scope.isNew = isNew;
                 });
             } // end if
