@@ -157,7 +157,8 @@ module.directive('power', function()
             toggle: "=",
             powerRef: "&",
             editable: "@",
-            removable: "@"
+            removable: "@",
+            sysChar: "="
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',

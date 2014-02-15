@@ -18,6 +18,7 @@ module.controller('RollButtonCtrl', function($scope, $timeout)
     {
         if(!$scope.result)
         {
+            console.log('roll', $scope.context);
             $scope.result = $scope.$root.rollDice(title, $scope.roll.roll, $scope.context);
 
             $timeout(function()
