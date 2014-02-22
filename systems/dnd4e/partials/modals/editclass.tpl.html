@@ -2,7 +2,7 @@
     <h3>Edit Class</h3>
     <p class="text-muted">Creates a new class, and then selects it.</p>
 </div>
-<div class="modal-body">
+<div class="modal-body" ng-on-enter="save(class)">
     <div class="row">
         <div class="col-md-3" style="height: 700px;">
             <select class="form-control tall" ng-model="class" ng-options="class as class.name for class in classChoices track by class.name" size="2" style="height: 100%">
