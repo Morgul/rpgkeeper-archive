@@ -1,7 +1,7 @@
 <div class="modal-header" xmlns="http://www.w3.org/1999/html">
     <h3>Add Feat</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" ng-on-enter="add(chosenFeat)">
     <div class="row">
         <div class="col-md-3" style="height: 500px;">
             <select class="form-control tall" ng-model="chosenFeat" ng-options="feat as feat.name for feat in featChoices | filter:newFeat.name track by feat.name" size="2" style="height: 100%">
