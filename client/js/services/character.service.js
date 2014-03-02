@@ -11,30 +11,44 @@ function CharacterService($socket, $interval) {
     this.newSysChar = false;
 } // end SystemCharacterService
 
-CharacterService._startBaseInterval = function() {
+CharacterService.prototype._startBaseInterval = function() {
+    var self = this;
     var oldBase = this.base;
 
     this.baseIntervalHandle = this.interval(function() {
+        if(self.base == undefined) {
+            self._stopBaseInterval();
+            return;
+        } // end if
+
         // Detect changes in the base character
-        if(JSON.stringify(this.base) === JSON.stringify(oldBase)) {
+        if(JSON.stringify(self.base) != JSON.stringify(oldBase)) {
+
             // TODO: Send update to the server.
             console.log('Base Char Changes!');
 
-            oldBase = this.base;
+            oldBase = self.base;
         } // end if
     }, 2000);
 };
 
-CharacterService._startSysInterval = function() {
+CharacterService.prototype._startSysInterval = function() {
+    var self = this;
     var oldSystem = this.system;
 
     this.sysIntervalHandle = this.interval(function() {
+        if(self.system == undefined) {
+            self._stopSysInterval();
+            return;
+        } // end if
+
         // Detect changes in the system character
-        if(JSON.stringify(this.system) === JSON.stringify(oldSystem)) {
+        if(JSON.stringify(self.system) != JSON.stringify(oldSystem)) {
+
             //TODO: Update the system character.
             console.log('System Char Changes!');
 
-            oldSystem = this.system;
+            oldSystem = self.system;
         } // end if
     }, 1000);
 };
@@ -47,17 +61,21 @@ CharacterService.prototype._stopSysInterval = function() {
     this.interval.cancel(this.sysIntervalHandle);
 };
 
-CharacterService.prototype.setCharacter = function(baseChar) {
+CharacterService.prototype.setCharacter = function(baseChar, systemUrl) {
     // Clear any current characters
     this.clearCharacters();
 
     // Now set the base character
     this.base = baseChar;
 
+    this.systemUrl = systemUrl;
+
     // Get the system character
     var self = this;
-    this.socket.channel('/dnd4e').emit('get_character', baseChar.id, function(error, sysChar, isNew) {
+
+    this.socket.channel(this.systemUrl).emit('get_character', baseChar.$id, function(error, sysChar, isNew) {
         if(error) {
+
             //TODO: show this error on the main page.
             console.error('Error encountered getting the specified character:', error)
         } else {
@@ -70,7 +88,7 @@ CharacterService.prototype.setCharacter = function(baseChar) {
     });
 };
 
-CharacterService.clearCharacters = function() {
+CharacterService.prototype.clearCharacters = function() {
     this.base = undefined;
     this.system = undefined;
 
