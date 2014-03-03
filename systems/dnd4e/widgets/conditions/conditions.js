@@ -51,7 +51,7 @@ function ConditionsController($scope, $socket, $character, $modal)
         var idx = $character.system.conditions.indexOf(cond);
         $character.system.conditions.splice(idx, 1);
     }; // end removeCondition
-};
+}
 
 ConditionsController.prototype = {
     get sysChar() {

@@ -4,12 +4,12 @@
     </tab>
     <tab heading="Powers" select="setTab('powers')">
         <div class="powers">
-            <power ng-repeat="powerRef in sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" ng-init="collapse['power-' + $index] = true" toggle="collapse['power-' + $index]" power-ref="powerRef" sys-char="sysChar"></power>
+            <power ng-repeat="powerRef in detailCtrl.sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" ng-init="collapse['power-' + $index] = true" toggle="collapse['power-' + $index]" power-ref="powerRef" sys-char="detailCtrl.sysChar"></power>
         </div>
     </tab>
     <tab heading="Feats" select="setTab('feats')">
         <div class="feats">
-            <feat ng-repeat="featRef in sysChar.feats | orderBy: 'feat.name'" ng-init="collapse['feat-' + $index] = true" toggle="collapse['feat-' + $index]" feat-ref="featRef"></feat>
+            <feat ng-repeat="featRef in detailCtrl.sysChar.feats | orderBy: 'feat.name'" ng-init="collapse['feat-' + $index] = true" toggle="collapse['feat-' + $index]" feat-ref="featRef"></feat>
         </div>
     </tab>
     <tab heading="Equipment" select="setTab('equipment')">
@@ -35,9 +35,9 @@
                 </div>
             </div>
             <hr>
-            <div class="form-group" ng-repeat="roll in sysChar.rolls">
+            <div class="form-group" ng-repeat="roll in detailCtrl.sysChar.rolls">
                 <div ng-hide="rollEdits[$index]" class="btn-group btn-block">
-                    <roll-button icon="'icon-dice'" class="fill-width" roll="roll" context="sysChar"></roll-button>
+                    <roll-button icon="'icon-dice'" class="fill-width" roll="roll" context="detailCtrl.sysChar"></roll-button>
                     <button type="button" class="btn btn-default" ng-click="editRoll($index)" title="Edit roll"><i class="icon-edit"></i></button>
                     <button type="button" class="btn btn-default" ng-click="removeRoll(roll)" title="Remove roll"><i class="icon-remove"></i></button>
                 </div>
@@ -56,7 +56,7 @@
                     </span>
                 </div>
             </div>
-            <h5 ng-if="sysChar.rolls.length == 0" class="text-center">No general rolls added yet.</h5>
+            <h5 ng-if="detailCtrl.sysChar.rolls.length == 0" class="text-center">No general rolls added yet.</h5>
             <hr>
             <div class="form-group">
                 <div ng-hide="addStage == 'roll'" class="input-group">
@@ -81,6 +81,6 @@
         <tab-heading>
             <i class='icon-edit'></i>
         </tab-heading>
-        <textarea id="notes" class="form-control" ng-model="sysChar.notes" style="min-height: 600px;" msd-elastic ng-trim="false"></textarea>
+        <textarea id="notes" class="form-control" ng-model="detailCtrl.sysChar.notes" style="min-height: 600px;" msd-elastic ng-trim="false"></textarea>
     </tab>
 </tabset>

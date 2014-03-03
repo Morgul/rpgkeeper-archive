@@ -22,7 +22,7 @@ CharacterService.prototype._startBaseInterval = function() {
         } // end if
 
         // Detect changes in the base character
-        if(JSON.stringify(self.base) !== JSON.stringify(oldBase)) {
+        if(angular.toJson(self.base) !== angular.toJson(oldBase)) {
 
             // TODO: Send update to the server.
             console.log('Base Char Changes!');
@@ -43,7 +43,7 @@ CharacterService.prototype._startSysInterval = function() {
         } // end if
 
         // Detect changes in the system character
-        if(JSON.stringify(self.system) !== JSON.stringify(oldSystem)) {
+        if(angular.toJson(self.system) !== angular.toJson(oldSystem)) {
 
             //TODO: Update the system character.
             console.log('System Char Changes!');

@@ -81,9 +81,10 @@ Dnd4eCharacter.prototype.calcWillDef = function()
 
 Dnd4eCharacter.prototype.calcSkill = function(skill)
 {
-    return this.sysChar.halfLevel + (this.sysChar || {})[skill.ability + 'Mod'] +
-        + (skill.trained ? 5 : 0) + parseInt(skill.racial || 0) + parseInt(skill.misc || 0)
-        - parseInt(skill.armorPenalty || 0);
+    var abilityMod = this.calcAbilityMod(skill.ability);
+
+    return this.sysChar.halfLevel + abilityMod + (skill.trained ? 5 : 0) + parseInt(skill.racial || 0)
+        + parseInt(skill.misc || 0) - parseInt(skill.armorPenalty || 0);
 };
 
 

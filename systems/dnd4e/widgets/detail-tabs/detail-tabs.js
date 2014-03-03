@@ -4,8 +4,10 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
+function DetailTabsController($scope, $timeout, $attrs, $character, $socket)
 {
+    this.character = $character;
+
     $scope.newRoll = {
         title: '',
         roll: ''
@@ -77,29 +79,26 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
 
     $scope.doGenericRoll = function(roll)
     {
-        $scope.$root.rollDice(roll, $scope.sysChar);
+        $scope.$root.rollDice(roll, this.sysChar);
         $scope.genericRoll = "";
     }; // end doGenericRoll
 
     $scope.startAddRoll = function()
     {
         $scope.addStage = 'roll';
-
-        /*
-        $timeout(function()
-        {
-            angular.element('#rollTextEntry')[0].focus();
-        }, 500);
-        */
     }; // end startAddRoll
 
     $scope.addRoll = function()
     {
-        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
+        this.rolls.push($scope.newRoll);
+
+        /*
+        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, this.sysChar.baseChar, function(error, character)
         {
             // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign($scope.sysChar, character);
+            _.assign(self.sysChar, character);
         });
+        */
 
         $scope.newRoll = { title: '', roll: '' };
         $scope.addStage = undefined;
@@ -117,15 +116,19 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
 
     $scope.updateRoll = function(roll, index)
     {
+        this.sysChar.rolls[index] = roll;
+
+        /*
         $socket.channel('/dnd4e').emit("update roll", roll, function(error, rollRet)
         {
-            roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
+            roll = _.filter(this.sysChar.rolls, { $id: roll.$id})[0];
 
             // Avoid assigning to roll; otherwise we'll have scope issues.
             _.assign(roll, rollRet);
 
             console.log('updated Roll:', roll);
         });
+        */
 
         $scope.rollEdits[index] = false;
     }; // end editRoll
@@ -134,24 +137,38 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
     {
         console.log('remove roll called!');
 
-        $socket.channel('/dnd4e').emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
+        var idx = this.sysChar.rolls.indexOf(roll);
+        this.sysChar.rolls.splice(idx, 1);
+
+        /*
+        $socket.channel('/dnd4e').emit("remove roll", roll, this.sysChar.baseChar, function(error, character)
         {
             // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign($scope.sysChar, character);
+            _.assign(self.sysChar, character);
         });
+        */
     }; // end removeRoll
 
     //------------------------------------------------------------------------------------------------------------------
-});
+}
+
+DetailTabsController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
+
+module.controller('DetailTabsCtrl', ['$scope', '$timeout', '$attrs', '$character', '$socket', DetailTabsController]);
 
 module.directive('detailTabs', function() {
     return {
         restrict: 'E',
         scope: true,
 		templateUrl: '/systems/dnd4e/widgets/detail-tabs/detail-tabs.html',
-        controller: 'DetailTabsCtrl'
+        controller: 'DetailTabsCtrl',
+        controllerAs: 'detailCtrl'
     }
 });
 
