@@ -4,8 +4,10 @@
 // @module conditions.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('ConditionsCtrl', function($scope, $socket, $modal)
+function ConditionsController($scope, $socket, $character, $modal)
 {
+    this.character = $character;
+
     $scope.addCondition = function()
     {
         var opts = {
@@ -20,24 +22,42 @@ module.controller('ConditionsCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
+                //TODO: We may need to still send this over socket.io
+
+                /*
                 $socket.channel('/dnd4e').emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
                 {
                     // FIXME: This is a terrible hack!
                     $scope.pageCtrl.$scope.sysChar = character;
                 });
+                */
+
+                $character.system.conditions.push(result);
             } // end if
         });
     }; // end addCondition
 
     $scope.removeCondition = function(cond)
     {
+        //TODO: We may need to still send this over socket.io
+
+        /*
         $socket.channel('/dnd4e').emit("remove condition", cond.$id, $scope.sysChar.baseChar, function(error, character)
         {
             // FIXME: This is a terrible hack!
             $scope.pageCtrl.$scope.sysChar = character;
         });
+        */
+        var idx = $character.system.conditions.indexOf(cond);
+        $character.system.conditions.splice(idx, 1);
     }; // end removeCondition
-});
+};
+
+ConditionsController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -57,11 +77,14 @@ module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
+module.controller('ConditionsCtrl', ['$scope', '$socket', '$character', '$modal', ConditionsController]);
+
 module.directive('conditions', function() {
     return {
         restrict: 'E',
         templateUrl: '/systems/dnd4e/widgets/conditions/conditions.html',
-        controller: 'ConditionsCtrl'
+        controller: 'ConditionsCtrl',
+        controllerAs: 'condsCtrl'
     }
 });
 
