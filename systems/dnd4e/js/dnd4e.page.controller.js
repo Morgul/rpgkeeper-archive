@@ -4,13 +4,15 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
+function PageController($scope, $socket, $character, $dnd4echar, $modal)
 {
     this.$scope = $scope;
+    this.character = $character;
+    this.dnd4echar = $dnd4echar;
     $scope.collapse = {};
 
     // Default so that watches get made.
-    $scope.sysChar.notes = $scope.sysChar.notes || "";
+    $character.system.notes = $character.system.notes || "";
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.$root.genderChoices = [
@@ -79,9 +81,10 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
     // Watches
     //------------------------------------------------------------------------------------------------------------------
 
+    /*
     // Setup individual watches, for better performance
     var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls"];
-    _.each($scope.sysChar, function(value, key)
+    _.each($character.system, function(value, key)
     {
         if(key && skipFields.indexOf(key) == -1)
         {
@@ -92,7 +95,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
                     // TODO: pass the key that was modified into the update function, for even more better performance
                     doUpdate($scope, 'updateChar', function()
                     {
-                        $socket.channel('/dnd4e').emit("update_character", $scope.sysChar, function(error, character)
+                        $socket.channel('/dnd4e').emit("update_character", $character.system, function(error, character)
                         {
                             $scope.$apply(function()
                             {
@@ -104,7 +107,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
                                 {
                                     if(character)
                                     {
-                                        $scope.sysChar = character;
+                                        $character.system = character;
                                     } // end if
                                 } // end if
                             });
@@ -121,7 +124,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
         {
             doUpdate($scope, 'updateChar', function()
             {
-                $socket.channel('/dnd4e').emit("update_character", { baseChar: $scope.sysChar.baseChar, class: { name: newClass.name } }, function(error, character)
+                $socket.channel('/dnd4e').emit("update_character", { baseChar: $character.system.baseChar, class: { name: newClass.name } }, function(error, character)
                 {
                     $scope.$apply(function()
                     {
@@ -138,7 +141,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
                                     $scope.$apply(function()
                                     {
                                         $scope.classChoices = _.sortBy(classes, 'name');
-                                        $scope.sysChar = character;
+                                        $character.system = character;
                                     });
                                 });
                             } // end if
@@ -150,7 +153,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
     });
 
     // Setup watches for skills
-    $scope.sysChar.skills.forEach(function(skill, index)
+    $character.system.skills.forEach(function(skill, index)
     {
         $scope.$watch('sysChar.skills[' + index + ']', function(newSkill, oldSkill)
         {
@@ -160,6 +163,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
             } // end if
         }, true);
     });
+    */
 
     //------------------------------------------------------------------------------------------------------------------
     // Roll Help
@@ -170,7 +174,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { sysChar: function(){ return $scope.sysChar; } },
+            resolve: { sysChar: function(){ return $character.system; } },
             templateUrl: '/systems/dnd4e/partials/modals/rollhelp.html',
             controller: 'RollHelpCtrl'
         };
@@ -194,11 +198,11 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add class", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
-                        $scope.sysChar = character;
+                        $character.system = character;
                     });
                 });
             } // end if
@@ -222,7 +226,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
                 {
                     $scope.$apply(function()
                     {
-                        _.assign($scope.sysChar.class, classRet);
+                        _.assign($character.system.class, classRet);
                     });
                 });
             } // end if
@@ -235,7 +239,7 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
 
     $scope.getSkill = function(name)
     {
-        return _.find($scope.sysChar.skills, { name: name });
+        return _.find($character.system.skills, { name: name });
     }; // end findSkill
 
     $scope.updateSkill = function(skill)
@@ -247,9 +251,9 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
                 //TODO: This might be nice to update with the skill, as passed back from the database, but it's not
                 // required, and man is the method below terrible.
                 /*
-                var newSkills = _.reject($scope.sysChar.skills, { '$id': skill.$id });
+                var newSkills = _.reject($character.system.skills, { '$id': skill.$id });
                 newSkills.push(skill);
-                $scope.sysChar.skills = newSkills;
+                $character.system.skills = newSkills;
                 */
             });
         });
@@ -267,11 +271,11 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add skill", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
-                        $scope.sysChar = character;
+                        $character.system = character;
                     });
                 });
             } // end if
@@ -295,11 +299,11 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add feat", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
                 {
                     $scope.$apply(function()
                     {
-                        $scope.sysChar = character;
+                        $character.system = character;
                     });
                 });
             } // end if
@@ -359,12 +363,9 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add power", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
                 {
-                    $scope.$apply(function()
-                    {
-                        $scope.sysChar = character;
-                    });
+                    $character.system = character;
                 });
             } // end if
         });
@@ -435,7 +436,45 @@ module.controller('DnD4ePageCtrl', function($scope, $socket, $modal)
             } // end success
         });
     }; // end chooseDropboxImage
-}); // end DnD4ePageCtrl
+} // endPageController
+
+PageController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    },
+    set sysChar(val) {
+        this.character.system = val;
+    },
+    get baseChar() {
+        return this.character.base;
+    },
+    set baseChar(val) {
+        this.character.base = val;
+    },
+    get armorClass() {
+        return this.dnd4echar.calcArmorClass();
+    },
+    get fortDef() {
+        return this.dnd4echar.calcFortDef();
+    },
+    get refDef() {
+        return this.dnd4echar.calcRefDef();
+    },
+    get willDef() {
+        return this.dnd4echar.calcWillDef();
+    },
+    get passivePerception() {
+        var skill = _.find(this.sysChar.skills, { name: 'perception' });
+        return 10 + this.dnd4echar.calcSkill(skill);
+    },
+    get passiveInsight() {
+        var skill = _.find(this.sysChar.skills, { name: 'insight' });
+        return 10 + this.dnd4echar.calcSkill(skill);
+    },
+    get initiative() {
+        return this.dnd4echar.calcInitiative();
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
 // Helpers
@@ -495,5 +534,9 @@ function doUpdate($scope, tag, updateFunc)
     $scope[updateTag] = true;
     waitForUpdatesToStop();
 } // end doUpdate
+
+//----------------------------------------------------------------------------------------------------------------------
+
+module.controller('DnD4ePageCtrl', PageController);
 
 //----------------------------------------------------------------------------------------------------------------------

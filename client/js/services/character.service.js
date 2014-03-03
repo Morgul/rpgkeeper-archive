@@ -13,7 +13,7 @@ function CharacterService($socket, $interval) {
 
 CharacterService.prototype._startBaseInterval = function() {
     var self = this;
-    var oldBase = this.base;
+    var oldBase = angular.copy(this.base);
 
     this.baseIntervalHandle = this.interval(function() {
         if(self.base == undefined) {
@@ -22,19 +22,19 @@ CharacterService.prototype._startBaseInterval = function() {
         } // end if
 
         // Detect changes in the base character
-        if(JSON.stringify(self.base) != JSON.stringify(oldBase)) {
+        if(JSON.stringify(self.base) !== JSON.stringify(oldBase)) {
 
             // TODO: Send update to the server.
             console.log('Base Char Changes!');
 
-            oldBase = self.base;
+            oldBase = angular.copy(self.base);
         } // end if
     }, 2000);
 };
 
 CharacterService.prototype._startSysInterval = function() {
     var self = this;
-    var oldSystem = this.system;
+    var oldSystem = angular.copy(this.system);
 
     this.sysIntervalHandle = this.interval(function() {
         if(self.system == undefined) {
@@ -43,12 +43,12 @@ CharacterService.prototype._startSysInterval = function() {
         } // end if
 
         // Detect changes in the system character
-        if(JSON.stringify(self.system) != JSON.stringify(oldSystem)) {
+        if(JSON.stringify(self.system) !== JSON.stringify(oldSystem)) {
 
             //TODO: Update the system character.
             console.log('System Char Changes!');
 
-            oldSystem = self.system;
+            oldSystem = angular.copy(self.system);
         } // end if
     }, 1000);
 };
