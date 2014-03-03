@@ -1,10 +1,10 @@
 <div class="hpcalc">
     <div class="left">
         <div class="hp-display">
-            <!-- ng-class="{'text-success': sysChar.currentHP > sysChar.bloodiedValue, 'text-warning': sysChar.currentHP <= sysChar.bloodiedValue && sysChar.currentHP > 0, 'text-error': sysChar.currentHP <= 0 && sysChar.currentHP >= -sysChar.bloodiedValue, 'dead': sysChar.currentHP < -sysChar.bloodiedValue}" -->
-            <span class="hp" ng-class="hpText()">{{ sysChar.curHitPoints + sysChar.tmpHitPoints }}</span>
+            <!-- ng-class="{'text-success': hpCtrl.sysChar.currentHP > hpCtrl.sysChar.bloodiedValue, 'text-warning': hpCtrl.sysChar.currentHP <= hpCtrl.sysChar.bloodiedValue && hpCtrl.sysChar.currentHP > 0, 'text-error': hpCtrl.sysChar.currentHP <= 0 && hpCtrl.sysChar.currentHP >= -hpCtrl.sysChar.bloodiedValue, 'dead': hpCtrl.sysChar.currentHP < -hpCtrl.sysChar.bloodiedValue}" -->
+            <span class="hp" ng-class="hpText()">{{ hpCtrl.sysChar.curHitPoints + hpCtrl.sysChar.tmpHitPoints }}</span>
             <span class="max">/{{ maxHP() }}</span>
-            <span class="temp">Temp: {{ sysChar.tmpHitPoints }}</span>
+            <span class="temp">Temp: {{ hpCtrl.sysChar.tmpHitPoints }}</span>
             <span class="surge">Surge: {{ surgeValue() }}</span>
         </div>
         <div class="input-group">
@@ -22,11 +22,11 @@
         </div>
     </div>
     <div class="right">
-        <button class="btn btn-default btn-block" ng-click="secondWind()" ng-class="{ disabled: !sysChar.secondWindAvailable, possible: sysChar.secondWindAvailable && sysChar.curHitPoints < (maxHP() - surgeValue()) }">Second Wind</button>
+        <button class="btn btn-default btn-block" ng-click="secondWind()" ng-class="{ disabled: !hpCtrl.sysChar.secondWindAvailable, possible: hpCtrl.sysChar.secondWindAvailable && hpCtrl.sysChar.curHitPoints < (maxHP() - surgeValue()) }">Second Wind</button>
         <div class="btn-group btn-block">
             <button class="btn btn-default" ng-click="addSurge()"><i class="icon-plus"></i></button>
-            <button class="btn btn-default surge" ng-click="surge()" ng-class="{ disabled: checkSurge(), possible: sysChar.curHitPoints < (maxHP() - surgeValue()) }">Surge ({{ sysChar.currentSurges }})</button>
-            <button class="btn btn-default" ng-click="removeSurge()" ng-class="{ disabled: sysChar.currentSurges < 1 }"><i class="icon-minus"></i></button>
+            <button class="btn btn-default surge" ng-click="surge()" ng-class="{ disabled: checkSurge(), possible: hpCtrl.sysChar.curHitPoints < (maxHP() - surgeValue()) }">Surge ({{ hpCtrl.sysChar.currentSurges }})</button>
+            <button class="btn btn-default" ng-click="removeSurge()" ng-class="{ disabled: hpCtrl.sysChar.currentSurges < 1 }"><i class="icon-minus"></i></button>
         </div>
         <button class="btn btn-default btn-block" ng-click="shortRest()">Short Rest</button>
         <button class="btn btn-default btn-block" ng-click="extendedRest()">Extended Rest</button>
