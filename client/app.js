@@ -36,6 +36,15 @@ window.app = angular.module("rpgkeeper", [
             smartypants: false
         });
 
+        //--------------------------------------------------------------------------------------------------------------
+
+        // Connect to socket.io
+        $socket.connect();
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Helper functions
+        //--------------------------------------------------------------------------------------------------------------
+
         $rootScope.hash = function(s)
         {
             return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
@@ -45,17 +54,6 @@ window.app = angular.module("rpgkeeper", [
         {
             $location.path(path);
         }; // end setLocation
-
-        $socket.connect();
-
-        //$rootScope.socket = io.connect();
-        $rootScope.alerts = [
-        ];
-
-        $rootScope.closeAlert = function(index)
-        {
-            $rootScope.alerts.splice(index, 1);
-        };
 
         $rootScope.range = function(n)
         {
