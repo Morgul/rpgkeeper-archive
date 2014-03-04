@@ -134,8 +134,6 @@ var SocketProvider = function() {
 
             function onDisconnected()
             {
-                console.log('DISCONNECTED!!!!1111');
-
                 var socketService = this;
                 this.connected = false;
 

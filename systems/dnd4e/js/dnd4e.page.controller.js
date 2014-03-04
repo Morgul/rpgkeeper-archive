@@ -6,6 +6,8 @@
 
 function PageController($scope, $socket, $character, $dnd4echar, $modal)
 {
+    var self = this;
+
     this.$scope = $scope;
     this.character = $character;
     this.dnd4echar = $dnd4echar;
@@ -198,13 +200,13 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character)
+                if($scope.$root.classChoices.indexOf(result) == -1)
                 {
-                    $scope.$apply(function()
-                    {
-                        $character.system = character;
-                    });
-                });
+                    $scope.$root.classChoices.push(result);
+                } // end if
+
+                self.sysChar.class = result;
+                $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character) {});
             } // end if
         });
     }; // end addClass
@@ -222,13 +224,9 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("update class", result, function(error, classRet)
-                {
-                    $scope.$apply(function()
-                    {
-                        _.assign($character.system.class, classRet);
-                    });
-                });
+                var idx = $scope.$root.classChoices.indexOf(result);
+                $scope.$root.classChoices.splice(idx, 1, result);
+                $socket.channel('/dnd4e').emit("update class", result, function(error, classRet) {});
             } // end if
         });
     }; // end addClass
@@ -244,19 +242,9 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
 
     $scope.updateSkill = function(skill)
     {
-        doUpdate($scope, 'skills', function()
-        {
-            $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill)
-            {
-                //TODO: This might be nice to update with the skill, as passed back from the database, but it's not
-                // required, and man is the method below terrible.
-                /*
-                var newSkills = _.reject($character.system.skills, { '$id': skill.$id });
-                newSkills.push(skill);
-                $character.system.skills = newSkills;
-                */
-            });
-        });
+        var idx = self.sysChar.skills.indexOf(skill);
+        self.sysChar.skills.splice(idx, 1, skill);
+        $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill) {});
     };
 
     $scope.addSkill = function() {
@@ -271,13 +259,8 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character)
-                {
-                    $scope.$apply(function()
-                    {
-                        $character.system = character;
-                    });
-                });
+                self.sysChar().skills.push(result);
+                $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character) { });
             } // end if
         });
     }; // end addSkill
@@ -299,17 +282,18 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
+                if($scope.$root.featChoices.indexOf(result) == -1)
                 {
-                    $scope.$apply(function()
-                    {
-                        $character.system = character;
-                    });
-                });
+                    $scope.$root.featChoices.push(result);
+                } // end if
+
+                $scope.$root.featChoices.push(result);
+                $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character) {});
             } // end if
         });
     }; // end addFeat
 
+    //TODO: Pull out into service.
     $scope.$root.editFeat = function(feat, event) {
         if(feat && feat.stopPropagation !== undefined)
         {
@@ -363,14 +347,18 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
+                if($scope.$root.powerChoices.indexOf(result) == -1)
                 {
-                    $character.system = character;
-                });
+                    $scope.$root.powerChoices.push(result);
+                } // end if
+
+                self.sysChar.powers.push(result);
+                $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character) {});
             } // end if
         });
     }; // end addPower
 
+    //TODO: Pull out into service.
     $scope.$root.editPower = function(power, event) {
         if(power && power.stopPropagation !== undefined)
         {
