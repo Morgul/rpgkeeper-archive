@@ -20,13 +20,23 @@ Dnd4eCharacter.prototype = {
 
 Dnd4eCharacter.prototype.calcAbilityMod = function(abilityScore)
 {
+    var origAbility;
     if(typeof abilityScore == 'string')
     {
+        origAbility = angular.copy(abilityScore);
         abilityScore = (this.sysChar || {})[abilityScore];
     } // end if
 
     abilityScore = abilityScore || 0;
-    return Math.floor((abilityScore - 10) / 2);
+    var score = Math.floor((abilityScore - 10) / 2);
+
+    // If we've calculated a named ability, let's save that off in our character.
+    if(origAbility)
+    {
+        this.sysChar[origAbility + 'Mod'] = score;
+    } // end if
+
+    return score;
 };
 
 //------------------------------------------------------------------------------------------------------------------

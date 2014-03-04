@@ -52,8 +52,6 @@ window.app = angular.module("rpgkeeper", [
         $rootScope.alerts = [
         ];
 
-        $rootScope.pastRolls = ["", "", "", "", "", "", "", "", "", ""];
-
         $rootScope.closeAlert = function(index)
         {
             $rootScope.alerts.splice(index, 1);
@@ -63,39 +61,6 @@ window.app = angular.module("rpgkeeper", [
         {
             return new Array(n);
         }; // end range
-
-        $rootScope.clearRolls = function()
-        {
-            $rootScope.pastRolls = ["", "", "", "", "", "", "", "", "", ""];
-        }; // end clearRolls
-
-        $rootScope.rollDice = function(title, roll, scope)
-        {
-            if(arguments.length == 2)
-            {
-                scope = roll;
-                roll = title;
-                title = undefined;
-            } // end if
-
-            var result = dice.roll(roll, scope);
-            var rollResult = "[ " + dice.stringify(result) + " ] = " + result;
-
-            var hist = title + ": " + rollResult;
-            if(!title)
-            {
-                hist = rollResult;
-            } // end if
-
-            $rootScope.pastRolls.splice(0, 0, hist);
-
-            if($rootScope.pastRolls.length > 10)
-            {
-                $rootScope.pastRolls.splice($rootScope.pastRolls.length - 1, $rootScope.pastRolls.length - 10);
-            } // end if
-
-            return rollResult;
-        }; // end rollDice
 
         $rootScope.isArray = angular.isArray;
     })

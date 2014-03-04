@@ -4,22 +4,22 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('RollButtonCtrl', function($scope, $timeout)
+module.controller('RollButtonCtrl', function($scope, $timeout, $rolls)
 {
-    $scope.context = $scope.context();
-    $scope.roll = $scope.roll();
-    $scope.rollTitle = $scope.rollTitle();
+    //$scope.context = $scope.context();
+    //$scope.roll = $scope.roll();
+    //$scope.rollTitle = $scope.rollTitle();
 
     $scope.result = false;
 
-    var title = $scope.rollTitle || $scope.roll.title || $scope.title;
+    var title = $scope.rollTitle() || $scope.roll.title || $scope.title;
 
     $scope.doRoll = function(event)
     {
         if(!$scope.result)
         {
-            console.log('roll', $scope.context);
-            $scope.result = $scope.$root.rollDice(title, $scope.roll.roll, $scope.context);
+            //console.log('roll', $scope.context);
+            $scope.result = $rolls.rollDice(title, $scope.roll().roll, $scope.context());
 
             $timeout(function()
             {
