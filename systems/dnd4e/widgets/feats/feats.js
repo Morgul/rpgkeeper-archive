@@ -4,8 +4,11 @@
 // @module feats.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('FeatController', function($scope, $rootScope, $socket, $modal)
+function FeatController($scope, $rootScope, $socket, $character, $modal)
 {
+    var self = this;
+    this.character = $character;
+
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
     {
@@ -33,7 +36,7 @@ module.controller('FeatController', function($scope, $rootScope, $socket, $modal
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { featRef: function(){ return featRef } , editFeat: function(){ return $rootScope.editFeat; }},
+            resolve: { featRef: function(){ return angular.copy(featRef); } , editFeat: function(){ return $rootScope.editFeat; }},
             templateUrl: '/systems/dnd4e/partials/modals/editfeatref.html',
             controller: 'EditFeatRefModalCtrl'
         };
@@ -42,10 +45,14 @@ module.controller('FeatController', function($scope, $rootScope, $socket, $modal
         {
             if(result)
             {
+                var idx = self.sysChar.feats.indexOf(featRef);
+                self.sysChar.feats.splice(idx, 1, result);
+                /*
                 $socket.channel('/dnd4e').emit("update featRef", result, function(error, featRefRet)
                 {
                     _.assign(featRef, featRefRet);
                 });
+                */
             } // end if
         });
     }; // end editFeatRef
@@ -55,15 +62,28 @@ module.controller('FeatController', function($scope, $rootScope, $socket, $modal
         // Prevent the event from triggering a collapse/expand event.
         event.stopPropagation();
 
+        var idx = self.sysChar.feats.indexOf(featRef);
+        self.sysChar.feats.splice(idx, 1);
+
+       /*
         // Tell the system to remove the reference
         $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $rootScope.sysChar.baseChar, function(error, character)
         {
             $rootScope.sysChar = character;
         });
+        */
     }; // end removeFeat
-});
+}
+
+FeatController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+module.controller('FeatController', ['$scope', '$rootScope', '$socket', '$character', '$modal', FeatController]);
 
 module.directive('feat', function()
 {
@@ -73,11 +93,11 @@ module.directive('feat', function()
             toggle: "=",
             featRef: "&",
             editable: "@",
-            removable: "@",
-            sysChar: "="
+            removable: "@"
         },
         templateUrl: '/systems/dnd4e/widgets/feats/feat.html',
         controller: 'FeatController',
+        controllerAs: 'featCtrl',
         replace: true
     };
 });

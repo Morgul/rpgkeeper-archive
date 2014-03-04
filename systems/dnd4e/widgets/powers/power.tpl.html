@@ -32,7 +32,7 @@
         <div  ng-if="powerRef().rolls" class="rolls">
             <div class="row">
                 <div ng-class="getPowerRollSize($index, $last)" ng-repeat="roll in powerRef().rolls">
-                    <roll-button class="btn-block" roll-title="'[' + (powerRef().power || powerRef()).name + '] ' + roll.title" roll="roll" context="sysChar"></roll-button>
+                    <roll-button class="btn-block" roll-title="'[' + (powerRef().power || powerRef()).name + '] ' + roll.title" roll="roll" context="powerCtrl.sysChar"></roll-button>
                 </div>
             </div>
         </div>

@@ -4,8 +4,11 @@
 // @module powers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('PowerController', function($scope, $rootScope, $socket, $modal)
+function PowerController($scope, $rootScope, $socket, $character, $modal)
 {
+    var self = this;
+    this.character = $character;
+
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
     {
@@ -28,7 +31,7 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
 
     $rootScope.$on('short rest', function()
     {
-        $rootScope.sysChar.powers.forEach(function(powerRef)
+        self.sysChar.powers.forEach(function(powerRef)
         {
             var power = powerRef.power;
             if(power.type == 'Encounter')
@@ -42,7 +45,7 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
 
     $rootScope.$on('extended rest', function()
     {
-        $rootScope.sysChar.powers.forEach(function(powerRef)
+        self.sysChar.powers.forEach(function(powerRef)
         {
             var power = powerRef.power;
             if(power.type == 'Encounter' || power.type == 'Daily')
@@ -117,7 +120,7 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
             backdrop: 'static',
             keyboard: true,
             windowClass: "wide",
-            resolve: { powerRef: function(){ return powerRef; }, editPower: function(){ return $rootScope.editPower; } },
+            resolve: { powerRef: function(){ return angular.copy(powerRef); }, editPower: function(){ return $rootScope.editPower; } },
             templateUrl: '/systems/dnd4e/partials/modals/editpowerref.html',
             controller: 'EditPowerRefModalCtrl'
         };
@@ -140,14 +143,22 @@ module.controller('PowerController', function($scope, $rootScope, $socket, $moda
         event.stopPropagation();
 
         // Tell the system to remove the reference
-        $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, $rootScope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, self.sysChar.baseChar, function(error, character)
         {
-            $rootScope.sysChar = character;
+            self.sysChar = character;
         });
     }; // end removePower
-});
+}
+
+PowerController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+module.controller('PowerController', ['$scope', '$rootScope', '$socket', '$character', '$modal', PowerController]);
 
 module.directive('power', function()
 {
@@ -157,11 +168,11 @@ module.directive('power', function()
             toggle: "=",
             powerRef: "&",
             editable: "@",
-            removable: "@",
-            sysChar: "="
+            removable: "@"
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',
+        controllerAs: 'powerCtrl',
         replace: true
     };
 });
