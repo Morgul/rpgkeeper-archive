@@ -11,8 +11,8 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
     this.dnd4echar = $dnd4echar;
     $scope.collapse = {};
 
-    // Default so that watches get made.
-    $character.system.notes = $character.system.notes || "";
+    // Setup ignored fields for the character
+    $character.ignoreFields([]);
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.$root.genderChoices = [

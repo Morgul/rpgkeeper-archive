@@ -9,6 +9,7 @@ function CharacterService($socket, $interval) {
     this.interval = $interval;
 
     this.newSysChar = false;
+    this.ignoredFields = [];
 } // end SystemCharacterService
 
 CharacterService.prototype._startBaseInterval = function() {
@@ -42,8 +43,11 @@ CharacterService.prototype._startSysInterval = function() {
             return;
         } // end if
 
+        var system = _.omit(self.system, self.ignoredFields);
+        var old = _.omit(oldSystem, self.ignoredFields);
+
         // Detect changes in the system character
-        if(angular.toJson(self.system) !== angular.toJson(oldSystem)) {
+        if(angular.toJson(system) !== angular.toJson(old)) {
 
             //TODO: Update the system character.
             console.log('System Char Changes!');
@@ -61,7 +65,9 @@ CharacterService.prototype._stopSysInterval = function() {
     this.interval.cancel(this.sysIntervalHandle);
 };
 
-CharacterService.prototype.setCharacter = function(baseChar, systemUrl) {
+CharacterService.prototype.setCharacter = function(baseChar, systemUrl, callback) {
+    callback = callback || function(){};
+
     // Clear any current characters
     this.clearCharacters();
 
@@ -78,19 +84,27 @@ CharacterService.prototype.setCharacter = function(baseChar, systemUrl) {
 
             //TODO: show this error on the main page.
             console.error('Error encountered getting the specified character:', error)
+            callback(error);
         } else {
             self.system = sysChar;
             self.newSysChar = isNew;
 
             self._startBaseInterval();
             self._startSysInterval();
+
+            callback();
         } // end if
     });
+};
+
+CharacterService.prototype.ignoreFields = function(fields) {
+    this.ignoredFields = this.ignoredFields.concat(fields);
 };
 
 CharacterService.prototype.clearCharacters = function() {
     this.base = undefined;
     this.system = undefined;
+    this.ignoredFields = [];
 
     this._stopBaseInterval();
     this._stopSysInterval();

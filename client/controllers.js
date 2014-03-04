@@ -197,8 +197,12 @@
                 // Change our page title
                 $scope.$root.$broadcast('title', character.name);
 
-                $character.setCharacter(character, '/' + character.system.shortname);
+                $character.setCharacter(character, '/' + character.system.shortname, function()
+                {
+                    $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
+                });
 
+                /*
                 $scope.character = character;
 
                 var systemSocket = $socket.channel('/' + character.system.shortname);
@@ -209,6 +213,7 @@
                     $scope.$root.sysChar = sysChar;
                     $scope.isNew = isNew;
                 });
+                */
             } // end if
         });
     });
