@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal)
+function PageController($scope, $timeout, $socket, $character, $dnd4echar, $alerts, $modal)
 {
     var self = this;
 
@@ -71,6 +71,31 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
     });
 
     //------------------------------------------------------------------------------------------------------------------
+    // Watches
+    //------------------------------------------------------------------------------------------------------------------
+
+    var skillsRunning = false;
+
+    // Setup watches for skills
+    this.sysChar.skills.forEach(function(skill, index)
+    {
+        $scope.$watch(function(){ return self.sysChar.skills[index]; }, function(newSkill, oldSkill)
+        {
+            if(oldSkill && oldSkill != newSkill && !skillsRunning)
+            {
+                skillsRunning = true;
+                $timeout(function()
+                {
+                    if(skill.misc && skill.armorPenalty) {
+                        $scope.updateSkill(newSkill);
+                    } // end if
+                    skillsRunning = false;
+                }, 1000);
+            } // end if
+        }, true);
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
     // Roll Help
     //------------------------------------------------------------------------------------------------------------------
 
@@ -112,7 +137,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
                 $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
-                        $alerts.addAlert('danger', 'Error adding Class: ' + error);
+                        $alerts.addAlert('danger', 'Error adding Class: ' + error.toString());
                     } // end if
                 });
             } // end if
@@ -137,7 +162,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
                 $socket.channel('/dnd4e').emit("update class", result, function(error, classRet)
                 {
                     if(error) {
-                        $alerts.addAlert('danger', 'Error editing Class: ' + error);
+                        $alerts.addAlert('danger', 'Error editing Class: ' + error.toString());
                     } // end if
                 });
             } // end if
@@ -160,7 +185,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
         $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill)
         {
             if(error) {
-                $alerts.addAlert('danger', 'Error editing skill: ' + error);
+                $alerts.addAlert('danger', 'Error editing skill: ' + error.toString());
             } // end if
         });
     };
@@ -181,7 +206,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
                 $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
-                        $alerts.addAlert('danger', 'Error adding skill: ' + error);
+                        $alerts.addAlert('danger', 'Error adding skill: ' + error.toString());
                     } // end if
                 });
             } // end if
@@ -214,7 +239,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
                 $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
-                        $alerts.addAlert('danger', 'Error adding feat: ' + error);
+                        $alerts.addAlert('danger', 'Error adding feat: ' + error.toString());
                     } // end if
                 });
             } // end if
@@ -281,7 +306,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal
                 $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
-                        $alerts.addAlert('danger', 'Error adding power: ' + error);
+                        $alerts.addAlert('danger', 'Error adding power: ' + error.toString());
                     } // end if
                 });
             } // end if
