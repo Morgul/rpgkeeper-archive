@@ -18,7 +18,7 @@
             </div>
             <div>
                 <span style="display: inline-block; width: 49.5%;"><b class="title">{{ (powerRef().power || powerRef()).actionType }}</b></span>
-                <span style="display: inline-block; width: 49.5%;"><b>{{ (powerRef().power || powerRef()).range }}</b></span>
+                <span style="display: inline-block; width: 49.5%;"><b ng-bind-html="(powerRef().power || powerRef()).range | markdown"></b></span>
             </div>
         </div>
         <div class="sections">

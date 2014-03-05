@@ -85,6 +85,7 @@ var SocketProvider = function() {
             this.socket = undefined;
             this.reconnect = true;
             this.connected = true;
+            this.wasConnected = false;
 
             // An array of events that were registered before we connected.
             this.earlyEvents = [];
@@ -122,7 +123,15 @@ var SocketProvider = function() {
                 // and handle the need for `$apply`.
                 $timeout(function() { $rootScope.$broadcast('connected'); }, 0);
 
-                $alerts.addAlert('success', 'Connected to server.', 3000);
+                // If we're reconnecting, pop the connected alert.
+                if(self.wasConnected)
+                {
+                    $alerts.addAlert('success', 'Connected to server.', 3000);
+                }
+                else
+                {
+                    self.wasConnected = true;
+                } // end if
             } // end onConnected
 
             function onError()

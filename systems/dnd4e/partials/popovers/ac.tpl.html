@@ -1,6 +1,6 @@
 <div class="popover-inline" style="width: 350px;">
     <div class="form-group col-sm-1" style="min-width:120px">
-        <select class="form-control" ng-model="pageCtrl.sysChar.armorAbility" ng-options="ability as ability | capitalize for ability in abilityChoices">
+        <select class="form-control" ng-model="pageCtrl.sysChar.armorAbility" ng-options="ability as ability | capitalize for ability in pageCtrl.dnd4echar.abilityChoices">
         </select>
         <span class="help-block">Ability Mod</span>
     </div>

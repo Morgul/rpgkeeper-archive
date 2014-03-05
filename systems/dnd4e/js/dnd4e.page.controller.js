@@ -210,9 +210,13 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
+                // Find the feat in our list of feats, and update it.
+                _.assign(_.find(self.sysChar.feats, { feat: { name: feat.name } }).feat, result);
                 $socket.channel('/dnd4e').emit("update feat", result, function(error, featRet)
                 {
-                    _.assign(feat, featRet);
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding feat: ' + error.toString());
+                    } // end if
                 });
             } // end if
         });
@@ -273,9 +277,13 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
+                // Find the power in our list of powers, and update it.
+                _.assign(_.find(self.sysChar.powers, { power: { name: power.name } }).power, result);
                 $socket.channel('/dnd4e').emit("update power", result, function(error, powerRet)
                 {
-                    _.assign(power, powerRet);
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error editing power: ' + error.toString());
+                    } // end if
                 });
             } // end if
         });
@@ -298,8 +306,8 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
                     // chooser api, however, any file in dropbox can be directly linked to. The solution? Rewrite
                     // the url. Thankfully their 'preview' url is almost exactly the same format as url we need.
                     var link = files[0].link.replace('https://www.', 'https://dl.');
-                    $scope.character.portrait = link;
-                    $socket.emit('update_character', $scope.character, function(error)
+                    self.baseChar.portrait = link;
+                    $socket.emit('update_character', self.baseChar, function(error)
                     {
                         if(error)
                         {

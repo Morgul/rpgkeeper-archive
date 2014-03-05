@@ -33,7 +33,7 @@ module.controller('AddClassModalCtrl', function($scope, $modalInstance)
 
 module.controller('EditClassModalCtrl', function($scope, $dnd4echar, $modalInstance)
 {
-    $scope.class = $scope.classChoices[0];
+    $scope.class = $dnd4echar.classChoices[0];
     $scope.classChoices = $dnd4echar.classChoices;
 
     $scope.cancel = function()
@@ -95,7 +95,7 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
 module.controller('EditFeatModalCtrl', function($scope, $dnd4echar, $modalInstance, feat)
 {
     $scope.featChoices = $dnd4echar.featChoices;
-    $scope.feat = feat || $scope.featChoices[0];
+    $scope.feat = feat || $dnd4echar.featChoices[0];
 
     $scope.cancel = function()
     {
@@ -175,7 +175,7 @@ module.controller('EditPowerModalCtrl', function($scope, $dnd4echar, $modalInsta
     $scope.powerTypes = $dnd4echar.powerTypes;
     $scope.actionTypes = $dnd4echar.actionTypes;
 
-    $scope.power = power || $scope.powerChoices[0];
+    $scope.power = power || $dnd4echar.powerChoices[0];
 
     $scope.cancel = function()
     {
