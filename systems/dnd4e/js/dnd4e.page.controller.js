@@ -16,61 +16,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
     // Setup ignored fields for the character
     $character.ignoreFields(['skills', 'powers', 'feats', 'conditions', 'rolls']);
 
-    //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
-    $scope.$root.genderChoices = [
-        "Female",
-        "Male",
-        "Other"
-    ];
-    $scope.$root.sizeChoices = [
-        "Tiny",
-        "Small",
-        "Medium",
-        "Large",
-        "Huge",
-        "Gargantuan"
-    ];
-    $scope.$root.alignmentChoices = [
-        "Lawful Good",
-        "Good",
-        "Unaligned",
-        "Evil",
-        "Chaotic Evil"
-    ];
-
-    $scope.$root.abilityChoices = [
-        "none",
-        "strength",
-        "constitution",
-        "dexterity",
-        "intelligence",
-        "wisdom",
-        "charisma"
-    ];
-
-    $scope.$root.powerTypes = ["At-Will", "Encounter", "Daily"];
-    $scope.$root.powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
-    $scope.$root.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
-
-    // Get the possible choices for class
-    $socket.channel('/dnd4e').emit('get classes', function(error, classes)
-    {
-        $scope.$root.classChoices = _.sortBy(classes, 'name');
-    });
-
-    // Get the possible choices for feat
-    $socket.channel('/dnd4e').emit('get feats', function(error, feats)
-    {
-        $scope.$root.featChoices = _.sortBy(feats, 'name');
-    });
-
-    // Get the possible choices for power
-    $socket.channel('/dnd4e').emit('get powers', function(error, powers)
-    {
-        $scope.$root.powerChoices = _.sortBy(powers, 'name');
-    });
-
-    //------------------------------------------------------------------------------------------------------------------
+   //------------------------------------------------------------------------------------------------------------------
     // Watches
     //------------------------------------------------------------------------------------------------------------------
 
@@ -128,11 +74,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
-                if($scope.$root.classChoices.indexOf(result) == -1)
-                {
-                    $scope.$root.classChoices.push(result);
-                } // end if
-
+                self.dnd4echar.addClass(result);
                 self.sysChar.class = result;
                 $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character)
                 {
@@ -157,8 +99,8 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
-                var idx = $scope.$root.classChoices.indexOf(result);
-                $scope.$root.classChoices.splice(idx, 1, result);
+                var idx = self.dnd4echar.classChoices.indexOf(result);
+                self.dnd4echar.classChoices.splice(idx, 1, result);
                 $socket.channel('/dnd4e').emit("update class", result, function(error, classRet)
                 {
                     if(error) {
@@ -230,12 +172,8 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
-                if($scope.$root.featChoices.indexOf(result) == -1)
-                {
-                    $scope.$root.featChoices.push(result);
-                } // end if
-
-                self.sysChar.feats.push(result);
+                self.dnd4echar.addFeat(result);
+                self.sysChar.feats.push({ feat: result });
                 $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
@@ -297,12 +235,8 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
-                if($scope.$root.powerChoices.indexOf(result) == -1)
-                {
-                    $scope.$root.powerChoices.push(result);
-                } // end if
-
-                self.sysChar.powers.push(result);
+                self.dnd4echar.addPower(result);
+                self.sysChar.powers.push({ power: result });
                 $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {

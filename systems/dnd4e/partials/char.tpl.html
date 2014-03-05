@@ -62,7 +62,7 @@
                             <span class="help-block">Name</span>
                         </div>
                         <div class="form-group col-sm-2" style="width:130px;">
-                            <select class="form-control form-add-parent" id="pageCtrl.characterClass" ng-model="pageCtrl.sysChar.class" ng-options="class as class.name for class in classChoices track by class.name">
+                            <select class="form-control form-add-parent" id="pageCtrl.characterClass" ng-model="pageCtrl.sysChar.class" ng-options="class as class.name for class in pageCtrl.dnd4echar.classChoices track by class.name">
                                 <option value="">Pick a class...</option>
                             </select>
                             <i class="icon-plus icon-larger form-add" ng-click="addClass()" title="Add Class..."></i>
@@ -77,11 +77,11 @@
                             <span class="help-block">Race</span>
                         </div>
                         <div class="form-group col-sm-1" style="min-width:90px">
-                            <select class="form-control" id="pageCtrl.characterGender" ng-model="pageCtrl.sysChar.gender" ng-options="gender for gender in genderChoices"></select>
+                            <select class="form-control" id="pageCtrl.characterGender" ng-model="pageCtrl.sysChar.gender" ng-options="gender for gender in pageCtrl.dnd4echar.genderChoices"></select>
                             <span class="help-block">Gender</span>
                         </div>
                         <div class="form-group col-sm-1" style="min-width:90px">
-                            <select class="form-control" id="pageCtrl.characterSize" ng-model="pageCtrl.sysChar.size" ng-options="size for size in sizeChoices"></select>
+                            <select class="form-control" id="pageCtrl.characterSize" ng-model="pageCtrl.sysChar.size" ng-options="size for size in pageCtrl.dnd4echar.sizeChoices"></select>
                             <span class="help-block">Size</span>
                         </div>
                         <div class="form-group col-sm-2" style="min-width:120px">
@@ -97,7 +97,7 @@
                             <span class="help-block">Epic Destiny</span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <select class="form-control" id="pageCtrl.characterAlignment" ng-model="pageCtrl.sysChar.alignment" ng-options="alignment for alignment in alignmentChoices"></select>
+                            <select class="form-control" id="pageCtrl.characterAlignment" ng-model="pageCtrl.sysChar.alignment" ng-options="alignment for alignment in pageCtrl.dnd4echar.alignmentChoices"></select>
                             <span class="help-block">Alignment</span>
                         </div>
                         <div class="form-group col-sm-1">

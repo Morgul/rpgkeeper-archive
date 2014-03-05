@@ -31,9 +31,10 @@ module.controller('AddClassModalCtrl', function($scope, $modalInstance)
     }; // end add
 });
 
-module.controller('EditClassModalCtrl', function($scope, $modalInstance)
+module.controller('EditClassModalCtrl', function($scope, $dnd4echar, $modalInstance)
 {
     $scope.class = $scope.classChoices[0];
+    $scope.classChoices = $dnd4echar.classChoices;
 
     $scope.cancel = function()
     {
@@ -91,8 +92,9 @@ module.controller('AddSkillModalCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('EditFeatModalCtrl', function($scope, $modalInstance, feat)
+module.controller('EditFeatModalCtrl', function($scope, $dnd4echar, $modalInstance, feat)
 {
+    $scope.featChoices = $dnd4echar.featChoices;
     $scope.feat = feat || $scope.featChoices[0];
 
     $scope.cancel = function()
@@ -131,8 +133,9 @@ module.controller('EditFeatRefModalCtrl', function($scope, $modalInstance, featR
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
+module.controller('AddFeatModalCtrl', function($scope, $dnd4echar, $modalInstance)
 {
+    $scope.featChoices = $dnd4echar.featChoices;
     $scope.chosenFeat = "";
     $scope.newFeat = {};
 
@@ -165,8 +168,13 @@ module.controller('AddFeatModalCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('EditPowerModalCtrl', function($scope, $modalInstance, power)
+module.controller('EditPowerModalCtrl', function($scope, $dnd4echar, $modalInstance, power)
 {
+    $scope.powerChoices = $dnd4echar.powerChoices;
+    $scope.powerKinds = $dnd4echar.powerKinds;
+    $scope.powerTypes = $dnd4echar.powerTypes;
+    $scope.actionTypes = $dnd4echar.actionTypes;
+
     $scope.power = power || $scope.powerChoices[0];
 
     $scope.cancel = function()
@@ -210,8 +218,13 @@ module.controller('EditPowerRefModalCtrl', function($scope, $modalInstance, powe
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('AddPowerModalCtrl', function($scope, $modalInstance)
+module.controller('AddPowerModalCtrl', function($scope, $dnd4echar, $modalInstance)
 {
+    $scope.powerChoices = $dnd4echar.powerChoices;
+    $scope.powerKinds = $dnd4echar.powerKinds;
+    $scope.powerTypes = $dnd4echar.powerTypes;
+    $scope.actionTypes = $dnd4echar.actionTypes;
+
     $scope.chosenPower = "";
     $scope.newPower = {
         sections: [{}],

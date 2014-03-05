@@ -153,7 +153,6 @@ app.channel('/dnd4e').on('connection', function (socket)
                         // Add basic attacks
                         models.Power.find({ kind: 'Basic Attack' }, function(error, powers)
                         {
-
                             character.powers = [];
 
                             async.each(powers, function(power, done)
