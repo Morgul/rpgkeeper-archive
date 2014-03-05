@@ -4,7 +4,7 @@
 // @module feats.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function FeatController($scope, $rootScope, $socket, $character, $modal)
+function FeatController($scope, $rootScope, $socket, $character, $alerts, $modal)
 {
     var self = this;
     this.character = $character;
@@ -45,14 +45,15 @@ function FeatController($scope, $rootScope, $socket, $character, $modal)
         {
             if(result)
             {
-                var idx = self.sysChar.feats.indexOf(featRef);
-                self.sysChar.feats.splice(idx, 1, result);
-                /*
                 $socket.channel('/dnd4e').emit("update featRef", result, function(error, featRefRet)
                 {
-                    _.assign(featRef, featRefRet);
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error updating feat: ' + error);
+                    } // end if
                 });
-                */
+
+                var idx = self.sysChar.feats.indexOf(featRef);
+                self.sysChar.feats.splice(idx, 1, result);
             } // end if
         });
     }; // end editFeatRef
@@ -62,16 +63,16 @@ function FeatController($scope, $rootScope, $socket, $character, $modal)
         // Prevent the event from triggering a collapse/expand event.
         event.stopPropagation();
 
+        // Tell the system to remove the reference
+        $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $character.system.baseChar, function(error, character)
+        {
+            if(error) {
+                $alerts.addAlert('danger', 'Error removing feat: ' + error);
+            } // end if
+        });
+
         var idx = self.sysChar.feats.indexOf(featRef);
         self.sysChar.feats.splice(idx, 1);
-
-       /*
-        // Tell the system to remove the reference
-        $socket.channel('/dnd4e').emit("remove featRef", featRef.$id, $rootScope.sysChar.baseChar, function(error, character)
-        {
-            $rootScope.sysChar = character;
-        });
-        */
     }; // end removeFeat
 }
 
@@ -83,7 +84,7 @@ FeatController.prototype = {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('FeatController', ['$scope', '$rootScope', '$socket', '$character', '$modal', FeatController]);
+module.controller('FeatController', ['$scope', '$rootScope', '$socket', '$character', '$alerts', '$modal', FeatController]);
 
 module.directive('feat', function()
 {

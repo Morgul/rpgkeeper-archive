@@ -4,7 +4,7 @@
 // @module powers.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function PowerController($scope, $rootScope, $socket, $character, $modal)
+function PowerController($scope, $rootScope, $socket, $character, $alerts, $modal)
 {
     var self = this;
     this.character = $character;
@@ -129,14 +129,15 @@ function PowerController($scope, $rootScope, $socket, $character, $modal)
         {
             if(result)
             {
+                 $socket.channel('/dnd4e').emit("update powerRef", result, function(error, powerRefRet)
+                 {
+                     if(error) {
+                         $alerts.addAlert('danger', 'Error updating power: ' + error);
+                     } // end if
+                 });
+
                 var idx = self.sysChar.powers.indexOf(powerRef);
                 self.sysChar.powers.splice(idx, 1, result);
-                /*
-                $socket.channel('/dnd4e').emit("update powerRef", result, function(error, powerRefRet)
-                {
-                    _.assign(powerRef, powerRefRet);
-                });
-                */
             } // end if
         });
     }; // end editPowerRef
@@ -146,16 +147,16 @@ function PowerController($scope, $rootScope, $socket, $character, $modal)
         // Prevent the event from triggering a collapse/expand event.
         event.stopPropagation();
 
-        var idx = self.sysChar.powers.indexOf(powerRef);
-        self.sysChar.powers.splice(idx, 1);
-
-        /*
         // Tell the system to remove the reference
         $socket.channel('/dnd4e').emit("remove powerRef", powerRef.$id, self.sysChar.baseChar, function(error, character)
         {
-            self.sysChar = character;
+            if(error) {
+                $alerts.addAlert('danger', 'Error removing power: ' + error);
+            } // end if
         });
-        */
+
+        var idx = self.sysChar.powers.indexOf(powerRef);
+        self.sysChar.powers.splice(idx, 1);
     }; // end removePower
 }
 
@@ -167,7 +168,7 @@ PowerController.prototype = {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.controller('PowerController', ['$scope', '$rootScope', '$socket', '$character', '$modal', PowerController]);
+module.controller('PowerController', ['$scope', '$rootScope', '$socket', '$character', '$alerts', '$modal', PowerController]);
 
 module.directive('power', function()
 {

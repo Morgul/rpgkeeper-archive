@@ -4,7 +4,7 @@
 // @module controllers.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function PageController($scope, $socket, $character, $dnd4echar, $modal)
+function PageController($scope, $socket, $character, $dnd4echar, $alerts, $modal)
 {
     var self = this;
 
@@ -14,7 +14,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
     $scope.collapse = {};
 
     // Setup ignored fields for the character
-    $character.ignoreFields([]);
+    $character.ignoreFields(['skills', 'powers', 'feats', 'conditions', 'rolls']);
 
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     $scope.$root.genderChoices = [
@@ -55,117 +55,20 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
     // Get the possible choices for class
     $socket.channel('/dnd4e').emit('get classes', function(error, classes)
     {
-        $scope.$apply(function()
-        {
-            $scope.$root.classChoices = _.sortBy(classes, 'name');
-        });
+        $scope.$root.classChoices = _.sortBy(classes, 'name');
     });
 
     // Get the possible choices for feat
     $socket.channel('/dnd4e').emit('get feats', function(error, feats)
     {
-        $scope.$apply(function()
-        {
-            $scope.$root.featChoices = _.sortBy(feats, 'name');
-        });
+        $scope.$root.featChoices = _.sortBy(feats, 'name');
     });
 
     // Get the possible choices for power
     $socket.channel('/dnd4e').emit('get powers', function(error, powers)
     {
-        $scope.$apply(function()
-        {
-            $scope.$root.powerChoices = _.sortBy(powers, 'name');
-        });
+        $scope.$root.powerChoices = _.sortBy(powers, 'name');
     });
-
-    //------------------------------------------------------------------------------------------------------------------
-    // Watches
-    //------------------------------------------------------------------------------------------------------------------
-
-    /*
-    // Setup individual watches, for better performance
-    var skipFields = ["skills", "conditions", "languages", "powers", "feats", "class", "rolls"];
-    _.each($character.system, function(value, key)
-    {
-        if(key && skipFields.indexOf(key) == -1)
-        {
-            $scope.$watch('sysChar[\'' + key + '\']', function(newProp, oldProp)
-            {
-                if(oldProp != undefined && oldProp != newProp)
-                {
-                    // TODO: pass the key that was modified into the update function, for even more better performance
-                    doUpdate($scope, 'updateChar', function()
-                    {
-                        $socket.channel('/dnd4e').emit("update_character", $character.system, function(error, character)
-                        {
-                            $scope.$apply(function()
-                            {
-                                if(error)
-                                {
-                                    $scope.alerts.push(error);
-                                }
-                                else
-                                {
-                                    if(character)
-                                    {
-                                        $character.system = character;
-                                    } // end if
-                                } // end if
-                            });
-                        });
-                    });
-                } // end if
-            });
-        } // end if
-    });
-
-    $scope.$watch('sysChar.class', function(newClass, oldClass)
-    {
-        if(oldClass && oldClass.name != newClass.name)
-        {
-            doUpdate($scope, 'updateChar', function()
-            {
-                $socket.channel('/dnd4e').emit("update_character", { baseChar: $character.system.baseChar, class: { name: newClass.name } }, function(error, character)
-                {
-                    $scope.$apply(function()
-                    {
-                        if(error)
-                        {
-                            $scope.alerts.push(error);
-                        }
-                        else
-                        {
-                            if(character)
-                            {
-                                $socket.channel('/dnd4e').emit('get classes', function(error, classes)
-                                {
-                                    $scope.$apply(function()
-                                    {
-                                        $scope.classChoices = _.sortBy(classes, 'name');
-                                        $character.system = character;
-                                    });
-                                });
-                            } // end if
-                        } // end if
-                    });
-                });
-            });
-        } // end if
-    });
-
-    // Setup watches for skills
-    $character.system.skills.forEach(function(skill, index)
-    {
-        $scope.$watch('sysChar.skills[' + index + ']', function(newSkill, oldSkill)
-        {
-            if(oldSkill && oldSkill != newSkill)
-            {
-                $scope.updateSkill(newSkill);
-            } // end if
-        }, true);
-    });
-    */
 
     //------------------------------------------------------------------------------------------------------------------
     // Roll Help
@@ -206,7 +109,12 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
                 } // end if
 
                 self.sysChar.class = result;
-                $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character) {});
+                $socket.channel('/dnd4e').emit("add class", result, $character.system.baseChar, function(error, character)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding Class: ' + error);
+                    } // end if
+                });
             } // end if
         });
     }; // end addClass
@@ -226,7 +134,12 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
             {
                 var idx = $scope.$root.classChoices.indexOf(result);
                 $scope.$root.classChoices.splice(idx, 1, result);
-                $socket.channel('/dnd4e').emit("update class", result, function(error, classRet) {});
+                $socket.channel('/dnd4e').emit("update class", result, function(error, classRet)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error editing Class: ' + error);
+                    } // end if
+                });
             } // end if
         });
     }; // end addClass
@@ -244,7 +157,12 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
     {
         var idx = self.sysChar.skills.indexOf(skill);
         self.sysChar.skills.splice(idx, 1, skill);
-        $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill) {});
+        $socket.channel('/dnd4e').emit("update skill", skill, function(error, skill)
+        {
+            if(error) {
+                $alerts.addAlert('danger', 'Error editing skill: ' + error);
+            } // end if
+        });
     };
 
     $scope.addSkill = function() {
@@ -260,7 +178,12 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
             if(result)
             {
                 self.sysChar().skills.push(result);
-                $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character) { });
+                $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding skill: ' + error);
+                    } // end if
+                });
             } // end if
         });
     }; // end addSkill
@@ -287,8 +210,13 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
                     $scope.$root.featChoices.push(result);
                 } // end if
 
-                $scope.$root.featChoices.push(result);
-                $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character) {});
+                self.sysChar.feats.push(result);
+                $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding feat: ' + error);
+                    } // end if
+                });
             } // end if
         });
     }; // end addFeat
@@ -321,10 +249,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
             {
                 $socket.channel('/dnd4e').emit("update feat", result, function(error, featRet)
                 {
-                    $scope.$apply(function()
-                    {
-                        _.assign(feat, featRet);
-                    });
+                    _.assign(feat, featRet);
                 });
             } // end if
         });
@@ -353,7 +278,12 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
                 } // end if
 
                 self.sysChar.powers.push(result);
-                $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character) {});
+                $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding power: ' + error);
+                    } // end if
+                });
             } // end if
         });
     }; // end addPower
@@ -386,10 +316,7 @@ function PageController($scope, $socket, $character, $dnd4echar, $modal)
             {
                 $socket.channel('/dnd4e').emit("update power", result, function(error, powerRet)
                 {
-                    $scope.$apply(function()
-                    {
-                        _.assign(power, powerRet);
-                    });
+                    _.assign(power, powerRet);
                 });
             } // end if
         });
@@ -480,48 +407,6 @@ module.filter('formatModifier', function()
         return value;
     };
 });
-
-//----------------------------------------------------------------------------------------------------------------------
-// Helpers
-//----------------------------------------------------------------------------------------------------------------------
-
-// We do a few tricky things here; basically, once we get called once, we set a timer, and wait until people stop
-// calling for updates before we send out the update. Not only does this help with rate limiting, but it also prevents
-// odd behavior where we update the model while the user is still trying to type, stomping on their changes.
-function doUpdate($scope, tag, updateFunc)
-{
-    tag = tag || 'general';
-
-    var timerIDTag = 'timerID-' + tag;
-    var updateTag = 'incomingUpdate-' + tag;
-
-    function waitForUpdatesToStop()
-    {
-        if(!$scope[timerIDTag])
-        {
-            $scope[timerIDTag] = setInterval(function()
-            {
-                if($scope[updateTag])
-                {
-                    $scope.$apply(function()
-                    {
-                        // Set this to false, so we can detect if we're called again.
-                        $scope[updateTag] = false;
-                    });
-                }
-                else
-                {
-                    clearInterval($scope[timerIDTag]);
-                    $scope[timerIDTag] = undefined;
-                    updateFunc();
-                } // end if
-            }, 500);
-        } // end if
-    } // end wait
-
-    $scope[updateTag] = true;
-    waitForUpdatesToStop();
-} // end doUpdate
 
 //----------------------------------------------------------------------------------------------------------------------
 

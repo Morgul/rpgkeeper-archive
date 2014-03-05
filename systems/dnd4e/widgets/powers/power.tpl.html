@@ -23,7 +23,7 @@
         </div>
         <div class="sections">
             <div class="section" ng-repeat="section in (powerRef().power || powerRef()).sections">
-                <b class="title">{{ section.title }}:</b> <span ng-bind-html="section.content | markdown"></span>
+                <b class="title">{{ section.title }}:</b> <span ng-if="section.content" ng-bind-html="section.content | markdown"></span>
             </div>
             <div class="section notes" ng-if="powerRef().notes">
                 <b class="title">Notes:</b> <span ng-bind-html="powerRef().notes | markdown"></span>

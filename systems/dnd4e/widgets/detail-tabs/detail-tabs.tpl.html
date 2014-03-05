@@ -22,16 +22,16 @@
         <div class="rolls-tab">
             <div class="form-group">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll" ng-enter="doGenericRoll()">
+                    <input type="text" class="form-control" placeholder="Generic rolls here..." ng-model="genericRoll" ng-enter="detailCtrl.rollsService.rollDice('', genericRoll, detailCtrl.sysChar)">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="doGenericRoll(genericRoll)">Roll</button>
-                    <button class="btn btn-default" type="button" ng-click="clearRolls()">Clear</button>
+                    <button class="btn btn-default" type="button" ng-click="detailCtrl.rollsService.rollDice('', genericRoll, detailCtrl.sysChar)">Roll</button>
+                    <button class="btn btn-default" type="button" ng-click="detailCtrl.rollsService.clearRolls(); genericRoll = ''">Clear</button>
                 </span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-control fake">
-                    <p ng-repeat="roll in pastRolls track by $index">{{ roll || "&nbsp;" }}</p>
+                    <p ng-repeat="roll in detailCtrl.rollsService.pastRolls track by $index">{{ roll || "&nbsp;" }}</p>
                 </div>
             </div>
             <hr>

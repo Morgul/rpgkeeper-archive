@@ -4,9 +4,10 @@
 // @module character.service.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function CharacterService($socket, $interval) {
+function CharacterService($socket, $alerts, $interval) {
     this.socket = $socket;
     this.interval = $interval;
+    this.alerts = $alerts;
 
     this.newSysChar = false;
     this.ignoredFields = [];
@@ -25,8 +26,15 @@ CharacterService.prototype._startBaseInterval = function() {
         // Detect changes in the base character
         if(angular.toJson(self.base) !== angular.toJson(oldBase)) {
 
-            // TODO: Send update to the server.
             console.log('Base Char Changes!');
+            self.socket.emit("update_character", self.base, function(error, character)
+            {
+                if(error)
+                {
+                    self.alerts.addAlert('danger', 'Error saving character: ', error);
+                    console.error('Error saving character:', error);
+                } // end if
+            });
 
             oldBase = angular.copy(self.base);
         } // end if
@@ -49,8 +57,15 @@ CharacterService.prototype._startSysInterval = function() {
         // Detect changes in the system character
         if(angular.toJson(system) !== angular.toJson(old)) {
 
-            //TODO: Update the system character.
             console.log('System Char Changes!');
+            self.socket.channel(self.systemUrl).emit("update_character", system, function(error, character)
+            {
+                if(error)
+                {
+                    self.alerts.addAlert('danger', 'Error saving character: ', error);
+                    console.error('Error saving character:', error);
+                } // end if
+            });
 
             oldSystem = angular.copy(self.system);
         } // end if
@@ -82,8 +97,8 @@ CharacterService.prototype.setCharacter = function(baseChar, systemUrl, callback
     this.socket.channel(this.systemUrl).emit('get_character', baseChar.$id, function(error, sysChar, isNew) {
         if(error) {
 
-            //TODO: show this error on the main page.
-            console.error('Error encountered getting the specified character:', error)
+            console.error('Error encountered getting the specified character:', error);
+            self.alerts.addAlert('danger', "Encountered error getting the specified character: " + error);
             callback(error);
         } else {
             self.system = sysChar;
@@ -112,6 +127,6 @@ CharacterService.prototype.clearCharacters = function() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rpgkeeper.services').service('$character', ['$socket', '$interval', CharacterService]);
+angular.module('rpgkeeper.services').service('$character', ['$socket', '$alerts', '$interval', CharacterService]);
 
 // ---------------------------------------------------------------------------------------------------------------------

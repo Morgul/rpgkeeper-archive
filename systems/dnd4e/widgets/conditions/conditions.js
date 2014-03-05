@@ -4,7 +4,7 @@
 // @module conditions.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function ConditionsController($scope, $socket, $character, $modal)
+function ConditionsController($scope, $socket, $character, $alerts, $modal)
 {
     this.character = $character;
 
@@ -22,15 +22,12 @@ function ConditionsController($scope, $socket, $character, $modal)
         {
             if(result)
             {
-                //TODO: We may need to still send this over socket.io
-
-                /*
-                $socket.channel('/dnd4e').emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add condition", result, $character.system.baseChar, function(error, character)
                 {
-                    // FIXME: This is a terrible hack!
-                    $scope.pageCtrl.$scope.sysChar = character;
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding condition: ' + error);
+                    } // end if
                 });
-                */
 
                 $character.system.conditions.push(result);
             } // end if
@@ -39,15 +36,13 @@ function ConditionsController($scope, $socket, $character, $modal)
 
     $scope.removeCondition = function(cond)
     {
-        //TODO: We may need to still send this over socket.io
-
-        /*
-        $socket.channel('/dnd4e').emit("remove condition", cond.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove condition", cond.$id, $character.system.baseChar, function(error, character)
         {
-            // FIXME: This is a terrible hack!
-            $scope.pageCtrl.$scope.sysChar = character;
+            if(error) {
+                $alerts.addAlert('danger', 'Error adding condition: ' + error);
+            } // end if
         });
-        */
+
         var idx = $character.system.conditions.indexOf(cond);
         $character.system.conditions.splice(idx, 1);
     }; // end removeCondition
@@ -77,7 +72,7 @@ module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('ConditionsCtrl', ['$scope', '$socket', '$character', '$modal', ConditionsController]);
+module.controller('ConditionsCtrl', ['$scope', '$socket', '$character', '$alerts', '$modal', ConditionsController]);
 
 module.directive('conditions', function() {
     return {

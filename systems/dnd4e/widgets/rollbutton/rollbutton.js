@@ -6,10 +6,6 @@
 
 module.controller('RollButtonCtrl', function($scope, $timeout, $rolls)
 {
-    //$scope.context = $scope.context();
-    //$scope.roll = $scope.roll();
-    //$scope.rollTitle = $scope.rollTitle();
-
     $scope.result = false;
 
     var title = $scope.rollTitle() || $scope.roll.title || $scope.title;

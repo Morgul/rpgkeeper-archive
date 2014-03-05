@@ -4,9 +4,12 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-function DetailTabsController($scope, $timeout, $attrs, $character, $socket)
+function DetailTabsController($scope, $attrs, $character, $rolls, $alerts, $socket)
 {
+    var self = this;
+
     this.character = $character;
+    this.rollsService = $rolls;
 
     $scope.newRoll = {
         title: '',
@@ -77,12 +80,6 @@ function DetailTabsController($scope, $timeout, $attrs, $character, $socket)
     // Rolls Tab
     //------------------------------------------------------------------------------------------------------------------
 
-    $scope.doGenericRoll = function(roll)
-    {
-        $scope.$root.rollDice(roll, this.sysChar);
-        $scope.genericRoll = "";
-    }; // end doGenericRoll
-
     $scope.startAddRoll = function()
     {
         $scope.addStage = 'roll';
@@ -90,15 +87,14 @@ function DetailTabsController($scope, $timeout, $attrs, $character, $socket)
 
     $scope.addRoll = function()
     {
-        this.rolls.push($scope.newRoll);
+        self.sysChar.rolls.push($scope.newRoll);
 
-        /*
-        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, this.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, self.sysChar.baseChar, function(error, character)
         {
-            // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign(self.sysChar, character);
+            if(error) {
+                $alerts.addAlert('danger', 'Error adding roll: ' + error);
+            } // end if
         });
-        */
 
         $scope.newRoll = { title: '', roll: '' };
         $scope.addStage = undefined;
@@ -116,37 +112,29 @@ function DetailTabsController($scope, $timeout, $attrs, $character, $socket)
 
     $scope.updateRoll = function(roll, index)
     {
-        this.sysChar.rolls[index] = roll;
+        self.sysChar.rolls[index] = roll;
 
-        /*
         $socket.channel('/dnd4e').emit("update roll", roll, function(error, rollRet)
         {
-            roll = _.filter(this.sysChar.rolls, { $id: roll.$id})[0];
-
-            // Avoid assigning to roll; otherwise we'll have scope issues.
-            _.assign(roll, rollRet);
-
-            console.log('updated Roll:', roll);
+            if(error) {
+                $alerts.addAlert('danger', 'Error updating roll: ' + error);
+            } // end if
         });
-        */
 
         $scope.rollEdits[index] = false;
     }; // end editRoll
 
     $scope.removeRoll = function(roll)
     {
-        console.log('remove roll called!');
+        var idx = self.sysChar.rolls.indexOf(roll);
+        self.sysChar.rolls.splice(idx, 1);
 
-        var idx = this.sysChar.rolls.indexOf(roll);
-        this.sysChar.rolls.splice(idx, 1);
-
-        /*
-        $socket.channel('/dnd4e').emit("remove roll", roll, this.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove roll", roll, self.sysChar.baseChar, function(error, character)
         {
-            // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign(self.sysChar, character);
+            if(error) {
+                $alerts.addAlert('danger', 'Error removing roll: ' + error);
+            } // end if
         });
-        */
     }; // end removeRoll
 
     //------------------------------------------------------------------------------------------------------------------
@@ -160,7 +148,7 @@ DetailTabsController.prototype = {
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', ['$scope', '$timeout', '$attrs', '$character', '$socket', DetailTabsController]);
+module.controller('DetailTabsCtrl', ['$scope', '$attrs', '$character', '$rolls', '$alerts', '$socket', DetailTabsController]);
 
 module.directive('detailTabs', function() {
     return {
