@@ -13,7 +13,38 @@
         </div>
     </tab>
     <tab heading="Equipment" select="setTab('equipment')">
-        <h4 class="text-center">Not Implemented Yet</h4>
+        <div class="items">
+            <div class="item" ng-repeat="itemRef in detailCtrl.sysChar.equipment | orderBy: 'item.name'" ng-init="collapse['magicitem-' + $index] = true">
+                <h4 class="title magic" ng-click="collapse['magicitem-' + $index] = !collapse['magicitem-' + $index]">
+                    <button type="button" title="Remove this item" class="close" aria-hidden="true" ng-click="removeItem(itemRef, $event)">&times;</button>
+                    <button type="button" title="Edit this item" class="close edit" aria-hidden="true" ng-click="editItemRef(itemRef, $event)"><i class="icon-edit"></i></button>
+                    <span class="type-level">{{ itemRef.stats.level || itemRef.item.levels[0].level }}</span>
+                    <b>{{ itemRef.item.name }}</b>
+                </h4>
+                <div collapse="collapse['magicitem-' + $index]">
+                    <div class="flavor" ng-if="itemRef.item.flavor">{{ itemRef.item.flavor }}</div>
+                    <div class="section details">
+                        <div ng-switch="itemRef.item.type">
+                            <span ng-switch-when="Armor"></span>
+                            <span ng-switch-when="Shield"></span>
+                            <span ng-switch-when="Weapon"></span>
+                            <span ng-switch-when="Implement"></span>
+                            <span ng-switch-when="Potion"><b>Potion:</b> {{ itemRef.stats.price || itemRef.item.levels[0].price }}</span>
+                            <span ng-switch-when="Wondrous"><b>Wondrous Item:</b> {{ itemRef.stats.price || itemRef.item.levels[0].price }}</span>
+                            <span ng-switch-default><b>Item Slot:</b> {{ itemRef.item.type }}</span>
+                        </div>
+                    </div>
+                    <div class="sections">
+                        <div class="section" ng-repeat="section in itemRef.item.sections">
+                            <b>{{ section.title }}:</b> <span ng-bind-html="section.content | markdown"></span>
+                        </div>
+                        <div class="section notes" ng-if="itemRef.notes">
+                            <b>Notes:</b> <span ng-bind-html="itemRef.notes | markdown"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </tab>
     <tab title="Rolls" select="setTab('rolls')">
         <tab-heading>

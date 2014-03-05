@@ -15582,6 +15582,7 @@ td.visible-print {
 .form-add-text:hover {
   color: #82DD82;
 }
+.item-section,
 .power-section {
   padding: 5px;
   padding-right: 10px;
@@ -15591,12 +15592,14 @@ td.visible-print {
   border: 1px solid #ddd;
   position: relative;
 }
+.item-section .close,
 .power-section .close {
   position: absolute;
   top: 5px;
   right: 10px;
   z-index: 100;
 }
+.item-section + .item-section,
 .power-section + .power-section {
   margin-top: 5px;
 }
@@ -15859,6 +15862,160 @@ td.visible-print {
 .detail-tabs .rolls-tab .btn-group .btn.fill-width {
   width: calc(100% - 75px);
   width: -webkit-calc(100% - 75px);
+}
+.detail-tabs .power table,
+.detail-tabs .feat table,
+.detail-tabs .item table {
+  width: 100%;
+  margin-top: 5px;
+}
+.detail-tabs .power table thead,
+.detail-tabs .feat table thead,
+.detail-tabs .item table thead {
+  background-color: #ddd;
+}
+.detail-tabs .power table th,
+.detail-tabs .feat table th,
+.detail-tabs .item table th {
+  text-align: center;
+  padding: 2px 5px;
+}
+.detail-tabs .power table td,
+.detail-tabs .feat table td,
+.detail-tabs .item table td {
+  text-align: center;
+}
+.detail-tabs .power .gradient,
+.detail-tabs .item .gradient {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+}
+.detail-tabs .power h4,
+.detail-tabs .item h4 {
+  margin: 0;
+  font-size: .97em;
+  background-color: #eee;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.detail-tabs .power h4 .close,
+.detail-tabs .item h4 .close {
+  margin-top: -4px;
+}
+.detail-tabs .power h4 .edit,
+.detail-tabs .item h4 .edit {
+  margin-top: 1px;
+  margin-right: 2px;
+  font-size: 1.1em;
+}
+.detail-tabs .power h4.at-will,
+.detail-tabs .item h4.at-will {
+  color: #fff;
+  background-color: #61976a;
+}
+.detail-tabs .power h4.encounter,
+.detail-tabs .item h4.encounter {
+  color: #fff;
+  background-color: #951234;
+}
+.detail-tabs .power h4.daily,
+.detail-tabs .item h4.daily {
+  color: #fff;
+  background-color: #4c4d4f;
+}
+.detail-tabs .power h4.magic,
+.detail-tabs .item h4.magic {
+  color: #fff;
+  background-color: #dba516;
+}
+.detail-tabs .power .type-level,
+.detail-tabs .item .type-level {
+  float: right;
+  margin-right: 3px;
+}
+.detail-tabs .power .flavor,
+.detail-tabs .item .flavor {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+  font-size: .90em;
+  font-style: italic;
+  margin: 0 5px;
+  padding: 2px 4px;
+}
+.detail-tabs .power .sections .section:nth-child(even),
+.detail-tabs .item .sections .section:nth-child(even) {
+  padding-top: 2px !important;
+  background: -moz-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(35%, #dddccd), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #dddccd 35%, rgba(255, 255, 255, 0) 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddccd', endColorstr='#00ffffff', GradientType=1);
+  /* IE6-9 */
+
+}
+.detail-tabs .power .sections hr,
+.detail-tabs .item .sections hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.detail-tabs .item + .item,
+.detail-tabs .power + .power {
+  margin-top: 7px;
 }
 .detail-tabs ul.nav.nav-tabs {
   margin-bottom: 10px;

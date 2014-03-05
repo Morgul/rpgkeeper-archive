@@ -59,6 +59,35 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
     }; // end addClass
 
     //------------------------------------------------------------------------------------------------------------------
+    // Equipment
+    //------------------------------------------------------------------------------------------------------------------
+
+    $scope.addMagicItem = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/addmagicitem.html',
+            controller: 'AddMagicItemModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                self.dnd4echar.addMagicItem(result);
+                self.sysChar.equipment.push({ item: result });
+                $socket.channel('/dnd4e').emit("add magic item", result, self.sysChar.baseChar, function(error, character)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding magic item: ' + error.toString());
+                    } // end if
+                });
+            } // end if
+        });
+    }; // end addMagicItem
+
+    //------------------------------------------------------------------------------------------------------------------
     // Classes
     //------------------------------------------------------------------------------------------------------------------
 

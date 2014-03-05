@@ -15,6 +15,53 @@ module.controller('RollHelpCtrl', function($scope, $modalInstance, sysChar)
 
 //----------------------------------------------------------------------------------------------------------------------
 
+module.controller('AddMagicItemModalCtrl', function($scope, $dnd4echar, $modalInstance)
+{
+    $scope.magicItemChoices = $dnd4echar.magicItemChoices;
+    $scope.itemTypes = $dnd4echar.itemTypes;
+
+    $scope.newItem = {
+        sections: [{}],
+        levels: [{}],
+        amount: 1
+    };
+
+    $scope.formatLevel = function(level)
+    {
+        var str = 'Level: ' + level.level;
+
+        if(level.enhancement)
+        {
+            str += ' (+' + level.enhancement + ')';
+        } // end if
+
+        return str;
+    };
+
+    $scope.removeLevel = function(index)
+    {
+        $scope.newItem.levels.splice(index, 1);
+    }; // end removeSection
+
+    $scope.removeSection = function(index)
+    {
+        $scope.newItem.sections.splice(index, 1);
+    }; // end removeSection
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end cancel
+
+    $scope.add = function(item, global)
+    {
+        item.global = global;
+        $modalInstance.close(item);
+    }; // end add
+});
+
+//----------------------------------------------------------------------------------------------------------------------
+
 module.controller('AddClassModalCtrl', function($scope, $modalInstance)
 {
     $scope.newClass = {};

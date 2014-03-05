@@ -208,6 +208,20 @@ app.channel('/dnd4e').on('connection', function (socket)
             delete update['powers'];
             delete update['feats'];
 
+            // Equipment
+            delete update['armor'];
+            delete update['shield'];
+            delete update['head'];
+            delete update['neck'];
+            delete update['arm'];
+            delete update['hand'];
+            delete update['waist'];
+            delete update['feet'];
+            delete update['ring1'];
+            delete update['ring2'];
+            delete update['equipment'];
+
+
             if(err)
             {
                 console.error("Error Encountered:", err);
@@ -409,6 +423,87 @@ app.channel('/dnd4e').on('connection', function (socket)
                 });
             });
         });
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Magic Items
+    //------------------------------------------------------------------------------------------------------------------
+
+    socket.on('get magic items', function(callback)
+    {
+        //TODO: Limit this to either items where `owner` is null, or is the email address of our current user.
+        models.MagicItem.find({}, function(error, items)
+        {
+            callback(error, items);
+        });
+    });
+
+    socket.on('add magic item', function(itemDef, baseChar, callback)
+    {
+        if(!itemDef.global)
+        {
+            itemDef.owner = user.email;
+        } // end if
+
+        function addMagicItem(item)
+        {
+            // Clear the $id, as it's for the item, not the item ref.
+            itemDef.$id = undefined;
+
+            // Build a new MagicItemReference Object
+            var itemRef = new models.MagicItemReference(itemDef);
+
+            itemRef.item = item.$key;
+            itemRef.save(function()
+            {
+                models.Character.findOne({baseChar: baseChar}, function(err, character)
+                {
+                    if(err)
+                    {
+                        console.error('Error:', err);
+                    } // end if
+
+                    if(!character.equipment)
+                    {
+                        character.equipment = [];
+                    } // end if
+
+                    character.equipment.push(itemRef.$key);
+
+                    character.save(function()
+                    {
+                        character.populate(true, function()
+                        {
+                            callback(undefined, character);
+                        })
+                    });
+                });
+            })
+        } // end addMagicItem
+
+        if(itemDef.exists)
+        {
+            // Look up the item's id
+            models.MagicItem.findOne({ $id: itemDef.$id }, function(error, item)
+            {
+                addMagicItem(item);
+            });
+        }
+        else
+        {
+            // Build a new item, save, and do the same as above.
+            var item = new models.MagicItem(itemDef);
+
+            item.save(function(error)
+            {
+                if(error)
+                {
+                    console.error('error:', error);
+                } // end if
+
+                addMagicItem(item);
+            });
+        } // end if
     });
 
     //------------------------------------------------------------------------------------------------------------------

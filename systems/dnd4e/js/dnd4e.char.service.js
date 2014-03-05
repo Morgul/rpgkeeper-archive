@@ -8,6 +8,8 @@ function Dnd4eCharacter($character, $socket) {
     this.character = $character;
     var self = this;
 
+    this.magicItemChoices = [];
+
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     this.genderChoices = [
         "Female",
@@ -43,6 +45,14 @@ function Dnd4eCharacter($character, $socket) {
     this.powerTypes = ["At-Will", "Encounter", "Daily"];
     this.powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
     this.actionTypes = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+    this.itemTypes = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+    this.armorTypes = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
+
+    // Get the possible choices for class
+    $socket.channel('/dnd4e').emit('get magic items', function(error, items)
+    {
+        self.magicItemChoices = _.sortBy(items, 'name');
+    });
 
     // Get the possible choices for class
     $socket.channel('/dnd4e').emit('get classes', function(error, classes)
@@ -68,6 +78,11 @@ Dnd4eCharacter.prototype = {
         return (this.character || {}).system;
     }
 };
+
+Dnd4eCharacter.prototype.addMagicItem = function(item) {
+    this.magicItemChoices.push(item);
+    this.magicItemChoices = _.sortBy(this.magicItemChoices, 'name');
+}; // end addClass
 
 Dnd4eCharacter.prototype.addClass = function(classInst) {
     this.classChoices.push(classInst);
@@ -167,6 +182,24 @@ Dnd4eCharacter.prototype.calcSkill = function(skill)
         + parseInt(skill.misc || 0) - parseInt(skill.armorPenalty || 0);
 };
 
+//------------------------------------------------------------------------------------------------------------------
+// Equipment
+//------------------------------------------------------------------------------------------------------------------
+
+Dnd4eCharacter.prototype.isLightArmor = function(type)
+{
+    if(type in ["Cloth", "Leather", "Hide"])
+    {
+        return true;
+    } // end if
+
+    return false;
+}; // end isLightArmor
+
+Dnd4eCharacter.prototype.isEquipable = function(item)
+{
+    return ["Head", "Neck", "Arm", "Hand", "Waist", "Foot", "Ring"].indexOf(item.type) != -1;
+}; // end isEquipable
 
 // ---------------------------------------------------------------------------------------------------------------------
 
