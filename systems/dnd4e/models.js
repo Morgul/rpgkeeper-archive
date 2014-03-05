@@ -15,6 +15,8 @@ var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdo
 var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+var itemType = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+var armorType = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
 
 module.exports = ns.define({
     Condition: {
@@ -25,6 +27,105 @@ module.exports = ns.define({
     Roll: {
         title: fields.String(),
         roll: fields.String()
+    },
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    MundaneItem: {
+        name: fields.String({ required: true }),
+        description: fields.String(),
+        cost: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom item, if set.
+        owner: fields.String()
+    },
+
+    MundaneItemReference: {
+        item: fields.Reference({ model: 'MundaneItem' }),
+        amount: fields.Integer({ default: 0, min: 0 }),
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
+    },
+
+    MagicItem: {
+        name: fields.String({ required: true }),
+        flavor: fields.String(),
+        type: fields.Choice({ choices: itemType, default: 'Wondrous' }),
+        levels: fields.List({ type: fields.Dict() }),
+        sections: fields.List({ type: fields.Dict() }),
+
+        // Distinguishes this as a custom item, if set.
+        owner: fields.String()
+    },
+
+    MagicItemReference: {
+        item: fields.Reference({ model: 'MagicItem' }),
+        amount: fields.Integer({ default: 0, min: 0 }),
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
+    },
+
+    Armor: {
+        type: fields.Choice({ choices: armorType, default: 'Cloth' }),
+        bonus: fields.Integer({ default: 0, min: 0 }),
+        minEnh: fields.Integer({ default: 0, min: 0 }),
+        check: fields.Integer({ default: 0 }),
+        speed: fields.Integer({ default: 0 }),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom armor, if set.
+        owner: fields.String()
+    },
+
+    ArmorReference: {
+        armor: fields.Reference({ model: 'MasterworkArmor' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
+    },
+
+    Shield: {
+        type: fields.Choice({ choices: armorType, default: 'Cloth' }),
+        bonus: fields.Integer({ default: 0, min: 0 }),
+        minEnh: fields.Integer({ default: 0, min: 0 }),
+        check: fields.Integer({ default: 0 }),
+        speed: fields.Integer({ default: 0 }),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+
+        // Distinguishes this as a custom shield, if set.
+        owner: fields.String()
+    },
+
+    ShieldReference: {
+        shield: fields.Reference({ model: 'Shield' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} }),
+        notes: fields.String()
+    },
+
+    Weapon: {
+        proficiency: fields.Integer({ default: 0, min: 0 }),
+        damage: fields.String(),
+        range: fields.String(),
+        price: fields.Integer({ default: 0, min: 0 }),
+        weight: fields.Integer({ default: 0, min: 0 }),
+        groups: fields.List({ type:fields.String() }),
+        properties: fields.List({ type:fields.String() }),
+
+        // Distinguishes this as a custom weapon, if set.
+        owner: fields.String()
+    },
+
+    WeaponReference: {
+        weapon: fields.Reference({ model: 'Weapon' }),
+        magic: fields.Reference({ model: 'MagicItem' }),
+        stats: fields.Dict({default: {} }),
+        silvered: fields.Boolean({ default: false }),
+        equipped: fields.Boolean({ default: false }),
+        notes: fields.String()
     },
 
     //------------------------------------------------------------------------------------------------------------------
@@ -103,6 +204,27 @@ module.exports = ns.define({
         feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
         rolls: fields.List({ type: fields.Reference({ model: 'Roll' }) }),
         notes: fields.String({ default: "" }),
+
+        //-----------------------------------------------------------
+        // Equipment
+        //-----------------------------------------------------------
+
+        armor: fields.Reference({ model: 'ArmorReference' }),
+        shield: fields.Reference({ model: 'ShieldReference' }),
+        head: fields.Reference({ model: 'MagicItemReference' }),
+        neck: fields.Reference({ model: 'MagicItemReference' }),
+        arm: fields.Reference({ model: 'MagicItemReference' }),
+        hand: fields.Reference({ model: 'MagicItemReference' }),
+        waist: fields.Reference({ model: 'MagicItemReference' }),
+        feet: fields.Reference({ model: 'MagicItemReference' }),
+        ring1: fields.Reference({ model: 'MagicItemReference' }),
+        ring2: fields.Reference({ model: 'MagicItemReference' }),
+
+        // Characters can have multiple weapons (ex: dagger and shurikens).
+        weapons: fields.List({ type: fields.Reference({ model: 'WeaponReference' }) }),
+
+        // We don't specify a type, so that we can use both mundane and magic items here.
+        equipment: fields.List({ type: fields.Reference({ model: 'MagicItemReference' }) }),
 
         //-----------------------------------------------------------
         // Biographic Info
