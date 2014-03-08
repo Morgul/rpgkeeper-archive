@@ -2,17 +2,17 @@
     <h4 class="title" ng-click="collapseClick()">
         <button ng-if="!removable" type="button" title="Remove this feat" class="close" aria-hidden="true" ng-click="removeFeat(featRef(), $event)">&times;</button>
         <button ng-if="!editable" type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef(), $event)"><i class="icon-edit"></i></button>
-        {{ (featRef().feat || featRef()).name }}
+        {{ feat().name }}
     </h4>
-    <div collapse="collapse">
-        <div class="section prerequisites" ng-if="(featRef().feat || featRef()).prerequisites">
-            <b class="title">Prerequisites:</b> <span ng-bind-html="(featRef().feat || featRef()).prerequisites | markdown"></span>
+    <div collapse="toggle">
+        <div class="section prerequisites" ng-if="feat().prerequisites">
+            <b class="title">Prerequisites:</b> <span ng-bind-html="feat().prerequisites | markdown"></span>
         </div>
-        <div class="section description" ng-if="(featRef().feat || featRef()).description">
-            <b class="title">Description:</b> <span ng-bind-html="(featRef().feat || featRef()).description | markdown"></span>
+        <div class="section description" ng-if="feat().description">
+            <b class="title">Description:</b> <span ng-bind-html="feat().description | markdown"></span>
         </div>
-        <div class="section special" ng-if="(featRef().feat || featRef()).special">
-            <b class="title">Special:</b> <span ng-bind-html="(featRef().feat || featRef()).special | markdown"></span>
+        <div class="section special" ng-if="feat().special">
+            <b class="title">Special:</b> <span ng-bind-html="feat().special | markdown"></span>
         </div>
         <div class="section notes" ng-if="featRef().notes">
             <b class="title">Notes:</b> <span ng-bind-html="featRef().notes | markdown"></span>

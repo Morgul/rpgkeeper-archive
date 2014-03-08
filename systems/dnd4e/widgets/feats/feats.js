@@ -30,6 +30,10 @@ function FeatController($scope, $rootScope, $socket, $character, $alerts, $modal
         } // end if
     };
 
+    $scope.feat = function() {
+        return $scope.featRef().feat || $scope.featRef();
+    }; // end feat
+
     $scope.editFeatRef = function(featRef, event) {
         event.stopPropagation();
 

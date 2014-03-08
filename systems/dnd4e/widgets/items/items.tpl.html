@@ -1,0 +1,44 @@
+<div class="item">
+    <h4 class="title magic" ng-click="collapseClick()">
+        <button ng-if="!removable" type="button" title="Remove this item" class="close" aria-hidden="true" ng-click="removeItem(itemRef(), $event)">&times;</button>
+        <button ng-if="!editable" type="button" title="Edit this item" class="close edit" aria-hidden="true" ng-click="editItemRef(itemRef(), $event)"><i class="icon-edit"></i></button>
+        <span class="type-level">{{ itemRef.stats.level || itemRef.item.levels[0].level }}</span>
+        <b>{{ (itemRef().item || itemRef()).name }}</b>
+    </h4>
+    <div collapse="toggle">
+        <div class="flavor" ng-if="itemRef.item.flavor">{{ itemRef.item.flavor }}</div>
+        <div class="section details">
+            <div ng-switch="itemRef.item.type">
+                <span ng-switch-when="Armor"></span>
+                <span ng-switch-when="Shield"></span>
+                <span ng-switch-when="Weapon"></span>
+                <span ng-switch-when="Implement"></span>
+                <span ng-switch-when="Potion"><b>Potion:</b> {{ itemRef.stats.price || itemRef.item.levels[0].price }} gp</span>
+                <span ng-switch-when="Wondrous"><b>Wondrous Item:</b> {{ itemRef.stats.price || itemRef.item.levels[0].price }} gp</span>
+                <span ng-switch-default><b>Item Slot:</b> {{ itemRef.item.type }}</span>
+            </div>
+        </div>
+        <div class="sections">
+            <div class="section" ng-repeat="section in itemRef.item.sections">
+                <b>{{ section.title }}:</b> <span ng-bind-html="section.content | markdown"></span>
+            </div>
+            <div class="section notes" ng-if="itemRef.notes">
+                <b>Notes:</b> <span ng-bind-html="itemRef.notes | markdown"></span>
+            </div>
+        </div>
+        <div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button  ng-if="isEquipable(itemRef.item)" class="btn btn-default btn-block">Equip</button>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="control-label pull-right" style="margin-top: 7px">Amount:</label>
+                </div>
+                <div class="form-group col-sm-3">
+                    <input type="number" class="form-control" ng-model="itemRef.amount">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
