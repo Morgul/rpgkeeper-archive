@@ -9,6 +9,8 @@ function PowerController($scope, $rootScope, $socket, $character, $alerts, $moda
     var self = this;
     this.character = $character;
 
+    $scope.collapse = angular.copy($scope.toggle);
+
     // Only disable this if it's explicitly set to false.
     if($scope.editable != false)
     {
@@ -64,9 +66,8 @@ function PowerController($scope, $rootScope, $socket, $character, $alerts, $moda
 
     $scope.collapseClick = function()
     {
-        if($scope.toggle != undefined)
-        {
-            $scope.toggle = !$scope.toggle;
+        if($scope.toggle != undefined) {
+            $scope.collapse = !$scope.collapse;
         } // end if
     };
 

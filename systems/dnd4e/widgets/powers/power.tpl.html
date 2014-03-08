@@ -8,7 +8,7 @@
         <span class="type-level" ng-switch="(powerRef().power || powerRef()).kind">{{ (powerRef().power || powerRef()).kind }}<span ng-if="(powerRef().power || powerRef()).level"> {{ (powerRef().power || powerRef()).level }}</span></span>
         <b>{{ (powerRef().power || powerRef()).name }}</b>
     </h4>
-    <div collapse="toggle">
+    <div collapse="collapse">
         <div class="flavor" ng-if="(powerRef().power || powerRef()).flavor">{{ (powerRef().power || powerRef()).flavor }}
         </div>
         <div class="section details">

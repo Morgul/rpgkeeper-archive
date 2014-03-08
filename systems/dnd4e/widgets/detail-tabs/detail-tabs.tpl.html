@@ -4,12 +4,12 @@
     </tab>
     <tab heading="Powers" select="setTab('powers')">
         <div class="powers">
-            <power ng-repeat="powerRef in detailCtrl.sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" ng-init="collapse['power-' + $index] = true" toggle="collapse['power-' + $index]" power-ref="powerRef" sys-char="detailCtrl.sysChar"></power>
+            <power ng-repeat="powerRef in detailCtrl.sysChar.powers | orderBy: [sortPowerType, sortPowerKind, sortPowerLevel, 'power.name']" toggle="true" power-ref="powerRef" sys-char="detailCtrl.sysChar"></power>
         </div>
     </tab>
     <tab heading="Feats" select="setTab('feats')">
         <div class="feats">
-            <feat ng-repeat="featRef in detailCtrl.sysChar.feats | orderBy: 'feat.name'" ng-init="collapse['feat-' + $index] = true" toggle="collapse['feat-' + $index]" feat-ref="featRef"></feat>
+            <feat ng-repeat="featRef in detailCtrl.sysChar.feats | orderBy: 'feat.name'" toggle="true" feat-ref="featRef"></feat>
         </div>
     </tab>
     <tab heading="Equipment" select="setTab('equipment')">
