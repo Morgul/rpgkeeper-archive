@@ -99,17 +99,19 @@ function buildSkills(callback)
 
 function cleanRolls(rolls)
 {
-    var cleaned = [];
+    if(rolls) {
+        var cleaned = [];
 
-    rolls.forEach(function(roll)
-    {
-        cleaned.push({
-            title: roll.title,
-            roll: roll.roll
+        rolls.forEach(function(roll)
+        {
+            cleaned.push({
+                title: roll.title,
+                roll: roll.roll
+            });
         });
-    });
 
-    return cleaned;
+        return cleaned;
+    } // end if
 } // end cleanRolls
 
 //----------------------------------------------------------------------------------------------------------------------
