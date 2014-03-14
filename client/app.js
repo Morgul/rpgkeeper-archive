@@ -102,24 +102,28 @@ window.app = angular.module("rpgkeeper", [
 
         return function markdown(text)
         {
-            var hash = $rootScope.hash(text);
+            if(text) {
+                var hash = $rootScope.hash(text);
 
-            if(hash in $rootScope.markdownCache)
-            {
-                return $sce.trustAsHtml($rootScope.markdownCache[hash]);
+                if(hash in $rootScope.markdownCache)
+                {
+                    return $sce.trustAsHtml($rootScope.markdownCache[hash]);
+                } // end if
+
+                var mdown = marked(text);
+
+                // Support leading newlines.
+                text.replace(/^(\r?\n)+/, function(match)
+                {
+                    mdown = match.split(/\r?\n/).join("<br>") + mdown;
+                });
+
+                $rootScope.markdownCache[hash] = mdown;
+
+                return $sce.trustAsHtml(mdown);
             } // end if
 
-            var mdown = marked(text);
-
-            // Support leading newlines.
-            text.replace(/^(\r?\n)+/, function(match)
-            {
-                mdown = match.split(/\r?\n/).join("<br>") + mdown;
-            });
-
-            $rootScope.markdownCache[hash] = mdown;
-
-            return $sce.trustAsHtml(mdown);
+            return "";
         }; // end markdown
     }).filter('reverse', function() {
         return function(items) {

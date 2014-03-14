@@ -7,7 +7,7 @@
 var om = require('omega-models');
 var fields = om.fields;
 var SimpleBackend = om.backends.Simple;
-var ns = om.namespace('rpgkeeper').backend(new SimpleBackend({root: './server/db'}));
+var ns = om.namespace('rpgkeeper').backend(new SimpleBackend({root: './server/db', spaces: 4}));
 
 //----------------------------------------------------------------------------------------------------------------------
 
