@@ -110,10 +110,13 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $socket, $modal)
+    Controllers.controller('DashboardCtrl', function($scope, $rootScope, $socket, $character, $modal)
     {
         // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
+
+        // Clear any current characters in the system.
+        $character.clearCharacters();
 
         //--------------------------------------------------------------------------------------------------------------
         // Public API
@@ -171,7 +174,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $socket, $routeParams)
+    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $socket, $character, $routeParams)
     {
         var charID = $routeParams.id;
 
@@ -194,6 +197,12 @@
                 // Change our page title
                 $scope.$root.$broadcast('title', character.name);
 
+                $character.setCharacter(character, '/' + character.system.shortname, function()
+                {
+                    $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
+                });
+
+                /*
                 $scope.character = character;
 
                 var systemSocket = $socket.channel('/' + character.system.shortname);
@@ -204,6 +213,7 @@
                     $scope.$root.sysChar = sysChar;
                     $scope.isNew = isNew;
                 });
+                */
             } // end if
         });
     });

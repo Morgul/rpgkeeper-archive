@@ -72,7 +72,7 @@ var SocketProvider = function() {
     }; // end useMockSocket
 
     // Return the service instance
-    this.$get = ['$timeout', '$rootScope', function($timeout, $rootScope)
+    this.$get = ['$timeout', '$rootScope', '$alerts', '$interval', function($timeout, $rootScope, $alerts, $interval)
     {
 
         // -------------------------------------------------------------------------------------------------------------
@@ -84,9 +84,12 @@ var SocketProvider = function() {
         {
             this.socket = undefined;
             this.reconnect = true;
+            this.connected = true;
+            this.wasConnected = false;
 
             // An array of events that were registered before we connected.
             this.earlyEvents = [];
+
         } // end SocketService
 
         SocketService.prototype.connect = function()
@@ -114,9 +117,21 @@ var SocketProvider = function() {
                 // Clear early events
                 this.earlyEvents = [];
 
+                this.connected = true;
+
                 // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
                 // and handle the need for `$apply`.
                 $timeout(function() { $rootScope.$broadcast('connected'); }, 0);
+
+                // If we're reconnecting, pop the connected alert.
+                if(self.wasConnected)
+                {
+                    $alerts.addAlert('success', 'Connected to server.', 3000);
+                }
+                else
+                {
+                    self.wasConnected = true;
+                } // end if
             } // end onConnected
 
             function onError()
@@ -128,9 +143,29 @@ var SocketProvider = function() {
 
             function onDisconnected()
             {
+                var socketService = this;
+                this.connected = false;
+
                 // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
                 // and handle the need for `$apply`.
                 $timeout(function() { $rootScope.$broadcast('disconnected'); }, 0);
+
+                $alerts.addAlert('danger', 'Disconnected from server...', 3000, function(dismiss)
+                {
+                    if(!socketService.connected) {
+                        var intHandle = $interval(function()
+                        {
+                            if(socketService.connected) {
+                                angular.clearInterval(intHandle);
+                                dismiss();
+                            } // end if
+                        });
+                    }
+                    else
+                    {
+                        dismiss();
+                    } // end if
+                });
             } // end onDisconnected
 
             function onReconnectFailed()
@@ -154,7 +189,7 @@ var SocketProvider = function() {
                 // Setup socket.io event handers
                 self.socket.on('connect', onConnected);
                 self.socket.on('error', onError);
-                self.socket.on('disconnected', onDisconnected);
+                self.socket.on('disconnect', onDisconnected);
                 self.socket.on('reconnect_failed', onReconnectFailed);
             } // end _connect
 

@@ -4,8 +4,10 @@
 // @module conditions.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('ConditionsCtrl', function($scope, $socket, $modal)
+function ConditionsController($scope, $socket, $character, $alerts, $modal)
 {
+    this.character = $character;
+
     $scope.addCondition = function()
     {
         var opts = {
@@ -20,24 +22,37 @@ module.controller('ConditionsCtrl', function($scope, $socket, $modal)
         {
             if(result)
             {
-                $socket.channel('/dnd4e').emit("add condition", result, $scope.sysChar.baseChar, function(error, character)
+                $socket.channel('/dnd4e').emit("add condition", result, $character.system.baseChar, function(error, character)
                 {
-                    // FIXME: This is a terrible hack!
-                    $scope.pageCtrl.$scope.sysChar = character;
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error adding condition: ' + error);
+                    } // end if
                 });
+
+                $character.system.conditions.push(result);
             } // end if
         });
     }; // end addCondition
 
     $scope.removeCondition = function(cond)
     {
-        $socket.channel('/dnd4e').emit("remove condition", cond.$id, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove condition", cond.$id, $character.system.baseChar, function(error, character)
         {
-            // FIXME: This is a terrible hack!
-            $scope.pageCtrl.$scope.sysChar = character;
+            if(error) {
+                $alerts.addAlert('danger', 'Error adding condition: ' + error);
+            } // end if
         });
+
+        var idx = $character.system.conditions.indexOf(cond);
+        $character.system.conditions.splice(idx, 1);
     }; // end removeCondition
-});
+}
+
+ConditionsController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -57,11 +72,14 @@ module.controller('AddCondDialogCtrl', function($scope, $modalInstance)
 
 //----------------------------------------------------------------------------------------------------------------------
 
+module.controller('ConditionsCtrl', ['$scope', '$socket', '$character', '$alerts', '$modal', ConditionsController]);
+
 module.directive('conditions', function() {
     return {
         restrict: 'E',
         templateUrl: '/systems/dnd4e/widgets/conditions/conditions.html',
-        controller: 'ConditionsCtrl'
+        controller: 'ConditionsCtrl',
+        controllerAs: 'condsCtrl'
     }
 });
 

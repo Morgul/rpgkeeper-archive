@@ -2,15 +2,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.strength) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.strength) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod('strength') | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod('strength') + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.strength">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.strength">
             <h3 class="panel-title">Strength</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'strength'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'strength'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -20,7 +20,7 @@
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
 
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -30,15 +30,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.constitution) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.constitution) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.constitution) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.constitution) + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.constitution">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.constitution">
             <h3 class="panel-title">Constitution</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'constitution'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'constitution'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -47,7 +47,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -57,15 +57,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.dexterity) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.dexterity) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.dexterity) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.dexterity) + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.dexterity">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.dexterity">
             <h3 class="panel-title">Dexterity</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'dexterity'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'dexterity'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -74,7 +74,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -84,15 +84,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.intelligence) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.intelligence) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.intelligence) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.intelligence) + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.intelligence">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.intelligence">
             <h3 class="panel-title">Intelligence</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'intelligence'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'intelligence'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -101,7 +101,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -111,15 +111,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.wisdom) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.wisdom) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.wisdom) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.wisdom) + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.wisdom">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.wisdom">
             <h3 class="panel-title">Wisdom</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'wisdom'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'wisdom'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -128,7 +128,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>
@@ -138,15 +138,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ calcAbilityMod(sysChar.charisma) | formatModifier }}" readonly>
-                <input type="text" class="form-control score mod" placeholder="10" value="{{ (calcAbilityMod(sysChar.charisma) + sysChar.halfLevel) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.charisma) | formatModifier }}" readonly>
+                <input type="text" class="form-control score mod" placeholder="10" value="{{ (pageCtrl.dnd4echar.calcAbilityMod(pageCtrl.sysChar.charisma) + pageCtrl.sysChar.halfLevel) | formatModifier }}" readonly>
             </div>
-            <input type="text" class="form-control score" placeholder="10" ng-model="sysChar.charisma">
+            <input type="text" class="form-control score" placeholder="10" ng-model="pageCtrl.sysChar.charisma">
             <h3 class="panel-title">Charisma</h3>
         </div>
         <div class="panel-body">
-            <div class="skill form-inline" ng-repeat="skill in sysChar.skills | filter: {ability: 'charisma'}">
-                <input type="text" class="score form-control" value="{{ calcSkill(skill) }}" readonly>
+            <div class="skill form-inline" ng-repeat="skill in pageCtrl.sysChar.skills | filter: {ability: 'charisma'}">
+                <input type="text" class="score form-control" value="{{ pageCtrl.dnd4echar.calcSkill(skill) }}" readonly>
                 <label class="skillName no-truncate">{{ skill.name | capitalize }}</label>
                 <label class="skillName truncate">{{ skill.name | capitalize | truncate:10 }}</label>
                 <div class="pull-right">
@@ -155,7 +155,7 @@
                     </label></div>
                     <input type="text" class="score form-control" ng-model="skill.misc" title="Misc. Bonus">
                     <input type="text" class="score form-control" ng-model="skill.armorPenalty" title="Armor Check Penalty">
-                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: calcSkill(skill) }"></roll-button>
+                    <roll-button roll-title="skill.name | capitalize" roll="{ roll: '1d20 + [mod]' }" context="{ mod: pageCtrl.dnd4echar.calcSkill(skill) }"></roll-button>
                 </div>
             </div>
         </div>

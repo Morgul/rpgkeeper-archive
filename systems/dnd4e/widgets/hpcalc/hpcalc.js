@@ -4,14 +4,16 @@
 // @module hpcalc.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('HPCalcCtrl', function($scope)
+HPCalcController = function($scope, $character)
 {
+    this.character = $character;
+
     $scope.maxHP = function()
     {
         try
         {
-            return (parseInt($scope.sysChar.class.initialHP) + parseInt($scope.sysChar.constitution) + parseInt($scope.sysChar.miscHitPoints) +
-                (($scope.sysChar.level - 1) * $scope.sysChar.class.hpPerLevel)) || 0;
+            return (parseInt($character.system.class.initialHP) + parseInt($character.system.constitution) + parseInt($character.system.miscHitPoints) +
+                (($character.system.level - 1) * $character.system.class.hpPerLevel)) || 0;
         }
         catch(ex)
         {
@@ -26,7 +28,7 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.hpText = function()
     {
-        var currentHP = $scope.sysChar.curHitPoints;
+        var currentHP = $character.system.curHitPoints;
 
         if(currentHP <= $scope.bloodiedValue() && currentHP > 0)
         {
@@ -46,17 +48,17 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.damage = function(dmg)
     {
-        if($scope.sysChar.tmpHitPoints > 0)
+        if($character.system.tmpHitPoints > 0)
         {
-            var tmpHitPoints = $scope.sysChar.tmpHitPoints;
-            $scope.sysChar.tmpHitPoints = Math.max(tmpHitPoints - dmg, 0);
+            var tmpHitPoints = $character.system.tmpHitPoints;
+            $character.system.tmpHitPoints = Math.max(tmpHitPoints - dmg, 0);
 
             dmg = Math.max(dmg - tmpHitPoints, 0);
         } // end if
 
         if(dmg)
         {
-            $scope.sysChar.curHitPoints -= dmg;
+            $character.system.curHitPoints -= dmg;
         } // end if
 
         // Clear damage
@@ -66,16 +68,16 @@ module.controller('HPCalcCtrl', function($scope)
     $scope.heal = function(hp)
     {
         hp = parseInt(hp);
-        if($scope.sysChar.curHitPoints < 0 && hp > 0)
+        if($character.system.curHitPoints < 0 && hp > 0)
         {
-            $scope.sysChar.curHitPoints = 0;
+            $character.system.curHitPoints = 0;
         } // end if
 
-        $scope.sysChar.curHitPoints += hp;
+        $character.system.curHitPoints += hp;
 
-        if($scope.sysChar.curHitPoints > $scope.maxHP())
+        if($character.system.curHitPoints > $scope.maxHP())
         {
-            $scope.sysChar.curHitPoints = $scope.maxHP();
+            $character.system.curHitPoints = $scope.maxHP();
         } // end if
 
         // Clear heal
@@ -85,7 +87,7 @@ module.controller('HPCalcCtrl', function($scope)
     $scope.temp = function(hp)
     {
         hp = parseInt(hp);
-        $scope.sysChar.tmpHitPoints += hp;
+        $character.system.tmpHitPoints += hp;
 
         // Clear heal
         $scope.healInput = "";
@@ -93,7 +95,7 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.secondWind = function()
     {
-        $scope.sysChar.secondWindAvailable = false;
+        $character.system.secondWindAvailable = false;
         $scope.surge();
 
         // Inform anything else interested that we took our second wind.
@@ -102,7 +104,7 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.addSurge = function()
     {
-        $scope.sysChar.currentSurges += 1;
+        $character.system.currentSurges += 1;
     }; // end $scope.addSurge
 
     $scope.surge = function()
@@ -113,19 +115,19 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.removeSurge = function()
     {
-        $scope.sysChar.currentSurges -= 1;
-        $scope.sysChar.currentSurges = Math.max($scope.sysChar.currentSurges, 0);
+        $character.system.currentSurges -= 1;
+        $character.system.currentSurges = Math.max($character.system.currentSurges, 0);
     }; // end $scope.removeSurge
 
     $scope.checkSurge = function()
     {
-        return $scope.sysChar.currentSurges < 1; // || ($scope.sysChar.curHitPoints > ($scope.maxHP() - $scope.surgeValue()));
+        return $character.system.currentSurges < 1; // || ($character.system.curHitPoints > ($scope.maxHP() - $scope.surgeValue()));
     };
 
     $scope.shortRest = function()
     {
-        $scope.sysChar.secondWindAvailable = true;
-        $scope.sysChar.tmpHitPoints = 0;
+        $character.system.secondWindAvailable = true;
+        $character.system.tmpHitPoints = 0;
 
         // Inform anything else interested that an extended rest has been taken.
         $scope.$root.$broadcast('short rest');
@@ -133,23 +135,32 @@ module.controller('HPCalcCtrl', function($scope)
 
     $scope.extendedRest = function()
     {
-        $scope.sysChar.secondWindAvailable = true;
-        $scope.sysChar.currentSurges = Math.max($scope.sysChar.currentSurges, $scope.sysChar.surgesPerDay);
-        $scope.sysChar.curHitPoints = $scope.maxHP();
-        $scope.sysChar.tmpHitPoints = 0;
+        $character.system.secondWindAvailable = true;
+        $character.system.currentSurges = Math.max($character.system.currentSurges, $character.system.surgesPerDay);
+        $character.system.curHitPoints = $scope.maxHP();
+        $character.system.tmpHitPoints = 0;
 
         // Inform anything else interested that an extended rest has been taken.
         $scope.$root.$broadcast('extended rest');
     }; // end $scope.extendedRest
-});
+};
+
+HPCalcController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
+
+module.controller('HPCalcCtrl', ['$scope', '$character', HPCalcController]);
 
 module.directive('hpcalc', function() {
     return {
         restrict: 'E',
 		templateUrl: '/systems/dnd4e/widgets/hpcalc/hpcalc.html',
-        controller: 'HPCalcCtrl'
+        controller: 'HPCalcCtrl',
+        controllerAs: 'hpCtrl'
     }
 });
 

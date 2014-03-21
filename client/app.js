@@ -36,6 +36,15 @@ window.app = angular.module("rpgkeeper", [
             smartypants: false
         });
 
+        //--------------------------------------------------------------------------------------------------------------
+
+        // Connect to socket.io
+        $socket.connect();
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Helper functions
+        //--------------------------------------------------------------------------------------------------------------
+
         $rootScope.hash = function(s)
         {
             return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
@@ -46,56 +55,10 @@ window.app = angular.module("rpgkeeper", [
             $location.path(path);
         }; // end setLocation
 
-        $socket.connect();
-
-        //$rootScope.socket = io.connect();
-        $rootScope.alerts = [
-        ];
-
-        $rootScope.pastRolls = ["", "", "", "", "", "", "", "", "", ""];
-
-        $rootScope.closeAlert = function(index)
-        {
-            $rootScope.alerts.splice(index, 1);
-        };
-
         $rootScope.range = function(n)
         {
             return new Array(n);
         }; // end range
-
-        $rootScope.clearRolls = function()
-        {
-            $rootScope.pastRolls = ["", "", "", "", "", "", "", "", "", ""];
-        }; // end clearRolls
-
-        $rootScope.rollDice = function(title, roll, scope)
-        {
-            if(arguments.length == 2)
-            {
-                scope = roll;
-                roll = title;
-                title = undefined;
-            } // end if
-
-            var result = dice.roll(roll, scope);
-            var rollResult = "[ " + dice.stringify(result) + " ] = " + result;
-
-            var hist = title + ": " + rollResult;
-            if(!title)
-            {
-                hist = rollResult;
-            } // end if
-
-            $rootScope.pastRolls.splice(0, 0, hist);
-
-            if($rootScope.pastRolls.length > 10)
-            {
-                $rootScope.pastRolls.splice($rootScope.pastRolls.length - 1, $rootScope.pastRolls.length - 10);
-            } // end if
-
-            return rollResult;
-        }; // end rollDice
 
         $rootScope.isArray = angular.isArray;
     })
@@ -139,24 +102,28 @@ window.app = angular.module("rpgkeeper", [
 
         return function markdown(text)
         {
-            var hash = $rootScope.hash(text);
+            if(text) {
+                var hash = $rootScope.hash(text);
 
-            if(hash in $rootScope.markdownCache)
-            {
-                return $sce.trustAsHtml($rootScope.markdownCache[hash]);
+                if(hash in $rootScope.markdownCache)
+                {
+                    return $sce.trustAsHtml($rootScope.markdownCache[hash]);
+                } // end if
+
+                var mdown = marked(text);
+
+                // Support leading newlines.
+                text.replace(/^(\r?\n)+/, function(match)
+                {
+                    mdown = match.split(/\r?\n/).join("<br>") + mdown;
+                });
+
+                $rootScope.markdownCache[hash] = mdown;
+
+                return $sce.trustAsHtml(mdown);
             } // end if
 
-            var mdown = marked(text);
-
-            // Support leading newlines.
-            text.replace(/^(\r?\n)+/, function(match)
-            {
-                mdown = match.split(/\r?\n/).join("<br>") + mdown;
-            });
-
-            $rootScope.markdownCache[hash] = mdown;
-
-            return $sce.trustAsHtml(mdown);
+            return "";
         }; // end markdown
     }).filter('reverse', function() {
         return function(items) {

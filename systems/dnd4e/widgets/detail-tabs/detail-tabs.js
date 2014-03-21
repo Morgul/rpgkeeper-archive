@@ -4,8 +4,13 @@
 // @module detail-tabs.js
 //----------------------------------------------------------------------------------------------------------------------
 
-module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
+function DetailTabsController($scope, $attrs, $character, $rolls, $alerts, $socket)
 {
+    var self = this;
+
+    this.character = $character;
+    this.rollsService = $rolls;
+
     $scope.newRoll = {
         title: '',
         roll: ''
@@ -75,30 +80,20 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
     // Rolls Tab
     //------------------------------------------------------------------------------------------------------------------
 
-    $scope.doGenericRoll = function(roll)
-    {
-        $scope.$root.rollDice(roll, $scope.sysChar);
-        $scope.genericRoll = "";
-    }; // end doGenericRoll
-
     $scope.startAddRoll = function()
     {
         $scope.addStage = 'roll';
-
-        /*
-        $timeout(function()
-        {
-            angular.element('#rollTextEntry')[0].focus();
-        }, 500);
-        */
     }; // end startAddRoll
 
     $scope.addRoll = function()
     {
-        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, $scope.sysChar.baseChar, function(error, character)
+        self.sysChar.rolls.push($scope.newRoll);
+
+        $socket.channel('/dnd4e').emit("add roll", $scope.newRoll, self.sysChar.baseChar, function(error, character)
         {
-            // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign($scope.sysChar, character);
+            if(error) {
+                $alerts.addAlert('danger', 'Error adding roll: ' + error);
+            } // end if
         });
 
         $scope.newRoll = { title: '', roll: '' };
@@ -117,14 +112,13 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
 
     $scope.updateRoll = function(roll, index)
     {
+        self.sysChar.rolls[index] = roll;
+
         $socket.channel('/dnd4e').emit("update roll", roll, function(error, rollRet)
         {
-            roll = _.filter($scope.sysChar.rolls, { $id: roll.$id})[0];
-
-            // Avoid assigning to roll; otherwise we'll have scope issues.
-            _.assign(roll, rollRet);
-
-            console.log('updated Roll:', roll);
+            if(error) {
+                $alerts.addAlert('danger', 'Error updating roll: ' + error);
+            } // end if
         });
 
         $scope.rollEdits[index] = false;
@@ -132,26 +126,37 @@ module.controller('DetailTabsCtrl', function($scope, $timeout, $attrs, $socket)
 
     $scope.removeRoll = function(roll)
     {
-        console.log('remove roll called!');
+        var idx = self.sysChar.rolls.indexOf(roll);
+        self.sysChar.rolls.splice(idx, 1);
 
-        $socket.channel('/dnd4e').emit("remove roll", roll, $scope.sysChar.baseChar, function(error, character)
+        $socket.channel('/dnd4e').emit("remove roll", roll, self.sysChar.baseChar, function(error, character)
         {
-            // Avoid assigning to sysChar; otherwise we'll have scope issues.
-            _.assign($scope.sysChar, character);
+            if(error) {
+                $alerts.addAlert('danger', 'Error removing roll: ' + error);
+            } // end if
         });
     }; // end removeRoll
 
     //------------------------------------------------------------------------------------------------------------------
-});
+}
+
+DetailTabsController.prototype = {
+    get sysChar() {
+        return this.character.system;
+    }
+};
 
 //----------------------------------------------------------------------------------------------------------------------
+
+module.controller('DetailTabsCtrl', ['$scope', '$attrs', '$character', '$rolls', '$alerts', '$socket', DetailTabsController]);
 
 module.directive('detailTabs', function() {
     return {
         restrict: 'E',
         scope: true,
 		templateUrl: '/systems/dnd4e/widgets/detail-tabs/detail-tabs.html',
-        controller: 'DetailTabsCtrl'
+        controller: 'DetailTabsCtrl',
+        controllerAs: 'detailCtrl'
     }
 });
 

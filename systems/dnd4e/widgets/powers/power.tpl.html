@@ -8,7 +8,7 @@
         <span class="type-level" ng-switch="(powerRef().power || powerRef()).kind">{{ (powerRef().power || powerRef()).kind }}<span ng-if="(powerRef().power || powerRef()).level"> {{ (powerRef().power || powerRef()).level }}</span></span>
         <b>{{ (powerRef().power || powerRef()).name }}</b>
     </h4>
-    <div collapse="toggle">
+    <div collapse="collapse">
         <div class="flavor" ng-if="(powerRef().power || powerRef()).flavor">{{ (powerRef().power || powerRef()).flavor }}
         </div>
         <div class="section details">
@@ -18,12 +18,12 @@
             </div>
             <div>
                 <span style="display: inline-block; width: 49.5%;"><b class="title">{{ (powerRef().power || powerRef()).actionType }}</b></span>
-                <span style="display: inline-block; width: 49.5%;"><b>{{ (powerRef().power || powerRef()).range }}</b></span>
+                <span style="display: inline-block; width: 49.5%;"><b ng-bind-html="(powerRef().power || powerRef()).range | markdown"></b></span>
             </div>
         </div>
         <div class="sections">
             <div class="section" ng-repeat="section in (powerRef().power || powerRef()).sections">
-                <b class="title">{{ section.title }}:</b> <span ng-bind-html="section.content | markdown"></span>
+                <b class="title">{{ section.title }}:</b> <span ng-if="section.content" ng-bind-html="section.content | markdown"></span>
             </div>
             <div class="section notes" ng-if="powerRef().notes">
                 <b class="title">Notes:</b> <span ng-bind-html="powerRef().notes | markdown"></span>
@@ -32,7 +32,7 @@
         <div  ng-if="powerRef().rolls" class="rolls">
             <div class="row">
                 <div ng-class="getPowerRollSize($index, $last)" ng-repeat="roll in powerRef().rolls">
-                    <roll-button class="btn-block" roll-title="'[' + (powerRef().power || powerRef()).name + '] ' + roll.title" roll="roll" context="sysChar"></roll-button>
+                    <roll-button class="btn-block" roll-title="'[' + (powerRef().power || powerRef()).name + '] ' + roll.title" roll="roll" context="powerCtrl.sysChar"></roll-button>
                 </div>
             </div>
         </div>

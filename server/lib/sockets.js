@@ -4,6 +4,7 @@
 // @module sockets.js
 //----------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
 var app = require('omega-wf').app;
 var async = require('async');
 var models = require('./models');
@@ -135,14 +136,17 @@ app.sockets.on('connection', function(socket)
 
     socket.on('favorite', function(character, callback)
     {
-        models.BaseCharacter.update({ $id: character.$id, user: user.$key }, { favorite: character.favorite }, function(error)
+        models.BaseCharacter.findOne({ $id: character.$id }, function(error, charInst)
         {
-            if(error)
-            {
-                callback({ type: 'danger', message: "Error encountered while favoriting character: " + error.stack });
-            } // end if
+            _.assign(charInst, { favorite: character.favorite });
 
-            callback();
+            charInst.save(function()
+            {
+                charInst.populate(true, function(error, featInst)
+                {
+                    callback(error, charInst);
+                });
+            })
         });
     });
 
@@ -157,14 +161,17 @@ app.sockets.on('connection', function(socket)
         delete character.$id;
         delete character.system;
 
-        models.BaseCharacter.update({ $id: charID, user: user.$key }, character, function(error)
+        models.BaseCharacter.findOne({ $id: character.$id }, function(error, charInst)
         {
-            if(error)
-            {
-                callback({ type: 'danger', message: "Error encountered while updating character: " + error.stack });
-            } // end if
+            _.assign(charInst, character);
 
-            callback();
+            charInst.save(function()
+            {
+                charInst.populate(true, function(error, featInst)
+                {
+                    callback(error, charInst);
+                });
+            })
         });
     });
 });

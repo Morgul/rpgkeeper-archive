@@ -15606,7 +15606,7 @@ td.visible-print {
   line-height: 32px;
 }
 .popover-inline .form-group {
-  vertical-align: top;
+  vertical-align: top !important;
   display: inline-block;
 }
 .popover-inline .form-group .form-control {

@@ -4,7 +4,7 @@
         <button ng-if="!editable" type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef(), $event)"><i class="icon-edit"></i></button>
         {{ (featRef().feat || featRef()).name }}
     </h4>
-    <div collapse="toggle">
+    <div collapse="collapse">
         <div class="section prerequisites" ng-if="(featRef().feat || featRef()).prerequisites">
             <b class="title">Prerequisites:</b> <span ng-bind-html="(featRef().feat || featRef()).prerequisites | markdown"></span>
         </div>

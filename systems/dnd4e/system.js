@@ -99,17 +99,19 @@ function buildSkills(callback)
 
 function cleanRolls(rolls)
 {
-    var cleaned = [];
+    if(rolls) {
+        var cleaned = [];
 
-    rolls.forEach(function(roll)
-    {
-        cleaned.push({
-            title: roll.title,
-            roll: roll.roll
+        rolls.forEach(function(roll)
+        {
+            cleaned.push({
+                title: roll.title,
+                roll: roll.roll
+            });
         });
-    });
 
-    return cleaned;
+        return cleaned;
+    } // end if
 } // end cleanRolls
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -153,7 +155,6 @@ app.channel('/dnd4e').on('connection', function (socket)
                         // Add basic attacks
                         models.Power.find({ kind: 'Basic Attack' }, function(error, powers)
                         {
-
                             character.powers = [];
 
                             async.each(powers, function(power, done)
