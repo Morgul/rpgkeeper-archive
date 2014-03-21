@@ -175,7 +175,7 @@ module.controller('EditPowerModalCtrl', function($scope, $dnd4echar, $modalInsta
     $scope.powerTypes = $dnd4echar.powerTypes;
     $scope.actionTypes = $dnd4echar.actionTypes;
 
-    $scope.power = power || $dnd4echar.powerChoices[0];
+    $scope.power = power || {};
 
     $scope.cancel = function()
     {
