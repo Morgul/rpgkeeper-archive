@@ -4,7 +4,9 @@
 <div class="modal-body" ng-on-enter="save(power)">
     <div class="row">
         <div class="col-md-3" style="height: 700px;">
-            <select class="form-control tall" ng-model="power" ng-options="power as power.name for power in powerChoices track by power.name" size="2" style="height: 100%">
+            <input type="text" class="form-control" placeholder="Filter by name" style="margin-bottom: 5px;" ng-model="powerName">
+            <select class="form-control tall" ng-model="power" ng-options="power as power.name for power in powerChoices | filter: powerName track by power.name" size="2" style="height: 100%">
+                <option value="">Select a power...</option>
             </select>
         </div>
         <div class="col-md-9">

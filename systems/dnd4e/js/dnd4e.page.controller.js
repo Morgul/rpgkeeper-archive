@@ -278,8 +278,15 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
             if(result)
             {
                 // Find the power in our list of powers, and update it.
-                _.assign(_.find(self.sysChar.powers, { power: { name: power.name } }).power, result);
-                $socket.channel('/dnd4e').emit("update power", result, function(error, powerRet)
+                _.assign(_.find(self.sysChar.powers, { power: { name: result.name } }).power, result);
+
+                // Clean the object before updating
+                var id = result.$id;
+                result = JSON.parse(angular.toJson(result));
+                result.$id = id;
+
+                // Apply the update
+                $socket.channel('/dnd4e').emit("update power", result, function(error)
                 {
                     if(error) {
                         $alerts.addAlert('danger', 'Error editing power: ' + error.toString());
