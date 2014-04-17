@@ -231,6 +231,7 @@ module.exports = ns.define({
         secondWindAvailable: fields.Boolean({ default: true }),
 
         actionPoints: fields.Integer({ default: 0, min: 0 }),
+        powerPoints: fields.Integer({ default: 0, min: 0 }),
         experience: fields.Integer({ default: 0, min: 0 }),
 
         //-----------------------------------------------------------
