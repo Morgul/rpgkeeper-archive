@@ -176,6 +176,7 @@ module.controller('EditPowerModalCtrl', function($scope, $dnd4echar, $modalInsta
     $scope.actionTypes = $dnd4echar.actionTypes;
 
     $scope.power = power || {};
+    $scope.power.keywords = $scope.power.keywords || [];
 
     $scope.cancel = function()
     {
@@ -227,6 +228,7 @@ module.controller('AddPowerModalCtrl', function($scope, $dnd4echar, $modalInstan
 
     $scope.chosenPower = "";
     $scope.newPower = {
+        keywords: [],
         sections: [{}],
         maxUses: 1
     };
@@ -258,11 +260,13 @@ module.controller('AddPowerModalCtrl', function($scope, $dnd4echar, $modalInstan
         }
         else
         {
+            /*
             if($scope.newPower.keywords)
             {
                 // Split the keywords field
                 $scope.newPower.keywords = $scope.newPower.keywords.trim().split(/[, ]+/g);
             } // end if
+            */
 
             // Handle the case of it being 0, null, or ''; the DB needs it to be undefined in those cases.
             if(!$scope.newPower.level)
