@@ -8,25 +8,6 @@ var Directives = angular.module('rpgkeeper.directives', []);
 
 //----------------------------------------------------------------------------------------------------------------------
 
-Directives.directive('ngOnEnter', function($timeout, dateFilter)
-{
-    return {
-        scope: {
-            onEnter: '&ngOnEnter'
-        },
-        link: function(scope, element, attrs)
-        {
-            element.on('keypress', function(event)
-            {
-                if(event.key ? event.key == 'Enter' : event.keyCode == 13)
-                {
-                    scope.onEnter();
-                } // end if
-            }); // end 'keypress' handler
-        } // end link
-    };
-}); // end directive
-
 Directives.directive('oldEditable', function()
 {
     return {
@@ -53,7 +34,7 @@ Directives.directive('oldEditable', function()
                     var dispElem = angular.element(event.target);
                     var inputElem = angular.element('.input', dispElem.parent());
 
-                    inputElem.css('width', parseInt(dispElem.outerWidth(), 10) + 10);
+                    inputElem.css('width', parseInt(dispElem.outerWidth()) + 10);
                 } // end if
 
                 $scope.editing = true;
@@ -80,7 +61,7 @@ Directives.directive('oldEditable', function()
             }; // end click
         },
         replace: true
-    };
+    }
 });
 
 //----------------------------------------------------------------------------------------------------------------------
