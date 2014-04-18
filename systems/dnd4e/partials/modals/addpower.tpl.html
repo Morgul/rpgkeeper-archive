@@ -46,8 +46,9 @@
                     <div class="form-group col-sm-6">
                         <label class="control-label" for="keywords">Keywords:</label>
                         <div class="controls">
-                            <input class="form-control" id="keywords" type="text" placeholder="Keywords..." ng-model="newPower.keywords" required>
-                            <span class="help-block" style="margin-bottom: 0">Keywords are comma separated.</span>
+                            <ng-tags id="keywords" model="newPower.keywords" placeholder="Keywords..." tag-class="'label-primary'" unique-tags="true" tag-events="['enter', 'comma']"></ng-tags>
+                            <!--input class="form-control" id="keywords" type="text" placeholder="Keywords..." ng-model="newPower.keywords" required-->
+                            <span class="help-block" style="margin-bottom: 0">Press enter after each keyword.</span>
                         </div>
                     </div>
                     <div class="form-group col-sm-6">
