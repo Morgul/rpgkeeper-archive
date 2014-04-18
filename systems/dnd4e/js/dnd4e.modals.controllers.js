@@ -53,14 +53,17 @@ module.controller('AddMagicItemModalCtrl', function($scope, $dnd4echar, $modalIn
         $modalInstance.dismiss('cancel');
     }; // end cancel
 
-    $scope.add = function(global)
+    $scope.add = function(global, item)
     {
         if($scope.chosenItem) {
-            _.assign($scope.newItem, $scope.chosenItem);
+            _.assign(item, $scope.chosenItem);
         } // end if
 
-        $scope.newItem.global = global;
-        $modalInstance.close($scope.newItem);
+        item.global = global || undefined;
+
+        console.log('New Item:', item);
+
+        $modalInstance.close(item);
     }; // end add
 });
 
