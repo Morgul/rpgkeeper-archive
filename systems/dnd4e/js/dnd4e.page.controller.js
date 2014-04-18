@@ -32,9 +32,11 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
                 skillsRunning = true;
                 $timeout(function()
                 {
-                    if(skill.misc && skill.armorPenalty) {
-                        $scope.updateSkill(newSkill);
-                    } // end if
+                    // Handle the possibility of empty fields
+                    newSkill.misc = newSkill.misc || 0;
+                    newSkill.armorPenalty = newSkill.armorPenalty || 0;
+
+                    $scope.updateSkill(newSkill);
                     skillsRunning = false;
                 }, 1000);
             } // end if
