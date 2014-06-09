@@ -16,10 +16,10 @@ var systemSearchPaths = [
     './node_modules'
 ];
 
-var registry = new SystemRegistry(systemSearchPaths);
+app.registry = new SystemRegistry(systemSearchPaths);
 
 // Build a list of systems
-registry.autodiscover(function()
+app.registry.autodiscover(function()
 {
     require('./server/lib/authentication.js');
     require('./server/lib/sockets.js');
