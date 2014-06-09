@@ -12,14 +12,12 @@ var SystemRegistry = require('./server/system_registry');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-var systemSearchPaths = [
+SystemRegistry.setSearchPaths([
     './node_modules'
-];
-
-app.registry = new SystemRegistry(systemSearchPaths);
+]);
 
 // Build a list of systems
-app.registry.autodiscover(function()
+SystemRegistry.autodiscover(function()
 {
     require('./server/authentication.js');
     require('./server/sockets.js');

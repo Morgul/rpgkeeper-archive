@@ -9,6 +9,8 @@ var app = require('omega-wf').app;
 var async = require('async');
 var models = require('./models');
 
+var SystemRegistry = require('./system_registry');
+
 //----------------------------------------------------------------------------------------------------------------------
 
 // Enable authentication
@@ -123,7 +125,7 @@ app.sockets.on('connection', function(socket)
             }
             else
             {
-                _.each(app.registry.characterSystems, function(system)
+                _.each(SystemRegistry.characterSystems, function(system)
                 {
                     // Call delete, if it exits
                     (system.delete || function(){})(character.$id);
