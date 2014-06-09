@@ -8,7 +8,7 @@ var path = require('path');
 var app = require('omega-wf').app;
 var auth = require('omega-wf').auth;
 var db = require('omega-wf').db;
-var views = require('./lib/views');
+var views = require('./views');
 
 //----------------------------------------------------------------------------------------------------------------------
 

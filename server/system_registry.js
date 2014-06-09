@@ -12,7 +12,7 @@ var app = require('omega-wf').app;
 
 var logger = require('omega-wf').logging.getLogger('system-registry');
 
-var baseModels = require('./lib/models');
+var baseModels = require('./models');
 
 //----------------------------------------------------------------------------------------------------------------------
 
