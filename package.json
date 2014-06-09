@@ -4,20 +4,20 @@
   "description": "A website for managing your digital character sheets.",
   "main": "server.js",
   "dependencies": {
-    "omega-wf": "latest",
+    "async": "^0.2.9",
+    "connect": "^2.19.4",
+    "lodash": "^2.4.1",
+    "omega-logger": "^0.5.5",
     "passport-persona": "latest",
-    "lodash": "latest",
-    "omega-models": "git+https://github.com/Morgul/omega-models.git",
-    "async": "~0.2.9"
+    "socket.io": "^1.0.4"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-develop": "~0.2.2",
-    "grunt-contrib-less": "~0.7.0",
-    "grunt-html2js": "~0.1.8",
-    "grunt-contrib-cssmin": "~0.7.0"
-
+    "grunt": "^0.4.1",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-develop": "^0.2.2",
+    "grunt-contrib-less": "^0.7.0",
+    "grunt-html2js": "^0.1.8",
+    "grunt-contrib-cssmin": "^0.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,8 +25,11 @@
   },
   "repository": "",
   "keywords": [
-    "omega-wf",
+    "dnd",
+    "d&d",
     "rpg",
+    "tabletop",
+    "binder",
     "character"
   ],
   "author": "Christopher Case <chris.case@g33xnexus.com>",
