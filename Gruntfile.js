@@ -9,14 +9,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 		project: {
 			css: "client/css",
-			less: "client/less",
-			systems: {
-				less: "systems/**/less",
-                js: "systems/**/js",
-                controllers: "<%= project.systems.js %>/*controller*.js",
-                filters: "<%= project.systems.js %>/*filter*.js",
-                widgets: "systems/**/widgets/**/*.js"
-			}
+			less: "client/less"
 		},
         html2js: {
             rpgkeeper: {
@@ -25,17 +18,6 @@ module.exports = function(grunt) {
                 options: {
                     base: 'client',
                     module: 'rpgkeeper.client.templates',
-                    rename: function (moduleName) {
-                        return '/' + moduleName.replace('.tpl', '');
-                    }
-                }
-            },
-            systems: {
-                src: ['systems/**/*.tpl.html'],
-                dest: 'client/js/systems.templates.js',
-                options: {
-                    base: '.',
-                    module: 'rpgkeeper.systems.templates',
                     rename: function (moduleName) {
                         return '/' + moduleName.replace('.tpl', '');
                     }
