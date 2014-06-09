@@ -48,7 +48,7 @@ module.exports = function(grunt) {
                     paths: ['client/vendor']
                 },
                 files: {
-                    '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less', 'systems/**/*.less']
+                    '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less']
                 }
             },
             min: {
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
                     compress: true
                 },
                 files: {
-                    '<%= project.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less', 'systems/**/*.less']
+                    '<%= project.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less']
                 }
             }
         },
@@ -77,29 +77,22 @@ module.exports = function(grunt) {
         },
         watch: {
             rpgkeeper: {
-                files: ['server.js', 'lib/*.js', 'systems/**/system.js', 'systems/**/models.js'],
+                files: ['server.js', 'lib/*.js'],
                 tasks: ['develop'],
                 options: {
                     atBegin: true,
                     nospawn: true
                 }
             },
-            systems_js: {
-                files: ['<%= project.systems.js %>/*.js', '<%= project.systems.widgets %>'],
-                tasks: ['controllers', 'filters', 'widgets'],
-                options: {
-                    atBegin: true
-                }
-            },
             html2js: {
-                files: ['systems/**/*.tpl.html', 'client/**/*.tpl.html'],
+                files: ['client/**/*.tpl.html'],
                 tasks: ['html2js'],
                 options: {
                     atBegin: true
                 }
             },
             less: {
-                files: ['<%= project.less %>/*.less', 'systems/**/*.less'],
+                files: ['<%= project.less %>/*.less'],
                 tasks: ['less', 'cssmin'],
                 options: {
                     atBegin: true
@@ -114,21 +107,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-
-    // Task for building systems.controllers.js
-    grunt.registerTask('controllers', 'build systems.controllers.js file', function () {
-        grunt.file.copy('client/js/systems.controllers.tpl.js', 'client/js/systems.controllers.js', {process: grunt.template.process});
-    });
-
-    // Task for building systems.filters.js
-    grunt.registerTask('filters', 'build systems.filters.js file', function () {
-        grunt.file.copy('client/js/systems.filters.tpl.js', 'client/js/systems.filters.js', {process: grunt.template.process});
-    });
-
-    // Task for building systems.widgets.js
-    grunt.registerTask('widgets', 'build systems.widgets.js file', function () {
-        grunt.file.copy('client/js/systems.widgets.tpl.js', 'client/js/systems.widgets.js', {process: grunt.template.process});
-    });
 
     // Setup the build task.
     grunt.registerTask('build', ['controllers', 'filters', 'widgets', 'less', 'cssmin', 'html2js']);
