@@ -12,7 +12,6 @@ angular.module('rpgkeeper.systems.widgets', []);
 angular.module('rpgkeeper.systems.filters', []);
 
 angular.module('rpgkeeper.systems', [
-    'rpgkeeper.services',
     'rpgkeeper.systems.services',
     'rpgkeeper.systems.controllers',
     'rpgkeeper.systems.widgets',
