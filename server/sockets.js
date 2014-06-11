@@ -6,7 +6,6 @@
 
 var _ = require('lodash');
 var app = require('omega-wf').app;
-var async = require('async');
 var models = require('./models');
 
 var SystemRegistry = require('./system_registry');
