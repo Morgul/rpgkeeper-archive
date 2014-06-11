@@ -13,7 +13,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-if="hasFavorites()" class="dropdown-header">Favorite Characters</li>
-                        <li ng-repeat="character in characters | filter: {favorite: true}"><a href="/character/{{ character.$id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
+                        <li ng-repeat="character in characters | filter: {favorite: true}"><a href="/character/{{ character.id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
                         <li ng-if="!hasFavorites()"><p class="text-center"><b>No Favorites</b></p></li>
                         <li class="divider"></li>
                         <li><a  ng-click="addChar()"><i class="icon-plus"></i> Add Character</a></li>

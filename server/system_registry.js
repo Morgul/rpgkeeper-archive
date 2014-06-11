@@ -139,23 +139,20 @@ SystemRegistry.prototype.registerSystemPackage = function(filePath, callback)
     });
 
     // Build the database entry, if required.
-    baseModels.System.findOne({ shortname: system.shortName}, function(error, systemMod)
+    baseModels.System.filter({ shortName: system.shortName }).run().then(function(results)
     {
-        if(!systemMod)
+        // We didn't find the system via shortName. That means we need to insert it.
+        if(!results[0])
         {
-            // Create new system
             var systemInst = new baseModels.System({
                 name: system.name,
-                shortname: system.shortName,
+                shortName: system.shortName,
                 description: system.description
             });
 
-            systemInst.save(function(error)
+            systemInst.save().error(function(error)
             {
-                if(error)
-                {
-                    logger.error('Error saving system to db:', error.stack || error.message || error.toString())
-                } // end if
+                logger.error('Error saving system to db:', error.stack || error.message || error.toString())
             });
         } // end if
     });

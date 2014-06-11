@@ -22,32 +22,20 @@ app.init(function()
     auth.serializeUser(function(user, done)
     {
         logger.debug('serialize:', user);
-        done(null, user.$id);
+        done(null, user.email);
     });
 
     // Tell the authentication system how to retrieve the user from what was put in the session
     auth.deserializeUser(function(id, done)
     {
-        models.User.findOne({ $id: id }, function(error, user)
+        models.User.get(id).run().then(function(user)
         {
-            if(error)
-            {
-                logger.error("Encountered error:", error);
-                done(error);
-            }
-            else
-            {
-                if(user)
-                {
-                    logger.debug('User:', user);
-                    done(null, user);
-                }
-                else
-                {
-                    logger.error("User not found.");
-                    done("User not found", false);
-                } // end if
-            } // end if
+            logger.debug('User:', user);
+            done(null, user);
+        }).error(function(error)
+        {
+            logger.error("User not found.");
+            done("User not found", false);
         });
     });
 
@@ -62,31 +50,25 @@ app.init(function()
         {
             if(email)
             {
-                models.User.findOne({ email: email }, function(error, user)
+                models.User.filter({ email: email }).run().then(function(users)
                 {
-                    if(error)
+                    var user = users[0];
+                    if(user)
                     {
-                        logger.error("Encountered error:", error);
-                        done(error);
+                        logger.debug('User:', user);
+                        done(null, user);
                     }
                     else
                     {
-                        if(user)
+                        user = new models.User({ email: email });
+                        user.save(function(error)
                         {
-                            logger.debug('User:', user);
-                            done(null, user);
-                        }
-                        else
-                        {
-                            //TODO: Default group, maybe?
-                            user = new models.User({email: email});
-                            user.save(function()
-                            {
-                                logger.debug('New User:', user);
-                                done(null, user);
-                            });
-                        } // end if
+                            done(error, user);
+                        });
                     } // end if
+                }).error(function(error)
+                {
+                    logger.error("Encountered error:", error);
                 });
             }
             else

@@ -20,161 +20,115 @@ app.sockets.on('connection', function(socket)
 {
     var user = socket.handshake.user;
 
-    socket.on('list_characters', function(callback)
+    socket.on('list characters', function(callback)
     {
-        callback = callback || function(){};
-
-        models.BaseCharacter.find({ user: user.$key }, function(error, characters)
+        models.BaseCharacter.filter({ user_id: user.email }).getJoin().run().then(function(characters)
         {
-            if(error)
-            {
-                callback({ type: 'danger', message: "Error encountered while listing characters:" + error.stack });
-            }
-            else
-            {
-                var populated = [];
-                async.each(characters, function(character, done)
-                {
-                    character.populate(function()
-                    {
-                        populated.push(character);
-                        done();
-                    })
-                }, function(err)
-                {
-                    if(err)
-                    {
-                        callback({ type: 'danger', message: "Error encountered while listing characters:" + err.toString() });
-                    } // end if
-
-                    socket.emit('characters', populated);
-                });
-            } // end if
+            callback(null, characters);
+        }).error(function(error)
+        {
+            callback({ type: 'danger', message: "Error encountered while listing characters:"
+                + error.stack || error.message || error.toString() });
         });
     });
 
-    socket.on('list_systems', function(callback)
+    socket.on('list systems', function(callback)
     {
-        models.System.find(function(error, systems)
+        models.System.run().then(function(systems)
         {
-            if(error)
-            {
-                callback({ type: 'danger', message: "Error encountered while listing systems:" + error.stack })
-            }
-            else
-            {
-                socket.emit('systems', systems);
-            } // end if
+            callback(null, systems);
+        }).error(function(error)
+        {
+            callback({ type: 'danger', message: "Error encountered while listing systems:"
+                + error.stack || error.message || error.toString() });
         });
     });
 
-    socket.on('get_character', function(id, callback)
+    socket.on('get character', function(id, callback)
     {
-        models.BaseCharacter.findOne({$id: id, user: user.$key }, function(err, character)
+        models.BaseCharacter.filter({ id: id, user_id: user.email }).getJoin().run().then(function(chars)
         {
-            if(err)
+            var char = chars[0];
+            if(char)
             {
-                callback({type: 'danger', message: "Error encountered while looking up character: "+ err.toString() });
-            } // end if
-
-            if(character)
-            {
-                character.populate(function()
-                {
-                    callback(null, character);
-                });
+                callback(null, char);
             }
             else
             {
                 console.error("Can't find character with id \"" + id + "\".");
                 callback({type: 'notfound', message: "Can't find character with id \"" + id + "\"."});
             } // end if
+        }).error(function(error)
+        {
+            callback({ type: 'danger', message: "Error encountered while getting character:"
+                + error.stack || error.message || error.toString() });
         });
     });
 
-    socket.on('new_character', function(char, callback)
+    socket.on('new character', function(char, callback)
     {
-        char.system = { shortname: char.system };
-        char.user = user.$key;
-        var character = new models.BaseCharacter(char);
+        char.user_id = user.email;
 
-        character.save(function(error)
+        var charInst = new models.BaseCharacter(char);
+        charInst.save().then(function(charInst)
         {
-            if(error)
-            {
-                callback({type: 'danger', message: "Error encountered while creating character: "+ error.stack });
-            }
-            else
-            {
-                character.populate(function()
-                {
-                    callback(null, character);
-                });
-            } // end if
+            callback(null, charInst);
+        }).error(function(error)
+        {
+            callback({type: 'danger', message: "Error encountered while creating character: "
+                + error.stack || error.message || error.toString() });
         });
     });
 
-    socket.on('delete_character', function(character, callback)
+    socket.on('delete character', function(character, callback)
     {
-        models.BaseCharacter.remove({ $id: character.$id }, function(error)
+        models.BaseCharacter.get(character.id).delete().run().then(function()
         {
-            if(error)
+            var system = SystemRegistry.characterSystems[character.system_id];
+            if(system && system.delete)
             {
-                console.error("Error encountered while deleting character: " + error);
-                callback({ type: 'danger', message: "Error encountered while deleting character: " + error });
-            }
-            else
-            {
-                _.each(SystemRegistry.characterSystems, function(system)
-                {
-                    // Call delete, if it exits
-                    (system.delete || function(){})(character.$id);
-                });
-
-                callback();
+                system.delete(character.id);
             } // end if
+
+            callback();
+        }).error(function()
+        {
+            console.error("Error encountered while deleting character: " + error);
+            callback({ type: 'danger', message: "Error encountered while deleting character: " + error });
         });
     });
 
     socket.on('favorite', function(character, callback)
     {
-        models.BaseCharacter.findOne({ $id: character.$id }, function(error, charInst)
-        {
-            _.assign(charInst, { favorite: character.favorite });
-
-            charInst.save(function()
+        models.BaseCharacter.filter({ id: character.id, user_id: user.email })
+            .update({'favorite': models.r.row('favorite').not()}).run().then(function()
             {
-                charInst.populate(true, function(error, featInst)
-                {
-                    callback(error, charInst);
-                });
-            })
-        });
+                callback();
+            }).error(function()
+            {
+                console.error("Error encountered while favoriting character: " + error);
+                callback({ type: 'danger', message: "Error encountered while favoriting character: " + error });
+            });
     });
 
-    socket.on('update_character', function(character, callback)
+    socket.on('update character', function(character, callback)
     {
-        var charID = character.$id;
-        //-----------------------------------------------------------------
-        // Massage the incoming character into something we can use.
-        //-----------------------------------------------------------------
+        var id = character.id;
 
-        // Can't have an _id field
-        delete character.$id;
+        // Clean out the PK and joined tables
+        delete character.id;
+        delete character.user;
         delete character.system;
 
-        models.BaseCharacter.findOne({ $id: character.$id }, function(error, charInst)
-        {
-            _.assign(charInst, character);
-
-            charInst.save(function()
+        models.BaseCharacter.filter({ id: id, user_id: user.email })
+            .update(character).run().then(function()
             {
-                charInst.populate(true, function(error, featInst)
-                {
-                    callback(error, charInst);
-                });
-            })
-        });
+                callback();
+            }).error(function()
+            {
+                console.error("Error encountered while favoriting character: " + error);
+                callback({ type: 'danger', message: "Error encountered while favoriting character: " + error });
+            });
     });
 });
 
