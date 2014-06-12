@@ -12,17 +12,20 @@ var app = require('omega-wf').app;
 
 var logger = require('omega-wf').logging.getLogger('system-registry');
 
-var baseModels = require('./lib/models');
+var baseModels = require('./models');
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function SystemRegistry(searchPath)
+function SystemRegistry()
 {
-    this.searchPath = searchPath;
-
     this.characterSystems = {};
     this.mookSystems = {};
 } // end SystemRegistry
+
+SystemRegistry.prototype.setSearchPaths = function(searchPaths)
+{
+    this.searchPaths = searchPaths;
+}; // end setSearchPath
 
 SystemRegistry.prototype.autodiscover = function(callback)
 {
@@ -34,7 +37,7 @@ SystemRegistry.prototype.autodiscover = function(callback)
     var self = this;
     this.discovered = {};
 
-    async.each(this.searchPath, eachSystemPath, callback);
+    async.each(this.searchPaths, eachSystemPath, callback);
     function eachSystemPath(systemPath, searchPathCB)
     {
         systemPath = path.resolve(systemPath);
@@ -163,6 +166,6 @@ SystemRegistry.prototype.registerSystemPackage = function(filePath, callback)
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.exports = SystemRegistry;
+module.exports = new SystemRegistry();
 
 //----------------------------------------------------------------------------------------------------------------------
