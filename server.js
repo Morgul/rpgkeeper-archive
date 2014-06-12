@@ -5,26 +5,31 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 var app = require('omega-wf').app;
+var pkg = require('./package');
+
+// System Registry
+var SystemRegistry = require('./server/system_registry');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-require('./server/lib/authentication.js');
-require('./server/lib/sockets.js');
-require('./server/urls');
+var systemSearchPaths = [
+    './node_modules'
+];
 
-// ---------------------------------------------------------------------------------------------------------------------
+app.registry = new SystemRegistry(systemSearchPaths);
 
 // Build a list of systems
-app.systems = [];
-//app.systems.push(require('./systems/dnd4e/system'));
-app.systems.push(require('./systems/dnd4e/system'));
+app.registry.autodiscover(function()
+{
+    require('./server/lib/authentication.js');
+    require('./server/lib/sockets.js');
+    require('./server/urls');
 
-// ---------------------------------------------------------------------------------------------------------------------
+    // Set the name of the omega app.
+    app.setName('RPGKeeper v' + pkg.version);
 
-// Set the name of the omega app.
-app.setName('RPGKeeper');
-
-// Start the omega-wf app.
-app.listen();
+    // Start the omega-wf app.
+    app.listen();
+});
 
 // ---------------------------------------------------------------------------------------------------------------------

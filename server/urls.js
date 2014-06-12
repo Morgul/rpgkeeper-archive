@@ -19,10 +19,6 @@ app.router.add(
         path: path.join(__dirname, '../client')
     },
     {
-        url: '/systems/*',
-        path: path.join(__dirname, '../systems')
-    },
-    {
         url: '/partials/*',
         path: path.join(__dirname, '../client/partials')
     },

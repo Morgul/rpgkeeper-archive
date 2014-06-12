@@ -123,7 +123,7 @@ app.sockets.on('connection', function(socket)
             }
             else
             {
-                app.systems.forEach(function(system)
+                _.each(app.registry.characterSystems, function(system)
                 {
                     // Call delete, if it exits
                     (system.delete || function(){})(character.$id);
