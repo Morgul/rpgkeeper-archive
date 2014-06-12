@@ -1,95 +1,47 @@
 //----------------------------------------------------------------------------------------------------------------------
-// Brief description for models.js module.
+// Base models for RPGKeeper
 //
 // @module models.js
 //----------------------------------------------------------------------------------------------------------------------
 
-var om = require('omega-models');
-var fields = om.fields;
-var SimpleBackend = om.backends.Simple;
-var ns = om.namespace('rpgkeeper').backend(new SimpleBackend({root: './server/db', spaces: 4}));
+var thinky = require('thinky')({ db: 'rpgkeeper' });
+var r = thinky.r;
+
+var db = { r:r };
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.exports = ns.define({
-    User: {
-        name: fields.Dict({ default: {} }),
-        email: fields.String({ require: true }),
+db.User = thinky.createModel('User', {
+    name: String,
+    nick: { _type: String, default: function(){ return this.name || this.email; } },
+    email: String
+}, { pk: 'email' });
 
-        fullname: fields.Property(function()
-        {
-            var name = "";
+db.System = thinky.createModel('System', {
+    name: String,
+    shortName: String,
+    description: String
+}, { pk: 'shortName' });
 
-            if(this.name)
-            {
-                if(this.name.first)
-                {
-                    name += this.name.first;
-                } // end if
+db.BaseCharacter = thinky.createModel('BaseCharacter', {
+    id: String,
+    name: String,
+    system_id: String,
+    user_id: String,
+    portrait: String,
+    thumbnail: { _type: String, default: function(){ return this.portrait; } },
+    description: String,
+    backStory: String,
+    favorite: { _type: Boolean, default: false }
+});
 
-                if(this.name.middle)
-                {
-                    var middle = " " + this.name.middle;
-                    if(!name)
-                    {
-                        middle = this.name.middle;
-                    } // end if
+// Relationships
 
-                    name += middle;
-                } // end if
+db.BaseCharacter.belongsTo(db.User, "user", "user_id", "email");
+db.BaseCharacter.belongsTo(db.System, "system", "system_id", "shortName");
 
-                if(this.name.last)
-                {
-                    var last = " " + this.name.last;
-                    if(!name)
-                    {
-                        last = this.name.last;
-                    } // end if
+//----------------------------------------------------------------------------------------------------------------------
 
-                    name += last;
-                } // end if
-            } // end if
-
-            return name;
-        }),
-
-        nick: fields.Property(function()
-        {
-            var nick = this.email;
-
-            if(this.name && this.name.nick)
-            {
-                nick = this.name.nick;
-            } // end if
-
-            return nick;
-        })
-    },
-
-    System: {
-        name: fields.String(),
-        shortname: fields.String({ key: true }),
-        description: fields.String()
-    },
-
-    BaseCharacter: {
-        name: fields.String(),
-        system: fields.Reference({ model: 'System' }),
-        user: fields.Reference({ model: 'User' }),
-
-        // This is the url to the image
-        portrait: fields.String(),
-
-        // This is the url to the image
-        thumbnail: fields.String(),
-
-        // These fields aren't currently used, but could be nice to expose.
-        description: fields.String(),
-        backstory: fields.String(),
-
-        // Adds it to the favorites menu
-        favorite: fields.Boolean({ default: false })
-    }
-}); // end exports
+module.exports = db;
 
 //----------------------------------------------------------------------------------------------------------------------

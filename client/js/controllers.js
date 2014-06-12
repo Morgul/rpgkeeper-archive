@@ -6,6 +6,17 @@
 
 (function()
 {
+    function updateCharacters($socket, $rootScope)
+    {
+        $socket.emit('list characters', function(error, characters)
+        {
+            $rootScope.characters = _.sortBy(characters, function(character)
+            {
+                return character.system.name;
+            });
+        });
+    } // end updateCharacters
+
     //------------------------------------------------------------------------------------------------------------------
 
     var Controllers = angular.module('rpgkeeper.controllers', []);
@@ -30,13 +41,16 @@
         // Get our characters
         if(!$scope.characters)
         {
-            $socket.emit('list_characters');
+            updateCharacters($socket, $rootScope);
         } // end if
 
         // Get all systems
         if(!$scope.systems)
         {
-            $socket.emit('list_systems');
+            $socket.emit('list systems', function(error, systems)
+            {
+                $rootScope.systems = systems;
+            });
         } // end if
 
         //--------------------------------------------------------------------------------------------------------------
@@ -51,25 +65,6 @@
         $scope.$on('add_character', function(event)
         {
             $scope.addChar();
-        });
-
-        //--------------------------------------------------------------------------------------------------------------
-        // Socket.io handling
-        //--------------------------------------------------------------------------------------------------------------
-
-        // Get a list of favorite characters
-        $socket.on('characters', function(characters)
-        {
-            $rootScope.characters = _.sortBy(characters, function(character)
-            {
-                return character.system.name;
-            });
-        });
-
-        // Handle the list of systems
-        $socket.on('systems', function(systems)
-        {
-            $rootScope.systems = systems;
         });
 
         //--------------------------------------------------------------------------------------------------------------
@@ -142,7 +137,7 @@
             {
                 if(result)
                 {
-                    $socket.emit('delete_character', character, function(error)
+                    $socket.emit('delete character', character, function(error)
                     {
                         if(error)
                         {
@@ -151,7 +146,7 @@
                         else
                         {
                             // Update the list of characters.
-                            $socket.emit("list_characters");
+                            updateCharacters($socket, $scope.$root);
                         } // end if
                     });
                 } // end if
@@ -178,7 +173,7 @@
     {
         var charID = $routeParams.id;
 
-        $socket.emit('get_character', charID, function(error, character)
+        $socket.emit('get character', charID, function(error, character)
         {
             if(error)
             {
@@ -197,23 +192,11 @@
                 // Change our page title
                 $scope.$root.$broadcast('title', character.name);
 
-                $character.setCharacter(character, '/' + character.system.shortname, function()
+                $character.setCharacter(character, '/' + character.system.shortName, function()
                 {
-                    $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
+                    $scope.char_template = '/systems/' + character.system.shortName + '/partials/char.html';
+                    console.log('template:', $scope.char_template);
                 });
-
-                /*
-                $scope.character = character;
-
-                var systemSocket = $socket.channel('/' + character.system.shortname);
-
-                systemSocket.emit('get_character', charID, function(error, sysChar, isNew)
-                {
-                    $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';
-                    $scope.$root.sysChar = sysChar;
-                    $scope.isNew = isNew;
-                });
-                */
             } // end if
         });
     });
@@ -235,7 +218,7 @@
 
         $scope.save = function()
         {
-            $socket.emit('new_character', $scope.newchar, function(error, character)
+            $socket.emit('new character', $scope.newchar, function(error, character)
             {
                 $modalInstance.close();
 
@@ -246,8 +229,8 @@
                 else
                 {
                     // Update the list of characters.
-                    $socket.emit("list_characters");
-                    $location.path("/character/" + character.$id);
+                    updateCharacters($socket, $scope.$root);
+                    $location.path("/character/" + character.id);
                 } // end if
             });
 

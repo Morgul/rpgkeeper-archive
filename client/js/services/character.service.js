@@ -27,7 +27,7 @@ CharacterService.prototype._startBaseInterval = function() {
         if(angular.toJson(self.base) !== angular.toJson(oldBase)) {
 
             console.log('Base Char Changes!');
-            self.socket.emit("update_character", self.base, function(error, character)
+            self.socket.emit("update character", self.base, function(error, character)
             {
                 if(error)
                 {
@@ -58,7 +58,7 @@ CharacterService.prototype._startSysInterval = function() {
         if(angular.toJson(system) !== angular.toJson(old)) {
 
             console.log('System Char Changes!');
-            self.socket.channel(self.systemUrl).emit("update_character", system, function(error, character)
+            self.socket.channel(self.systemUrl).emit("update character", system, function(error, character)
             {
                 if(error)
                 {
@@ -94,9 +94,8 @@ CharacterService.prototype.setCharacter = function(baseChar, systemUrl, callback
     // Get the system character
     var self = this;
 
-    this.socket.channel(this.systemUrl).emit('get_character', baseChar.$id, function(error, sysChar, isNew) {
+    this.socket.channel(this.systemUrl).emit('get character', baseChar.id, function(error, sysChar, isNew) {
         if(error) {
-
             console.error('Error encountered getting the specified character:', error);
             self.alerts.addAlert('danger', "Encountered error getting the specified character: " + error);
             callback(error);
