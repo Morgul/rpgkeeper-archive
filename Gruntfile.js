@@ -91,5 +91,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Setup the build task.
-    grunt.registerTask('build', ['controllers', 'filters', 'widgets', 'less', 'cssmin', 'html2js']);
+    grunt.registerTask('build', ['less', 'cssmin', 'html2js']);
 };
