@@ -12,6 +12,7 @@ angular.module('rpgkeeper.systems.widgets', []);
 angular.module('rpgkeeper.systems.filters', []);
 
 angular.module('rpgkeeper.systems', [
+    'ui.codemirror',
     'rpgkeeper.systems.services',
     'rpgkeeper.systems.controllers',
     'rpgkeeper.systems.widgets',
