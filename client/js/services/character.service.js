@@ -96,8 +96,8 @@ CharacterService.prototype.setCharacter = function(baseChar, systemUrl, callback
 
     this.socket.channel(this.systemUrl).emit('get character', baseChar.id, function(error, sysChar, isNew) {
         if(error) {
-            console.error('Error encountered getting the specified character:', error);
-            self.alerts.addAlert('danger', "Encountered error getting the specified character: " + error);
+            console.error('Error encountered getting the specified character:', error.stack || error.message || error.toString());
+            self.alerts.addAlert('danger', "Encountered error getting the specified character: " + error.stack || error.message || error.toString());
             callback(error);
         } else {
             self.system = sysChar;
