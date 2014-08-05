@@ -70,7 +70,7 @@ SystemRegistry.prototype.autodiscover = function(callback)
                     {
                         self.registerSystemPackage(filePath, function()
                         {
-                            // Ignore errors; if this isn't a valid system package, just move on to the next.
+                            // just move on to the next.
                             dirCB();
                         }); // end self.registerSystemPackage callback
                     }
@@ -99,6 +99,11 @@ SystemRegistry.prototype.registerSystemPackage = function(filePath, callback)
     }
     catch(ex)
     {
+        if (ex.code !== 'MODULE_NOT_FOUND')
+        {
+            logger.error('Error loading system module "%s": %s', filePath, ex.stack || ex.message);
+        } // end if
+
         callback(ex);
         return;
     } // end try/catch
