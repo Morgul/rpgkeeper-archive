@@ -6,10 +6,10 @@
 
 angular.module('rpgkeeper.services', []);
 
-angular.module('rpgkeeper.systems.services', []);
-angular.module('rpgkeeper.systems.controllers', []);
-angular.module('rpgkeeper.systems.widgets', []);
-angular.module('rpgkeeper.systems.filters', []);
+angular.module('rpgkeeper.systems.services', ['rpgkeeper.services']);
+angular.module('rpgkeeper.systems.controllers', ['rpgkeeper.services']);
+angular.module('rpgkeeper.systems.widgets', ['rpgkeeper.services']);
+angular.module('rpgkeeper.systems.filters', ['rpgkeeper.services']);
 
 angular.module('rpgkeeper.systems', [
     'ui.codemirror',
