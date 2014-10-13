@@ -169,7 +169,7 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $socket, $character, $routeParams)
+    Controllers.controller('CharacterCtrl', function($scope, $rootScope, $socket, PageModelService, $routeParams)
     {
         var charID = $routeParams.id;
 
@@ -192,8 +192,16 @@
                 // Change our page title
                 $scope.$root.$broadcast('title', character.name);
 
-                $character.setCharacter(character, '/' + character.system.shortName, function()
+                // Register our base model
+                PageModelService.registerModel('base', character, { saveEvent: 'update character' });
+
+                var sysChannel = '/' + character.system.shortName;
+                $socket.channel(sysChannel).emit('get character', character.id, function(error, sysChar, isNew)
                 {
+                    // Register our base model
+                    PageModelService.registerModel('character', sysChar, { saveEvent: 'update character', channel: sysChannel });
+
+                    // Setup for the character page
                     $scope.char_template = '/systems/' + character.system.shortName + '/partials/char.html';
                     console.log('template:', $scope.char_template);
                 });

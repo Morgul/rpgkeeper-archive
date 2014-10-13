@@ -110,23 +110,27 @@ app.sockets.on('connection', function(socket)
             });
     });
 
-    socket.on('update character', function(character, callback)
+    socket.on('update character', function(update, callback)
     {
-        var id = character.id;
+        callback = callback || function(){};
 
-        // Clean out the PK and joined tables
-        delete character.id;
-        delete character.user;
-        delete character.system;
-
-        models.BaseCharacter.filter({ id: id, user_id: user.email })
-            .update(character).run().then(function()
+        models.BaseCharacter.get(update.id).run()
+            .then(function(character)
             {
-                callback();
-            }).error(function()
-            {
-                console.error("Error encountered while favoriting character: " + error);
-                callback({ type: 'danger', message: "Error encountered while favoriting character: " + error });
+                if(character.user_id == user.email)
+                {
+                    character.merge(update);
+                    character.save()
+                        .then(function()
+                        {
+                            callback();
+                        });
+                }
+                else
+                {
+                    console.error("Attempt to update character that does not belong to the user!");
+                    callback({ type: 'danger', message: "Attempt to update character that does not belong to the user!" });
+                } // end if
             });
     });
 });
