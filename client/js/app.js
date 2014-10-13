@@ -24,6 +24,13 @@ window.app = angular.module("rpgkeeper", [
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }])
+    .run(function($rootScope)
+    {
+        Promise.setScheduler(function(fn)
+        {
+            $rootScope.$evalAsync(fn);
+        });
+    })
     .run(function($rootScope, $location, $socket)
     {
         // Configure marked parser
