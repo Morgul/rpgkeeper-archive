@@ -202,7 +202,7 @@
                     PageModelService.registerModel('character', sysChar, { saveEvent: 'update character', channel: sysChannel });
 
                     // Setup for the character page
-                    $scope.char_template = '/systems/' + character.system.shortName + '/partials/char.html';
+                    $scope.char_template = '/systems/' + character.system.shortName + '/client/character/char.html';
                     console.log('template:', $scope.char_template);
                 });
             } // end if
