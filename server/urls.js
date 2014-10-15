@@ -7,7 +7,6 @@
 var path = require('path');
 var app = require('omega-wf').app;
 var auth = require('omega-wf').auth;
-var db = require('omega-wf').db;
 var views = require('./views');
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -15,20 +14,11 @@ var views = require('./views');
 app.router.add(
     // Static Files
     {
-        url: '/client/*',
-        path: path.join(__dirname, '../client')
-    },
-    {
-        url: '/partials/*',
-        path: path.join(__dirname, '../client/partials')
-    },
-    {
-        url: '/vendor/*',
-        path: path.join(__dirname, '../vendor')
+        url: '/dist/*',
+        path: path.join(__dirname, '../dist')
     },
 
     // Authentication
-
     {
         url:'/auth/login-persona',
         post: function(req, resp)

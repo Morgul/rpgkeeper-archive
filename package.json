@@ -4,7 +4,7 @@
   "description": "A website for managing your digital character sheets.",
   "main": "server.js",
   "dependencies": {
-    "async": "^0.2.9",
+    "async": "^0.2.10",
     "lodash": "^2.4.1",
     "omega-logger": "^0.5.5",
     "passport-persona": "latest",
@@ -12,11 +12,12 @@
   },
   "devDependencies": {
     "grunt": "^0.4.1",
-    "grunt-contrib-watch": "^0.5.3",
-    "grunt-develop": "^0.2.2",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-cssmin": "^0.7.0",
     "grunt-contrib-less": "^0.7.0",
-    "grunt-html2js": "^0.1.8",
-    "grunt-contrib-cssmin": "^0.7.0"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-develop": "^0.2.2",
+    "grunt-html2js": "^0.1.8"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

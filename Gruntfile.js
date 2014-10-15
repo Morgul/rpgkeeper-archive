@@ -7,39 +7,29 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        dist: {
+            css: "dist/css"
+        },
 		project: {
 			css: "client/css",
 			less: "client/less"
 		},
-        html2js: {
-            rpgkeeper: {
-                src: ['client/**/*.tpl.html'],
-                dest: 'client/js/client.templates.js',
-                options: {
-                    base: 'client',
-                    module: 'rpgkeeper.client.templates',
-                    rename: function (moduleName) {
-                        return '/' + moduleName.replace('.tpl', '');
-                    }
-                }
-            }
-        },
         less: {
             dev: {
                 options: {
-                    paths: ['client/vendor']
+                    paths: ['static/vendor', 'node_module']
                 },
                 files: {
-                    '<%= project.css %>/rpgkeeper.css': ['<%= project.less %>/*.less']
+                    '<%= dist.css %>/rpgkeeper.css': ['<%= project.less %>/*.less']
                 }
             },
             min: {
                 options: {
-                    paths: ['client/vendor'],
+                    paths: ['static/vendor', 'node_module'],
                     compress: true
                 },
                 files: {
-                    '<%= project.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less']
+                    '<%= dist.css %>/rpgkeeper.min.css': ['<%= project.less %>/*.less']
                 }
             }
         },
@@ -57,6 +47,16 @@ module.exports = function(grunt) {
                 file: 'server.js'
             }
         },
+        copy: {
+            main: {
+                files: [
+                    { expand: true, cwd: 'static/', src:'vendor/**/*.*', dest:'dist/' },
+                    { expand: true, cwd: 'static/', src:'images/**/*.*', dest:'dist/' },
+                    { expand: true, src: ['client/**/*.*', '!client/index.html'], dest:'dist/' },
+                    { expand: true, cwd: 'client/', src:'index.html', dest:'dist/' }
+                ]
+            }
+        },
         watch: {
             rpgkeeper: {
                 files: ['server.js', 'lib/*.js'],
@@ -66,9 +66,9 @@ module.exports = function(grunt) {
                     nospawn: true
                 }
             },
-            html2js: {
-                files: ['client/**/*.tpl.html'],
-                tasks: ['html2js'],
+            copy: {
+                files: ['client/**/*.*'],
+                tasks: ['copy'],
                 options: {
                     atBegin: true
                 }
@@ -85,11 +85,11 @@ module.exports = function(grunt) {
 
     // Grunt Tasks.
     grunt.loadNpmTasks('grunt-develop');
-    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Setup the build task.
-    grunt.registerTask('build', ['less', 'cssmin', 'html2js']);
+    grunt.registerTask('build', ['less', 'cssmin', 'copy']);
 };
