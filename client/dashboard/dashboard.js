@@ -4,15 +4,12 @@
 // @module dashboard.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function DashboardControllerFactory($scope, $socket, $character, $modal)
+function DashboardControllerFactory($scope, $socket, $modal)
 {
     function DashboardController()
     {
         // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
-
-        // Clear any current characters in the system.
-        $character.clearCharacters();
 
         //--------------------------------------------------------------------------------------------------------------
         // Public API
@@ -29,8 +26,7 @@ function DashboardControllerFactory($scope, $socket, $character, $modal)
                 backdrop: true,
                 keyboard: true,
                 backdropClick: true,
-                templateUrl: '/client/character/modals/delete/deletechar.html',
-                //controller: 'DelCharDialogCtrl'
+                templateUrl: '/client/character/modals/delete/deletechar.html'
             };
 
             var dlg = $modal.open(opts);
@@ -82,7 +78,6 @@ function DashboardControllerFactory($scope, $socket, $character, $modal)
 angular.module('rpgkeeper.controllers').controller('DashboardCtrl', [
     '$scope',
     '$socket',
-    '$character',
     '$modal',
     DashboardControllerFactory
 ]);
