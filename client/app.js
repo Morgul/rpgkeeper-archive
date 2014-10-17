@@ -1,4 +1,5 @@
 //----------------------------------------------------------------------------------------------------------------------
+
 // Main rpgkeeper angular application
 //
 // @module app.js
@@ -18,8 +19,8 @@ window.app = angular.module("rpgkeeper", [
     {
         $locationProvider.html5Mode(true);
         $routeProvider
-            .when('/dashboard', {templateUrl: '/client/dashboard/dashboard.html',   controller: 'DashboardCtrl'})
-            .when('/character/:id', {templateUrl: '/client/character/character.html',   controller: 'CharacterCtrl'})
+            .when('/dashboard', {templateUrl: '/dist/client/dashboard/dashboard.html',   controller: 'DashboardCtrl'})
+            .when('/character/:id', {templateUrl: '/dist/client/character/character.html',   controller: 'CharacterCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }])
     .run(function($rootScope)

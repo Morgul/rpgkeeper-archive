@@ -2,20 +2,61 @@
     <div class="col-md-10 col-md-offset-1 col-lg-6 col-lg-offset-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <!--button class="btn btn-primary pull-right" ng-click="addChar()"><i class="fa fa-plus"></i> Add</button-->
                 <button type="button" class="close pull-right" title="Add Character" ng-click="addChar()">
                     <span aria-hidden="true"><i class="fa fa-plus"></i></span><span class="sr-only">Add Character</span>
                 </button>
-                <h2 class="panel-title">Character</h2>
+                <h2 class="panel-title">Characters</h2>
+            </div>
+            <div ng-if="hasCharacters()" class="panel-body">
+                <h4 class="text-center">No Characters</h4>
+                <p class="text-center text-muted"><i>(You may click the <i class="fa fa-plus"></i> icon to add one)</i></p>
             </div>
             <div class="list-group">
                 <a href="" class="list-group-item"
-                   ng-repeat="character in characters | orderBy:['-favorite', 'name']"
+                   ng-repeat="character in characters | filter:{archived: false} | orderBy: ['system', 'name']"
                     ng-click="setLocation('/character/' +  character.id)">
                     <button type="button" class="close pull-right" title="Delete Character" ng-click="delete(character, $event)">
                         <span aria-hidden="true"><i class="fa fa-trash-o"></i></span><span class="sr-only">Delete Character</span>
                     </button>
-                    <button type="button" class="close pull-right" title="Archive Character" style="margin-right: 5px;">
+                    <button type="button" class="close pull-right" title="Archive Character" style="margin-right: 5px;" ng-click="toggleArchive(character, $event)">
+                        <span aria-hidden="true"><i class="fa fa-archive"></i></span><span class="sr-only">Archive Character</span>
+                    </button>
+                    <button type="button" class="close pull-right" title="Edit Character" style="margin-right: 5px;">
+                        <span aria-hidden="true"><i class="fa fa-edit"></i></span><span class="sr-only">Edit Character</span>
+                    </button>
+                    <span class="text-muted hidden-xs" style="position: absolute; bottom: 7px; right: 7px">{{ character.system.name }}</span>
+                    <div class="pull-left img-thumbnail" style="width: 50px; height: 50px; overflow: hidden">
+                        <img src="{{character.thumbnail || 'http://placehold.it/50x50'}}" width="100%">
+                    </div>
+                    <div style="margin-left: 60px; margin-right: 50px; min-height: 50px">
+                        <h3 class="list-group-item-heading">{{ character.name }}</h3>
+                        <span class="text-muted visible-xs">{{ character.system.name }}</span>
+                        <p class="list-group-item-text text-muted"><i>{{ character.description }}</i></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10 col-md-offset-1 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="cursor: pointer" ng-click="archiveCollapsed = !archiveCollapsed">
+                <div class="pull-right close">
+                    <i class="fa"
+                       ng-class="{ 'fa-caret-right': archiveCollapsed, 'fa-caret-down': !archiveCollapsed }"></i>
+                </div>
+                <h2 class="panel-title"><i class="fa fa-archive"></i> Archived Characters</h2>
+            </div>
+            <div ng-if="hasArchivedCharacters()" class="panel-body" collapse="archiveCollapsed">
+                <h4 class="text-center">No Archived Characters</h4>
+            </div>
+            <div class="list-group" collapse="archiveCollapsed">
+                <a href="" class="list-group-item"
+                   ng-repeat="character in characters | filter:{archived: true} | orderBy:'name'"
+                   ng-click="setLocation('/character/' +  character.id)">
+                    <button type="button" class="close pull-right" title="Delete Character" ng-click="delete(character, $event)">
+                        <span aria-hidden="true"><i class="fa fa-trash-o"></i></span><span class="sr-only">Delete Character</span>
+                    </button>
+                    <button type="button" class="close pull-right" title="Archive Character" style="margin-right: 5px;" ng-click="toggleArchive(character, $event)">
                         <span aria-hidden="true"><i class="fa fa-archive"></i></span><span class="sr-only">Archive Character</span>
                     </button>
                     <button type="button" class="close pull-right" title="Edit Character" style="margin-right: 5px;">

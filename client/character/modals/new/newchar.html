@@ -18,10 +18,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label">Portrait</label>
+            <label class="control-label">Thumbnail</label>
             <div class="controls" style="text-align: center">
                 <img class="img-polaroid portrait" width="300px" height="auto" ng-if="newchar.thumbnail" src="{{ newchar.thumbnail }}" style="margin-bottom: 5px;">
-                <button type="button" class="btn btn-block btn-default" ng-click="chooseDropboxImage()"><i class="icon-dropbox"></i> Choose Portrait from Dropbox</button>
+                <button type="button" class="btn btn-block btn-default" ng-click="chooseDropboxImage('thumbnail')"><i class="icon-dropbox"></i> Choose Thumbnail from Dropbox</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Portrait</label>
+            <div class="controls" style="text-align: center">
+                <img class="img-polaroid portrait" width="300px" height="auto" ng-if="newchar.portrait" src="{{ newchar.portrait }}" style="margin-bottom: 5px;">
+                <button type="button" class="btn btn-block btn-default" ng-click="chooseDropboxImage('portrait')"><i class="icon-dropbox"></i> Choose Portrait from Dropbox</button>
             </div>
         </div>
         <div class="form-group">

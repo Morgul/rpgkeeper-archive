@@ -11,13 +11,42 @@ function DashboardControllerFactory($scope, $socket, $modal)
         // Change our page title
         $scope.$root.$broadcast('title', "Dashboard");
 
+        $scope.archiveCollapsed = true;
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Event handling
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.$on('add character', function()
+        {
+            $scope.addChar();
+        });
+
         //--------------------------------------------------------------------------------------------------------------
         // Public API
         //--------------------------------------------------------------------------------------------------------------
 
+        $scope.hasCharacters = function()
+        {
+            return _.isEmpty(_.filter($scope.characters, { archived: false }));
+        }; // end hasCharacters
+
+        $scope.hasArchivedCharacters = function()
+        {
+            return _.isEmpty(_.filter($scope.characters, { archived: true }));
+        }; // end hasArchivedCharacters
+
         $scope.addChar = function()
         {
-            $scope.$root.$broadcast('add_character');
+            var opts = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl: '/dist/client/character/modals/new/newchar.html',
+                controller: 'NewCharDialogCtrl'
+            };
+
+            var dlg = $modal.open(opts);
         }; // end addChar
 
         $scope.delete = function(character, $event)
@@ -32,7 +61,7 @@ function DashboardControllerFactory($scope, $socket, $modal)
                 backdrop: true,
                 keyboard: true,
                 backdropClick: true,
-                templateUrl: '/client/character/modals/delete/deletechar.html'
+                templateUrl: '/dist/client/character/modals/delete/deletechar.html'
             };
 
             var dlg = $modal.open(opts);
@@ -62,18 +91,26 @@ function DashboardControllerFactory($scope, $socket, $modal)
             });
         }; // end delete
 
-        $scope.toggleFavorite = function(character)
+        $scope.toggleArchive = function(character, $event)
         {
-            character.favorite = !character.favorite;
-            $socket.emit('favorite', character, function(error)
+            if($event)
+            {
+                $event.stopPropagation();
+                $event.preventDefault();
+            } // end if
+
+            character.archived = !character.archived;
+            $socket.emit('toggle archive', character, function(error)
             {
                 if(error)
                 {
                     $scope.alerts.push(error);
-                    character.favorite = !character.favorite;
+
+                    // Undo the toggle
+                    character.archived = !character.archived;
                 } // end if
             }); // end $scope.emit
-        }; // end toggleFavorite
+        }; // end toggleArchive
     } // end DashboardController
 
     return new DashboardController();

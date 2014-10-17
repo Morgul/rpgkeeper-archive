@@ -8,7 +8,7 @@ function NewCharDialogControllerFactory($scope, $location, $socket, $modalInstan
 {
     function NewCharDialogController()
     {
-        $scope.newchar = {};
+        $scope.newchar = { archived: false };
 
         //--------------------------------------------------------------------------------------------------------------
         // Public API
@@ -46,7 +46,7 @@ function NewCharDialogControllerFactory($scope, $location, $socket, $modalInstan
 
         }; // end save
 
-        $scope.chooseDropboxImage = function()
+        $scope.chooseDropboxImage = function(type)
         {
             Dropbox.choose({
                 extensions: ["images"],
@@ -58,8 +58,7 @@ function NewCharDialogControllerFactory($scope, $location, $socket, $modalInstan
                         // chooser api, however, any file in dropbox can be directly linked to. The solution? Rewrite
                         // the url. Thankfully their 'preview' url is almost exactly the same format as url we need.
                         var link = files[0].link.replace('https://www.', 'https://dl.');
-                        $scope.newchar.thumbnail = link;
-                        $scope.newchar.portrait = link;
+                        $scope.newchar[type] = link;
                     });
                 } // end success
             });
