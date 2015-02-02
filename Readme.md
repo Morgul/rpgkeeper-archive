@@ -1,3 +1,11 @@
+-----
+
+# This project has been ARCHIVED!
+If you're looking for the new code-base, please visit:
+[Morgul/rpgkeeper](https://github.com/Morgul/rpgkeeper)
+
+-----
+
 # RPGKeeper
 
 I'm an avid table-top gamer. I'm also a bit forgetful, and I lose things... especially little pieces of paper. Throw
