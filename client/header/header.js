@@ -52,44 +52,13 @@ function HeaderControllerFactory($scope, $http, $location, $socket, $modal)
             $scope.title = title;
         });
 
-        $scope.$on('add_character', function(event)
-        {
-            $scope.addChar();
-        });
-
         //--------------------------------------------------------------------------------------------------------------
         // Public API
         //--------------------------------------------------------------------------------------------------------------
 
-        $scope.hasFavorites = function()
-        {
-            var favs = false;
-            if($scope.characters)
-            {
-                for(var idx = 0; idx < $scope.characters.length; idx++)
-                {
-                    if($scope.characters[idx].favorite)
-                    {
-                        favs = true;
-                        break;
-                    } // end if
-                } // end for
-            } // end if
-
-            return favs;
-        }; // end hasFavorites
-
         $scope.addChar = function()
         {
-            var opts = {
-                backdrop: true,
-                keyboard: true,
-                backdropClick: true,
-                templateUrl: '/client/character/modals/new/newchar.html',
-                controller: 'NewCharDialogCtrl'
-            };
-
-            var dlg = $modal.open(opts);
+            $scope.$root.$broadcast('add character');
         }; // end addChar
     } // end HeaderController
 

@@ -32,7 +32,7 @@ db.BaseCharacter = thinky.createModel('BaseCharacter', {
     thumbnail: { _type: String, default: function(){ return this.portrait; } },
     description: String,
     backStory: String,
-    favorite: { _type: Boolean, default: false }
+    archived: { _type: Boolean, default: false }
 });
 
 // Relationships

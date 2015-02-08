@@ -97,16 +97,16 @@ app.sockets.on('connection', function(socket)
         });
     });
 
-    socket.on('favorite', function(character, callback)
+    socket.on('toggle archive', function(character, callback)
     {
         models.BaseCharacter.filter({ id: character.id, user_id: user.email })
-            .update({'favorite': models.r.row('favorite').not()}).run().then(function()
+            .update({'archived': models.r.row('archived').not()}).run().then(function()
             {
                 callback();
             }).error(function()
             {
-                console.error("Error encountered while favoriting character: " + error);
-                callback({ type: 'danger', message: "Error encountered while favoriting character: " + error });
+                console.error("Error encountered while archiving character: " + error);
+                callback({ type: 'danger', message: "Error encountered while archiving character: " + error });
             });
     });
 
