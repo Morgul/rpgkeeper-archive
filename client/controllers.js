@@ -12,20 +12,21 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $socket, $modal)
+    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $socket, $modal, PersonaService)
     {
-        // Check that we have a username
-        if(!$scope.user)
+        Object.defineProperty($rootScope, 'user', {
+            get: function(){ return PersonaService.currentUser; }
+        });
+
+        $scope.login = function()
         {
-            $http.get('/user')
-                .success(function(data, status)
-                {
-                    $rootScope.user = data.user;
-                })
-                .error(function(data, status){
-                    $location.path("/");
-                });
-        } // end if
+            PersonaService.signin();
+        }; // end login
+
+        $scope.logout = function()
+        {
+            PersonaService.signout();
+        }; // end logout
 
         // Get our characters
         if(!$scope.characters)
@@ -247,7 +248,7 @@
                 {
                     // Update the list of characters.
                     $socket.emit("list_characters");
-                    $location.path("/character/" + character.$id);
+                    $location.path("/character/" + character.id);
                 } // end if
             });
 

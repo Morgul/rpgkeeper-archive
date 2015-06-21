@@ -13,7 +13,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-if="hasFavorites()" class="dropdown-header">Favorite Characters</li>
-                        <li ng-repeat="character in characters | filter: {favorite: true}"><a href="/character/{{ character.$id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
+                        <li ng-repeat="character in characters | filter: {favorite: true}"><a href="/character/{{ character.id }}"><i class="icon-user"></i> {{ character.name }}</a></li>
                         <li ng-if="!hasFavorites()"><p class="text-center"><b>No Favorites</b></p></li>
                         <li class="divider"></li>
                         <li><a  ng-click="addChar()"><i class="icon-plus"></i> Add Character</a></li>
@@ -21,8 +21,8 @@
                 </div>
             </li>
 
-            <li ng-if="user"><button type="button" class="btn btn-inverse navbar-btn" onclick="navigator.id.logout();"><i class="icon-persona"></i> Sign Out</button></li>
-            <li ng-if="!user"><button type="button" class="btn btn-inverse navbar-btn" onclick="navigator.id.request();"><i class="icon-persona"></i> Sign In</button></li>
+            <li ng-if="user"><button type="button" class="btn btn-inverse navbar-btn" ng-click="login()"><i class="icon-persona"></i> Sign Out</button></li>
+            <li ng-if="!user"><button type="button" class="btn btn-inverse navbar-btn" ng-click="logout()"><i class="icon-persona"></i> Sign In</button></li>
         </ul>
     </nav>
     <div class="alert-area">

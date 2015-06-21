@@ -22,8 +22,8 @@ useOmegaAdmin = DEBUG;
 secret = "9799a2dde63b2850ca2aadee07bc4ad01db80e02415b52f8fe3a143500dc9d99f8d1bfff8b8b67de8ae3344ea97687cd";
 
 //audience = DEBUG ? "http://192.168.1.140:" + listenPort : "http://rpgkeeper.skewedaspect.com";
-//audience = DEBUG ? "http://localhost:" + listenPort : "http://rpgkeeper.skewedaspect.com";
-audience = "https://rpgk2.skewedaspect.com";
+audience = DEBUG ? "http://localhost:" + listenPort : "http://rpgkeeper.skewedaspect.com";
+//audience = "https://rpgk2.skewedaspect.com";
 
 // Middleware
 middleware = [
