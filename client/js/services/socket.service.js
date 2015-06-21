@@ -7,7 +7,7 @@
 var SocketProvider = function() {
 
     var socketLib;
-    var connectString;
+    var connectString = location.protocol + '//' + location.host;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Provider API
@@ -276,7 +276,7 @@ var SocketProvider = function() {
                 socketLib = io;
             } // end if
 
-            var socket = socketLib.connect(channel);
+            var socket = socketLib.connect(connectString + channel);
 
             return new SocketChannel(socket);
         }; // end channel

@@ -85,6 +85,7 @@ app.use('/partials', express.static(path.resolve('./client/partials')));
 // Serve index.html
 app.get('/', routeUtils.serveIndex);
 app.get('/dashboard', routeUtils.serveIndex);
+app.get('/character/*', routeUtils.serveIndex);
 
 // Start the server
 var server = app.listen(config.listenPort, function()
