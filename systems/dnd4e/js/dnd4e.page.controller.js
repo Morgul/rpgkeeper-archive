@@ -14,7 +14,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
     $scope.collapse = {};
 
     // Setup ignored fields for the character
-    $character.ignoreFields(['skills', 'powers', 'feats', 'conditions', 'rolls']);
+    //$character.ignoreFields(['skills', 'powers', 'feats', 'conditions', 'rolls']);
 
    //------------------------------------------------------------------------------------------------------------------
     // Watches
