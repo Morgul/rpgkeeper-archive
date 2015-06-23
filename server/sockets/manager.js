@@ -5,48 +5,48 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 var socketio = require('socket.io');
+var Promise = require('bluebird');
+
 var SocketHandler = require('./socketHandler');
 
 var logger = require('omega-logger').loggerFor(module);
 
 //----------------------------------------------------------------------------------------------------------------------
 
-var io;
+function SocketManager()
+{
+    var self = this;
+    this.loaded = new Promise(function(resolve)
+    {
+        self.resolveLoading = resolve;
+    });
+} // end SocketManager
 
-//----------------------------------------------------------------------------------------------------------------------
-// Helpers
-//----------------------------------------------------------------------------------------------------------------------
-
-function _handleConnection(socket)
+SocketManager.prototype._handleConnection = function(socket)
 {
     logger.debug('New Socket.IO connection');
 
     // We'll need some sort of socket object we instantiate.
     new SocketHandler(socket);
-} // end _handleConnection
+}; // end _handleConnection
 
-//----------------------------------------------------------------------------------------------------------------------
-// API
-//----------------------------------------------------------------------------------------------------------------------
-
-function registerSocketIO(app, httpServer)
+SocketManager.prototype.registerSocketIO = function(app, httpServer)
 {
-    io = socketio(httpServer);
+    this.socketServer = socketio(httpServer);
+    this.resolveLoading();
 
     // Add the session middleware in
-    io.use(function(socket, next)
+    this.socketServer.use(function(socket, next)
     {
         app.locals.sessionMiddleware(socket.request, socket.request.res, next);
     });
 
     // Listen for connection events
-    io.on('connection', _handleConnection.bind(this));
-} // end registerSocketIO
+    this.socketServer.on('connection', this._handleConnection.bind(this));
+}; // end registerSocketIO
 
 //----------------------------------------------------------------------------------------------------------------------
 
-module.exports = {
-    registerSocketIO: registerSocketIO
-}; // end exports
+module.exports = new SocketManager();
 
 //----------------------------------------------------------------------------------------------------------------------

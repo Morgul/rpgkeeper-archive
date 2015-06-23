@@ -198,6 +198,8 @@
                 // Change our page title
                 $scope.$root.$broadcast('title', character.name);
 
+                console.log('character:', character);
+
                 $character.setCharacter(character, '/' + character.system.shortname, function()
                 {
                     $scope.char_template = '/systems/' + character.system.shortname + '/partials/char.html';

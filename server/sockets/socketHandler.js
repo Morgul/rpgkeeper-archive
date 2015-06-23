@@ -4,7 +4,10 @@
 // @module socketHandler.js
 //----------------------------------------------------------------------------------------------------------------------
 
+var Promise = require('bluebird');
+
 var models = require('../models');
+var sysMan = require('../systems/manager');
 
 var logger = require('omega-logger').loggerFor(module);
 
@@ -16,7 +19,7 @@ function SocketHandler(socket)
 
     Object.defineProperties(socket, {
         user: {
-            get: function(){ return this.request.session.passport.user; }
+            get: function(){ return (this.request.session.passport || {}).user; }
         },
         isAuthenticated: {
             get: function()
@@ -83,17 +86,23 @@ SocketHandler.prototype._handleGetCharacter = function(charID, respond)
             {
 
                 logger.error("Found user, but character does not match:", charInst.user, self.socket.user);
-                respond({ type: 'danger', message: "Failed to find character with id: '" + id + "'." })
+                respond({ type: 'danger', message: "Failed to find character with id: '" + charID + "'." })
             }
             else
             {
-                respond(null, charInst);
+                return models.System.get(charInst.system)
+                    .then(function(system)
+                    {
+                        charInst = charInst.toJSON();
+                        charInst.system = system.toJSON();
+                        respond(null, charInst);
+                    });
             } // end if
         })
         .catch(models.errors.DocumentNotFound, function()
         {
-            logger.error("Failed to find character with id: '" + id + "'.");
-            respond({ type: 'danger', message: "Failed to find character with id: '" + id + "'." });
+            logger.error("Failed to find character with id: '" + charID + "'.");
+            respond({ type: 'danger', message: "Failed to find character with id: '" + charID + "'." });
         })
         .catch(function(error)
         {
@@ -131,6 +140,14 @@ SocketHandler.prototype._handleUpdateCharacter = function(character, respond)
 SocketHandler.prototype._handleDeleteCharacter = function(character, respond)
 {
     models.Character.remove(character.id)
+        .then(function()
+        {
+            return Promise.resolve(sysMan.systems)
+                .each(function(system)
+                {
+                    return system.delete(character.id);
+                })
+        })
         .then(function()
         {
             respond();

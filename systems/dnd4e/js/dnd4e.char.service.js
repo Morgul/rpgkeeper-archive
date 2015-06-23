@@ -8,6 +8,8 @@ function Dnd4eCharacter($character, $socket) {
     this.character = $character;
     var self = this;
 
+    console.log('char:', this.character);
+
     //TODO: Turn these into socket.io calls to get these lists from the fields themselves.
     this.genderChoices = [
         "Female",
@@ -166,7 +168,6 @@ Dnd4eCharacter.prototype.calcSkill = function(skill)
     return this.sysChar.halfLevel + abilityMod + (skill.trained ? 5 : 0) + parseInt(skill.racial || 0)
         + parseInt(skill.misc || 0) - parseInt(skill.armorPenalty || 0);
 };
-
 
 // ---------------------------------------------------------------------------------------------------------------------
 

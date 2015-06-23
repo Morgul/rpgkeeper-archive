@@ -1,25 +1,25 @@
 //----------------------------------------------------------------------------------------------------------------------
-// This is the entry point for the DnD 4e system. Anything that needs setup is done here.
+// This is the entry point for the DnD4e system. Anything that needs setup is done here.
 //
 // @module system.js
 //----------------------------------------------------------------------------------------------------------------------
 
-// Include our models
-var models = require('./models');
-var baseModels = require('../../server/lib/models');
-
 var path = require('path');
-var app = require('omega-wf').app;
 
 var _ = require('lodash');
-var async = require('async');
+var Promise = require('bluebird');
+
+var socketMan = require('../../server/sockets/manager');
+var models = require('./models');
+var baseModels = require('../../server/models');
+
+var logger = require('omega-logger').loggerFor(module);
 
 //----------------------------------------------------------------------------------------------------------------------
 
 // Create the system entry in the database
-baseModels.System.findOne({ shortname: "dnd4e"}, function(error, system)
-{
-    if(!system)
+baseModels.System.get("dnd4e")
+    .catch(baseModels.errors.DocumentNotFound, function()
     {
         // Create new system
         var system = new baseModels.System({
@@ -31,94 +31,187 @@ baseModels.System.findOne({ shortname: "dnd4e"}, function(error, system)
                 "What makes the D&D game unique is the Dungeon Master. The DM is a person who takes on the role of lead storyteller and game referee. The DM creates adventures for the characters and narrates the action for the players. The DM makes D&D infinitely flexible—he or she can react to any situation, any twist or turn suggested by the players, to make a D&D adventure vibrant, exciting, and unexpected."
         });
 
-        system.save(function(error)
-        {
-            if(error)
+        system.save()
+            .catch(function(error)
             {
                 console.error('Error saving:', error.toString());
-            } // end if
-        });
-    } // end if
-});
+            });
+    });
 
 //----------------------------------------------------------------------------------------------------------------------
 
-function buildSkills(callback)
+var skills = [
+    { name: 'athletics', ability: 'strength' },
+    { name: 'endurance', ability: 'constitution' },
+    { name: 'acrobatics', ability: 'dexterity' },
+    { name: 'stealth', ability: 'dexterity' },
+    { name: 'thievery', ability: 'dexterity' },
+    { name: 'arcana', ability: 'intelligence' },
+    { name: 'history', ability: 'intelligence' },
+    { name: 'religion', ability: 'intelligence' },
+    { name: 'dungeoneering', ability: 'wisdom' },
+    { name: 'heal', ability: 'wisdom' },
+    { name: 'insight', ability: 'wisdom' },
+    { name: 'nature', ability: 'wisdom' },
+    { name: 'perception', ability: 'wisdom' },
+    { name: 'bluff', ability: 'charisma' },
+    { name: 'diplomacy', ability: 'charisma' },
+    { name: 'intimidate', ability: 'charisma' },
+    { name: 'streetwise', ability: 'charisma'}
+];
+
+function populateChar(char)
 {
-    var skills = [];
-    var skillRefs = [];
-
-    // Create default skills
-    skills.push(new models.Skill({name: 'athletics', ability: 'strength'}));
-    skills.push(new models.Skill({name: 'endurance', ability: 'constitution'}));
-    skills.push(new models.Skill({name: 'acrobatics', ability: 'dexterity'}));
-    skills.push(new models.Skill({name: 'stealth', ability: 'dexterity'}));
-    skills.push(new models.Skill({name: 'thievery', ability: 'dexterity'}));
-    skills.push(new models.Skill({name: 'arcana', ability: 'intelligence'}));
-    skills.push(new models.Skill({name: 'history', ability: 'intelligence'}));
-    skills.push(new models.Skill({name: 'religion', ability: 'intelligence'}));
-    skills.push(new models.Skill({name: 'dungeoneering', ability: 'wisdom'}));
-    skills.push(new models.Skill({name: 'heal', ability: 'wisdom'}));
-    skills.push(new models.Skill({name: 'insight', ability: 'wisdom'}));
-    skills.push(new models.Skill({name: 'nature', ability: 'wisdom'}));
-    skills.push(new models.Skill({name: 'perception', ability: 'wisdom'}));
-    skills.push(new models.Skill({name: 'bluff', ability: 'charisma'}));
-    skills.push(new models.Skill({name: 'diplomacy', ability: 'charisma'}));
-    skills.push(new models.Skill({name: 'intimidate', ability: 'charisma'}));
-    skills.push(new models.Skill({name: 'streetwise', ability: 'charisma'}));
-
-    // Save them, and return a list of references for the character to use.
-    async.each(skills, function(skill, done)
-    {
-        skill.save(function(error)
-        {
-            if(error)
+    return Promise.join(
+        models.Class.get(char.class).catch(models.errors.DocumentNotFound, function(){}),
+        Promise.resolve(char.powers)
+            .map(function(powerRef)
             {
-                console.log('blew up on skill:', skill.name, skill.ability, error);
-                done(error);
-            }
-            else
+                return models.Power.get(powerRef.power)
+                    .then(function(power)
+                    {
+                        powerRef.power = power;
+                        return powerRef;
+                    });
+            }),
+        Promise.resolve(char.feats)
+            .map(function(featRef)
             {
-                skillRefs.push({ $id: skill.$id });
-                done();
-            } // end if
-        })
-    }, function(error)
+                return models.Feat.get(featRef.feat)
+                    .then(function(feat)
+                    {
+                        featRef.feat = feat;
+                        return featRef;
+                    });
+            }),
+        function(dndClass, powers, feats)
+        {
+            char.class = dndClass;
+            char.powers = powers;
+            char.feats = feats;
+
+            // This is the only calculated property we depend on, it appears. Weird.
+            char.halfLevel = Math.floor(char.level / 2);
+
+            return char;
+        });
+} // end populateChar
+
+//----------------------------------------------------------------------------------------------------------------------
+// Socket Handling
+//----------------------------------------------------------------------------------------------------------------------
+
+socketMan.loaded
+    .then(function()
     {
-        if(error)
+        socketMan.socketServer.of('/dnd4e').on('connection', function(socket)
         {
-            console.log("Error while building Skills:", error.stack);
-            callback(error);
-        }
-        else
-        {
-            callback(null, skillRefs);
-        } // end if
-    });
-} // end buildSkills
+            // Define authentication properties
+            Object.defineProperties(socket, {
+                user: {
+                    get: function(){ return (this.request.session.passport || {}).user; }
+                },
+                isAuthenticated: {
+                    get: function()
+                    {
+                        return function()
+                        {
+                            return !!this.user;
+                        }.bind(this)
+                    }
+                }
+            });
 
-function cleanRolls(rolls)
-{
-    if(rolls) {
-        var cleaned = [];
+            //----------------------------------------------------------------------------------------------------------
+            // Character
+            //----------------------------------------------------------------------------------------------------------
 
-        rolls.forEach(function(roll)
-        {
-            cleaned.push({
-                title: roll.title,
-                roll: roll.roll
+            socket.on('get_character', function(charID, respond)
+            {
+                models.Character.get(charID)
+                    .then(function(char)
+                    {
+                        char = _.cloneDeep(char.toJSON());
+                        return [char, false];
+                    })
+                    .catch(models.errors.DocumentNotFound, function()
+                    {
+                        var char = new models.Character({
+                            baseChar: charID,
+                            skills: _.cloneDeep(skills)
+                        });
+
+                        return models.Power.filter({ kind: 'Basic Attack' })
+                            .map(function(power)
+                            {
+                                return {power: power.id};
+                            })
+                            .then(function(powers)
+                            {
+                                char.powers = powers || [];
+
+                                return char.save()
+                                    .then(function()
+                                    {
+                                        // Break any lingering leakage
+                                        char = _.cloneDeep(char.toJSON());
+
+                                        return [char, true];
+                                    });
+                            });
+                    })
+                    .then(function(args)
+                    {
+                        var char = args[0];
+                        var newChar = args[1];
+
+                        return populateChar(char)
+                            .then(function(char)
+                            {
+                                console.log('powers:', char.powers);
+                                respond(null, char, newChar);
+                            });
+                    })
+                    .catch(function(error)
+                    {
+                        var errorMsg = "Error while getting character:";
+                        logger.error(errorMsg, logger.dump(error));
+                        respond({ type: 'danger', message: errorMsg + ' ' + error.stack || error.message });
+                    });
+            });
+
+            //----------------------------------------------------------------------------------------------------------
+            // Classes
+            //----------------------------------------------------------------------------------------------------------
+
+            socket.on('get classes', function(respond)
+            {
+                //TODO: Limit this to either classes where `owner` is null, or is the email address of our current user.
+                models.Class.filter()
+                    .then(function(classes)
+                    {
+                        respond(null, classes);
+                    })
+                    .catch(function(error)
+                    {
+                        respond(error);
+                    });
             });
         });
-
-        return cleaned;
-    } // end if
-} // end cleanRolls
+    });
 
 //----------------------------------------------------------------------------------------------------------------------
+// TODO: REMOVE THIS OLD CRAP!
+//----------------------------------------------------------------------------------------------------------------------
+
+var app = require('omega-wf').app;
+var async = require('async');
 
 app.channel('/dnd4e').on('connection', function (socket)
 {
     var user = socket.handshake.user;
+
+    console.log('connected!');
 
     //------------------------------------------------------------------------------------------------------------------
     // Character
@@ -127,6 +220,8 @@ app.channel('/dnd4e').on('connection', function (socket)
     socket.on('get_character', function(charID, callback)
     {
         var newChar = false;
+
+        console.log('getting char');
 
         // Look up the character here.
         models.Character.findOne({ baseChar: charID }, function(err, character)
@@ -725,15 +820,15 @@ app.channel('/dnd4e').on('connection', function (socket)
 module.exports = {
     delete: function(charID)
     {
-        models.Character.remove({ baseChar: charID }, function(error)
-        {
-            console.log('Deleting Character:', charID);
-
-            if(error)
+        models.Character.remove(charID)
+            .then(function()
             {
-                console.log("Error!", error);
-            } // end if
-        });
+                console.log('Deleting Character:', charID);
+            })
+            .catch(function(error)
+            {
+                console.log("Error deleting dnd4e char!", error);
+            });
     } // end delete
 };
 

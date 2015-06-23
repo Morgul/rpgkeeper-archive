@@ -184,7 +184,7 @@ var SocketProvider = function() {
 
             function _connect()
             {
-                self.socket = socketLib.connect(connectString);
+                self.socket = socketLib(connectString);
 
                 // Setup socket.io event handers
                 self.socket.on('connect', onConnected);
@@ -276,7 +276,9 @@ var SocketProvider = function() {
                 socketLib = io;
             } // end if
 
-            var socket = socketLib.connect(connectString + channel);
+            var socket = socketLib(connectString + channel);
+
+            console.log('channel:', connectString + channel);
 
             return new SocketChannel(socket);
         }; // end channel

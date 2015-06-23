@@ -94,7 +94,7 @@ CharacterService.prototype.setCharacter = function(baseChar, systemUrl, callback
     // Get the system character
     var self = this;
 
-    this.socket.channel(this.systemUrl).emit('get_character', baseChar.$id, function(error, sysChar, isNew) {
+    this.socket.channel(this.systemUrl).emit('get_character', baseChar.id, function(error, sysChar, isNew) {
         if(error) {
 
             console.error('Error encountered getting the specified character:', error);

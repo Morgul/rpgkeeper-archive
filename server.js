@@ -36,6 +36,9 @@ var routeUtils = require('./server/routes/utils');
 // Sockets
 var socketMgr = require('./server/sockets/manager');
 
+// Systems
+var sysMan = require('./server/systems/manager');
+
 //----------------------------------------------------------------------------------------------------------------------
 
 // Build the express app
@@ -98,6 +101,9 @@ var server = app.listen(config.listenPort, function()
 
 // Set up socket.io
 socketMgr.registerSocketIO(app, server);
+
+// Set up systems
+sysMan.initialize();
 
 //----------------------------------------------------------------------------------------------------------------------
 

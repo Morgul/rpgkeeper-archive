@@ -1,13 +1,19 @@
 //----------------------------------------------------------------------------------------------------------------------
-// Brief Description of models.js.
+// Models for RPGKeeper
 //
 // @module models.js
 //----------------------------------------------------------------------------------------------------------------------
 
-var om = require('omega-models');
-var fields = om.fields;
-var SimpleBackend = om.backends.Simple;
-var ns = om.namespace('dnd4e').backend(new SimpleBackend({root: './server/db', spaces: 4}));
+var path = require('path');
+
+var trivialdb = require('trivialdb');
+var base62 = require('base62');
+var uuid = require('node-uuid');
+
+//----------------------------------------------------------------------------------------------------------------------
+
+var db = { errors: trivialdb.errors };
+var rootPath = path.join(__dirname, '../../server/db');
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -16,233 +22,155 @@ var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
 
-module.exports = ns.define({
-    Condition: {
-        description: fields.String(),
-        duration: fields.String()
-    },
+// This generates nice, short ids (ex: 'HrILY', '2JjA9s') that are as unique as a uuid.
+function generateID()
+{
+    return base62.encode(new Buffer(uuid.v4(null, [])).readUInt32LE(0));
+} // end generateID
 
-    Roll: {
-        title: fields.String(),
-        roll: fields.String()
-    },
+//----------------------------------------------------------------------------------------------------------------------
+// System models
+//----------------------------------------------------------------------------------------------------------------------
 
-    //------------------------------------------------------------------------------------------------------------------
+db.Class = trivialdb.defineModel('classes', {
+    name: String,
+    description: String,
+    initialHP: { type: Number, default: 0 },
+    hpPerLevel: { type: Number, default: 0 },
 
-    Class: {
-        name: fields.String({ key: true }),
-        description: fields.String(),
-        initialHP: fields.Integer({ default: 0, min: 0 }),
-        hpPerLevel: fields.Integer({ default: 0, min: 0 }),
+    // Distinguishes this as a custom class, if set.
+    owner: String
+}, { rootPath: rootPath, idFunc: generateID, pk: 'name' });
 
-        // Distinguishes this as a custom class, if set.
-        owner: fields.String()
-    },
+db.Feat = trivialdb.defineModel('feats', {
+    name: String,
+    prerequisites: String,
+    description: String,
+    special: String,
 
-    Skill: {
-        name: fields.String({ required: true }),
-        ability: fields.Choice({ choices: abilities, default: 'strength' }),
-        trained: fields.Boolean({ default: false}),
-        armorPenalty: fields.Integer({ default: 0 }),
-        racial: fields.Integer({ default: 0 }),
-        misc: fields.Integer({ default: 0 }),
+    // Distinguishes this as a custom feat, if set.
+    owner: String
+}, { rootPath: rootPath, idFunc: generateID });
 
-        // Calculates the total value of the skill
-        total: function(character)
-        {
-            return character.halfLevel + character.abilityMod(this.ability)
-                + (this.trained ? 5 : 0) + this.racial + this.misc - this.armorPenalty;
-        }
-    },
+db.Power = trivialdb.defineModel('powers', {
+    name: String,
+    flavor: String,
+    level: Number,
+    type: { type: String, choices: powerTypes, default: "At-Will" },
+    kind: { type: String, choices: powerKinds, default: "Attack" },
+    keywords: { type: Array, default: [] },
+    actionType: { type: String, choices: actionType, default: "Standard" },
+    range: String,
+    sections: { type: Array, default: [] },
 
-    Feat: {
-        name: fields.String({ required: true }),
-        prerequisites: fields.String(),
-        description: fields.String(),
-        special: fields.String(),
+    // Distinguishes this as a custom power, if set.
+    owner: String
+}, { rootPath: rootPath, idFunc: generateID });
 
-        // Distinguishes this as a custom feat, if set.
-        owner: fields.String()
-    },
+//----------------------------------------------------------------------------------------------------------------------
+// Character models
+//----------------------------------------------------------------------------------------------------------------------
 
-    FeatReference: {
-        feat: fields.Reference({ model: 'Feat' }),
-        notes: fields.String()
-    },
+db.Character = trivialdb.defineModel('characters', {
+    baseChar: String,
+    conditions: { type: Array, default: [] },
+    skills: { type: Array, default: [] },
+    powers: { type: Array, default: [] },
+    feats: { type: Array, default: [] },
+    rolls: { type: Array, default: [] },
+    notes: { type: String, default: "" },
 
-    Power: {
-        name: fields.String({ required: true }),
-        flavor: fields.String(),
-        level: fields.Integer(),
-        type: fields.Choice({ type: fields.String(), choices: powerTypes, default: "At-Will" }),
-        kind: fields.Choice({ type: fields.String(), choices: powerKinds, default: "Attack" }),
-        keywords: fields.List({ type: fields.String() }),
-        actionType: fields.Choice({ type: fields.String(), choices: actionType, default: "Standard" }),
-        range: fields.String(),
-        sections: fields.List({ type: fields.Dict() }),
+    //-----------------------------------------------------------
+    // Biographic Info
+    //-----------------------------------------------------------
 
-        // Distinguishes this as a custom power, if set.
-        owner: fields.String()
-    },
+    class: String,
+    race: String,
+    size: { type: String, choices: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"], default: "Medium" },
+    level: { type: Number, default: 1 },
+    gender: { type: String, choices: ["Male", "Female", "Other"], default: "Male" },
+    alignment: { type: String, choices: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" },
+    deity: String,
+    languages: { type: Array, default: [] },
 
-    PowerReference: {
-        power: fields.Reference({ model: 'Power' }),
-        maxUses: fields.Integer({ default: 1, min: 1 }),
-        currentUses: fields.Integer({ default: 0, min: 0 }),
-        notes: fields.String(),
-        rolls: fields.List({ type: fields.Dict() })
-    },
+    paragonPath: String,
+    epicDestiny: String,
 
-    //------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------
+    // Abilities
+    //-----------------------------------------------------------
 
-    Character: {
-        baseChar: fields.String({ required: true, key: true }),
-        conditions: fields.List({ type: fields.Reference({ model: 'Condition' }) }),
-        skills: fields.List({ type: fields.Reference({ model: 'Skill' }) }),
-        powers: fields.List({ type: fields.Reference({ model: 'PowerReference' }) }),
-        feats: fields.List({ type: fields.Reference({ model: 'FeatReference' }) }),
-        rolls: fields.List({ type: fields.Reference({ model: 'Roll' }) }),
-        notes: fields.String({ default: "" }),
+    strength: { type: Number, default: 10 },
+    constitution: { type: Number, default: 10 },
+    dexterity: { type: Number, default: 10 },
+    intelligence: { type: Number, default: 10 },
+    wisdom: { type: Number, default: 10 },
+    charisma: { type: Number, default: 10 },
 
-        //-----------------------------------------------------------
-        // Biographic Info
-        //-----------------------------------------------------------
+    //-----------------------------------------------------------
+    // Combat Statistics
+    //-----------------------------------------------------------
 
-        class: fields.Reference({ model: 'Class' }),
-        race: fields.String(),
-        size: fields.Choice({ type: fields.String(), choices: ["Tiny", "Small", "Medium", "Large", "Huge", "Gargantuan"], default: "Medium" }),
-        level: fields.Integer({ default: 1, min: 1 }),
-        halfLevel: fields.Property(function(){ return Math.floor(this.level / 2); }),
-        gender: fields.Choice({ type: fields.String(), choices: ["Male", "Female", "Other"], default: "Male" }),
-        alignment: fields.Choice({ type: fields.String(), choices: ["Lawful Good", "Good", "Unaligned", "Evil", "Chaotic Evil"], default: "Unaligned" }),
-        deity: fields.String(),
-        languages: fields.List({ type: fields.String() }),
+    initiativeFeat: { type: Number, default: 0 },
+    initiativeMisc: { type: Number, default: 0 },
+    speed: { type: Number, default: 0 },
+    
+    //-----------------------------------------------------------
+    // Defenses
+    //-----------------------------------------------------------
 
-        paragonPath: fields.String(),
-        epicDestiny: fields.String(),
+    // Calculate Armor Class
+    armorAbility: { type: String, choices: ['none'].concat(abilities), default: 'none' },
+    armorBonus: { type: Number, default: 0 },
+    armorShieldBonus: { type: Number, default: 0 },
+    armorEnh: { type: Number, default: 0 },
+    armorMisc: { type: Number, default: 0 },
 
-        //-----------------------------------------------------------
-        // Abilities
-        //-----------------------------------------------------------
+    // Calculate Fortitude Defense
+    fortClassBonus: { type: Number, default: 0 },
+    fortEnh: { type: Number, default: 0 },
+    fortMisc: { type: Number, default: 0 },
 
-        // Function to calculate the ability mod from an ability's name
-        abilityMod: function(abilityName)
-        {
-            var ability = this[abilityName] || 0;
-            return Math.floor((ability - 10) / 2);
-        },
+    // Calculate Reflex Defense
+    refClassBonus: { type: Number, default: 0 },
+    refShieldBonus: { type: Number, default: 0 },
+    refEnh: { type: Number, default: 0 },
+    refMisc: { type: Number, default: 0 },
 
-        strength: fields.Integer({ default: 10, min: 0 }),
-        strengthMod: fields.Property(function(){ return this.abilityMod('strength'); }),
+    // Calculate Will Defense
+    willClassBonus: { type: Number, default: 0 },
+    willEnh: { type: Number, default: 0 },
+    willMisc: { type: Number, default: 0 },
 
-        constitution: fields.Integer({ default: 10, min: 0 }),
-        constitutionMod: fields.Property(function(){ return this.abilityMod('constitution'); }),
+    //-----------------------------------------------------------
+    // Resources
+    //-----------------------------------------------------------
 
-        dexterity: fields.Integer({ default: 10, min: 0 }),
-        dexterityMod: fields.Property(function(){ return this.abilityMod('dexterity'); }),
+    miscHitPoints: { type: Number, default: 0 },
+    curHitPoints: { type: Number, default: 0 },
+    tmpHitPoints: { type: Number, default: 0 },
 
-        intelligence: fields.Integer({ default: 10, min: 0 }),
-        intelligenceMod: fields.Property(function(){ return this.abilityMod('intelligence'); }),
+    surgesPerDay: { type: Number, default: 0 },
+    currentSurges: { type: Number, default: 0 },
 
-        wisdom: fields.Integer({ default: 10, min: 0 }),
-        wisdomMod: fields.Property(function(){ return this.abilityMod('wisdom'); }),
+    secondWindAvailable: { type: Boolean, default: true },
 
-        charisma: fields.Integer({ default: 10, min: 0 }),
-        charismaMod: fields.Property(function(){ return this.abilityMod('charisma'); }),
+    actionPoints: { type: Number, default: 0 },
+    powerPoints: { type: Number, default: 0 },
+    experience: { type: Number, default: 0 },
 
-        //-----------------------------------------------------------
-        // Combat Statistics
-        //-----------------------------------------------------------
+    //-----------------------------------------------------------
+    // Currency
+    //-----------------------------------------------------------
 
-        initiative: fields.Property(function(){ return this.halfLevel + this.dexterityMod + this.initiativeMisc + this.initiativeFeat; }),
-        initiativeFeat: fields.Integer({ default: 0 }),
-        initiativeMisc: fields.Integer({ default: 0 }),
-        speed: fields.Integer({ default: 0, min: 0 }),
+    copper: { type: Number, default: 0 },
+    silver: { type: Number, default: 0 },
+    gold: { type: Number, default: 0 },
+    platinum: { type: Number, default: 0 }
+}, { rootPath: rootPath, idFunc: generateID, pk: 'baseChar' });
 
-        //-----------------------------------------------------------
-        // Defenses
-        //-----------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
-        // Calculate Armor Class
-        armorClass: fields.Property(function()
-        {
-            // This lets the UI use 'none' for the case where you don't get your armor bonus
-            var abilityMod = this.armorAbility != 'none' ? this.abilityMod(this.armorAbility) : 0;
-            return 10 + this.halfLevel + abilityMod + this.armorBonus + this.armorShieldBonus + this.armorEnh + this.armorMisc;
-        }),
-        armorAbility: fields.Choice({ choices: ['none'].concat(abilities), default: 'none' }),
-        armorBonus: fields.Integer({ default: 0, min: 0 }),
-        armorShieldBonus: fields.Integer({ default: 0, min: 0 }),
-        armorEnh: fields.Integer({ default: 0 }),
-        armorMisc: fields.Integer({ default: 0 }),
-
-        // Calculate Fortitude Defense
-        fortDef: fields.Property(function()
-        {
-            var abilityMod = Math.max(this.abilityMod('strength'), this.abilityMod('constitution'));
-            return 10 + this.halfLevel + abilityMod + this.fortClassBonus + this.fortEnh + this.fortMisc;
-        }),
-        fortClassBonus: fields.Integer({ default: 0, min: 0 }),
-        fortEnh: fields.Integer({ default: 0 }),
-        fortMisc: fields.Integer({ default: 0 }),
-
-        // Calculate Reflex Defense
-        refDef: fields.Property(function()
-        {
-            var abilityMod = Math.max(this.abilityMod('dexterity'), this.abilityMod('intelligence'));
-            return 10 + this.halfLevel + abilityMod + this.refClassBonus + this.refShieldBonus + this.refEnh + this.refMisc;
-        }),
-        refClassBonus: fields.Integer({ default: 0, min: 0 }),
-        refShieldBonus: fields.Integer({ default: 0, min: 0 }),
-        refEnh: fields.Integer({ default: 0 }),
-        refMisc: fields.Integer({ default: 0 }),
-
-        // Calculate Will Defense
-        willDef: fields.Property(function()
-        {
-            var abilityMod = Math.max(this.abilityMod('wisdom'), this.abilityMod('charisma'));
-            return 10 + this.halfLevel + abilityMod + this.willClassBonus + this.willEnh + this.willMisc;
-        }),
-        willClassBonus: fields.Integer({ default: 0, min: 0 }),
-        willEnh: fields.Integer({ default: 0 }),
-        willMisc: fields.Integer({ default: 0 }),
-
-        //-----------------------------------------------------------
-        // Resources
-        //-----------------------------------------------------------
-
-        maxHitPoints: fields.Property(function()
-        {
-            // This will only work on a populated model!
-            var initialHP = (this.class || {}).initialHP || 0;
-            var hpPerLevel = (this.class || {}).hpPerLevel || 0;
-
-            return initialHP + this.constitution + ((this.level - 1) * hpPerLevel);
-        }),
-        miscHitPoints: fields.Integer({ default: 0, min: 0 }),
-        curHitPoints: fields.Integer({ default: 0, min: 0 }),
-        tmpHitPoints: fields.Integer({ default: 0, min: 0 }),
-        bloodiedValue: fields.Property(function(){ return this.maxHitPoints / 2; }),
-
-        surgesPerDay: fields.Integer({ default: 0, min: 0 }),
-        currentSurges: fields.Integer({ default: 0, min: 0 }),
-        surgeValue: fields.Property(function(){ return this.maxHitPoints / 4; }),
-
-        secondWindAvailable: fields.Boolean({ default: true }),
-
-        actionPoints: fields.Integer({ default: 0, min: 0 }),
-        powerPoints: fields.Integer({ default: 0, min: 0 }),
-        experience: fields.Integer({ default: 0, min: 0 }),
-
-        //-----------------------------------------------------------
-        // Currency
-        //-----------------------------------------------------------
-
-        copper: fields.Integer({ default: 0, min: 0 }),
-        silver: fields.Integer({ default: 0, min: 0 }),
-        gold: fields.Integer({ default: 0, min: 0 }),
-        platinum: fields.Integer({ default: 0, min: 0 })
-    }
-});
+module.exports = db;
 
 //----------------------------------------------------------------------------------------------------------------------
