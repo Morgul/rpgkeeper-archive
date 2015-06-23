@@ -262,14 +262,6 @@ var SocketProvider = function() {
 
         SocketService.prototype.channel = function(channel)
         {
-            function SocketChannel(socket)
-            {
-                this.socket = socket
-            } // end SocketChannel
-
-            SocketChannel.prototype.on = this.on;
-            SocketChannel.prototype.emit = this.emit;
-
             // If we're not using the mock service, we should use socket.io.
             if(!socketLib)
             {
@@ -278,7 +270,13 @@ var SocketProvider = function() {
 
             var socket = socketLib(connectString + channel);
 
-            console.log('channel:', connectString + channel);
+            function SocketChannel(socket)
+            {
+                this.socket = socket
+            } // end SocketChannel
+
+            SocketChannel.prototype.on = this.on;
+            SocketChannel.prototype.emit = this.emit;
 
             return new SocketChannel(socket);
         }; // end channel
