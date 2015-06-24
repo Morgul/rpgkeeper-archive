@@ -175,7 +175,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
             if(result)
             {
                 self.dnd4echar.addFeat(result);
-                self.sysChar.feats.push({ feat: result });
+                self.sysChar.feats.push({ feat: result, notes: result.notes });
                 $socket.channel('/dnd4e').emit("add feat", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
@@ -242,7 +242,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
             if(result)
             {
                 self.dnd4echar.addPower(result);
-                self.sysChar.powers.push({ power: result });
+                self.sysChar.powers.push({ power: result, notes: result.notes });
                 $socket.channel('/dnd4e').emit("add power", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
