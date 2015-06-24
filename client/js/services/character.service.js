@@ -57,6 +57,9 @@ CharacterService.prototype._startSysInterval = function() {
         // Detect changes in the system character
         if(angular.toJson(system) !== angular.toJson(old)) {
 
+            // Clean the system char when we save.
+            system = angular.fromJson(angular.toJson(system));
+
             console.log('System Char Changes!');
             self.socket.channel(self.systemUrl).emit("update_character", system, function(error, character)
             {

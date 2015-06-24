@@ -50,7 +50,7 @@ db.Feat = trivialdb.defineModel('feats', {
 
     // Distinguishes this as a custom feat, if set.
     owner: String
-}, { rootPath: rootPath, idFunc: generateID });
+}, { rootPath: rootPath, idFunc: generateID, pk: 'name' });
 
 db.Power = trivialdb.defineModel('powers', {
     name: String,
@@ -65,7 +65,7 @@ db.Power = trivialdb.defineModel('powers', {
 
     // Distinguishes this as a custom power, if set.
     owner: String
-}, { rootPath: rootPath, idFunc: generateID });
+}, { rootPath: rootPath, idFunc: generateID, pk: 'name' });
 
 //----------------------------------------------------------------------------------------------------------------------
 // Character models

@@ -97,6 +97,68 @@ function populateChar(char)
         });
 } // end populateChar
 
+function depopulateChar(char)
+{
+    // Depopulate fields
+    char.class = char.class.name;
+
+    _.each(char.powers, function(power)
+    {
+        if(_.isObject(power.power))
+        {
+            power.power = power.power.name;
+        } // end if
+    });
+
+    _.each(char.feats, function(feat)
+    {
+        if(_.isObject(feat.feat))
+        {
+            feat.feat = feat.feat.name;
+        } // end if
+    });
+
+    // Ensure everything is an int
+    char.level = parseInt(char.level) || 0;
+    char.strength = parseInt(char.strength) || 0;
+    char.constitution = parseInt(char.constitution) || 0;
+    char.dexterity = parseInt(char.dexterity) || 0;
+    char.intelligence = parseInt(char.intelligence) || 0;
+    char.wisdom = parseInt(char.wisdom) || 0;
+    char.charisma = parseInt(char.charisma) || 0;
+    char.initiativeFeat = parseInt(char.initiativeFeat) || 0;
+    char.initiativeMisc = parseInt(char.initiativeMisc) || 0;
+    char.speed = parseInt(char.speed) || 0;
+    char.armorBonus = parseInt(char.armorBonus) || 0;
+    char.armorShieldBonus = parseInt(char.armorShieldBonus) || 0;
+    char.armorEnh = parseInt(char.armorEnh) || 0;
+    char.armorMisc = parseInt(char.armorMisc) || 0;
+    char.fortClassBonus = parseInt(char.fortClassBonus) || 0;
+    char.fortEnh = parseInt(char.fortEnh) || 0;
+    char.fortMisc = parseInt(char.fortMisc) || 0;
+    char.refClassBonus = parseInt(char.refClassBonus) || 0;
+    char.refShieldBonus = parseInt(char.refShieldBonus) || 0;
+    char.refEnh = parseInt(char.refEnh) || 0;
+    char.refMisc = parseInt(char.refMisc) || 0;
+    char.willClassBonus = parseInt(char.willClassBonus) || 0;
+    char.willEnh = parseInt(char.willEnh) || 0;
+    char.willMisc = parseInt(char.willMisc) || 0;
+    char.miscHitPoints = parseInt(char.miscHitPoints) || 0;
+    char.curHitPoints = parseInt(char.curHitPoints) || 0;
+    char.tmpHitPoints = parseInt(char.tmpHitPoints) || 0;
+    char.surgesPerDay = parseInt(char.surgesPerDay) || 0;
+    char.currentSurges = parseInt(char.currentSurges) || 0;
+    char.actionPoints = parseInt(char.actionPoints) || 0;
+    char.powerPoints = parseInt(char.powerPoints) || 0;
+    char.experience = parseInt(char.experience) || 0;
+    char.copper = parseInt(char.copper) || 0;
+    char.silver = parseInt(char.silver) || 0;
+    char.gold = parseInt(char.gold) || 0;
+    char.platinum = parseInt(char.platinum) || 0;
+
+    return Promise.resolve(char);
+} // end depopulateChar
+
 //----------------------------------------------------------------------------------------------------------------------
 // Socket Handling
 //----------------------------------------------------------------------------------------------------------------------
@@ -168,7 +230,6 @@ socketMan.loaded
                         return populateChar(char)
                             .then(function(char)
                             {
-                                console.log('powers:', char.powers);
                                 respond(null, char, newChar);
                             });
                     })
@@ -177,6 +238,25 @@ socketMan.loaded
                         var errorMsg = "Error while getting character:";
                         logger.error(errorMsg, logger.dump(error));
                         respond({ type: 'danger', message: errorMsg + ' ' + error.stack || error.message });
+                    });
+            });
+
+            socket.on('update_character', function(update, respond)
+            {
+                models.Character.get(update.id)
+                    .then(function(char)
+                    {
+                        _.assign(char, update);
+
+                        return depopulateChar(char);
+                    })
+                    .then(function(char)
+                    {
+                        return char.save();
+                    })
+                    .then(function(char)
+                    {
+                        respond(null, char);
                     });
             });
 
@@ -195,6 +275,137 @@ socketMan.loaded
                     .catch(function(error)
                     {
                         respond(error);
+                    });
+            });
+
+            socket.on('add class', function(classDef, charID, respond)
+            {
+                if(!classDef.global)
+                {
+                    classDef.owner = socket.user;
+                } // end if
+
+                var classInst = new models.Class(classDef);
+                classInst.save()
+                    .then(function()
+                    {
+                        return models.Character.get(charID)
+                            .then(function(char)
+                            {
+                                char.class = classInst.id;
+                                return char.save();
+                            });
+                    })
+                    .then(function(char)
+                    {
+                        respond(null, char);
+                    });
+            });
+
+            socket.on('update class', function(classDef, respond)
+            {
+                models.Class.get(classDef.id)
+                    .then(function(dndClass)
+                    {
+                        _.assign(dndClass, classDef);
+
+                        return dndClass.save();
+                    })
+                    .then(function(dndClass)
+                    {
+                        respond(null, dndClass);
+                    });
+            });
+
+            //------------------------------------------------------------------------------------------------------------------
+            // Feats
+            //------------------------------------------------------------------------------------------------------------------
+
+            socket.on('get feats', function(respond)
+            {
+                //TODO: Limit this to either feats where `owner` is null, or is the email address of our current user.
+                models.Feat.filter()
+                    .then(function(feats)
+                    {
+                        respond(null, feats);
+                    });
+            });
+
+            socket.on('add feat', function(featDef, charID, respond)
+            {
+                if(!featDef.global)
+                {
+                    featDef.owner = socket.user;
+                } // end if
+
+                // Pull out notes
+                delete featDef.notes;
+
+                var featInst = new models.Feat(featDef);
+                featInst.save()
+                    .then(function()
+                    {
+                        respond();
+                    });
+            });
+
+            socket.on('update feat', function(feat, respond)
+            {
+                models.Feat.get(feat.name)
+                    .then(function(featInst)
+                    {
+                        _.assign(featInst, feat);
+                        return featInst.save();
+                    })
+                    .then(function(featInst)
+                    {
+                        respond(null, featInst);
+                    });
+            });
+
+            //------------------------------------------------------------------------------------------------------------------
+            // Powers
+            //------------------------------------------------------------------------------------------------------------------
+
+            socket.on('get powers', function(respond)
+            {
+                //TODO: Limit this to either powers where `owner` is null, or is the email address of our current user.
+                models.Power.filter()
+                    .then(function(powers)
+                    {
+                        respond(null, powers);
+                    });
+            });
+
+            socket.on('add power', function(powerDef, charID, respond)
+            {
+                if(!powerDef.global)
+                {
+                    powerDef.owner = socket.user;
+                } // end if
+
+                // Pull out notes
+                delete powerDef.notes;
+
+                var powerInst = new models.Power(powerDef);
+                powerInst.save()
+                    .then(function()
+                    {
+                        respond();
+                    });
+            });
+
+            socket.on('update power', function(power, respond)
+            {
+                models.Power.get(power.name)
+                    .then(function(powerInst)
+                    {
+                        _.assign(powerInst, power);
+                        return powerInst.save();
+                    })
+                    .then(function(powerInst)
+                    {
+                        respond(null, powerInst);
                     });
             });
         });
