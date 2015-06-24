@@ -146,7 +146,7 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
         {
             if(result)
             {
-                self.sysChar().skills.push(result);
+                self.sysChar.skills.push(result);
                 $socket.channel('/dnd4e').emit("add skill", result, $character.system.baseChar, function(error, character)
                 {
                     if(error) {
