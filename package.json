@@ -1,10 +1,9 @@
 {
   "name": "rpgkeeper",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "A website for managing your digital character sheets.",
   "main": "server.js",
   "dependencies": {
-    "async": "~0.2.9",
     "base62": "^1.1.0",
     "bluebird": "^2.9.30",
     "body-parser": "^1.13.1",
@@ -14,8 +13,6 @@
     "lodash": "latest",
     "node-uuid": "^1.4.3",
     "omega-logger": "^0.6.0",
-    "omega-models": "git+https://github.com/Morgul/omega-models.git",
-    "omega-wf": "latest",
     "passport": "^0.2.2",
     "passport-persona": "^0.1.7",
     "socket.io": "^1.3.5",
@@ -35,7 +32,6 @@
   },
   "repository": "",
   "keywords": [
-    "omega-wf",
     "rpg",
     "character"
   ],
