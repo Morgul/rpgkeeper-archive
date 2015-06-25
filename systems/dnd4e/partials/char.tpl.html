@@ -127,23 +127,23 @@
                             <div class="panel panel-default defenses">
                                 <div class="stat-block form-inline">
                                     <input type="text" class="form-control score clickable make-popover" placeholder="10" value="{{ pageCtrl.armorClass }}"
-                                           popover-template="/systems/dnd4e/partials/popovers/ac.html" popover-title="Armor Class" readonly>
+                                           popover-template="'/systems/dnd4e/partials/popovers/ac.html'" popover-title="Armor Class" readonly>
                                     <label>Armor Class</label>
                                 </div>
                                 <div class="stat-block form-inline">
                                     <input type="text" class="form-control score clickable" placeholder="10" value="{{ pageCtrl.fortDef }}"
-                                           popover-template="/systems/dnd4e/partials/popovers/fort.html" popover-title="Fortitude Defense" readonly>
+                                           popover-template="'/systems/dnd4e/partials/popovers/fort.html'" popover-title="Fortitude Defense" readonly>
                                     <label>Fortitude</label>
                                 </div>
                                 <hr>
                                 <div class="stat-block form-inline">
                                     <input type="text" class="form-control score clickable" placeholder="10" value="{{ pageCtrl.refDef }}"
-                                           popover-template="/systems/dnd4e/partials/popovers/ref.html" popover-title="Reflex Defense" readonly>
+                                           popover-template="'/systems/dnd4e/partials/popovers/ref.html'" popover-title="Reflex Defense" readonly>
                                     <label>Reflex</label>
                                 </div>
                                 <div class="stat-block form-inline">
                                     <input type="text" class="form-control score clickable" placeholder="10" value="{{ pageCtrl.willDef }}"
-                                           popover-template="/systems/dnd4e/partials/popovers/will.html" popover-title="Will Defense" readonly>
+                                           popover-template="'/systems/dnd4e/partials/popovers/will.html'" popover-title="Will Defense" readonly>
                                     <label>Will</label>
                                 </div>
                                 <hr>
@@ -158,7 +158,7 @@
                                 <hr>
                                 <div class="stat-block form-inline">
                                     <input type="text" class="form-control score clickable" placeholder="10" value="{{ pageCtrl.initiative }}"
-                                           popover-template="/systems/dnd4e/partials/popovers/initiative.html" popover-title="Initiative" readonly>
+                                           popover-template="'/systems/dnd4e/partials/popovers/initiative.html'" popover-title="Initiative" readonly>
                                     <label class="muted">Initiative</label>
                                     <roll-button class="btn-sm pull-right" roll-title="'Initiative'" roll="{ roll: '1d20 + [init]' }" context="{ init: pageCtrl.initiative }"></roll-button>
                                 </div>
