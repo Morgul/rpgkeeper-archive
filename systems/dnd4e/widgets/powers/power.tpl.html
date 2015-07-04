@@ -3,8 +3,8 @@
         <span  ng-repeat="i in range(powerRef().maxUses) track by $index">
             <i title="Indicates if a power has been used." ng-if="(powerRef().power || powerRef()).type != 'At-Will'" class="{{ getUseIcon(powerRef(), $index) }}" ng-click="handleUse(powerRef(), $index, $event)"></i>
         </span>
-        <button ng-if="!removable" type="button" title="Remove this power" class="close" aria-hidden="true" ng-click="removePower(powerRef(), $event)">&times;</button>
-        <button ng-if="!editable" type="button" title="Edit this power" class="close edit" aria-hidden="true" ng-click="editPowerRef(powerRef(), $event)"><i class="icon-edit"></i></button>
+        <button ng-if="removable" type="button" title="Remove this power" class="close" aria-hidden="true" ng-click="removePower(powerRef(), $event)">&times;</button>
+        <button ng-if="editable" type="button" title="Edit this power" class="close edit" aria-hidden="true" ng-click="editPowerRef(powerRef(), $event)"><i class="icon-edit"></i></button>
         <span class="type-level" ng-switch="(powerRef().power || powerRef()).kind">{{ (powerRef().power || powerRef()).kind }}<span ng-if="(powerRef().power || powerRef()).level"> {{ (powerRef().power || powerRef()).level }}</span></span>
         <b>{{ (powerRef().power || powerRef()).name }}</b>
     </h4>

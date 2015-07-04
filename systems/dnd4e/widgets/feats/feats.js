@@ -11,17 +11,11 @@ function FeatController($scope, $rootScope, $socket, $character, $alerts, $modal
 
     $scope.collapse = angular.copy($scope.toggle);
 
-    // Only disable this if it's explicitly set to false.
-    if($scope.editable != false)
-    {
-        $scope.editable = true;
-    } // end if
+    // Only disable this if it's explicitly set to 'false'.
+    $scope.editable = $scope._editable !== 'false';
 
-    // Only disable this if it's explicitly set to false.
-    if($scope.removable != false)
-    {
-        $scope.removeable = true;
-    } // end if
+    // Only disable this if it's explicitly set to 'false'.
+    $scope.removable = $scope._removable !== 'false';
 
     $scope.collapseClick = function()
     {
@@ -94,8 +88,8 @@ module.directive('feat', function()
         scope: {
             toggle: "=",
             featRef: "&",
-            editable: "@",
-            removable: "@"
+            _editable: "@editable",
+            _removable: "@removable"
         },
         templateUrl: '/systems/dnd4e/widgets/feats/feat.html',
         controller: 'FeatController',

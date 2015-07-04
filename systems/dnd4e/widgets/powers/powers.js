@@ -11,17 +11,11 @@ function PowerController($scope, $rootScope, $socket, $character, $alerts, $moda
 
     $scope.collapse = angular.copy($scope.toggle);
 
-    // Only disable this if it's explicitly set to false.
-    if($scope.editable != false)
-    {
-        $scope.editable = true;
-    } // end if
+    // Only disable this if it's explicitly set to 'false'.
+    $scope.editable = $scope._editable !== 'false';
 
-    // Only disable this if it's explicitly set to false.
-    if($scope.removable != false)
-    {
-        $scope.removeable = true;
-    } // end if
+    // Only disable this if it's explicitly set to 'false'.
+    $scope.removable = $scope._removable !== 'false';
 
     function updatePowerRef(powerRef)
     {
@@ -178,8 +172,8 @@ module.directive('power', function()
         scope: {
             toggle: "=",
             powerRef: "&",
-            editable: "@",
-            removable: "@"
+            _editable: "@editable",
+            _removable: "@removable"
         },
         templateUrl: '/systems/dnd4e/widgets/powers/power.html',
         controller: 'PowerController',

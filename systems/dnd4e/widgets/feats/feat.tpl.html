@@ -1,7 +1,7 @@
 <div class="feat">
     <h4 class="title" ng-click="collapseClick()">
-        <button ng-if="!removable" type="button" title="Remove this feat" class="close" aria-hidden="true" ng-click="removeFeat(featRef(), $event)">&times;</button>
-        <button ng-if="!editable" type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef(), $event)"><i class="icon-edit"></i></button>
+        <button ng-if="removable" type="button" title="Remove this feat" class="close" aria-hidden="true" ng-click="removeFeat(featRef(), $event)">&times;</button>
+        <button ng-if="editable" type="button" title="Edit this feat" class="close edit" aria-hidden="true" ng-click="editFeatRef(featRef(), $event)"><i class="icon-edit"></i></button>
         {{ (featRef().feat || featRef()).name }}
     </h4>
     <div collapse="collapse">
