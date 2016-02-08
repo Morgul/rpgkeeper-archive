@@ -17,9 +17,9 @@ module.exports = {
 
     // Authentication
     //audience: "http://rpgkeeper.skewedaspect.com"
-    audience: "http://localhost:8081",
-    //audience: "https://rpgk2.skewedaspect.com"
-    checkAudience: false
+    //audience: "http://localhost:8081",
+    audience: "https://rpgk2.skewedaspect.com"
+    //checkAudience: false
 }; // end exports
 
 //----------------------------------------------------------------------------------------------------------------------
