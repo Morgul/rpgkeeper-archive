@@ -193,6 +193,7 @@ module.controller('EditPowerModalCtrl', function($scope, $dnd4echar, $modalInsta
 
 module.controller('EditPowerRefModalCtrl', function($scope, $modalInstance, powerRef, editPower)
 {
+    powerRef.rolls = powerRef.rolls || [];
     $scope.powerRef = powerRef;
 
     $scope.edit = function(power, event)
