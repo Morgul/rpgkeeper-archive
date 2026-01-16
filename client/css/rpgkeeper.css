@@ -48,6 +48,11 @@ select.tall {
 .mono {
   font-family: monospace;
 }
+.list-group-item .btn-link:hover,
+.list-group-item .btn-link:focus {
+  text-decoration: none;
+  color: #f0ad4e !important;
+}
 
 /*!
  * Bootstrap v3.0.0

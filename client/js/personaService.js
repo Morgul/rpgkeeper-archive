@@ -14,21 +14,27 @@ function PersonaServiceFactory($http, $location, $timeout)
         this._getUser()
             .then(function()
             {
-                // Register for the Persona events
-                navigator.id.watch({
-                    loggedInUser: self.email,
-                    onlogin: self._onLogIn.bind(self),
-                    onlogout: self._onLogOut.bind(self)
-                });
+                // Register for the Persona events (if Persona is available)
+                if(navigator.id)
+                {
+                    navigator.id.watch({
+                        loggedInUser: self.email,
+                        onlogin: self._onLogIn.bind(self),
+                        onlogout: self._onLogOut.bind(self)
+                    });
+                }
             })
             .catch(function()
             {
-                // Register for the Persona events
-                navigator.id.watch({
-                    loggedInUser: self.email,
-                    onlogin: self._onLogIn.bind(self),
-                    onlogout: self._onLogOut.bind(self)
-                });
+                // Register for the Persona events (if Persona is available)
+                if(navigator.id)
+                {
+                    navigator.id.watch({
+                        loggedInUser: self.email,
+                        onlogin: self._onLogIn.bind(self),
+                        onlogout: self._onLogOut.bind(self)
+                    });
+                }
             });
 	} // end PersonaService
 
@@ -88,7 +94,7 @@ function PersonaServiceFactory($http, $location, $timeout)
 		// Easy form of a safe $apply.
 		$timeout(function()
 		{
-			navigator.id.request();
+			if(navigator.id) { navigator.id.request(); }
 		});
 	}; // end signin
 
@@ -97,7 +103,7 @@ function PersonaServiceFactory($http, $location, $timeout)
 		// Easy form of a safe $apply.
 		$timeout(function()
 		{
-			navigator.id.logout();
+			if(navigator.id) { navigator.id.logout(); }
 		});
 	}; // end signout
 

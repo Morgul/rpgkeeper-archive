@@ -202,6 +202,35 @@
                 } // end if
             }); // end $scope.emit
         }; // end toggleFavorite
+
+        $scope.changeThumbnail = function(character, $event)
+        {
+            if($event)
+            {
+                $event.stopPropagation();
+                $event.preventDefault();
+            } // end if
+
+            Dropbox.choose({
+                linkType: "preview",
+                extensions: ["images"],
+                success: function(files)
+                {
+                    $scope.$apply(function()
+                    {
+                        var link = files[0].link.replace('https://www.', 'https://dl.');
+                        character.thumbnail = link;
+                        $socket.emit('update_character', character, function(error)
+                        {
+                            if(error)
+                            {
+                                $scope.alerts.push(error);
+                            } // end if
+                        });
+                    });
+                } // end success
+            });
+        }; // end changeThumbnail
     });
 
     //------------------------------------------------------------------------------------------------------------------
@@ -269,6 +298,12 @@
 
         $scope.save = function()
         {
+            // Use portrait as thumbnail fallback
+            if($scope.newchar.portrait && !$scope.newchar.thumbnail)
+            {
+                $scope.newchar.thumbnail = $scope.newchar.portrait;
+            }
+
             $socket.emit('new_character', $scope.newchar, function(error, character)
             {
                 $modalInstance.close();
@@ -287,7 +322,7 @@
 
         }; // end save
 
-        $scope.chooseDropboxImage = function()
+        $scope.choosePortrait = function()
         {
             Dropbox.choose({
                 extensions: ["images"],
@@ -295,16 +330,27 @@
                 {
                     $scope.$apply(function()
                     {
-                        // This is a little obnoxious. Dropbox does not support non-expiring direct links from their
-                        // chooser api, however, any file in dropbox can be directly linked to. The solution? Rewrite
-                        // the url. Thankfully their 'preview' url is almost exactly the same format as url we need.
                         var link = files[0].link.replace('https://www.', 'https://dl.');
-                        $scope.newchar.thumbnail = link;
                         $scope.newchar.portrait = link;
                     });
                 } // end success
             });
-        }; // end chooseDropboxImage
+        }; // end choosePortrait
+
+        $scope.chooseThumbnail = function()
+        {
+            Dropbox.choose({
+                extensions: ["images"],
+                success: function(files)
+                {
+                    $scope.$apply(function()
+                    {
+                        var link = files[0].link.replace('https://www.', 'https://dl.');
+                        $scope.newchar.thumbnail = link;
+                    });
+                } // end success
+            });
+        }; // end chooseThumbnail
     });
 
     //------------------------------------------------------------------------------------------------------------------
