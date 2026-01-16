@@ -152,16 +152,17 @@ app.sockets.on('connection', function(socket)
 
     socket.on('update_character', function(character, callback)
     {
-        var charID = character.$id;
+        var charID = character.$id || character.id;
         //-----------------------------------------------------------------
         // Massage the incoming character into something we can use.
         //-----------------------------------------------------------------
 
         // Can't have an _id field
         delete character.$id;
+        delete character.id;
         delete character.system;
 
-        models.BaseCharacter.findOne({ $id: character.$id }, function(error, charInst)
+        models.BaseCharacter.findOne({ $id: charID }, function(error, charInst)
         {
             _.assign(charInst, character);
 

@@ -1,0 +1,15 @@
+<div class="input-group counter-widget">
+    <span class="input-group-addon"><b>{{ counter.name }}:</b> {{ counter.value }}</span>
+    <input type="number" class="form-control" placeholder="Number..." ng-model="modifier">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" title="Add to..." ng-click="add()">
+            <i class="icon-plus"></i>
+        </button>
+        <button class="btn btn-default" type="button" title="Subtract from..." ng-click="sub()">
+            <i class="icon-minus"></i>
+        </button>
+        <button class="btn btn-default" type="button" title="Set to..." ng-click="set()">
+            <i class="icon-step-forward"></i>
+        </button>
+    </span>
+</div>

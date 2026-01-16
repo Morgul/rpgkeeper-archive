@@ -8,6 +8,7 @@ window.app = angular.module("rpgkeeper", [
         'ngRoute',
         'ngResource',
         'ui.bootstrap',
+        'ui.codemirror',
         'ui.ngTags',
         'monospaced.elastic',
         'rpgkeeper.controllers',

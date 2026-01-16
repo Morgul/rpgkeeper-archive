@@ -1,0 +1,70 @@
+<div id="summary">
+    <div class="stats-row">
+        <img class="img-thumbnail visible-md visible-lg" ng-attr-src="{{ pageCtrl.baseChar.portrait || 'http://placehold.it/800x1200' }}" width="300px" height="445px">
+        <div class="middle-column">
+            <!-- Stats -->
+            <div id="summary-stats" class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="icon-shield"></i> Stats</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="stat in favStats">
+                        <b>{{ stat.name }}:</b>
+                        {{ stat.value }}
+                    </div>
+
+                    <!-- When we lack stats :( -->
+                    <h4 ng-if="favStats.length == 0" class="text-center">No Stats</h4>
+                </div>
+            </div>
+
+            <!-- Counters -->
+            <div id="summary-counters" class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="icon-bar-chart"></i> Counters</h4>
+                </div>
+                <div class="panel-body">
+                    <generic-counter counter="counter" change="saveChar" ng-repeat="counter in favCounters"></generic-counter>
+                    <h4 ng-if="favCounters.length == 0" class="text-center" style="margin: 0">No Counters</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rolls -->
+        <div id="summary-rolls" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><i class="icon-random"></i> Rolls</h4>
+            </div>
+            <div class="panel-body">
+                <generic-roll name="roll.name" expression="roll.roll" context="statsObj" ng-repeat="roll in favRolls"></generic-roll>
+                <h4 ng-if="favRolls.length == 0" class="text-center" style="margin: 0">No Rolls</h4>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default notes-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title"><i class="icon-file-alt"></i> Notes</h4>
+        </div>
+        <div class="panel-body">
+            <tabset class="tabs-left notes-tabs">
+                <tab>
+                    <tab-heading>
+                        <i class="icon-bolt"></i> Quick Notes
+                    </tab-heading>
+                    <div class="form-group quick-notes">
+                        <textarea class="form-control" ng-model="sysChar.quickNotes" ng-change="saveChar()"></textarea>
+                        <p class="help-block pull-right">
+                            This is auto-saved one second after you stop typing.
+                        </p>
+                    </div>
+                </tab>
+                <tab ng-repeat="page in sysChar.notes | filter:{ favorite: true }">
+                    <tab-heading>
+                        <i class="icon-file-alt"></i> {{ page.name }}
+                    </tab-heading>
+                    <div ng-if="!editing" ng-bind-html="page.content | markdown"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

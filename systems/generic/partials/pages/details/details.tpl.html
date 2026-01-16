@@ -1,0 +1,9 @@
+<div id="details" ng-controller="GenericDetailsController">
+    <div style="margin-bottom: 10px;">
+        <button class="btn btn-primary" ng-model="editMode" btn-checkbox>
+            <i class="icon-edit"></i>
+            Edit Mode
+        </button>
+    </div>
+    <div ng-include="'/systems/generic/partials/pages/details/' + template"></div>
+</div>

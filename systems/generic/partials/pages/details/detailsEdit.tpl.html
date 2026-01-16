@@ -1,0 +1,120 @@
+<div class="row-flex">
+    <div class="col-half">
+        <div class="panel panel-default" style="width: 100%">
+            <div class="panel-heading clearfix">
+                <button class="btn btn-primary btn-sm pull-right" ng-click="addStat()"><i class="icon-plus"></i> Add</button>
+                <h4 style="margin: 0; line-height: 30px"><i class="icon-shield"></i> Stats</h4>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Favorite</th>
+                    <th>Delete</th>
+                </tr>
+                <tr ng-repeat="stat in sysChar.stats">
+                    <td>
+                        <input id="stat-name-{{ $index }}" type="text" class="form-control" ng-model="stat.name" ng-change="saveChar()">
+                    </td>
+                    <td>
+                        <input id="stat-value-{{ $index }}" type="number" class="form-control" ng-model="stat.value" ng-change="saveChar()">
+                    </td>
+                    <td>
+                        <button class="btn btn-default btn-block btn-fav"
+                                ng-model="stat.favorite"
+                                ng-change="saveChar()"
+                                title="Favorite"
+                                btn-checkbox>
+                            <i class="icon-star"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-block"
+                                title="Delete"
+                                ng-click="removeStat($index)">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-half">
+        <div class="panel panel-default" style="width: 100%">
+            <div class="panel-heading clearfix">
+                <button class="btn btn-primary btn-sm pull-right" ng-click="addRoll()"><i class="icon-plus"></i> Add</button>
+                <h4 style="margin: 0; line-height: 30px"><i class="icon-random"></i> Rolls</h4>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Roll</th>
+                    <th>Favorite</th>
+                    <th>Delete</th>
+                </tr>
+                <tr ng-repeat="roll in sysChar.rolls">
+                    <td>
+                        <input id="roll-name-{{ $index }}" type="text" class="form-control" ng-model="roll.name" ng-change="saveChar()">
+                    </td>
+                    <td>
+                        <textarea id="roll-value-{{ $index }}" rows="2" class="form-control" ng-model="roll.roll" ng-change="saveChar()"></textarea>
+                    </td>
+                    <td>
+                        <button class="btn btn-default btn-block btn-fav"
+                                ng-model="roll.favorite"
+                                ng-change="saveChar()"
+                                title="Favorite"
+                                btn-checkbox>
+                            <i class="icon-star"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-block"
+                                title="Delete"
+                                ng-click="removeRoll($index)">
+                            <i class="icon-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <button class="btn btn-primary btn-sm pull-right" ng-click="addCounter()"><i class="icon-plus"></i> Add</button>
+        <h4 style="margin: 0; line-height: 30px"><i class="icon-bar-chart"></i> Counters</h4>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Favorite</th>
+            <th>Delete</th>
+        </tr>
+        <tr ng-repeat="counter in sysChar.counters">
+            <td>
+                <input id="counter-name-{{ $index }}" type="text" class="form-control" ng-model="counter.name" ng-change="saveChar()">
+            </td>
+            <td>
+                <input id="counter-value-{{ $index }}" type="number" class="form-control" ng-model="counter.value" ng-change="saveChar()">
+            </td>
+            <td>
+                <button class="btn btn-default btn-block btn-fav"
+                        ng-model="counter.favorite"
+                        ng-change="saveChar()"
+                        title="Favorite"
+                        btn-checkbox>
+                    <i class="icon-star"></i>
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-danger btn-block"
+                        title="Delete"
+                        ng-click="removeCounter($index)">
+                    <i class="icon-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

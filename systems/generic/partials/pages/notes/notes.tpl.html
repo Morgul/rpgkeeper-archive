@@ -1,0 +1,51 @@
+<div class="panel panel-default notes-panel" ng-controller="GenericNotesController">
+    <div class="panel-heading clearfix">
+        <div class="btn-toolbar pull-right">
+            <button ng-hide="isNew" class="btn btn-default" title="Favorite" ng-click="favorite()" ng-class="{ active: isFavorite() }">
+                <i class="icon-star" ng-class="{ 'text-primary': isFavorite() }"></i> Favorite
+            </button>
+            <button ng-hide="editing || isNew" class="btn btn-primary" title="Edit" ng-click="edit()"><i class="icon-edit"></i> Edit</button>
+            <button ng-show="editing || isNew" class="btn btn-success" title="Save" ng-click="save()"><i class="icon-save"></i> Save</button>
+            <button ng-show="editing && !isNew" class="btn btn-default" title="Cancel" ng-click="cancel()"><i class="icon-undo"></i> Cancel</button>
+        </div>
+        <h3 style="margin: 0; line-height: 35px"><i class="icon-file-alt"></i> Character Notes</h3>
+    </div>
+    <div class="panel-body">
+        <tabset class="tabs-left notes-tabs">
+            <tab select="initTab($index, page)" ng-repeat="page in sysChar.notes" active="page.active">
+                <tab-heading>
+                    <button type="button" class="close" aria-hidden="true" ng-click="delete($index, $event)">&times;</button>
+                    <i class="icon-file-alt"></i> {{ page.name }}
+                </tab-heading>
+
+                <!-- Not editing -->
+                <div ng-if="!editing" ng-bind-html="page.content | markdown"></div>
+
+                <!-- If we're editing -->
+                <div ng-show="editing">
+                    <div class="form-group">
+                        <label for="title">Name</label>
+                        <input type="text" class="form-control" id="title" placeholder="Page name..." ng-model="editPage.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <div id="content" ng-class="'cm-editor form-control'" ui-codemirror="editor.options" ui-refresh="editor.refresh" ng-model="editPage.content"></div>
+                        <p class="help-block pull-right">You may use <a href="https://help.github.com/articles/markdown-basics">markdown</a> to write your notes page.</p>
+                    </div>
+                </div>
+            </tab>
+            <tab select="newPage()">
+                <tab-heading><i class="icon-asterisk"></i> New Page</tab-heading>
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <input type="text" class="form-control" id="title" placeholder="Page name..." ng-model="newPageInst.name">
+                </div>
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <div id="content" ng-class="'cm-editor form-control'" ui-codemirror="editor.options" ui-refresh="editor.refresh" ng-model="newPageInst.content"></div>
+                    <p class="help-block pull-right">You may use <a href="https://help.github.com/articles/markdown-basics">markdown</a> to write your notes page.</p>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>

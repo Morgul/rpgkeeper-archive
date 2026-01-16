@@ -1,0 +1,50 @@
+{
+    "dcbj5": {
+        "baseChar": "dcbj5",
+        "counters": [
+            {
+                "name": "Fate Points",
+                "value": 0,
+                "favorite": true
+            }
+        ],
+        "stats": [
+            {
+                "name": "Strength",
+                "value": 10,
+                "favorite": true
+            },
+            {
+                "name": "Fear",
+                "value": 20,
+                "favorite": true
+            },
+            {
+                "name": "Cunning",
+                "value": -1000,
+                "favorite": true
+            },
+            {
+                "name": "Luck",
+                "value": -5,
+                "favorite": true
+            }
+        ],
+        "rolls": [
+            {
+                "name": "Run Away",
+                "roll": "1d20 + 4",
+                "favorite": true
+            }
+        ],
+        "notes": [
+            {
+                "name": "Some Test Page",
+                "active": true,
+                "favorite": true,
+                "content": "# This is a title\n\nThis is also markdown! And notes!"
+            }
+        ],
+        "quickNotes": ""
+    }
+}

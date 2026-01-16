@@ -1,0 +1,41 @@
+<div class="stats-row">
+    <div class="middle-column">
+        <!-- Stats -->
+        <div id="summary-stats" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><i class="icon-shield"></i> Stats</h4>
+            </div>
+            <div class="panel-body">
+                <div ng-repeat="stat in sysChar.stats">
+                    <b>{{ stat.name }}:</b>
+                    {{ stat.value }}
+                </div>
+
+                <!-- When we lack stats :( -->
+                <h4 ng-if="sysChar.stats.length == 0" class="text-center">No Stats</h4>
+            </div>
+        </div>
+
+        <!-- Counters -->
+        <div id="summary-counters" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><i class="icon-bar-chart"></i> Counters</h4>
+            </div>
+            <div class="panel-body">
+                <generic-counter counter="counter" change="saveChar" ng-repeat="counter in sysChar.counters"></generic-counter>
+                <h4 ng-if="sysChar.counters.length == 0" class="text-center" style="margin: 0">No Counters</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rolls -->
+    <div id="summary-rolls" class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><i class="icon-random"></i> Rolls</h4>
+        </div>
+        <div class="panel-body">
+            <generic-roll name="roll.name" expression="roll.roll" context="statsObj" ng-repeat="roll in sysChar.rolls"></generic-roll>
+            <h4 ng-if="sysChar.rolls.length == 0" class="text-center" style="margin: 0">No Rolls</h4>
+        </div>
+    </div>
+</div>

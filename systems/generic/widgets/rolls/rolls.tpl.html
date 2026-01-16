@@ -1,0 +1,19 @@
+<div class="generic-roll input-group">
+    <span ng-if="!value" class="input-group-addon"></span>
+    <span ng-if="value" class="input-group-addon roll-result" ng-click="toggleTooltip()">
+        <button type="button" class="close" aria-label="Close" ng-click="clear(); $event.stopPropagation();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ value }}
+        <div ng-if="showTooltip" class="roll-tooltip tooltip left fade in">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-inner">{{ results }}</div>
+        </div>
+    </span>
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="roll()">
+            <span class="icon-dice"></span>
+            {{ name || 'Roll' }}
+        </button>
+    </span>
+</div>

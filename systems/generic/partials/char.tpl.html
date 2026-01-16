@@ -1,0 +1,32 @@
+<div class="container" ng-controller="GenericPageCtrl as pageCtrl">
+    <!-- If, somehow, we don't have the character, we need to do something -->
+    <div ng-if="notfound" class="text-center">
+        <h3>Character not found.</h3>
+        <p>
+            This generally means there's been some sort of an error. Try refreshing the page. If that doesn't fix it,
+            please contact the operator of the website.
+        </p>
+    </div>
+
+    <!-- Character Page -->
+    <div ng-if="!notfound && sysChar">
+        <ul class="nav nav-pills pull-right">
+            <li role="presentation" ng-class="{ active: nav == 'summary' }">
+                <a ng-click="nav = 'summary'"><i class="icon-list-alt"></i> Summary</a>
+            </li>
+            <li role="presentation" ng-class="{ active: nav == 'details' }">
+                <a ng-click="nav = 'details'"><i class="icon-list"></i> Details</a>
+            </li>
+            <li role="presentation" ng-class="{ active: nav == 'notes' }">
+                <a ng-click="nav = 'notes'"><i class="icon-file-text"></i> Notes</a>
+            </li>
+        </ul>
+        <h1>{{ pageCtrl.baseChar.name }}</h1>
+        <div ng-include="'/systems/generic/partials/pages/' + nav + '/' + nav + '.html'"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div ng-if="!notfound && !sysChar" class="text-center">
+        <h3><i class="icon-spinner icon-spin"></i> Loading character...</h3>
+    </div>
+</div>

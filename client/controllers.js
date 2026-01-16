@@ -203,7 +203,7 @@
             }); // end $scope.emit
         }; // end toggleFavorite
 
-        $scope.changeThumbnail = function(character, $event)
+        $scope.editCharacter = function(character, $event)
         {
             if($event)
             {
@@ -211,26 +211,19 @@
                 $event.preventDefault();
             } // end if
 
-            Dropbox.choose({
-                linkType: "preview",
-                extensions: ["images"],
-                success: function(files)
-                {
-                    $scope.$apply(function()
-                    {
-                        var link = files[0].link.replace('https://www.', 'https://dl.');
-                        character.thumbnail = link;
-                        $socket.emit('update_character', character, function(error)
-                        {
-                            if(error)
-                            {
-                                $scope.alerts.push(error);
-                            } // end if
-                        });
-                    });
-                } // end success
-            });
-        }; // end changeThumbnail
+            var opts = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl: '/partials/editchar.html',
+                controller: 'EditCharDialogCtrl',
+                resolve: {
+                    character: function() { return character; }
+                }
+            };
+
+            $modal.open(opts);
+        }; // end editCharacter
     });
 
     //------------------------------------------------------------------------------------------------------------------
@@ -347,6 +340,81 @@
                     {
                         var link = files[0].link.replace('https://www.', 'https://dl.');
                         $scope.newchar.thumbnail = link;
+                    });
+                } // end success
+            });
+        }; // end chooseThumbnail
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    Controllers.controller('EditCharDialogCtrl', function($scope, $socket, $modalInstance, character)
+    {
+        // Make a copy to edit
+        $scope.editchar = angular.copy(character);
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Public API
+        //--------------------------------------------------------------------------------------------------------------
+
+        $scope.close = function()
+        {
+            $modalInstance.close();
+        }; // end close
+
+        $scope.save = function()
+        {
+            // Use portrait as thumbnail fallback
+            if($scope.editchar.portrait && !$scope.editchar.thumbnail)
+            {
+                $scope.editchar.thumbnail = $scope.editchar.portrait;
+            }
+
+            $socket.emit('update_character', $scope.editchar, function(error)
+            {
+                if(error)
+                {
+                    $scope.alerts.push(error);
+                }
+                else
+                {
+                    // Update the original character object
+                    angular.extend(character, $scope.editchar);
+
+                    // Update the list of characters.
+                    $socket.emit("list_characters");
+                } // end if
+
+                $modalInstance.close();
+            });
+
+        }; // end save
+
+        $scope.choosePortrait = function()
+        {
+            Dropbox.choose({
+                extensions: ["images"],
+                success: function(files)
+                {
+                    $scope.$apply(function()
+                    {
+                        var link = files[0].link.replace('https://www.', 'https://dl.');
+                        $scope.editchar.portrait = link;
+                    });
+                } // end success
+            });
+        }; // end choosePortrait
+
+        $scope.chooseThumbnail = function()
+        {
+            Dropbox.choose({
+                extensions: ["images"],
+                success: function(files)
+                {
+                    $scope.$apply(function()
+                    {
+                        var link = files[0].link.replace('https://www.', 'https://dl.');
+                        $scope.editchar.thumbnail = link;
                     });
                 } // end success
             });

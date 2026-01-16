@@ -4,6 +4,7 @@
 // @module socketHandler.js
 //----------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
 var Promise = require('bluebird');
 
 var models = require('../models');
@@ -19,7 +20,10 @@ function SocketHandler(socket)
 
     Object.defineProperties(socket, {
         user: {
-            get: function(){ return (this.request.session.passport || {}).user; }
+            get: function(){
+                // Try omega-wf style first, then passport style
+                return this.handshake.user || (this.request.session.passport || {}).user;
+            }
         },
         isAuthenticated: {
             get: function()
@@ -125,7 +129,13 @@ SocketHandler.prototype._handleNewCharacter = function(character, respond)
 
 SocketHandler.prototype._handleUpdateCharacter = function(character, respond)
 {
-    models.Character.get(character.id)
+    var charID = character.id;
+
+    // Remove fields that shouldn't be updated or would cause validation errors
+    delete character.id;
+    delete character.system;
+
+    models.Character.get(charID)
         .then(function(charInst)
         {
             _.assign(charInst, character);

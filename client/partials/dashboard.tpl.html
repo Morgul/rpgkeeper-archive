@@ -18,8 +18,8 @@
                             ng-style="{'color': character.favorite ? '#f0ad4e' : '#999'}" title="Favorite" ng-click="toggleFavorite(character, $event)">
                         <i class="icon-star"></i>
                     </button>
-                    <button type="button" class="pull-right btn btn-link" style="font-size: 18px; padding: 2px 6px; color: #999;" title="Change Thumbnail" ng-click="changeThumbnail(character, $event)">
-                        <i class="icon-picture"></i>
+                    <button type="button" class="pull-right btn btn-link" style="font-size: 18px; padding: 2px 6px; color: #999;" title="Edit Character" ng-click="editCharacter(character, $event)">
+                        <i class="icon-edit"></i>
                     </button>
                     <span class="text-muted hidden-xs" style="position: absolute; bottom: 7px; right: 7px">{{ character.system.name }}</span>
                     <div class="pull-left img-thumbnail" style="width: 50px; height: 50px; overflow: hidden; line-height: 42px; text-align: center;">
