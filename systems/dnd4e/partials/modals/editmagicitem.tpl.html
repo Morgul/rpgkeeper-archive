@@ -1,0 +1,89 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+    <h3>Edit Magic Item</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3" style="height: 700px;">
+            <select class="form-control tall" ng-model="item" ng-options="item as item.name for item in magicItemChoices track by item.name" size="2" style="height: 100%">
+            </select>
+        </div>
+        <div class="col-md-9">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label" for="name">Name:</label>
+                    <div class="controls">
+                        <input class="form-control" type="text" id="name" placeholder="Name of the item..." value="{{ item.name }}" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="flavor">Flavor:</label>
+                    <div class="controls">
+                        <textarea class="form-control elastic" id="flavor" placeholder="Flavor text..." ng-model="item.flavor" rows="2" msd-elastic></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="type">Item Type:</label>
+                    <div class="controls">
+                        <select class="form-control" id="type" ng-model="item.type" ng-options="type for type in itemTypes"></select>
+                    </div>
+                </div>
+                <hr>
+                <h4><b>Levels</b></h4>
+                <p class="text-muted">Levels are the parts of magic items that have a level, (optionally) an enhancement, and then a price.</p>
+                <div class="item-section" ng-repeat="level in item.levels track by $index">
+                    <button ng-if="$index > 0" type="button" class="close" aria-hidden="true" ng-click="removeLevel($index)">&times;</button>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="level-{{ $index }}">Level:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="level-{{ $index }}" ng-model="level.level">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="enhancement-{{ $index }}">Enhancement:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="enhancement-{{ $index }}" ng-model="level.enhancement">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label class="control-label" for="price-{{ $index }}">Price:</label>
+                            <div class="controls">
+                                <input type="number" class="form-control" id="price-{{ $index }}" ng-model="level.price">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="item.levels.push({})"><i class="icon-plus form-add-text"></i> Add new level</button>
+                </div>
+                <hr>
+                <h4><b>Sections</b></h4>
+                <p class="text-muted">Sections are the parts of magic items that have a title, and then a paragraph of text.</p>
+                <div class="item-section" ng-repeat="section in item.sections track by $index">
+                    <button ng-if="$index > 0" type="button" class="close" aria-hidden="true" ng-click="removeSection($index)">&times;</button>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label class="control-label" for="title-{{ $index }}">Title:</label>
+                            <div class="controls">
+                                <input class="form-control" id="title-{{ $index }}" type="text" placeholder="Title..." ng-model="section.title">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-9">
+                            <label class="control-label" for="content-{{ $index }}">Content:</label>
+                            <div class="controls">
+                                <textarea class="form-control" id="content-{{ $index }}" placeholder="Content goes here." ng-model="section.content" rows="2" msd-elastic ng-trim="false"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right">
+                    <button class="btn btn-link" ng-click="item.sections.push({})"><i class="icon-plus form-add-text"></i> Add new section</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-click="save(item)" class="btn btn-primary"><i class="icon-edit"></i> Save</button>
+    <button ng-click="cancel()" class="btn btn-default">Cancel</button>
+</div>

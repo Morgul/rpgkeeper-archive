@@ -313,6 +313,24 @@ socketMan.loaded
                     });
             });
 
+            socket.on('update magic item', function(itemDef, respond)
+            {
+                models.MagicItem.get(itemDef.name)
+                    .then(function(itemInst)
+                    {
+                        _.assign(itemInst, itemDef);
+                        return itemInst.save();
+                    })
+                    .then(function(itemInst)
+                    {
+                        respond(null, itemInst);
+                    })
+                    .catch(function(error)
+                    {
+                        respond(error);
+                    });
+            });
+
             //----------------------------------------------------------------------------------------------------------
             // Classes
             //----------------------------------------------------------------------------------------------------------

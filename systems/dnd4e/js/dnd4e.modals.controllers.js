@@ -67,6 +67,33 @@ module.controller('AddMagicItemModalCtrl', function($scope, $dnd4echar, $modalIn
     }; // end add
 });
 
+module.controller('EditMagicItemModalCtrl', function($scope, $dnd4echar, $modalInstance)
+{
+    $scope.item = $dnd4echar.magicItemChoices[0];
+    $scope.magicItemChoices = $dnd4echar.magicItemChoices;
+    $scope.itemTypes = $dnd4echar.itemTypes;
+
+    $scope.removeLevel = function(index)
+    {
+        $scope.item.levels.splice(index, 1);
+    }; // end removeLevel
+
+    $scope.removeSection = function(index)
+    {
+        $scope.item.sections.splice(index, 1);
+    }; // end removeSection
+
+    $scope.cancel = function()
+    {
+        $modalInstance.dismiss('cancel');
+    }; // end cancel
+
+    $scope.save = function(item)
+    {
+        $modalInstance.close(item);
+    }; // end save
+});
+
 //----------------------------------------------------------------------------------------------------------------------
 
 module.controller('AddClassModalCtrl', function($scope, $modalInstance)

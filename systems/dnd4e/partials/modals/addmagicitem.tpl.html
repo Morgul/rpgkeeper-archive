@@ -104,7 +104,7 @@
                 <div class="form-group col-sm-10">
                     <label class="control-label" for="level">Item Level:</label>
                     <div class="controls">
-                        <select class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in newItem.levels" required>
+                        <select class="form-control" id="level" ng-model="newItem.stats" ng-options="level as formatLevel(level) for level in (chosenItem.levels || newItem.levels)" required>
                             <option value="">Please select a level...</option>
                         </select>
                     </div>
@@ -121,6 +121,6 @@
 </div>
 <div class="modal-footer">
     <button ng-if="!chosenItem" ng-click="add('global', newItem)" class="btn btn-info"><i class="icon-plus"></i> Add to character (Global)</button>
-    <button ng-click="add('', chosenItem)" class="btn btn-primary"><i class="icon-plus"></i> Add to character</button>
+    <button ng-click="add('', newItem)" class="btn btn-primary"><i class="icon-plus"></i> Add to character</button>
     <button ng-click="cancel()" class="btn btn-default">Cancel</button>
 </div>

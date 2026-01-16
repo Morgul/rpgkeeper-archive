@@ -78,7 +78,12 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
             if(result)
             {
                 self.dnd4echar.addMagicItem(result);
-                self.sysChar.equipment.push({ item: result });
+                self.sysChar.equipment.push({
+                    item: result,
+                    amount: result.amount || 1,
+                    stats: result.stats,
+                    notes: result.notes || ''
+                });
                 $socket.channel('/dnd4e').emit("add magic item", result, self.sysChar.baseChar, function(error, character)
                 {
                     if(error) {
@@ -88,6 +93,31 @@ function PageController($scope, $timeout, $socket, $character, $dnd4echar, $aler
             } // end if
         });
     }; // end addMagicItem
+
+    $scope.editMagicItem = function() {
+        var opts = {
+            backdrop: 'static',
+            keyboard: true,
+            windowClass: "wide",
+            templateUrl: '/systems/dnd4e/partials/modals/editmagicitem.html',
+            controller: 'EditMagicItemModalCtrl'
+        };
+
+        $modal.open(opts).result.then(function(result)
+        {
+            if(result)
+            {
+                var idx = self.dnd4echar.magicItemChoices.indexOf(result);
+                self.dnd4echar.magicItemChoices.splice(idx, 1, result);
+                $socket.channel('/dnd4e').emit("update magic item", result, function(error, itemRet)
+                {
+                    if(error) {
+                        $alerts.addAlert('danger', 'Error editing magic item: ' + error.toString());
+                    } // end if
+                });
+            } // end if
+        });
+    }; // end editMagicItem
 
     //------------------------------------------------------------------------------------------------------------------
     // Classes
