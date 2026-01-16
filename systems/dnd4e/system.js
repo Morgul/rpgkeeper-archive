@@ -261,6 +261,59 @@ socketMan.loaded
             });
 
             //----------------------------------------------------------------------------------------------------------
+            // Magic Items
+            //----------------------------------------------------------------------------------------------------------
+
+            socket.on('get magic items', function(respond)
+            {
+                //TODO: Limit this to either items where `owner` is null, or is the email address of our current user.
+                models.MagicItem.filter()
+                    .then(function(items)
+                    {
+                        respond(null, items);
+                    })
+                    .catch(function(error)
+                    {
+                        respond(error);
+                    });
+            });
+
+            socket.on('add magic item', function(itemDef, charID, respond)
+            {
+                if(!itemDef.global)
+                {
+                    itemDef.owner = socket.user;
+                } // end if
+
+                var itemInst = new models.MagicItem(itemDef);
+                itemInst.save()
+                    .then(function()
+                    {
+                        return models.Character.get(charID)
+                            .then(function(char)
+                            {
+                                if(!char.equipment)
+                                {
+                                    char.equipment = [];
+                                }
+                                char.equipment.push({
+                                    item: itemInst.id,
+                                    notes: itemDef.notes || ''
+                                });
+                                return char.save();
+                            });
+                    })
+                    .then(function(char)
+                    {
+                        respond(null, char);
+                    })
+                    .catch(function(error)
+                    {
+                        respond(error);
+                    });
+            });
+
+            //----------------------------------------------------------------------------------------------------------
             // Classes
             //----------------------------------------------------------------------------------------------------------
 

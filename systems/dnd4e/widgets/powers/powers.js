@@ -108,6 +108,10 @@ function PowerController($scope, $rootScope, $socket, $character, $alerts, $moda
         } // end if
     };
 
+    $scope.power = function() {
+        return $scope.powerRef().power || $scope.powerRef();
+    }; // end power
+
     $scope.editPowerRef = function(powerRef, event) {
         event.stopPropagation();
 

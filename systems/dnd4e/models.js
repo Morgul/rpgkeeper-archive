@@ -21,6 +21,8 @@ var abilities = ["strength", "constitution", "dexterity", "intelligence", "wisdo
 var powerTypes = ["At-Will", "Encounter", "Daily"];
 var powerKinds = ["Basic Attack", "Attack", "Utility", "Class Feature", "Racial"];
 var actionType = ["Standard", "Move", "Immediate Interrupt", "Immediate Reaction", "Opportunity", "Minor", "Free", "No Action"];
+var itemType = ["Armor", "Shield", "Weapon", "Implement", "Neck", "Arm", "Hand", "Waist", "Head", "Foot", "Ring", "Potion", "Wondrous"];
+var armorType = ["Cloth", "Leather", "Hide", "Chainmail", "Scale", "Plate"];
 
 // This generates nice, short ids (ex: 'HrILY', '2JjA9s') that are as unique as a uuid.
 function generateID()
@@ -39,6 +41,17 @@ db.Class = trivialdb.defineModel('classes', {
     hpPerLevel: { type: Number, default: 0 },
 
     // Distinguishes this as a custom class, if set.
+    owner: String
+}, { rootPath: rootPath, idFunc: generateID, pk: 'name' });
+
+db.MagicItem = trivialdb.defineModel('magic_items', {
+    name: String,
+    flavor: String,
+    type: { type: String, choices: itemType, default: 'Wondrous' },
+    levels: { type: Array, default: [] },
+    sections: { type: Array, default: [] },
+
+    // Distinguishes this as a custom item, if set.
     owner: String
 }, { rootPath: rootPath, idFunc: generateID, pk: 'name' });
 
@@ -106,6 +119,12 @@ db.Character = trivialdb.defineModel('characters', {
     intelligence: { type: Number, default: 10 },
     wisdom: { type: Number, default: 10 },
     charisma: { type: Number, default: 10 },
+
+    //-----------------------------------------------------------
+    // Equipment
+    //-----------------------------------------------------------
+
+    equipment: { type: Array, default: [] },
 
     //-----------------------------------------------------------
     // Combat Statistics
