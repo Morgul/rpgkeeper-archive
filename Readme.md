@@ -1,3 +1,40 @@
+-----
+
+# About This Branch (`final`)
+
+This branch represents the most complete and functional version of the RPGKeeper v1.x codebase. It consolidates work
+from several unmerged feature branches and includes modifications to make the application runnable without the defunct
+Mozilla Persona authentication service.
+
+## What's Changed
+
+- **Authentication Bypass**: Mozilla Persona (the original auth provider) was shut down in 2016. This branch includes a
+  dev-login endpoint (`/dev-login?email=<email>`) that bypasses authentication for local development and archival purposes.
+- **Dashboard Improvements**: Merged from `ccase-dashboard-redesign` - improved character list with thumbnails, favorites,
+  and action buttons.
+- **Equipment System**: Merged from `feature-ccase-new-equipment` - full magic item management including add/edit modals
+  and inventory tracking.
+- **Bug Fixes**: Various fixes for powers, feats, alerts, and other UI components.
+
+## Other Branches
+
+- **`on-production`**: The last deployed production version. Requires Persona authentication (no longer functional).
+- **`master`**: Contains archive notice pointing to the new RPGKeeper codebase.
+- **`ccase-dashboard-redesign`**: Dashboard improvements (merged into this branch).
+- **`feature-ccase-equipment`**: Early equipment work using omega-models ORM.
+- **`feature-ccase-new-equipment`**: Equipment system rewrite for trivialdb (merged into this branch).
+
+## Running This Version
+
+1. Install Node.js (v10.x - v14.x recommended for compatibility)
+2. `npm install`
+3. `npm install -g grunt-cli`
+4. `grunt watch`
+5. Open `http://localhost:8081/dev-login?email=your@email.com` to log in
+6. Access the dashboard at `http://localhost:8081/dashboard`
+
+-----
+
 # RPGKeeper
 
 I'm an avid table-top gamer. I'm also a bit forgetful, and I lose things... especially little pieces of paper. Throw
