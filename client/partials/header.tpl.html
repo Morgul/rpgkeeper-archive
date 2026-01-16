@@ -21,8 +21,37 @@
                 </div>
             </li>
 
-            <li ng-if="user"><button type="button" class="btn btn-inverse navbar-btn" ng-click="logout()"><i class="icon-persona"></i> Sign Out</button></li>
-            <li ng-if="!user"><button type="button" class="btn btn-inverse navbar-btn" onclick="navigator.id.request()"><i class="icon-persona"></i> Sign In</button></li>
+            <li ng-if="user">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-inverse navbar-btn" ng-click="logout()"><i class="icon-signout"></i> Sign Out</button>
+                    <button type="button" class="btn btn-inverse navbar-btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li class="dropdown-header">Switch User</li>
+                        <li ng-repeat="u in allUsers"><a ng-click="loginAs(u.email)"><i class="icon-user"></i> {{ u.email }}</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li ng-if="!user">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-inverse navbar-btn dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-user"></i> Sign In <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" style="min-width: 280px; padding: 10px;">
+                        <li class="dropdown-header">Select User</li>
+                        <li ng-repeat="u in allUsers"><a ng-click="loginAs(u.email)"><i class="icon-user"></i> {{ u.email }}</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">New User</li>
+                        <li>
+                            <form class="form-inline" style="padding: 5px 15px;" ng-submit="createUser()">
+                                <input type="email" class="form-control input-sm" placeholder="email@example.com" ng-model="newUserEmail" style="width: 180px;" onclick="event.stopPropagation();">
+                                <button type="submit" class="btn btn-sm btn-primary" onclick="event.stopPropagation();">Add</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
     </nav>
     <div class="alert-area">

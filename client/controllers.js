@@ -18,6 +18,25 @@
             get: function(){ return PersonaService.currentUser; }
         });
 
+        // Fetch all users for the login dropdown
+        $http.get('/users').then(function(response)
+        {
+            $scope.allUsers = response.data;
+        });
+
+        $scope.loginAs = function(email)
+        {
+            window.location.href = '/dev-login?email=' + encodeURIComponent(email);
+        }; // end loginAs
+
+        $scope.createUser = function()
+        {
+            if($scope.newUserEmail)
+            {
+                window.location.href = '/dev-login?email=' + encodeURIComponent($scope.newUserEmail);
+            }
+        }; // end createUser
+
         $scope.login = function()
         {
             PersonaService.signin();
@@ -25,7 +44,7 @@
 
         $scope.logout = function()
         {
-            PersonaService.signout();
+            window.location.href = '/auth/logout-persona';
         }; // end logout
 
         // Get our characters
