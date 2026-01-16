@@ -1,5 +1,3 @@
------
-
 # About This Branch (`final`)
 
 This branch represents the most complete and functional version of the RPGKeeper v1.x codebase. It consolidates work
@@ -8,8 +6,8 @@ Mozilla Persona authentication service.
 
 ## What's Changed
 
-- **Authentication Bypass**: Mozilla Persona (the original auth provider) was shut down in 2016. This branch includes a
-  dev-login endpoint (`/dev-login?email=<email>`) that bypasses authentication for local development and archival purposes.
+- **Authentication Bypass**: Mozilla Persona (the original auth provider) was shut down in 2016. The "Sign In" button is
+  now a dropdown that lists all existing users and allows creating new users - no external authentication required.
 - **Dashboard Improvements**: Merged from `ccase-dashboard-redesign` - improved character list with thumbnails, favorites,
   and action buttons.
 - **Equipment System**: Merged from `feature-ccase-new-equipment` - full magic item management including add/edit modals
@@ -19,7 +17,11 @@ Mozilla Persona authentication service.
 ## Other Branches
 
 - **`on-production`**: The last deployed production version. Requires Persona authentication (no longer functional).
-- **`master`**: Contains archive notice pointing to the new RPGKeeper codebase.
+- **`master`**: A rewrite that split game systems into installable npm packages. See:
+  - [Morgul/rpgkeeper-archive](https://github.com/Morgul/rpgkeeper-archive) - Core application
+  - [Morgul/rpgkeeper-generic](https://github.com/Morgul/rpgkeeper-generic) - Generic system
+  - [Morgul/rpgkeeper-dnd4e](https://github.com/Morgul/rpgkeeper-dnd4e) - D&D 4th Edition system
+  - [Morgul/rpgkeeper-eote](https://github.com/Morgul/rpgkeeper-eote) - Edge of the Empire system
 - **`ccase-dashboard-redesign`**: Dashboard improvements (merged into this branch).
 - **`feature-ccase-equipment`**: Early equipment work using omega-models ORM.
 - **`feature-ccase-new-equipment`**: Equipment system rewrite for trivialdb (merged into this branch).
@@ -30,8 +32,7 @@ Mozilla Persona authentication service.
 2. `npm install`
 3. `npm install -g grunt-cli`
 4. `grunt watch`
-5. Open `http://localhost:8081/dev-login?email=your@email.com` to log in
-6. Access the dashboard at `http://localhost:8081/dashboard`
+5. Open `http://localhost:8081` and use the "Sign In" dropdown to select or create a user
 
 -----
 
