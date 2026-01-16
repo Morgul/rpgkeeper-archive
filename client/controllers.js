@@ -147,8 +147,14 @@
             $scope.$root.$broadcast('add_character');
         }; // end addChar
 
-        $scope.delete = function(character)
+        $scope.delete = function(character, $event)
         {
+            if($event)
+            {
+                $event.stopPropagation();
+                $event.preventDefault();
+            } // end if
+
             var opts = {
                 backdrop: true,
                 keyboard: true,
@@ -178,8 +184,14 @@
             });
         }; // end delete
 
-        $scope.toggleFavorite = function(character)
+        $scope.toggleFavorite = function(character, $event)
         {
+            if($event)
+            {
+                $event.stopPropagation();
+                $event.preventDefault();
+            } // end if
+
             character.favorite = !character.favorite;
             $socket.emit('favorite', character, function(error)
             {

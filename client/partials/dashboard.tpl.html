@@ -1,27 +1,35 @@
 <div class="row" ng-if="user">
     <div class="col-md-10 col-md-offset-1 col-lg-6 col-lg-offset-3">
         <div class="panel panel-default">
-            <!-- Default panel contents -->
             <div class="panel-heading">
-                <button class="btn btn-primary pull-right" ng-click="addChar()"><i class="icon-plus"></i> Add</button>
-                <h2 class="panel-title">Character</h2>
+                <button type="button" class="close pull-right" title="Add Character" ng-click="addChar()">
+                    <span aria-hidden="true"><i class="icon-plus"></i></span><span class="sr-only">Add Character</span>
+                </button>
+                <h2 class="panel-title">Characters</h2>
             </div>
-
-            <!-- Table -->
-            <table class="table table-bordered table-striped">
-                <tr ng-repeat="character in characters | orderBy:['-favorite', 'name']">
-                    <td class="shrink">
-                        <button class="btn btn-default" ng-class="{favorite: character.favorite}" ng-click="toggleFavorite(character)"><i class="icon-star"></i>
-                        </button>
-                    </td>
-                    <td class="expand"><a href="/character/{{ character.id }}">{{ character.name }}</a>
-                    </td>
-                    <td class="shrink">{{ character.system.name }}</td>
-                    <td class="shrink">
-                        <button class="btn btn-block btn-danger" ng-click="delete(character)"><i class="icon-trash"></i> Delete</button>
-                    </td>
-                </tr>
-            </table>
+            <div class="list-group">
+                <a href="" class="list-group-item"
+                   ng-repeat="character in characters | orderBy:['-favorite', 'name']"
+                   ng-click="setLocation('/character/' + character.id)">
+                    <button type="button" class="pull-right btn btn-link" style="font-size: 18px; padding: 2px 6px; color: #999;" title="Delete Character" ng-click="delete(character, $event)">
+                        <i class="icon-trash"></i>
+                    </button>
+                    <button type="button" class="pull-right btn btn-link" style="font-size: 18px; padding: 2px 6px;"
+                            ng-style="{'color': character.favorite ? '#f0ad4e' : '#999'}" title="Favorite" ng-click="toggleFavorite(character, $event)">
+                        <i class="icon-star"></i>
+                    </button>
+                    <span class="text-muted hidden-xs" style="position: absolute; bottom: 7px; right: 7px">{{ character.system.name }}</span>
+                    <div class="pull-left img-thumbnail" style="width: 50px; height: 50px; overflow: hidden; line-height: 42px; text-align: center;">
+                        <img ng-if="character.thumbnail" ng-src="{{character.thumbnail}}" width="100%">
+                        <i ng-if="!character.thumbnail" class="icon-user" style="font-size: 32px; color: #ccc;"></i>
+                    </div>
+                    <div style="margin-left: 60px; margin-right: 50px; min-height: 50px">
+                        <h4 class="list-group-item-heading">{{ character.name }}</h4>
+                        <span class="text-muted visible-xs">{{ character.system.name }}</span>
+                        <p class="list-group-item-text text-muted" ng-if="character.description"><i>{{ character.description }}</i></p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
