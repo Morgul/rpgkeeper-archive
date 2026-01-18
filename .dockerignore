@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+
+# Environment files
+.env
+.env.*
+
+# Database files (will be mounted)
+server/db/
+systems/*/db/*.json
+
+# Session files (will be mounted or ephemeral)
+server/sessions/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (will be regenerated)
+client/css/*.css
+client/js/systems.controllers.js
+client/js/systems.filters.js
+client/js/systems.widgets.js
+client/js/systems.templates.js
+client/js/client.templates.js
+
+# Documentation
+README.md
+*.md
+
+# Docker
+Dockerfile
+.dockerignore

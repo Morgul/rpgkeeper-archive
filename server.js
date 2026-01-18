@@ -24,6 +24,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 var passport = require('passport');
 
 var package = require('./package');
@@ -61,6 +62,10 @@ app.use(bodyParser.json());
 
 // Store this in app.locals for socket.io to use later
 app.locals.sessionMiddleware = session({
+    store: new FileStore({
+        path: path.resolve('./server/sessions'),
+        ttl: 60 * 60 * 12 // 12 hours (in seconds)
+    }),
     secret: config.sessionSecret || 'nosecret',
     key: config.sessionKey || 'sid',
     resave: false,
@@ -68,7 +73,7 @@ app.locals.sessionMiddleware = session({
 
     // maxAge = 12hrs
     cookie: { maxAge: 1000 * 60 * 60 * 12},
-    saveUninitialized: true
+    saveUninitialized: false
 });
 
 app.use(app.locals.sessionMiddleware);

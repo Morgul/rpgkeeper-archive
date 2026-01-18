@@ -17,6 +17,9 @@ client/js/client.templates.js
 server/db/
 systems/*/db/
 
+# Session files
+server/sessions/
+
 # Node artifacts
 node_modules
 

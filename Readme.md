@@ -1,17 +1,20 @@
 # About This Branch (`final`)
 
 This branch represents the most complete and functional version of the RPGKeeper v1.x codebase. It consolidates work
-from several unmerged feature branches and includes modifications to make the application runnable without the defunct
-Mozilla Persona authentication service.
+from several unmerged feature branches and includes modifications to make the application runnable as an archive site.
 
 ## What's Changed
 
-- **Authentication Bypass**: Mozilla Persona (the original auth provider) was shut down in 2016. The "Sign In" button is
-  now a dropdown that lists all existing users and allows creating new users - no external authentication required.
+- **Google Authentication**: Mozilla Persona (the original auth provider) was shut down in 2016. Authentication has been
+  replaced with Google OAuth. Only existing users can sign in (closed to new registrations).
+- **Ported Game Systems**: The Generic and Edge of the Empire (EotE) systems have been ported in and are fully functional
+  alongside the original D&D 4th Edition system.
 - **Dashboard Improvements**: Merged from `ccase-dashboard-redesign` - improved character list with thumbnails, favorites,
   and action buttons.
 - **Equipment System**: Merged from `feature-ccase-new-equipment` - full magic item management including add/edit modals
   and inventory tracking.
+- **File-based Sessions**: Sessions are now stored on disk instead of in memory for production reliability.
+- **Docker Support**: Includes Dockerfile for containerized deployment.
 - **Bug Fixes**: Various fixes for powers, feats, alerts, and other UI components.
 
 ## Other Branches
@@ -28,11 +31,36 @@ Mozilla Persona authentication service.
 
 ## Running This Version
 
-1. Install Node.js (v10.x - v14.x recommended for compatibility)
+1. Install Node.js 10+ (tested most recently with Node 24)
 2. `npm install`
 3. `npm install -g grunt-cli`
-4. `grunt watch`
-5. Open `http://localhost:8081` and use the "Sign In" dropdown to select or create a user
+4. Create a `.env` file with your Google OAuth credentials:
+   ```
+   GOOGLE_CLIENT_ID=your-client-id
+   GOOGLE_CLIENT_SECRET=your-client-secret
+   GOOGLE_CALLBACK_URL=http://localhost:8081/auth/google/callback
+   ```
+5. `grunt watch`
+6. Open `http://localhost:8081` and sign in with Google
+
+## Docker
+
+Build and run with Docker:
+
+```bash
+docker build -t rpgkeeper-archive .
+
+docker run -d \
+  -p 8081:8081 \
+  -e GOOGLE_CLIENT_ID=your-client-id \
+  -e GOOGLE_CLIENT_SECRET=your-client-secret \
+  -e GOOGLE_CALLBACK_URL=https://your-domain.com/auth/google/callback \
+  -v /path/to/server-db:/app/server/db \
+  -v /path/to/sessions:/app/server/sessions \
+  -v /path/to/eote-db:/app/systems/eote/db \
+  -v /path/to/generic-db:/app/systems/generic/db \
+  rpgkeeper-archive
+```
 
 -----
 
@@ -56,16 +84,6 @@ Hahahahahaha.... you're funny.
 
 No, seriously, there are no tests. I won't claim this is "untestable", but frankly, there's not a lot of testible code,
 and I want to implement features, not tests.
-
-## Running
-
-1. Install node 10.X
-2. Checkout the code.
-3. `npm install`
-4. `npm install -g grunt-cli`
-5. `grunt watch`
-
-That should be it!
 
 ## Contributions
 

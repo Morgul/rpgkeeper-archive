@@ -11,7 +11,8 @@ var models = require('../models');
 //----------------------------------------------------------------------------------------------------------------------
 
 passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    // Use email as the session identifier (TrivialDB uses pk: 'email')
+    done(null, user.email);
 });
 
 passport.deserializeUser(function(id, done) {

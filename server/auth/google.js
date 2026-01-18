@@ -107,7 +107,13 @@ module.exports = {
             function(req, res)
             {
                 logger.info('Google auth successful for:', req.user.email);
-                res.redirect('/dashboard');
+                // Save session before redirect to ensure it persists with file store
+                req.session.save(function(err) {
+                    if(err) {
+                        logger.error('Error saving session:', err);
+                    }
+                    res.redirect('/dashboard');
+                });
             }
         );
 
