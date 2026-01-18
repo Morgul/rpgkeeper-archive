@@ -25,7 +25,7 @@ more about archivial and nostalgia than it was anything practical.
 
 - **`on-production`**: The last deployed production version. Requires Persona authentication (no longer functional).
 - **`master`**: A rewrite that split game systems into installable npm packages. See:
-  - [Morgul/rpgkeeper-archive](https://github.com/Morgul/rpgkeeper-archive) - Core application
+  - [Morgul/rpgkeeper-v1](https://github.com/Morgul/rpgkeeper-v1) - Core application
   - [Morgul/rpgkeeper-dnd4e](https://github.com/Morgul/rpgkeeper-dnd4e) - D&D 4th Edition system
 - **`ccase-dashboard-redesign`**: Dashboard improvements (merged into this branch).
 - **`feature-ccase-equipment`**: Early equipment work using omega-models ORM.
@@ -50,7 +50,7 @@ more about archivial and nostalgia than it was anything practical.
 Build and run with Docker:
 
 ```bash
-docker build -t rpgkeeper-archive .
+docker build -t rpgkeeper-v1 .
 
 docker run -d \
   -p 8081:8081 \
@@ -61,7 +61,7 @@ docker run -d \
   -v /path/to/sessions:/app/server/sessions \
   -v /path/to/eote-db:/app/systems/eote/db \
   -v /path/to/generic-db:/app/systems/generic/db \
-  rpgkeeper-archive
+  rpgkeeper-v1
 ```
 
 -----

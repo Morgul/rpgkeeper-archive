@@ -20,7 +20,7 @@ on:
       - final
 
 env:
-  IMAGE_NAME: rpgkeeper-archive
+  IMAGE_NAME: rpgkeeper-v1
 
 jobs:
   build-and-push:
@@ -36,12 +36,12 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t morgul/rpgkeeper-archive:latest .
+        run: docker build -t morgul/rpgkeeper-v1:latest .
 
       - name: Push to Docker Hub
         uses: actions-hub/docker@master
         with:
-          args: push morgul/rpgkeeper-archive:latest
+          args: push morgul/rpgkeeper-v1:latest
 
   deploy:
     needs: build-and-push

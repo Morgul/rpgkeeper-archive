@@ -1,6 +1,6 @@
 services:
   rpgkeeper-old:
-    image: morgul/rpgkeeper-archive:latest
+    image: morgul/rpgkeeper-v1:latest
     environment:
       GOOGLE_CLIENT_ID: "{{client}}"
       GOOGLE_CLIENT_SECRET: "{{secret}}"
