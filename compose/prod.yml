@@ -1,0 +1,16 @@
+services:
+  rpgkeeper-archive:
+    image: morgul/rpgkeeper-archive:latest
+    environment:
+      GOOGLE_CLIENT_ID: "{{client}}"
+      GOOGLE_CLIENT_SECRET: "{{secret}}"
+      GOOGLE_CALLBACK_URL: "https://old.rpgkeeper.com/auth/google/callback"
+      SESSION_SECRET: "{{sess}}"
+    restart: unless-stopped
+    volumes:
+      - /srv/docker/rpgkeeper-archive/db:/app/server/db
+      - /srv/docker/rpgkeeper-archive/sessions:/app/server/sessions
+      - /srv/docker/rpgkeeper-archive/systems/eote:/app/systems/eote/db
+      - /srv/docker/rpgkeeper-archive/systems/generic:/app/systems/generic/db
+    ports:
+      - "2697:8081"

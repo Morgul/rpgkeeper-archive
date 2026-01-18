@@ -13,7 +13,7 @@ module.exports = {
 
     // Session
     sessionKey: 'sid',
-    sessionSecret: "9799a2dde63b2850ca2aadee07bc4ad01db80e02415b52f8fe3a143500dc9d99f8d1bfff8b8b67de8ae3344ea97687cd",
+    sessionSecret: process.env.SESSION_SECRET || "9799a2dde63b2850ca2aadee07bc4ad01db80e02415b52f8fe3a143500dc9d99f8d1bfff8b8b67de8ae3344ea97687cd",
 
     // Authentication - Persona (legacy, to be removed)
     //audience: "http://rpgkeeper.skewedaspect.com"

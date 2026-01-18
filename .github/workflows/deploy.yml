@@ -1,0 +1,64 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Build and Deploy docker images
+#
+# This action requires the following variables and secrets to be set:
+#   * vars.PORTAINER_HOST - The Portainer host URL
+#   * secrets.PORTAINER_USERNAME - The deployment username for PORTAINER_HOST
+#   * secrets.PORTAINER_PASSWORD - The deployment password for PORTAINER_USERNAME
+#   * secrets.DOCKER_USERNAME - Docker Hub username
+#   * secrets.DOCKER_PASSWORD - Docker Hub password/token
+#   * secrets.GOOGLE_CLIENT_ID - The Google OAuth 2.0 Client ID
+#   * secrets.GOOGLE_CLIENT_SECRET - The Google OAuth 2.0 Client Secret
+#   * secrets.SESSION_SECRET - The session secret
+# ----------------------------------------------------------------------------------------------------------------------
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - final
+
+env:
+  IMAGE_NAME: rpgkeeper-archive
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t morgul/rpgkeeper-archive:latest .
+
+      - name: Push to Docker Hub
+        uses: actions-hub/docker@master
+        with:
+          args: push morgul/rpgkeeper-archive:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Portainer
+        uses: Morgul/portainer-stack-deploy@v1.2.0
+        with:
+          portainer-host: ${{ vars.PORTAINER_HOST }}
+          endpoint-id: 2
+          username: ${{ secrets.PORTAINER_USERNAME }}
+          password: ${{ secrets.PORTAINER_PASSWORD }}
+          stack-name: 'rpgkeeper-archive'
+          stack-definition: 'compose/prod.yml'
+          template-variables: '{"client": "${{ secrets.GOOGLE_CLIENT_ID }}", "secret": "${{ secrets.GOOGLE_CLIENT_SECRET }}", "sess": "${{ secrets.SESSION_SECRET }}"}'
+          prune-stack: false
+          pull-image: true
