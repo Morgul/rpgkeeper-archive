@@ -21,6 +21,11 @@ function SocketHandler(socket)
     Object.defineProperties(socket, {
         user: {
             get: function(){
+                // Check for impersonation first
+                if(this.request.session.impersonatedUser)
+                {
+                    return this.request.session.impersonatedUser.email;
+                }
                 // Try omega-wf style first, then passport style
                 return this.handshake.user || (this.request.session.passport || {}).user;
             }

@@ -3,10 +3,10 @@
         <a class="navbar-brand" href="/">RPGKeeper</a>
 
         <ul class="nav navbar-nav navbar-right">
-            <li><p class="navbar-text current-user">{{ user.email }}</p></li>
+            <li><p class="navbar-text current-user">{{ user.impersonating ? user.email + ' (' + user.realUser.email + ')' : user.email }}</p></li>
             <li ng-if="user"><button type="button" class="btn btn-inverse navbar-btn" ng-click="setLocation('/')"><i class="icon-home"></i></button></li>
 
-            <li>
+            <li ng-if="user">
                 <div class="btn-group">
                     <button type="button" class="btn btn-inverse navbar-btn dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-star"></i> Favorites <span class="caret"></span>
@@ -21,36 +21,26 @@
                 </div>
             </li>
 
-            <li ng-if="user">
+            <li ng-if="user && user.isAdmin">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-inverse navbar-btn" ng-click="logout()"><i class="icon-signout"></i> Sign Out</button>
                     <button type="button" class="btn btn-inverse navbar-btn dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
+                        <i class="icon-user-md"></i> Impersonate <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li class="dropdown-header">Switch User</li>
-                        <li ng-repeat="u in allUsers"><a ng-click="loginAs(u.email)"><i class="icon-user"></i> {{ u.email }}</a></li>
+                        <li class="dropdown-header">Impersonate User</li>
+                        <li ng-repeat="u in allUsers"><a href="/admin/impersonate?user={{ u.email }}" target="_self"><i class="icon-user"></i> {{ u.email }}</a></li>
+                        <li ng-if="user.impersonating" class="divider"></li>
+                        <li ng-if="user.impersonating"><a href="/admin/stop-impersonating" target="_self"><i class="icon-remove"></i> Stop Impersonating</a></li>
                     </ul>
                 </div>
             </li>
+            <li ng-if="user">
+                <button type="button" class="btn btn-inverse navbar-btn" ng-click="logout()"><i class="icon-signout"></i> Sign Out</button>
+            </li>
             <li ng-if="!user">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-inverse navbar-btn dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-user"></i> Sign In <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu" style="min-width: 280px; padding: 10px;">
-                        <li class="dropdown-header">Select User</li>
-                        <li ng-repeat="u in allUsers"><a ng-click="loginAs(u.email)"><i class="icon-user"></i> {{ u.email }}</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">New User</li>
-                        <li>
-                            <form class="form-inline" style="padding: 5px 15px;" ng-submit="createUser()">
-                                <input type="email" class="form-control input-sm" placeholder="email@example.com" ng-model="newUserEmail" style="width: 180px;" onclick="event.stopPropagation();">
-                                <button type="submit" class="btn btn-sm btn-primary" onclick="event.stopPropagation();">Add</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                <button type="button" class="btn btn-danger navbar-btn" onclick="window.location.href='/auth/google'">
+                    <i class="icon-google-plus"></i> Sign In
+                </button>
             </li>
         </ul>
     </nav>

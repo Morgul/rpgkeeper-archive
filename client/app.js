@@ -23,10 +23,19 @@ window.app = angular.module("rpgkeeper", [
         $routeProvider
             .when('/dashboard', {templateUrl: '/partials/dashboard.html',   controller: 'DashboardCtrl'})
             .when('/character/:id', {templateUrl: '/partials/character.html',   controller: 'CharacterCtrl'})
+            .when('/login', {templateUrl: '/partials/dashboard.html',   controller: 'DashboardCtrl'})
             .otherwise({redirectTo: '/dashboard'});
     }])
-    .run(function($rootScope, $location, $socket)
+    .run(function($rootScope, $location, $socket, $alerts)
     {
+        // Check for login errors from Google OAuth redirect
+        var error = $location.search().error;
+        if(error === 'auth_failed')
+        {
+            $alerts.addAlert('danger', 'Sign in failed. Your account may not have access to this site.', 10000);
+            $location.search('error', null);
+        }
+
         // Configure marked parser
         marked.setOptions({
             gfm: true,

@@ -36,6 +36,27 @@
         </div>
     </div>
 </div>
-<div ng-if="!user">
-     <h2 class="text-center">Please sign in.</h2>
+<div class="row" ng-if="!user">
+    <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Welcome to RPGKeeper Archive</h2>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is an <strong>archived, unsupported version</strong> of RPGKeeper.
+                    It exists solely to allow users to access their old character data.
+                </p>
+                <p>
+                    While you can still view and edit your characters, this version is no longer
+                    being maintained or developed. Use at your own risk.
+                </p>
+                <p class="text-center" style="margin-top: 20px; margin-bottom: 10px;">
+                    <button type="button" class="btn btn-danger btn-lg" onclick="window.location.href='/auth/google'">
+                        <i class="icon-google-plus"></i> Sign In with Google
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

@@ -12,10 +12,10 @@
 
     //------------------------------------------------------------------------------------------------------------------
 
-    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $socket, $modal, PersonaService)
+    Controllers.controller('HeaderCtrl', function($scope, $rootScope, $http, $location, $socket, $modal, UserService)
     {
         Object.defineProperty($rootScope, 'user', {
-            get: function(){ return PersonaService.currentUser; }
+            get: function(){ return UserService.currentUser; }
         });
 
         // Fetch all users for the login dropdown
@@ -24,27 +24,9 @@
             $scope.allUsers = response.data;
         });
 
-        $scope.loginAs = function(email)
-        {
-            window.location.href = '/dev-login?email=' + encodeURIComponent(email);
-        }; // end loginAs
-
-        $scope.createUser = function()
-        {
-            if($scope.newUserEmail)
-            {
-                window.location.href = '/dev-login?email=' + encodeURIComponent($scope.newUserEmail);
-            }
-        }; // end createUser
-
-        $scope.login = function()
-        {
-            PersonaService.signin();
-        }; // end login
-
         $scope.logout = function()
         {
-            window.location.href = '/auth/logout-persona';
+            window.location.href = '/auth/logout';
         }; // end logout
 
         // Get our characters

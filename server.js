@@ -4,6 +4,9 @@
 // @module server.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 var logging = require('omega-logger');
 
 if(process.env.LOG_LEVEL)
@@ -29,6 +32,8 @@ var config = require('./config');
 // Auth
 var serialization = require('./server/auth/serialization');
 var personaAuth = require('./server/auth/persona');
+var googleAuth = require('./server/auth/google');
+var adminAuth = require('./server/auth/admin');
 
 // Routers
 var routeUtils = require('./server/routes/utils');
@@ -68,10 +73,13 @@ app.locals.sessionMiddleware = session({
 
 app.use(app.locals.sessionMiddleware);
 
-// Set up out authentication support
+// Set up our authentication support
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(adminAuth.impersonationMiddleware);
 personaAuth.initialize(app);
+googleAuth.initialize(app);
+adminAuth.initialize(app);
 
 // Add our project version as a header
 app.use(function(req, resp, next)
@@ -88,6 +96,7 @@ app.use('/partials', express.static(path.resolve('./client/partials')));
 // Serve index.html
 app.get('/', routeUtils.serveIndex);
 app.get('/dashboard', routeUtils.serveIndex);
+app.get('/login', routeUtils.serveIndex);
 app.get('/character/*', routeUtils.serveIndex);
 
 // Start the server
