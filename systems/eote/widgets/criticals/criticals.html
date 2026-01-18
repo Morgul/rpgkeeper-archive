@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Critical Tracker</h4>
+    </div>
+    <div class="panel-body">
+        <div id="crit-select" class="btn-group btn-block" dropdown>
+            <button class="col-sm-10 btn btn-default" dropdown-toggle>
+                <span class="caret"></span>
+                {{ formatCrit(selectedCrit) }}
+            </button>
+            <button class="col-sm-2 btn btn-primary add" ng-click="add()">
+                <i class="icon-plus"></i>
+            </button>
+
+            <ul class="dropdown-menu btn-block">
+                <li ng-repeat="critical in criticals">
+                    <a href="#" ng-click="selectCrit(critical)">{{ formatCrit(critical) }}</a>
+                </li>
+            </ul>
+        </div>
+
+        <hr style="margin-top: 10px; margin-bottom: 10px;">
+
+        <!-- If there are no criticals, we show a nice message. -->
+        <h5 ng-show="!char.criticals || char.criticals.length == 0" class="text-center" style="margin-bottom: 0">No Critical Injuries</h5>
+
+        <!-- Display criticals -->
+        <div ng-repeat="critName in char.criticals track by $index" ng-init="collapse = true;">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="padding: 5px 10px; cursor: pointer" ng-click="collapse = !collapse">
+                    <button type="button" class="close" aria-label="Close" ng-click="remove($index); $event.stopPropagation()" style="margin-top: -2px">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <b>
+                        {{ getCrit(critName).title }} (<difficulty ng-repeat="num in getRange(critName)"></difficulty><span ng-if="!getCrit(critName).severity"> - </span>)
+                    </b>
+                </div>
+                <div class="panel-body" collapse="collapse" style="padding: 10px">
+                    <markdown src="getCrit(critName).description"></markdown>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

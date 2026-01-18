@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-edit"></i> Edit Talent</h3>
+</div>
+
+<div class="modal-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{ talent.description.name }}</h4>
+        </div>
+        <div class="panel-body">
+            <b>Activation:</b> <i>{{ talent.description.activation }}</i>
+            <div ng-show="talent.description.trees.length > 0">
+                <b>Trees:</b> <i>{{ talent.description.trees.join(', ') }}</i>
+            </div>
+            <markdown src="talent.description.description"></markdown>
+        </div>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="ranks">Ranks</label>
+            <input id="ranks" type="number" min="0" class="form-control" ng-model="talent.ranks" placeholder="0">
+        </div>
+        <div class="form-group">
+            <label for="description">Notes</label>
+            <textarea id="description" rows="10" class="form-control" ng-model="talent.notes"></textarea>
+            <p class="help-block text-right">
+                Use Markdown to format text. (<a target="_blank" href="https://guides.github.com/features/mastering-markdown/">Guide</a>)
+            </p>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(talent)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>

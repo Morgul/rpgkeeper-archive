@@ -1,0 +1,33 @@
+<div id="weapon-list" ng-repeat="weapon in char.weapons">
+    <div class="panel panel-default weapon-directive">
+        <div class="panel-heading" style="padding: 5px 10px; cursor: pointer" ng-click="collapse = !collapse">
+            <button type="button" class="close" aria-label="Close" ng-click="remove($index); $event.stopPropagation()" style="margin-top: -2px">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="close" aria-label="Edit" ng-click="edit(weapon); $event.stopPropagation()" style="margin-top: -2px; margin-right: 5px;">
+                <span aria-hidden="true"><i class="icon-edit" style="font-size: .72em;"></i></span>
+            </button>
+            <b>{{ weapon.name }}</b>
+        </div>
+        <table class="table" collapse="collapse">
+            <tr>
+                <th>Skill</th>
+                <th>Damage</th>
+                <th>Critical</th>
+                <th>Range</th>
+                <th>Special</th>
+                <th>Upgrades</th>
+            </tr>
+            <tr>
+                <td>{{ weapon.skill }}</td>
+                <td>{{ weapon.damage }}</td>
+                <td>{{ weapon.critical || '-' }}</td>
+                <td>{{ weapon.range | capitalize }}</td>
+                <td>{{ weapon.special.join(', ') }}</td>
+                <td>
+                    <markdown src="weapon.upgrades || 'No upgrades.'"></markdown>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

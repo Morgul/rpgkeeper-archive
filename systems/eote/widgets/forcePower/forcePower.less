@@ -1,0 +1,66 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Force Power List styles
+//----------------------------------------------------------------------------------------------------------------------
+
+.forcePower-directive {
+    .upgrade-list {
+        padding-left: 20px;
+        font-size: .85em;
+
+        li {
+            display: table-row;
+
+            & > b {
+                display: table-cell;
+
+                & + div {
+                    display: table-cell;
+                    padding-right: 5px;
+                    padding-left: 5px;
+
+                    & > p:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    /*
+    .upgrade-list {
+        padding-left: 20px;
+        font-size: .85em;
+
+        li {
+            display: flex;
+
+            & > b {
+                display: inline-block;
+                flex: 0 1 67px;
+
+                & + div {
+                    flex: 1 1 auto;
+
+                    & > p:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    */
+    /*
+    .upgrade-list {
+        li {
+            & > b + div {
+                display: inline;
+
+                & > p:first-child {
+                    display: inline;
+                }
+            }
+        }
+    }
+    */
+}
+
+//----------------------------------------------------------------------------------------------------------------------

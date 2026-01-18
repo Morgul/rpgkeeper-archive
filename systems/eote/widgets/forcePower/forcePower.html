@@ -1,0 +1,28 @@
+<div ng-repeat="forcePower in char.forcePowers">
+    <div class="panel panel-default forcePower-directive">
+        <div class="panel-heading" style="padding: 5px 10px; cursor: pointer" ng-click="collapse = !collapse">
+            <button type="button" class="close" aria-label="Close" ng-click="remove($index); $event.stopPropagation()" style="margin-top: -2px">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="close" aria-label="Edit" ng-click="edit(forcePower); $event.stopPropagation()" style="margin-top: -2px; margin-right: 5px;">
+                <span aria-hidden="true"><i class="icon-edit" style="font-size: .72em;"></i></span>
+            </button>
+            <b>{{ forcePower.name }}</b>
+        </div>
+        <div class="panel-body" collapse="collapse" style="padding: 10px">
+            <markdown src="forcePower.base.description"></markdown>
+
+            <!--hr style="margin-top: 10px; margin-bottom: 10px"-->
+            <h5 class="underlined">Upgrades</h5>
+
+            <h5 ng-show="!forcePower.upgrades || forcePower.upgrades.length == 0" style="margin-left: 10px">No upgrades.</h5>
+
+            <ul class="list-unstyled upgrade-list">
+                <li ng-repeat="upgrade in forcePower.upgrades">
+                    <b>{{ forcePower.base.upgrades[upgrade.index].name }}<span ng-if="upgrade.ranks > 1"> {{ upgrade.ranks }}</span>:</b>
+                    <markdown src="forcePower.base.upgrades[upgrade.index].description"></markdown>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

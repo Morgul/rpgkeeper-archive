@@ -1,0 +1,99 @@
+<div class="panel panel-default dice-roller">
+	<div class="panel-heading clearfix">
+		<div class="btn-toolbar pull-right">
+			<button class="btn btn-primary btn-sm" title="Roll" ng-click="roll()">
+				Roll
+			</button>
+			<button class="btn btn-default btn-sm" title="Clear Slots" ng-click="clear()">
+				<i class="icon-refresh"></i>
+			</button>
+		</div>
+
+		<h4 class="panel-title" style="padding: 6px 0">
+			<advantage></advantage> Dice Roller
+		</h4>
+	</div>
+	<div class="panel-body">
+		<b>Roll:</b> <span ng-bind-html="rollDisplay"></span>
+		<hr class="sm">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><ability></ability></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.ability">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('ability')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('ability')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><proficiency></proficiency></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.proficiency">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('proficiency')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('proficiency')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><difficulty></difficulty></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.difficulty">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('difficulty')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('difficulty')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><challenge></challenge></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.challenge">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('challenge')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('challenge')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><boost></boost></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.boost">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('boost')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('boost')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><setback></setback></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.setback">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('setback')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('setback')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="input-group dice-widget">
+					<span class="input-group-addon"><force></force></span>
+					<input type="number" class="form-control" placeholder="0" min="0" ng-model="dice.force">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="increase('force')"><i class="icon-plus"></i></button>
+                        <button class="btn btn-default" type="button" ng-click="decrease('force')"><i class="icon-minus"></i></button>
+                    </span>
+				</div>
+			</div>
+		</div>
+		<hr class="sm">
+		<div class="text-muted text-right">
+			 <span ng-bind-html="renderResults(results.full)"></span>&nbsp;
+		</div>
+		<h3 style="margin-bottom: 0">
+		     <span ng-bind-html="renderResults(results.canceled)"></span>&nbsp;
+		</h3>
+	</div>
+</div>

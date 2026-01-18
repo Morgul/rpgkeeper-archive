@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-plus"></i> Add Force Power</h3>
+</div>
+
+<div class="modal-body">
+    <div ng-show="loading" class="text-center">
+        <h4>Loading Force Powers</h4>
+        <progressbar class="progress-striped active" max="100" value="100"></progressbar>
+    </div>
+    <form ng-hide="loading">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" class="form-control" type="text" ng-model="forcePower.name" typeahead="forcePower.name for forcePower in searchForcePowers($viewValue)" typeahead-on-select="selectForcePower($item, $model, $label)">
+        </div>
+        <div class="form-group">
+            <label for="base-power">Base Power</label>
+            <textarea id="base-power" class="form-control" rows="5" ng-model="forcePower.description" ng-disabled="disabled"></textarea>
+        </div>
+    </form>
+    <span class="help-block">
+        Note: To add an upgrade to a power, add the power to you character, then edit the power.
+        (This will also add the upgrade to your character. It can be removed later without deleting it from the power.)
+    </span>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(forcePower)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

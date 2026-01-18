@@ -1,0 +1,21 @@
+<div class="container-fluid" ng-controller="EotEPageController">
+    <!-- If, somehow, we don't have the character, we need to do something -->
+    <div ng-if="notfound" class="text-center">
+        <h3>Character not found.</h3>
+        <p>
+            This generally means there's been some sort of an error. Try refreshing the page. If that doesn't fix it,
+            please contact the operator of the website.
+        </p>
+    </div>
+
+    <!-- Character Page -->
+    <div ng-if="!notfound && char">
+        <h1>{{ char.name }}</h1>
+        <div ng-include="'/systems/eote/partials/pages/character/character.html'"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div ng-if="!notfound && !char" class="text-center">
+        <h3><i class="icon-spinner icon-spin"></i> Loading character...</h3>
+    </div>
+</div>

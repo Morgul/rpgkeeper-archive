@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-plus"></i> Add Talent</h3>
+</div>
+
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" ng-model="talent.name" typeahead="talent.name for talent in searchTalents($viewValue)" typeahead-on-select="selectTalent($item, $model, $label)" placeholder="Ex: Anatomy Lessons">
+        </div>
+        <div class="form-group">
+            <label for="ranks">Ranks</label>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-model="talent.description.ranked" btn-checkbox ng-disabled="disabled">Ranked</button>
+                </span>
+                <input id="ranks" type="number" min="0" class="form-control" ng-model="talent.ranks" placeholder="0" ng-disabled="!talent.description.ranked">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="activation">Activation</label>
+            <select id="activation" class="form-control" ng-options="type for type in activationTypes" ng-model="talent.description.activation" ng-disabled="disabled">
+                <option value="">Please select an activation type.</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="trees">Trees</label>
+            <input id="trees" type="text" class="form-control" ng-model="talent.description.trees" ng-list=", " placeholder="Ex: Assassin, Doctor" ng-disabled="disabled">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" rows="10" class="form-control" ng-model="talent.description.description" ng-disabled="disabled" placeholder="Ex: Mys super awesome talent."></textarea>
+        </div>
+    </form>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(talent)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>

@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-plus"></i> Add Ability</h3>
+</div>
+
+<div class="modal-body">
+    <div ng-show="loading" class="text-center">
+        <h4>Loading Abilities</h4>
+        <progressbar class="progress-striped active" max="100" value="100"></progressbar>
+    </div>
+    <form ng-hide="loading">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" ng-model="ability.name" typeahead="ability.name for ability in abilities | filter:$viewValue" typeahead-on-select="selectAbility($item, $model, $label)" placeholder="Ex: Inorganic">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" rows="10" class="form-control" ng-model="ability.description" ng-disabled="!isNew(ability)" placeholder="Ex: My super awesome ability."></textarea>
+        </div>
+    </form>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(ability)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

@@ -1,0 +1,415 @@
+<div id="character-page">
+    <div class="first-row">
+        <div class="first-column">
+            <img ng-if="char.portrait" class="img-thumbnail visible-md visible-lg" ng-src="{{ char.portrait }}" width="300px" height="445px">
+            <div ng-if="!char.portrait" class="img-thumbnail visible-md visible-lg text-center" style="width: 300px; height: 445px; line-height: 445px; background: #f5f5f5;">
+                <i class="icon-user" style="font-size: 150px; color: #ccc;"></i>
+            </div>
+        </div>
+        <div class="middle-column">
+
+            <!-- Career -->
+            <div id="career-spec" class="panel panel-default stat-panel">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Career / Specializations</h4>
+                </div>
+                <div class="panel-body stat-row">
+                    <form style="width: 100%">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="career-label">Career</span>
+                                <input type="text" class="form-control" placeholder="Ex: Smuggler" aria-describedby="career-label" ng-model="char.career" ng-change="char.save()">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="specs-label">Specializations</span>
+                                <input type="text" class="form-control" placeholder="Ex: Pilot, Scoundrel" aria-describedby="specs-label" ng-model="char.specializations" ng-list=", " ng-change="char.save()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Characteristics -->
+            <div id="characteristics" class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editChars()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Characteristics</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="char-row">
+
+                        <!-- Brawn -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.brawn.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Brawn</h5>
+                            </div>
+                        </div>
+
+                        <!-- Agility -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.agility.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Agility</h5>
+                            </div>
+                        </div>
+
+                        <!-- Intellect -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.intellect.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Intellect</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="char-row">
+
+                        <!-- Cunning -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.cunning.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Cunning</h5>
+                            </div>
+                        </div>
+
+                        <!-- Willpower -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.willpower.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Willpower</h5>
+                            </div>
+                        </div>
+
+                        <!-- Presence -->
+                        <div class="panel panel-default char">
+                            <div class="panel-body text-center">
+                                <h4>{{ char.characteristics.presence.ranks || 0 }}</h4>
+                            </div>
+                            <div class="panel-footer">
+                                <h5 class="panel-title text-center">Presence</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="last-column">
+            <dice-roller id="dice-roller"></dice-roller>
+        </div>
+    </div>
+
+    <div class="second-row">
+        <div class="first-column">
+
+            <!-- Armor -->
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editArmor()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Armor <span ng-if="char.armor.name">- {{ char.armor.name }}</span></h4>
+                </div>
+                <table class="table table-condensed text-center">
+                    <tr>
+                        <th class="text-center">Defense</th>
+                        <th class="text-center">Soak</th>
+                        <th class="text-center">Hard Points</th>
+                        <th class="text-center">Encumbrance</th>
+                        <th class="text-center">Upgrades</th>
+                    </tr>
+                    <tr>
+                        <td>{{ char.armor.defense }}</td>
+                        <td>{{ char.armor.soak }}</td>
+                        <td>{{ char.armor.hardPoints }}</td>
+                        <td>{{ char.armor.encumbrance }}</td>
+                        <td class="text-left">
+                            <small>
+                                <markdown src="char.armor.upgrades || 'No upgrades.'"></markdown>
+                            </small>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Weapons -->
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <button type="button" class="close" aria-label="Add" ng-click="addWeapon()">
+                        <span aria-hidden="true"><i class="icon-plus"></i></span>
+                    </button>
+                    <h4 class="panel-title">Weapons</h4>
+                </div>
+                <div class="panel-body">
+                    <weapon-list char="char"></weapon-list>
+                </div>
+            </div>
+
+            <div class="skills-row" style="margin-bottom: 10px;">
+                <div class="col">
+
+                    <!-- Combat Skills -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button type="button" class="close" aria-label="Add" ng-click="addSkill('combat')">
+                                <span aria-hidden="true"><i class="icon-plus"></i></span>
+                            </button>
+                            <h4 class="panel-title">Combat Skills</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table style="width: 100%">
+                                <tr class="skill" ng-repeat="skill in char.skills | filter:{ type: 'combat' }">
+                                    <td ng-click="setSkillDice(skill)" style="cursor: pointer">
+                                        <b>{{ skill.name }}</b>
+                                        <small class="text-muted"><i>({{ skill.characteristic }})</i></small>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox" style="margin: 0">
+                                            <label>
+                                                <input type="checkbox" ng-model="skill.career" ng-change="char.save()"> Career
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <rank ng-model="skill.ranks" max="5" ng-change="char.save()"></rank>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Skills -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button type="button" class="close" aria-label="Add" ng-click="addSkill('knowledge')">
+                                <span aria-hidden="true"><i class="icon-plus"></i></span>
+                            </button>
+                            <h4 class="panel-title">Knowledge Skills</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table style="width: 100%">
+                                <tr class="skill" ng-repeat="skill in char.skills | filter:{ type: 'knowledge' }">
+                                    <td ng-click="setSkillDice(skill)" style="cursor: pointer">
+                                        <b>{{ skill.name }}</b>
+                                        <small class="text-muted"><i>({{ skill.characteristic }})</i></small>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox" style="margin: 0">
+                                            <label>
+                                                <input type="checkbox" ng-model="skill.career" ng-change="char.save()"> Career
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <rank ng-model="skill.ranks" max="5" ng-change="char.save()"></rank>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- General Skills -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button type="button" class="close" aria-label="Add" ng-click="addSkill('general')">
+                                <span aria-hidden="true"><i class="icon-plus"></i></span>
+                            </button>
+                            <h4 class="panel-title">General Skills</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table style="width: 100%">
+                                <tr class="skill" ng-repeat="skill in char.skills | filter:{ type: 'general' }">
+                                    <td ng-click="setSkillDice(skill)" style="cursor: pointer">
+                                        <b>{{ skill.name }}</b>
+                                        <small class="text-muted"><i>({{ skill.characteristic }})</i></small>
+                                    </td>
+                                    <td>
+                                        <div class="checkbox" style="margin: 0">
+                                            <label>
+                                                <input type="checkbox" ng-model="skill.career" ng-change="char.save()"> Career
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <rank ng-model="skill.ranks" max="5" ng-change="char.save()"></rank>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                    <!-- Abilities -->
+                    <div class="panel panel-default abilities">
+                        <div class="panel-heading">
+                            <button type="button" class="close" aria-label="Add" ng-click="addAbility()">
+                                <span aria-hidden="true"><i class="icon-plus"></i></span>
+                            </button>
+                            <h4 class="panel-title">Abilities</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div ng-show="!abilities || abilities.length == 0" class="text-center">
+                                <b>No special abilities.</b>
+                            </div>
+
+                            <ability-list abilities="char.abilities" char="char"></ability-list>
+                        </div>
+                    </div>
+
+                    <!-- Talents -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <button type="button" class="close" aria-label="Add" ng-click="addTalent()">
+                                <span aria-hidden="true"><i class="icon-plus"></i></span>
+                            </button>
+                            <h4 class="panel-title">Talents</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div ng-show="!char.talents || char.talents.length == 0" class="text-center">
+                                <b>No talents.</b>
+                            </div>
+
+                            <talent-list talents="char.talents" char="char"></talent-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Force Powers -->
+            <div class="panel panel-default" style="width: 830px">
+                <div class="panel-heading clearfix">
+                    <button type="button" class="close" aria-label="Add" ng-click="addForcePower()">
+                        <span aria-hidden="true"><i class="icon-plus"></i></span>
+                    </button>
+                    <h4 class="panel-title">Force Powers</h4>
+                </div>
+                <div class="panel-body">
+                    <div ng-show="!char.forcePowers || char.forcePowers.length == 0" class="text-center">
+                        <b>No Force Powers.</b>
+                    </div>
+
+                    <force-power-list char="char"></force-power-list>
+                </div>
+            </div>
+
+        </div>
+        <div class="second-column">
+
+            <!-- Defenses -->
+            <div class="panel panel-default stat-panel">
+                <div class="panel-heading">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editDefenses()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Defenses</h4>
+                </div>
+                <div class="panel-body stat-row">
+                    <div class="stat">
+                        <h5 class="title">Soak</h5>
+                        <div class="body">
+                            <h4>{{ char.soak || 0 }}</h4>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <h5 class="title">Melee / Ranged</h5>
+                        <div class="body">
+                            <h4>{{ char.meleeDefense || 0 }} / {{ char.rangedDefense || 0 }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wounds/Strain -->
+            <eote-hpcalc char="char"></eote-hpcalc>
+
+            <!-- Crit Tracker -->
+            <critical-tracker char="char"></critical-tracker>
+
+            <!-- Force -->
+            <div class="panel panel-default stat-panel">
+                <div class="panel-heading">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editForce()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Force</h4>
+                </div>
+                <div class="panel-body stat-row">
+                    <div class="stat">
+                        <h5 class="title">Rank</h5>
+                        <div class="body">
+                            <h4>{{ char.forceRank || 0 }}</h4>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <h5 class="title">Pool / Committed</h5>
+                        <div class="body">
+                            <h4>{{ char.forcePool || 0 }} / {{ char.forceCommitted || 0 }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div id="experience" class="panel panel-default stat-panel">
+                <div class="panel-heading">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editExperience()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Experience</h4>
+                </div>
+                <div class="panel-body stat-row">
+                    <div class="stat">
+                        <h5 class="title">Total</h5>
+                        <div class="body">
+                            <h4>{{ char.totalXP || 0 }}</h4>
+                        </div>
+                    </div>
+                    <div class="stat">
+                        <h5 class="title">Available</h5>
+                        <div class="body">
+                            <h4>{{ char.availableXP || 0 }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Notes -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Quick Notes</h4>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                    <textarea class="form-control" rows="5" style="border: none; border-radius: 0; resize: vertical" ng-model="char.quickNotes" ng-change="char.save()"></textarea>
+                </div>
+            </div>
+
+            <!-- ToDo: Worry about this at some point in the future. -->
+            <!-- Encumbrance -->
+            <!--div class="panel panel-default">
+                <div class="panel-heading">
+                    <button type="button" class="close" aria-label="Edit" ng-click="editEncumbance()">
+                        <span aria-hidden="true"><i class="icon-edit"></i></span>
+                    </button>
+                    <h4 class="panel-title">Encumbrance</h4>
+                </div>
+                <div class="panel-body text-center">
+                    <h3 style="margin: 0">{{ char.encumbrance || 0 }} / {{ char.encumbranceThreshold || 0 }}</h3>
+                </div>
+            </div-->
+        </div>
+    </div>
+</div>

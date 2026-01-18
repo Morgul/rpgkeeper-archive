@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-plus"></i> Add Weapon</h3>
+</div>
+
+<div class="modal-body">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" type="text" ng-model="weapon.name" typeahead="weapon.name for weapon in weapons | filter:$viewValue" typeahead-on-select="selectWeapon($item)" placeholder="Ex: Blaster Pistol">
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="skill">Skill</label>
+                <select id="skill" class="form-control" ng-options="skill.name as skill.name for skill in char.skills | filter:skillsFilter | orderBy: 'name'" ng-model="weapon.skill">
+                    <option value="">Please select a skill...</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="damage">Damage</label>
+                <input id="damage" class="form-control" type="number" ng-model="weapon.damage">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="critical">Critical</label>
+                <input id="critical" class="form-control" type="number" ng-model="weapon.critical">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="range">Range</label>
+                <select id="range" class="form-control" ng-options="range as range | capitalize for range in ranges" ng-model="weapon.range">
+                    <option value="">Please select a range...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="special">Special</label>
+        <input id="special" class="form-control" type="text" ng-model="weapon.special" ng-list=", ">
+    </div>
+    <div class="form-group">
+        <label for="upgrades">Upgrades</label>
+        <textarea id="upgrades" rows="5" class="form-control" ng-model="weapon.upgrades"></textarea>
+    </div>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(weapon)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

@@ -90,6 +90,9 @@ var SocketProvider = function() {
             // An array of events that were registered before we connected.
             this.earlyEvents = [];
 
+            // Cache for channel connections to avoid creating multiple sockets
+            this._channels = {};
+
         } // end SocketService
 
         SocketService.prototype.connect = function()
@@ -262,6 +265,14 @@ var SocketProvider = function() {
 
         SocketService.prototype.channel = function(channel)
         {
+            var self = this;
+
+            // Return cached channel if it exists
+            if(this._channels[channel])
+            {
+                return this._channels[channel];
+            }
+
             // If we're not using the mock service, we should use socket.io.
             if(!socketLib)
             {
@@ -275,10 +286,12 @@ var SocketProvider = function() {
                 this.socket = socket
             } // end SocketChannel
 
-            SocketChannel.prototype.on = this.on;
-            SocketChannel.prototype.emit = this.emit;
+            SocketChannel.prototype.on = self.on;
+            SocketChannel.prototype.emit = self.emit;
 
-            return new SocketChannel(socket);
+            // Cache and return the channel
+            this._channels[channel] = new SocketChannel(socket);
+            return this._channels[channel];
         }; // end channel
 
         // -------------------------------------------------------------------------------------------------------------

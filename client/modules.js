@@ -13,7 +13,8 @@ angular.module('rpgkeeper.systems', [
     'rpgkeeper.systems.services',
     'rpgkeeper.systems.controllers',
     'rpgkeeper.systems.widgets',
-    'rpgkeeper.systems.filters'
+    'rpgkeeper.systems.filters',
+    'eote'
 ]);
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-edit"></i> Edit Characteristics</h3>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="brawn" class="col-sm-4 control-label">Brawn</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="brawn" class="form-control" placeholder="0" min="0" ng-model="characteristics.brawn">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="agility" class="col-sm-4 control-label">Agility</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="agility" class="form-control" placeholder="0" min="0" ng-model="characteristics.agility">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="intellect" class="col-sm-4 control-label">Intellect</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="intellect" class="form-control" placeholder="0" min="0" ng-model="characteristics.intellect">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="cunning" class="col-sm-4 control-label">Cunning</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="cunning" class="form-control" placeholder="0" min="0" ng-model="characteristics.cunning">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="willpower" class="col-sm-4 control-label">Willpower</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="willpower" class="form-control" placeholder="0" min="0" ng-model="characteristics.willpower">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="presence" class="col-sm-4 control-label">Presence</label>
+                    <div class="col-sm-8">
+                        <input type="number" id="presence" class="form-control" placeholder="0" min="0" ng-model="characteristics.presence">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(characteristics)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

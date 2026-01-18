@@ -1,0 +1,8 @@
+<div style="display: inline-block;">
+    <i ng-repeat="r in range track by $index"
+       ng-class="($index < value && onState) || offState"
+       ng-mouseenter="hover($index + 1)"
+       ng-mouseleave="hover(0)"
+       ng-click="rank($index + 1)"
+       style="margin-right: 2px"></i>
+</div>

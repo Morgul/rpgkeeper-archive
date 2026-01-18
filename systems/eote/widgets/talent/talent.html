@@ -1,0 +1,27 @@
+<div ng-repeat="talent in talents">
+    <div class="panel panel-default talent-directive">
+        <div class="panel-heading" style="padding: 5px 10px; cursor: pointer" ng-click="collapse = !collapse">
+            <button type="button" class="close" aria-label="Close" ng-click="remove($index); $event.stopPropagation()" style="margin-top: -2px">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="close" aria-label="Edit" ng-click="edit(talent); $event.stopPropagation()" style="margin-top: -2px; margin-right: 5px;">
+                <span aria-hidden="true"><i class="icon-edit" style="font-size: .72em;"></i></span>
+            </button>
+            <b>{{ talent.name }} {{talent.ranks}}</b>
+        </div>
+        <div class="panel-body" collapse="collapse" style="padding: 10px">
+            <b>Activation:</b> <i>{{ talent.description.activation }}</i>
+            <div ng-show="talent.description.trees.length > 0">
+                <b>Trees:</b> <i>{{ talent.description.trees.join(', ') }}</i>
+            </div>
+            <markdown src="talent.description.description"></markdown>
+
+            <div ng-show="talent.notes" style="margin-left: 10px; margin-right: 10px;">
+                <hr style="margin-top: 10px; margin-bottom: 10px">
+                <div style="padding-left: 10px; padding-right: 10px;">
+                    <i><small><markdown src="talent.notes"></markdown></small></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

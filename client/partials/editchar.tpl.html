@@ -15,19 +15,21 @@
                 <p class="form-control-static">{{ editchar.system.name }}</p>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label">Portrait</label>
-            <div class="controls" style="text-align: center">
-                <img class="img-polaroid portrait" width="300px" height="auto" ng-if="editchar.portrait" ng-src="{{ editchar.portrait }}" style="margin-bottom: 5px;">
-                <button type="button" class="btn btn-block btn-default" ng-click="choosePortrait()"><i class="icon-dropbox"></i> Choose Portrait from Dropbox</button>
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;">
+                <label class="control-label">Portrait</label>
+                <div class="controls" style="text-align: center">
+                    <img class="img-polaroid portrait" width="200px" height="auto" ng-if="editchar.portrait" ng-src="{{ editchar.portrait }}" style="margin-bottom: 5px;">
+                    <button type="button" class="btn btn-block btn-default" ng-click="choosePortrait()"><i class="icon-dropbox"></i> Choose Portrait from Dropbox</button>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Thumbnail</label>
-            <div class="controls" style="text-align: center">
-                <img class="img-polaroid" width="50px" height="50px" ng-if="editchar.thumbnail" ng-src="{{ editchar.thumbnail }}" style="margin-bottom: 5px;">
-                <button type="button" class="btn btn-block btn-default" ng-click="chooseThumbnail()"><i class="icon-dropbox"></i> Choose Thumbnail from Dropbox</button>
-                <span class="help-block">Small image for the dashboard list. If not set, uses the portrait.</span>
+            <div class="form-group" style="flex: 1;">
+                <label class="control-label">Thumbnail</label>
+                <div class="controls" style="text-align: center">
+                    <img class="img-polaroid" width="50px" height="50px" ng-if="editchar.thumbnail" ng-src="{{ editchar.thumbnail }}" style="margin-bottom: 5px;">
+                    <button type="button" class="btn btn-block btn-default" ng-click="chooseThumbnail()"><i class="icon-dropbox"></i> Choose Thumbnail from Dropbox</button>
+                    <span class="help-block">Small image for the dashboard list. If not set, uses the portrait.</span>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -39,7 +41,7 @@
         <div class="form-group">
             <label class="control-label" for="backstory">Backstory</label>
             <div class="controls">
-                <textarea class="form-control" id="backstory" rows="10" placeholder="Tell us about what your character's past! (His epic battle with child-eating bats, for instance.)" ng-model="editchar.backstory"></textarea>
+                <textarea class="form-control" id="backstory" rows="4" placeholder="Tell us about what your character's past! (His epic battle with child-eating bats, for instance.)" ng-model="editchar.backstory"></textarea>
             </div>
         </div>
     </form>

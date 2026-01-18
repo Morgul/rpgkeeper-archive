@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-edit"></i> Edit Armor</h3>
+</div>
+
+<div class="modal-body">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" type="text" ng-model="armor.name">
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="defense">Defense</label>
+                <input id="defense" class="form-control" type="number" ng-model="armor.defense">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="soak">Soak</label>
+                <input id="soak" class="form-control" type="number" ng-model="armor.soak">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="hard-points">Hard Points</label>
+                <input id="hard-points" class="form-control" type="number" ng-model="armor.hardPoints">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="encumbrance">Encumbrance</label>
+                <input id="encumbrance" class="form-control" type="number" ng-model="armor.encumbrance">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="upgrades">Upgrades</label>
+        <textarea id="upgrades" rows="5" class="form-control" ng-model="armor.upgrades"></textarea>
+    </div>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(armor)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>

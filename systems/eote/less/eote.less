@@ -1,0 +1,35 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Edge of the Empire System Styles
+//----------------------------------------------------------------------------------------------------------------------
+
+// Base styles
+@import "flex.less";
+@import "dice.less";
+@import "overrides.less";
+
+// Widget styles
+@import "../widgets/diceroller/diceroller.less";
+@import "../widgets/forcePower/forcePower.less";
+@import "../widgets/criticals/criticals.less";
+@import "../widgets/hpcalc/hpcalc.less";
+@import "../widgets/weapons/weapons.less";
+
+// Page styles
+@import "../partials/pages/character/character.less";
+
+//----------------------------------------------------------------------------------------------------------------------
+// EotE Custom Font
+//----------------------------------------------------------------------------------------------------------------------
+
+@font-face {
+    font-family: 'EotESymbol';
+    src: url('/systems/eote/fonts/EotESymbol-RegularMod.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.eote-symbol {
+    font-family: 'EotESymbol', sans-serif;
+}
+
+//----------------------------------------------------------------------------------------------------------------------

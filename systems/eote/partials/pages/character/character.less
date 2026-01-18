@@ -1,0 +1,206 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Character Styles
+//----------------------------------------------------------------------------------------------------------------------
+
+#character-page {
+    .first-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: stretch;
+
+        .first-column {
+            flex: 0 0 300px;
+            width: 300px;
+            height: 445px;
+
+            @media(max-width: 1200px) {
+                width: 0;
+                display: none;
+            }
+        }
+
+        .middle-column {
+            flex: 1 1 300px;
+
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: stretch;
+            align-items: stretch;
+            margin-left: 10px;
+
+            @media(max-width: 1200px) {
+                margin-left: 0;
+            }
+
+            #characteristics {
+                flex: 1 1 auto;
+            }
+
+            #career-spec {
+                flex: 0 1 auto;
+            }
+        }
+
+        .last-column {
+            flex: 1 1 auto;
+            margin-left: 10px;
+
+            width: 300px;
+        }
+    }
+
+    .second-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: stretch;
+
+        .first-column {
+            flex: 1 1 auto;
+        }
+
+        .second-column {
+            flex: 0 1 300px;
+            margin-left: 10px;
+        }
+    }
+
+    .char-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: stretch;
+
+        & + .char-row {
+            margin-top: 15px;
+        }
+
+        .char {
+            flex: 1 1 auto;
+            margin-bottom: 0;
+            width: 90px;
+
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
+
+            h3, h4 {
+                margin: 0;
+            }
+
+            .panel-title {
+                //font-size: 14px;
+            }
+
+            .panel-body {
+                //padding: 9px;
+            }
+        }
+    }
+
+    .stat-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: stretch;
+
+        .stat {
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 4px;
+            flex: 1 1 auto;
+            margin-bottom: 0;
+
+            .title {
+                text-align: center;
+                margin: 0;
+                padding-bottom: 4px;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .body {
+                padding-top: 5px;
+                text-align: center;
+            }
+
+            h4 {
+                display: inline-block;
+            }
+
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
+
+            .panel-title {
+                font-size: 14px;
+            }
+
+            h3, h4 {
+                margin: 0;
+            }
+        }
+    }
+
+    .skills-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: stretch;
+
+        .skill:hover {
+            background-color: #f5f5f5;
+        }
+
+        & > .col {
+            display: flex;
+            width: 285px;
+            flex: 1 1 auto;
+            flex-direction: column;
+            margin-bottom: 0;
+
+            &:not(:first-child) {
+                margin-left: 10px;
+            }
+
+            & > .panel {
+                flex: 1 1 auto;
+
+                &.abilities {
+                    flex: 0 1 auto;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .panel {
+        margin-bottom: 10px;
+
+        &.stat-panel {
+            margin-bottom: 12px;
+        }
+    }
+
+    h5.underlined {
+        padding-bottom: 2px;
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------

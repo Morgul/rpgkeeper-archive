@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-edit"></i> Edit Force Power</h3>
+</div>
+
+<div class="modal-body">
+    <div class="panel panel-default forcePower-directive">
+        <div class="panel-heading" style="padding: 5px 10px;">
+            <b>{{ forcePower.name }}</b>
+        </div>
+        <div class="panel-body" style="padding: 10px">
+            <markdown src="forcePower.base.description"></markdown>
+        </div>
+    </div>
+
+    <hr class="sm">
+
+    <p class="text-muted">
+        This is a list of all upgrades associated with this power. To purchase an upgrade for your character, simply
+        click the 'Purchased' button on the power. If you have purchased it more than once, simply increase the 'ranks'
+        field, next to the 'Purchased' button.
+    </p>
+
+    <div ng-if="forcePower.base.upgrades.length > 0" class="row-flex">
+        <div class="well well-sm col-half" ng-repeat="upgrade in forcePower.base.upgrades" ng-init="populateUpgrade(upgrade, $index)">
+            <form style="width: 100%;">
+                <button ng-if="upgrade.new" type="button" class="close" aria-label="Close" style="position: relative; top:-3px" ng-click="removeUpgrade($index)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="form-group">
+                    <label for="name-{{$index}}">Name</label>
+                    <input id="name-{{$index}}" class="form-control" type="text" placeholder="Ex: Magnitude" ng-model="upgrade.name" ng-disabled="!upgrade.new">
+                </div>
+                <div class="form-group">
+                    <label for="ranks-{{$index}}">Ranks</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" ng-model="upgrade.purchased" btn-checkbox>Purchased</button>
+                        </span>
+                        <input id="ranks-{{$index}}" class="form-control" type="number" min="1" placeholder="1" ng-model="upgrade.ranks" ng-disabled="!upgrade.purchased">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="desc-{{$index}}">Description</label>
+                    <textarea id="desc-{{$index}}" class="form-control" rows="5" placeholder="Ex: My special awesome upgrade." ng-model="upgrade.description" ng-disabled="!upgrade.new"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix" style="margin-bottom: 10px;">
+        <a href="#" class="pull-right" ng-click="addUpgrade()"><i class="icon-plus"></i> Add Upgrade</a>
+    </div>
+    <div ng-include="'/systems/eote/widgets/help/formatting.html'"></div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="save(forcePower)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

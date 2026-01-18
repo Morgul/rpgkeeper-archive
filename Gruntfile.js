@@ -15,7 +15,7 @@ module.exports = function(grunt) {
                 js: "systems/**/js",
                 controllers: "<%= project.systems.js %>/*controller*.js",
                 filters: "<%= project.systems.js %>/*filter*.js",
-                widgets: "systems/**/widgets/**/*.js"
+                widgets: ["systems/**/widgets/**/*.js", "systems/**/partials/**/*.js", "systems/**/js/*.model.js", "systems/**/js/*service*.js"]
 			}
 		},
         html2js: {

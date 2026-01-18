@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-plus"></i> Add Skill</h3>
+</div>
+
+<div class="modal-body">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" type="text" ng-model="skill.name">
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="char">Characteristic</label>
+                <select id="char" class="form-control" ng-options="v.name as v.name for (k, v) in char.characteristics" ng-model="skill.characteristic">
+                    <option value="">Please select a characteristic...</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" class="form-control" ng-options="type as type | capitalize for type in types" ng-model="skill.type"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(skill)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

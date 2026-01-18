@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h3 class="modal-title"><i class="icon-edit"></i> Edit Bio</h3>
+</div>
+
+<div class="modal-body">
+    <form class="row">
+        <div class="form-group col-sm-12">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Ex: Dash Rendar" ng-model="char.name">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="species">Species</label>
+            <input type="text" class="form-control" id="species" placeholder="Ex: Human" ng-model="char.species">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age" placeholder="34" ng-model="char.age">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="gender">Gender</label>
+            <input type="text" class="form-control" id="gender" placeholder="Ex: Male" ng-model="char.gender">
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="height">Height</label>
+            <input type="text" class="form-control" id="height" placeholder="Ex: 5'11" ng-model="char.height">
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="$close(char)"><i class="icon-save"></i> Save</button>
+    <button class="btn btn-default" ng-click="$dismiss()"><i class="icon-remove"></i> Cancel</button>
+</div>
+

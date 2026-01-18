@@ -1,0 +1,36 @@
+<div  class="container" ng-controller="MainCtrl">
+
+    <!-- Handle the error case -->
+    <div ng-if="notfound" class="text-center">
+        <h3>Character not found.</h3>
+        <p>
+            This generally means there's been some sort of an error. Try refreshing the page. If that doesn't fix it,
+            please contact the operator of the website.
+        </p>
+    </div>
+
+    <!-- Character Page -->
+    <div ng-if="!notfound">
+        <ul class="nav nav-pills pull-right">
+            <li role="presentation" ng-class="{ active: nav == 'character' }">
+                <a ng-click="nav = 'character'"><i class="icon-list-alt"></i> Character</a>
+            </li>
+            <li role="presentation" ng-class="{ active: nav == 'ship' }">
+                <a ng-click="nav = 'ship'"><i class="icon-rocket"></i> Ship</a>
+            </li>
+            <li role="presentation" ng-class="{ active: nav == 'notes' }">
+                <a ng-click="nav = 'notes'"><i class="icon-file-text"></i> Notes</a>
+            </li>
+        </ul>
+        <h1>{{ char.name }}
+            <small>
+                {{ char.gender }} {{ char.species }} <span ng-show="char.age">{{ char.age }} yrs</span><span ng-show="char.height">, {{ char.height }}</span>
+                <button type="button" class="btn btn-link" aria-label="Close" ng-click="editBio()" style="margin-left: -15px; font-size: .75em;">
+                    <span aria-hidden="true"><i class="icon-edit"></i></span>
+                </button>
+            </small>
+        </h1>
+
+        <div ng-include="'/systems/eote/pages/' + nav + '/' + nav + '.html'"></div>
+    </div>
+</div>

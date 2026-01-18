@@ -1,6 +1,9 @@
 <div id="summary">
     <div class="stats-row">
-        <img class="img-thumbnail visible-md visible-lg" ng-attr-src="{{ pageCtrl.baseChar.portrait || 'http://placehold.it/800x1200' }}" width="300px" height="445px">
+        <img ng-if="pageCtrl.baseChar.portrait" class="img-thumbnail visible-md visible-lg" ng-src="{{ pageCtrl.baseChar.portrait }}" width="300px" height="445px">
+        <div ng-if="!pageCtrl.baseChar.portrait" class="img-thumbnail visible-md visible-lg text-center" style="width: 300px; height: 445px; line-height: 445px; background: #f5f5f5;">
+            <i class="icon-user" style="font-size: 150px; color: #ccc;"></i>
+        </div>
         <div class="middle-column">
             <!-- Stats -->
             <div id="summary-stats" class="panel panel-default">

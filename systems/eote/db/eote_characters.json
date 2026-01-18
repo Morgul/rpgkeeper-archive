@@ -1,0 +1,379 @@
+{
+    "2QIw5L": {
+        "baseChar": "2QIw5L",
+        "characteristics": [
+            {
+                "name": "Brawn",
+                "abbrev": "Br",
+                "ranks": 5
+            },
+            {
+                "name": "Agility",
+                "abbrev": "Ag",
+                "ranks": 5
+            },
+            {
+                "name": "Intellect",
+                "abbrev": "Int",
+                "ranks": 5
+            },
+            {
+                "name": "Cunning",
+                "abbrev": "Cun",
+                "ranks": 5
+            },
+            {
+                "name": "Willpower",
+                "abbrev": "Will",
+                "ranks": 5
+            },
+            {
+                "name": "Presence",
+                "abbrev": "Pr",
+                "ranks": 5
+            }
+        ],
+        "skills": [
+            {
+                "name": "Astrogation",
+                "type": "general",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:63"
+            },
+            {
+                "name": "Athletics",
+                "type": "general",
+                "characteristic": "Brawn",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:64"
+            },
+            {
+                "name": "Charm",
+                "type": "general",
+                "characteristic": "Presence",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:65"
+            },
+            {
+                "name": "Coercion",
+                "type": "general",
+                "characteristic": "Willpower",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:66"
+            },
+            {
+                "name": "Computers",
+                "type": "general",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:67"
+            },
+            {
+                "name": "Cool",
+                "type": "general",
+                "characteristic": "Presence",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:68"
+            },
+            {
+                "name": "Coordination",
+                "type": "general",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:69"
+            },
+            {
+                "name": "Deception",
+                "type": "general",
+                "characteristic": "Cunning",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:70"
+            },
+            {
+                "name": "Discipline",
+                "type": "general",
+                "characteristic": "Willpower",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:71"
+            },
+            {
+                "name": "Leadership",
+                "type": "general",
+                "characteristic": "Presence",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:72"
+            },
+            {
+                "name": "Mechanics",
+                "type": "general",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:73"
+            },
+            {
+                "name": "Medicine",
+                "type": "general",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:74"
+            },
+            {
+                "name": "Negotiation",
+                "type": "general",
+                "characteristic": "Presence",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:75"
+            },
+            {
+                "name": "Perception",
+                "type": "general",
+                "characteristic": "Cunning",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:76"
+            },
+            {
+                "name": "Piloting - Space",
+                "type": "general",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:77"
+            },
+            {
+                "name": "Piloting - Planetary",
+                "type": "general",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:78"
+            },
+            {
+                "name": "Resilience",
+                "type": "general",
+                "characteristic": "Brawn",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:79"
+            },
+            {
+                "name": "Skulduggery",
+                "type": "general",
+                "characteristic": "Cunning",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:80"
+            },
+            {
+                "name": "Stealth",
+                "type": "general",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:81"
+            },
+            {
+                "name": "Streetwise",
+                "type": "general",
+                "characteristic": "Cunning",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:82"
+            },
+            {
+                "name": "Survival",
+                "type": "general",
+                "characteristic": "Cunning",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:83"
+            },
+            {
+                "name": "Vigilance",
+                "type": "general",
+                "characteristic": "Willpower",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:84"
+            },
+            {
+                "name": "Core Worlds",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:49"
+            },
+            {
+                "name": "Education",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:50"
+            },
+            {
+                "name": "Lore",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:51"
+            },
+            {
+                "name": "Outer Rim",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:52"
+            },
+            {
+                "name": "Underworld",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:53"
+            },
+            {
+                "name": "Xenology",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:54"
+            },
+            {
+                "name": "Warfare",
+                "type": "knowledge",
+                "characteristic": "Intellect",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:55"
+            },
+            {
+                "name": "Brawl",
+                "type": "combat",
+                "characteristic": "Brawn",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:37"
+            },
+            {
+                "name": "Gunnery",
+                "type": "combat",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:38"
+            },
+            {
+                "name": "Lightsaber",
+                "type": "combat",
+                "characteristic": "Brawn",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:39"
+            },
+            {
+                "name": "Melee",
+                "type": "combat",
+                "characteristic": "Brawn",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:40"
+            },
+            {
+                "name": "Ranged - Light",
+                "type": "combat",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": true,
+                "$$hashKey": "object:41"
+            },
+            {
+                "name": "Ranged - Heavy",
+                "type": "combat",
+                "characteristic": "Agility",
+                "ranks": 0,
+                "career": false,
+                "$$hashKey": "object:42"
+            }
+        ],
+        "talents": [
+            {
+                "name": "Convincing Demeanor",
+                "$$hashKey": "object:475"
+            }
+        ],
+        "forcePowers": [
+            {
+                "name": "Sense",
+                "$$hashKey": "object:490"
+            },
+            {
+                "name": "Protect/Unleash",
+                "$$hashKey": "object:504"
+            }
+        ],
+        "abilities": [
+            "Human Special Ability"
+        ],
+        "weapons": [
+            {
+                "name": "Blaster Pistol",
+                "skill": "Ranged - Light",
+                "damage": 6,
+                "critical": 3,
+                "range": "medium",
+                "special": [
+                    "Stun setting"
+                ],
+                "$$hashKey": "object:418"
+            }
+        ],
+        "equipment": [],
+        "criticals": [
+            "Sudden Jolt"
+        ],
+        "notes": [],
+        "quickNotes": "This is a quick note. Look at how quick it is!",
+        "specializations": [
+            "Crash Test Dummy"
+        ],
+        "armor": {
+            "defense": 0,
+            "soak": 0,
+            "hardPoints": 0,
+            "encumbrance": 0
+        },
+        "soak": 0,
+        "forceRank": 3,
+        "forcePool": 3,
+        "forceCommitted": 3,
+        "meleeDefense": 0,
+        "rangedDefense": 0,
+        "wounds": 0,
+        "woundThreshold": 0,
+        "strain": 0,
+        "strainThreshold": 0,
+        "totalXP": 420,
+        "availableXP": 69,
+        "career": "Smuggler"
+    }
+}

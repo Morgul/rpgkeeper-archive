@@ -14,6 +14,9 @@ ul.navbar-nav > li + li {
 body .modal.wide .modal-dialog {
   width: 900px;
 }
+.modal-dialog {
+  width: 700px;
+}
 .modal-header .subtitle {
   font-size: .95em;
   color: #777;
@@ -24137,6 +24140,1211 @@ td.visible-print {
 .tooltip-inner {
   max-width: 500px;
   white-space: nowrap;
+}
+
+@font-face {
+  font-family: "EotE Symbol";
+  src: url(/systems/eote/fonts/EotESymbol-RegularMod.otf);
+}
+.proficiency,
+proficiency {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #ece44d;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.proficiency:before,
+proficiency:before {
+  content: "c";
+}
+.ability,
+ability {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #5fb576;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.ability:before,
+ability:before {
+  content: "d";
+}
+.boost,
+boost {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #95caeb;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.boost:before,
+boost:before {
+  content: "b";
+}
+.force,
+force {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #ffffff;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.force:before,
+force:before {
+  content: "c";
+}
+.challenge,
+challenge {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #bb312e;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.challenge:before,
+challenge:before {
+  content: "c";
+}
+.difficulty,
+difficulty {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #706497;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.difficulty:before,
+difficulty:before {
+  content: "d";
+}
+.setback,
+setback {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #000000;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.setback:before,
+setback:before {
+  content: "b";
+}
+.success,
+success {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.success:before,
+success:before {
+  content: "s";
+}
+.advantage,
+advantage {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.advantage:before,
+advantage:before {
+  content: "a";
+}
+.triumph,
+triumph {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.triumph:before,
+triumph:before {
+  content: "x";
+}
+.light-side,
+light-side {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.light-side:before,
+light-side:before {
+  content: "Z";
+}
+.force-point,
+force-point {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.force-point:before,
+force-point:before {
+  content: "F";
+}
+.failure,
+failure {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.failure:before,
+failure:before {
+  content: "f";
+}
+.threat,
+threat {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.threat:before,
+threat:before {
+  content: "t";
+}
+.despair,
+despair {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.despair:before,
+despair:before {
+  content: "o";
+}
+.dark-side,
+dark-side {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.dark-side:before,
+dark-side:before {
+  content: "z";
+}
+
+.row-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row-flex .col-half {
+  display: flex;
+  width: calc(50% - 5px);
+}
+.row-flex .col-half:nth-child(even) {
+  margin-left: 10px;
+}
+@media (max-width: 767px) {
+  .row-flex .col-half {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
+@font-face {
+  font-family: "EotE Symbol";
+  src: url(/systems/eote/fonts/EotESymbol-RegularMod.otf);
+}
+.proficiency,
+proficiency {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #ece44d;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.proficiency:before,
+proficiency:before {
+  content: "c";
+}
+.ability,
+ability {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #5fb576;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.ability:before,
+ability:before {
+  content: "d";
+}
+.boost,
+boost {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #95caeb;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.boost:before,
+boost:before {
+  content: "b";
+}
+.force,
+force {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #ffffff;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.force:before,
+force:before {
+  content: "c";
+}
+.challenge,
+challenge {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #bb312e;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.challenge:before,
+challenge:before {
+  content: "c";
+}
+.difficulty,
+difficulty {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #706497;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.difficulty:before,
+difficulty:before {
+  content: "d";
+}
+.setback,
+setback {
+  font-family: "EotE Symbol";
+  font-style: normal;
+  color: #000000;
+  /* This only works in webkit based browsers. OTOH, it looks alright without it. */
+
+  text-stroke: 1px black;
+  -moz-text-stroke: 1px black;
+  -webkit-text-stroke: 1px black;
+}
+.setback:before,
+setback:before {
+  content: "b";
+}
+.success,
+success {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.success:before,
+success:before {
+  content: "s";
+}
+.advantage,
+advantage {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.advantage:before,
+advantage:before {
+  content: "a";
+}
+.triumph,
+triumph {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.triumph:before,
+triumph:before {
+  content: "x";
+}
+.light-side,
+light-side {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.light-side:before,
+light-side:before {
+  content: "Z";
+}
+.force-point,
+force-point {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.force-point:before,
+force-point:before {
+  content: "F";
+}
+.failure,
+failure {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.failure:before,
+failure:before {
+  content: "f";
+}
+.threat,
+threat {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.threat:before,
+threat:before {
+  content: "t";
+}
+.despair,
+despair {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.despair:before,
+despair:before {
+  content: "o";
+}
+.dark-side,
+dark-side {
+  font-family: "EotE Symbol";
+  font-style: normal;
+}
+.dark-side:before,
+dark-side:before {
+  content: "z";
+}
+hr.sm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+hr.xs {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.tabs-below .nav-tabs,
+.tabs-right .nav-tabs,
+.tabs-left .nav-tabs {
+  border-bottom: 0;
+}
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+.tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+.tabs-below > .nav-tabs > .active a,
+.tabs-below > .nav-tabs > .active a:hover,
+.tabs-below > .nav-tabs > .active a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+.tabs-left > .nav-tabs > li,
+.tabs-right > .nav-tabs > li {
+  float: none;
+}
+.tabs-left > .nav-tabs > li > a,
+.tabs-right > .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+.tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+.tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > a:hover,
+.tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eee #ddd #eee #eee;
+}
+.tabs-left > .nav-tabs > .active a,
+.tabs-left > .nav-tabs > .active a:hover,
+.tabs-left > .nav-tabs > .active a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #fff;
+}
+.tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+.tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+.tabs-right > .nav-tabs > li > a:hover,
+.tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eee #eee #eee #ddd;
+}
+.tabs-right > .nav-tabs > .active a,
+.tabs-right > .nav-tabs > .active a:hover,
+.tabs-right > .nav-tabs > .active a:focus {
+  border-color: #ddd #ddd #ddd transparent;
+  *border-left-color: #fff;
+}
+.tabs-left .tab-pane,
+.tabs-right .tab-pane {
+  overflow-y: auto;
+}
+.input-group select:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.panel-body markdown p:last-child,
+.panel-body markdown p:only-child {
+  margin-bottom: 0;
+}
+.glyphicon.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+.dice-roller {
+  height: 445px;
+  margin-bottom: 10px;
+}
+.dice-roller .dice-widget {
+  margin-bottom: 10px;
+}
+.forcePower-directive {
+  /*
+    .upgrade-list {
+        padding-left: 20px;
+        font-size: .85em;
+
+        li {
+            display: flex;
+
+            & > b {
+                display: inline-block;
+                flex: 0 1 67px;
+
+                & + div {
+                    flex: 1 1 auto;
+
+                    & > p:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    */
+
+  /*
+    .upgrade-list {
+        li {
+            & > b + div {
+                display: inline;
+
+                & > p:first-child {
+                    display: inline;
+                }
+            }
+        }
+    }
+    */
+
+}
+.forcePower-directive .upgrade-list {
+  padding-left: 20px;
+  font-size: .85em;
+}
+.forcePower-directive .upgrade-list li {
+  display: table-row;
+}
+.forcePower-directive .upgrade-list li > b {
+  display: table-cell;
+}
+.forcePower-directive .upgrade-list li > b + div {
+  display: table-cell;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.forcePower-directive .upgrade-list li > b + div > p:last-child {
+  margin-bottom: 0;
+}
+#crit-select > button:first-child {
+  text-align: left;
+}
+#crit-select .caret {
+  float: right;
+  margin-top: 9px;
+}
+#crit-select .add {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.hpcalc hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.hpcalc .btn-group-justified .btn-group .btn[btn-checkbox] {
+  width: 100%;
+}
+.hpcalc .threshold {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  width: calc(50% - 2.5px);
+}
+.hpcalc .threshold .title {
+  text-align: center;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+.hpcalc .threshold .title .close {
+  font-size: 1.15em;
+}
+.hpcalc .threshold h4 {
+  display: inline-block;
+}
+.hpcalc .text-warning {
+  color: #f90;
+}
+#weapon-list .table {
+  font-size: 12px;
+}
+#character-page .first-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .first-row .first-column {
+  flex: 0 0 300px;
+  width: 300px;
+  height: 445px;
+}
+@media (max-width: 1200px) {
+  #character-page .first-row .first-column {
+    width: 0;
+    display: none;
+  }
+}
+#character-page .first-row .middle-column {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+  margin-left: 10px;
+}
+@media (max-width: 1200px) {
+  #character-page .first-row .middle-column {
+    margin-left: 0;
+  }
+}
+#character-page .first-row .middle-column #characteristics {
+  flex: 1 1 auto;
+}
+#character-page .first-row .middle-column #career-spec {
+  flex: 0 1 auto;
+}
+#character-page .first-row .last-column {
+  flex: 1 1 auto;
+  margin-left: 10px;
+  width: 300px;
+}
+#character-page .second-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .second-row .first-column {
+  flex: 1 1 auto;
+}
+#character-page .second-row .second-column {
+  flex: 0 1 300px;
+  margin-left: 10px;
+}
+#character-page .char-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .char-row + .char-row {
+  margin-top: 15px;
+}
+#character-page .char-row .char {
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  width: 90px;
+}
+#character-page .char-row .char:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .char-row .char h3,
+#character-page .char-row .char h4 {
+  margin: 0;
+}
+#character-page .stat-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .stat-row .stat {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  flex: 1 1 auto;
+  margin-bottom: 0;
+}
+#character-page .stat-row .stat .title {
+  text-align: center;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+#character-page .stat-row .stat .body {
+  padding-top: 5px;
+  text-align: center;
+}
+#character-page .stat-row .stat h4 {
+  display: inline-block;
+}
+#character-page .stat-row .stat:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .stat-row .stat .panel-title {
+  font-size: 14px;
+}
+#character-page .stat-row .stat h3,
+#character-page .stat-row .stat h4 {
+  margin: 0;
+}
+#character-page .skills-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .skills-row .skill:hover {
+  background-color: #f5f5f5;
+}
+#character-page .skills-row > .col {
+  display: flex;
+  width: 285px;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+#character-page .skills-row > .col:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .skills-row > .col > .panel {
+  flex: 1 1 auto;
+}
+#character-page .skills-row > .col > .panel.abilities {
+  flex: 0 1 auto;
+}
+#character-page .skills-row > .col > .panel:last-child {
+  margin-bottom: 0;
+}
+#character-page .panel {
+  margin-bottom: 10px;
+}
+#character-page .panel.stat-panel {
+  margin-bottom: 12px;
+}
+#character-page h5.underlined {
+  padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;
+}
+@font-face {
+  font-family: 'EotESymbol';
+  src: url('/systems/eote/fonts/EotESymbol-RegularMod.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+.eote-symbol {
+  font-family: 'EotESymbol', sans-serif;
+}
+
+.row-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row-flex .col-half {
+  display: flex;
+  width: calc(50% - 5px);
+}
+.row-flex .col-half:nth-child(even) {
+  margin-left: 10px;
+}
+@media (max-width: 767px) {
+  .row-flex .col-half {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
+
+hr.sm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+hr.xs {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.tabs-below .nav-tabs,
+.tabs-right .nav-tabs,
+.tabs-left .nav-tabs {
+  border-bottom: 0;
+}
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+.tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+.tabs-below > .nav-tabs > .active a,
+.tabs-below > .nav-tabs > .active a:hover,
+.tabs-below > .nav-tabs > .active a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+.tabs-left > .nav-tabs > li,
+.tabs-right > .nav-tabs > li {
+  float: none;
+}
+.tabs-left > .nav-tabs > li > a,
+.tabs-right > .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+.tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+.tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.tabs-left > .nav-tabs > li > a:hover,
+.tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eee #ddd #eee #eee;
+}
+.tabs-left > .nav-tabs > .active a,
+.tabs-left > .nav-tabs > .active a:hover,
+.tabs-left > .nav-tabs > .active a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #fff;
+}
+.tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+.tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+.tabs-right > .nav-tabs > li > a:hover,
+.tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eee #eee #eee #ddd;
+}
+.tabs-right > .nav-tabs > .active a,
+.tabs-right > .nav-tabs > .active a:hover,
+.tabs-right > .nav-tabs > .active a:focus {
+  border-color: #ddd #ddd #ddd transparent;
+  *border-left-color: #fff;
+}
+.tabs-left .tab-pane,
+.tabs-right .tab-pane {
+  overflow-y: auto;
+}
+.input-group select:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.panel-body markdown p:last-child,
+.panel-body markdown p:only-child {
+  margin-bottom: 0;
+}
+.glyphicon.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+
+#character-page .first-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .first-row .first-column {
+  flex: 0 0 300px;
+  width: 300px;
+  height: 445px;
+}
+@media (max-width: 1200px) {
+  #character-page .first-row .first-column {
+    width: 0;
+    display: none;
+  }
+}
+#character-page .first-row .middle-column {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+  margin-left: 10px;
+}
+@media (max-width: 1200px) {
+  #character-page .first-row .middle-column {
+    margin-left: 0;
+  }
+}
+#character-page .first-row .middle-column #characteristics {
+  flex: 1 1 auto;
+}
+#character-page .first-row .middle-column #career-spec {
+  flex: 0 1 auto;
+}
+#character-page .first-row .last-column {
+  flex: 1 1 auto;
+  margin-left: 10px;
+  width: 300px;
+}
+#character-page .second-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .second-row .first-column {
+  flex: 1 1 auto;
+}
+#character-page .second-row .second-column {
+  flex: 0 1 300px;
+  margin-left: 10px;
+}
+#character-page .char-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .char-row + .char-row {
+  margin-top: 15px;
+}
+#character-page .char-row .char {
+  flex: 1 1 auto;
+  margin-bottom: 0;
+  width: 90px;
+}
+#character-page .char-row .char:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .char-row .char h3,
+#character-page .char-row .char h4 {
+  margin: 0;
+}
+#character-page .stat-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .stat-row .stat {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  flex: 1 1 auto;
+  margin-bottom: 0;
+}
+#character-page .stat-row .stat .title {
+  text-align: center;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+#character-page .stat-row .stat .body {
+  padding-top: 5px;
+  text-align: center;
+}
+#character-page .stat-row .stat h4 {
+  display: inline-block;
+}
+#character-page .stat-row .stat:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .stat-row .stat .panel-title {
+  font-size: 14px;
+}
+#character-page .stat-row .stat h3,
+#character-page .stat-row .stat h4 {
+  margin: 0;
+}
+#character-page .skills-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: stretch;
+}
+#character-page .skills-row .skill:hover {
+  background-color: #f5f5f5;
+}
+#character-page .skills-row > .col {
+  display: flex;
+  width: 285px;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+#character-page .skills-row > .col:not(:first-child) {
+  margin-left: 10px;
+}
+#character-page .skills-row > .col > .panel {
+  flex: 1 1 auto;
+}
+#character-page .skills-row > .col > .panel.abilities {
+  flex: 0 1 auto;
+}
+#character-page .skills-row > .col > .panel:last-child {
+  margin-bottom: 0;
+}
+#character-page .panel {
+  margin-bottom: 10px;
+}
+#character-page .panel.stat-panel {
+  margin-bottom: 12px;
+}
+#character-page h5.underlined {
+  padding-bottom: 2px;
+  border-bottom: 1px solid #ccc;
+}
+
+#crit-select > button:first-child {
+  text-align: left;
+}
+#crit-select .caret {
+  float: right;
+  margin-top: 9px;
+}
+#crit-select .add {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.dice-roller {
+  height: 445px;
+  margin-bottom: 10px;
+}
+.dice-roller .dice-widget {
+  margin-bottom: 10px;
+}
+
+.forcePower-directive {
+  /*
+    .upgrade-list {
+        padding-left: 20px;
+        font-size: .85em;
+
+        li {
+            display: flex;
+
+            & > b {
+                display: inline-block;
+                flex: 0 1 67px;
+
+                & + div {
+                    flex: 1 1 auto;
+
+                    & > p:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    */
+
+  /*
+    .upgrade-list {
+        li {
+            & > b + div {
+                display: inline;
+
+                & > p:first-child {
+                    display: inline;
+                }
+            }
+        }
+    }
+    */
+
+}
+.forcePower-directive .upgrade-list {
+  padding-left: 20px;
+  font-size: .85em;
+}
+.forcePower-directive .upgrade-list li {
+  display: table-row;
+}
+.forcePower-directive .upgrade-list li > b {
+  display: table-cell;
+}
+.forcePower-directive .upgrade-list li > b + div {
+  display: table-cell;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.forcePower-directive .upgrade-list li > b + div > p:last-child {
+  margin-bottom: 0;
+}
+
+.hpcalc hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.hpcalc .btn-group-justified .btn-group .btn[btn-checkbox] {
+  width: 100%;
+}
+.hpcalc .threshold {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  width: calc(50% - 2.5px);
+}
+.hpcalc .threshold .title {
+  text-align: center;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+.hpcalc .threshold .title .close {
+  font-size: 1.15em;
+}
+.hpcalc .threshold h4 {
+  display: inline-block;
+}
+.hpcalc .text-warning {
+  color: #f90;
+}
+
+#weapon-list .table {
+  font-size: 12px;
 }
 
 .row-flex {

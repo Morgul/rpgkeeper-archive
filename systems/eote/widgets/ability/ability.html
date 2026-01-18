@@ -1,0 +1,13 @@
+<div ng-repeat="name in abilities">
+    <div class="panel panel-default ability-directive">
+        <div class="panel-heading" style="padding: 5px 10px; cursor: pointer" ng-click="collapse = !collapse">
+            <button type="button" class="close" aria-label="Close" ng-click="remove($index); $event.stopPropagation()" style="margin-top: -2px">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <b>{{ name }}</b>
+        </div>
+        <div class="panel-body" collapse="collapse" style="padding: 10px">
+            <markdown src="getAbility(name).description"></markdown>
+        </div>
+    </div>
+</div>
