@@ -57,7 +57,7 @@ jobs:
           endpoint-id: 2
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
-          stack-name: 'rpgkeeper-archive'
+          stack-name: 'rpgkeeper-old'
           stack-definition: 'compose/prod.yml'
           template-variables: '{"client": "${{ secrets.GOOGLE_CLIENT_ID }}", "secret": "${{ secrets.GOOGLE_CLIENT_SECRET }}", "sess": "${{ secrets.SESSION_SECRET }}"}'
           prune-stack: false

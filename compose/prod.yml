@@ -1,5 +1,5 @@
 services:
-  rpgkeeper-archive:
+  rpgkeeper-old:
     image: morgul/rpgkeeper-archive:latest
     environment:
       GOOGLE_CLIENT_ID: "{{client}}"
@@ -8,9 +8,9 @@ services:
       SESSION_SECRET: "{{sess}}"
     restart: unless-stopped
     volumes:
-      - /srv/docker/rpgkeeper-archive/db:/app/server/db
-      - /srv/docker/rpgkeeper-archive/sessions:/app/server/sessions
-      - /srv/docker/rpgkeeper-archive/systems/eote:/app/systems/eote/db
-      - /srv/docker/rpgkeeper-archive/systems/generic:/app/systems/generic/db
+      - /srv/docker/rpgkeeper-old/db:/app/server/db
+      - /srv/docker/rpgkeeper-old/sessions:/app/server/sessions
+      - /srv/docker/rpgkeeper-old/systems/eote:/app/systems/eote/db
+      - /srv/docker/rpgkeeper-old/systems/generic:/app/systems/generic/db
     ports:
       - "2697:8081"
