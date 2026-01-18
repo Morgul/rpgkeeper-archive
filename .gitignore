@@ -15,6 +15,7 @@ client/js/client.templates.js
 
 # db artifacts
 server/db/
+systems/*/db/
 
 # Node artifacts
 node_modules
