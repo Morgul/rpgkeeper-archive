@@ -1,6 +1,6 @@
 {
   "name": "rpgkeeper",
-  "version": "1.9.2",
+  "version": "1.9.9",
   "description": "A website for managing your digital character sheets.",
   "main": "server.js",
   "dependencies": {
