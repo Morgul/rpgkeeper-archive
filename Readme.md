@@ -3,12 +3,16 @@
 This branch represents the most complete and functional version of the RPGKeeper v1.x codebase. It consolidates work
 from several unmerged feature branches and includes modifications to make the application runnable as an archive site.
 
+Why do this? Simple. I've been sitting on the old characters in here for almost a decade. They're not mine, and they 
+deserve to be accessible. I'd still love to make the main RPGKeeper support D&D 4e and port these there, but this was
+more about archivial and nostalgia than it was anything practical.
+
 ## What's Changed
 
 - **Google Authentication**: Mozilla Persona (the original auth provider) was shut down in 2016. Authentication has been
   replaced with Google OAuth. Only existing users can sign in (closed to new registrations).
-- **Ported Game Systems**: The Generic and Edge of the Empire (EotE) systems have been ported in and are fully functional
-  alongside the original D&D 4th Edition system.
+- **Ported Game Systems**: The Generic and Edge of the Empire (EotE) systems from early v2 have been ported in and are fully
+  functional alongside the original D&D 4th Edition system.
 - **Dashboard Improvements**: Merged from `ccase-dashboard-redesign` - improved character list with thumbnails, favorites,
   and action buttons.
 - **Equipment System**: Merged from `feature-ccase-new-equipment` - full magic item management including add/edit modals
@@ -22,9 +26,7 @@ from several unmerged feature branches and includes modifications to make the ap
 - **`on-production`**: The last deployed production version. Requires Persona authentication (no longer functional).
 - **`master`**: A rewrite that split game systems into installable npm packages. See:
   - [Morgul/rpgkeeper-archive](https://github.com/Morgul/rpgkeeper-archive) - Core application
-  - [Morgul/rpgkeeper-generic](https://github.com/Morgul/rpgkeeper-generic) - Generic system
   - [Morgul/rpgkeeper-dnd4e](https://github.com/Morgul/rpgkeeper-dnd4e) - D&D 4th Edition system
-  - [Morgul/rpgkeeper-eote](https://github.com/Morgul/rpgkeeper-eote) - Edge of the Empire system
 - **`ccase-dashboard-redesign`**: Dashboard improvements (merged into this branch).
 - **`feature-ccase-equipment`**: Early equipment work using omega-models ORM.
 - **`feature-ccase-new-equipment`**: Equipment system rewrite for trivialdb (merged into this branch).
